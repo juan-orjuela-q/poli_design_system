@@ -1,0 +1,14 @@
+<button
+  [type]="type()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [ngClass]="hostClasses()"
+  (click)="handleClick($event)">
+
+  <span class="pds-cta__text">
+    <ng-content />
+  </span>
+
+  <span class="pds-cta__icon-wrapper">
+    <pds-icon [name]="iconName()" size="xl" [ariaHidden]="true" />
+  </span>
+</button>

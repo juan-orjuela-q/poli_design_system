@@ -1,0 +1,19 @@
+<!--
+  pds-tooltip envuelve el botón para mostrar el label de la acción en hover/foco.
+  El botón lleva aria-label para la accesibilidad de lectores de pantalla
+  (el tooltip es un complemento visual, aria-label provee el nombre accesible).
+-->
+<pds-tooltip
+  [text]="resolvedTooltipText()"
+  [position]="tooltipPosition()"
+>
+  <button
+    [type]="type()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-disabled]="disabled() ? 'true' : null"
+    [ngClass]="buttonClasses()"
+    (click)="handleClick($event)"
+  >
+    <pds-icon [name]="iconName()" [size]="iconSize()" [ariaHidden]="true" />
+  </button>
+</pds-tooltip>

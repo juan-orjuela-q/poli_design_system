@@ -1,0 +1,236 @@
+// ── pds-icon-button ────────────────────────────────────────────────────────────
+//
+// Botón de solo ícono. Comparte la base de tokens y estados de pds-button.
+// Variantes adicionales respecto a pds-button: tertiary, ghost-neutral.
+//
+// SM (32px visual / 48px touch target):
+//   El área táctil se expande con ::before para cumplir WCAG 2.5.5.
+//   El efecto ::before no afecta a otros botones apilados porque es overflow
+//   visible y no ocupa espacio en el flujo del layout.
+//
+// El tooltip integrado lo gestiona el HTML via <pds-tooltip>.
+// ──────────────────────────────────────────────────────────────────────────────
+
+// Token de anillo de foco — se sobreescribe por variante
+$focus-ring-default: var(--action-primary-focus-ring);
+
+.pds-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+
+  // Cuadrado — MD por defecto
+  width: var(--button-dimensions-height);   // 48px
+  height: var(--button-dimensions-height);  // 48px
+  border-radius: var(--radius-pill);
+
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  // Token de foco por variante
+  --pds-focus-ring: #{$focus-ring-default};
+
+  // El ícono hereda el color del botón
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // ── Tamaños ──────────────────────────────────────────────────────────────────
+
+  &--sm {
+    position: relative;
+    width: var(--button-dimensions-height-sm);   // 32px
+    height: var(--button-dimensions-height-sm);  // 32px
+
+    // Área táctil mínima 48×48px (WCAG 2.5.5) sin alterar la apariencia visual
+    &::before {
+      content: '';
+      position: absolute;
+      inset: calc((48px - var(--button-dimensions-height-sm)) / -2);
+    }
+  }
+
+  &--lg {
+    width: var(--button-dimensions-height-lg);   // 56px
+    height: var(--button-dimensions-height-lg);  // 56px
+  }
+
+  // ── Forma ────────────────────────────────────────────────────────────────────
+
+  &--rectangle {
+    border-radius: var(--radius-component-md);
+  }
+
+  // ── Focus ring ───────────────────────────────────────────────────────────────
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--pds-focus-ring);
+  }
+
+  // ── Sombras de elevación (solo cuando no está deshabilitado) ─────────────────
+
+  &:not([aria-disabled='true']):not(.pds-icon-button--disabled) {
+    &:hover  { box-shadow: var(--shadow-component-hover); }
+    &:active { box-shadow: var(--shadow-component-pressed); }
+  }
+
+  // ── Disabled ─────────────────────────────────────────────────────────────────
+
+  &[aria-disabled='true'],
+  &.pds-icon-button--disabled {
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  // ── Variantes ────────────────────────────────────────────────────────────────
+
+  // Primary
+  &--primary {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+
+    &:hover  { background: var(--action-primary-solid-bg-hover); }
+    &:active { background: var(--action-primary-solid-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-solid-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    --pds-focus-ring: var(--action-secondary-focus-ring);
+    background: var(--action-secondary-solid-bg);
+    color: var(--action-secondary-solid-fg);
+    border: var(--border-thick) solid var(--action-secondary-solid-border);
+
+    &:hover  { background: var(--action-secondary-solid-bg-hover); }
+    &:active { background: var(--action-secondary-solid-bg-pressed); border-color: transparent; }
+    &:focus-visible { background: var(--action-secondary-solid-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+      border-color: transparent;
+    }
+  }
+
+  // Outline
+  &--outline {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: transparent;
+    color: var(--action-primary-ghost-fg);
+    border: var(--border-thick) solid var(--action-primary-ghost-fg);
+
+    &:hover  { background: var(--action-primary-ghost-bg-hover); }
+    &:active { background: var(--action-primary-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-ghost-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: transparent;
+      border-color: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+
+  // Ghost
+  &--ghost {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: transparent;
+    color: var(--action-primary-ghost-fg);
+
+    &:hover  { background: var(--action-primary-ghost-bg-hover); }
+    &:active { background: var(--action-primary-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-ghost-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: transparent;
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+
+  // Ghost Neutral — icono sobre fondo neutro, sin énfasis de marca
+  &--ghost-neutral {
+    --pds-focus-ring: var(--action-neutral-focus-ring);
+    background: transparent;
+    color: var(--action-neutral-ghost-fg-strong);
+
+    &:hover  { background: var(--action-neutral-ghost-bg-hover); }
+    &:active { background: var(--action-neutral-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-neutral-ghost-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: transparent;
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+
+  // Tertiary — fondo suave azul, variante de menor jerarquía
+  &--tertiary {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: var(--action-primary-subtle-bg);
+    color: var(--action-primary-subtle-fg-strong);
+
+    &:hover  { background: var(--action-primary-subtle-bg-hover); }
+    &:active { background: var(--action-primary-subtle-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-subtle-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+    }
+  }
+
+  // Destructive
+  &--destructive {
+    --pds-focus-ring: var(--action-status-error-focus-ring);
+    background: var(--action-status-error-solid-bg);
+    color: var(--action-status-error-solid-fg);
+
+    &:hover  { background: var(--action-status-error-solid-bg-hover); }
+    &:active { background: var(--action-status-error-solid-bg-pressed); }
+    &:focus-visible { background: var(--action-status-error-solid-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+    }
+  }
+
+  // Destructive Outline
+  &--destructive-outline {
+    --pds-focus-ring: var(--action-status-error-focus-ring);
+    background: transparent;
+    color: var(--action-status-error-ghost-fg);
+    border: var(--border-thick) solid var(--action-status-error-ghost-fg);
+
+    &:hover  { background: var(--action-status-error-ghost-bg-hover); }
+    &:active { background: var(--action-status-error-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-status-error-ghost-bg-hover); }
+
+    &.pds-icon-button--disabled,
+    &[aria-disabled='true'] {
+      background: transparent;
+      border-color: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+}

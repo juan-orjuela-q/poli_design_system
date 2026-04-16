@@ -136,9 +136,9 @@ Figma node ID, variantes → props, CSS vars a aplicar, API Angular con signals,
 - [x] `pds-progress-bar` — adelantado desde Fase 2 por dependencia con pds-helper-text
 
 ### Fase 2 — Componentes con dependencia de Icon o Button
-- [ ] `pds-cta` — depende de `pds-icon`
-- [ ] `pds-icon-button` — depende de `pds-icon`
-- [ ] `pds-tooltip` — depende de `pds-icon`
+- [x] `pds-cta` — depende de `pds-icon`
+- [x] `pds-icon-button` — depende de `pds-icon`
+- [x] `pds-tooltip` — depende de `pds-icon`
 
 ### Fase 3 — Componentes compuestos
 - [ ] `pds-notification` — depende de `pds-icon` + `pds-button`
@@ -253,9 +253,16 @@ Estos tokens se usan con fallback y deben formalizarse en la próxima iteración
 | `--loading-circle-border-sm` | `6px` | `pds-loading-circle` |
 | `--loading-circle-border-md` | `8px` | `pds-loading-circle` |
 | `--loading-circle-border-lg` | `10px` | `pds-loading-circle` |
-| `--progress-bar-track-height` | `16px` | `pds-progress-bar` (usa `--size-2xs`) |
-| `--font-size-component-tag` | `14px` | `pds-tag` |
-| `--text-component` | `Poppins` | `pds-tag`, `pds-badge` |
+| `--color-cta-gradient-end` | `#29015c` | `pds-cta` (extremo del gradiente magenta en hover/pressed) |
+| `--text-body` | `Open Sans` | `pds-tooltip` (usa `--typography-family-sans2` como fallback) |
+
+### Tokens ya disponibles (no pendientes)
+
+| Token | Dónde está definido | Usado en |
+|---|---|---|
+| `--text-component` | `component.css` | `pds-tag`, `pds-badge` |
+| `--font-size-component-tag` | `typescale-desktop.css`, `typescale-mobile.css` | `pds-tag` |
+| `--size-2xs` | `component.css` | `pds-progress-bar` (altura del track; NO usar `--progress-bar-track-height`) |
 
 ---
 

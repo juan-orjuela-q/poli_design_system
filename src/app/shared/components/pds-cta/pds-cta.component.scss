@@ -1,0 +1,151 @@
+// ── pds-cta ──────────────────────────────────────────────────────────────────
+//
+// Layout: flex row — texto + ícono en flujo normal (sin position absolute).
+// El alto se deriva del contenido: padding-v * 2 + alto del ícono:
+//   Desktop: 24px + 48px + 24px = 96px
+//   Mobile:  16px + 40px + 16px = 72px
+// El botón crece con el label (min-width, sin width fija).
+// En hover el ícono se desplaza con translateX.
+//
+// Gradientes:
+//   Default       → brand-secondary-base → brand-primary-base (91°)
+//   Hover/Pressed → magenta-base → --color-cta-gradient-end (#29015c) (91°)
+//
+// Tokens pendientes: --color-cta-gradient-end (#29015c)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.pds-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-md); // 12px entre texto e ícono
+  min-width: 690px; // desktop — crece con label largo
+  // padding original Figma: 24px vertical + 40px horizontal
+  // height resultante: 24 + 48(icon) + 24 = 96px (sin fijar height explícito)
+  padding: var(--spacing-component-2xl) var(--spacing-component-4xl) var(--spacing-component-2xl) calc(var(--spacing-component-4xl) + var(--spacing-component-md) + 48px); // 24px 64px 24px 28px (ajusta padding-left para compensar el gap del ícono)
+  border-radius: var(--radius-pill);
+  border: none;
+  // Gradiente de marca: secondary-base (#1fb2de) → primary-base (#0f385a) a 91°
+  background: linear-gradient(
+    91deg,
+    var(--color-brand-secondary-base),
+    var(--color-brand-primary-base)
+  );
+  color: var(--action-primary-solid-fg);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  // Gradientes CSS no admiten transition de color directo.
+  // La animación de elevación (box-shadow) suple el feedback táctil.
+  transition: box-shadow 150ms ease;
+
+  // Ícono en flujo normal — position: relative es el default, transform funciona sin absolute
+  // Tamaño explícito para que flex no lo distorsione
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    transition: transform 150ms ease;
+    --icon-xl: 48px; // sobreescribe token (default 40px) a 48px desktop
+
+    pds-icon {
+      --pds-icon-color: var(--action-cta-ico);
+      transition: color 150ms ease;
+    }
+  }
+
+  // ── Texto ─────────────────────────────────────────────────────────────────
+  &__text {
+    font-family: var(--text-component);
+    font-size: var(--font-size-component-cta);
+    font-weight: var(--font-weight-w-semibold); // 600 — spec Figma
+    line-height: 1;
+    white-space: nowrap;
+    flex: 2;
+  }
+
+  // ── Estados interactivos (solo cuando NO está disabled) ───────────────────
+  // Gradiente hover/pressed: magenta-base (#ec0677) → purple oscuro (#29015C)
+  // El token --color-cta-gradient-end (#29015C) está pendiente de crear en component.css
+  &:not(.pds-cta--disabled):not([aria-disabled='true']) {
+    &:hover {
+      background: linear-gradient(
+        91deg,
+        var(--color-brand-magenta-base),
+        var(--color-cta-gradient-end, #29015c)
+      );
+      box-shadow: var(--shadow-component-hover);
+
+      .pds-cta__icon-wrapper {
+        transform: translateX(var(--spacing-component-md));
+      }
+
+      .pds-cta__icon-wrapper pds-icon {
+        --pds-icon-color: var(--action-cta-ico-hover);
+      }
+    }
+
+    &:active {
+      background: linear-gradient(
+        91deg,
+        var(--color-brand-magenta-base),
+        var(--color-cta-gradient-end, #29015c)
+      );
+      box-shadow: var(--shadow-component-pressed);
+    }
+  }
+
+  // ── Focus ring ────────────────────────────────────────────────────────────
+  // outline: none compensado con doble anillo de box-shadow (WCAG 2.4.7)
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+
+  // ── Disabled ──────────────────────────────────────────────────────────────
+  // aria-disabled mantiene el elemento en el tab order (WCAG 2.1.1)
+  // pointer-events se conserva para que cursor: not-allowed sea visible (WCAG 1.4.13)
+  &--disabled,
+  &[aria-disabled='true'] {
+    background: var(--action-neutral-solid-bg-disabled);
+    cursor: not-allowed;
+    box-shadow: none;
+
+    .pds-cta__icon-wrapper pds-icon {
+      --pds-icon-color: var(--action-focus-inner); // blanco (#ffffff)
+    }
+  }
+
+  // ── Mobile ────────────────────────────────────────────────────────────────
+  // --font-size-component-cta se redefine a 1.125rem (18px) en typescale-mobile.css.
+  // height resultante: 16 + 40(icon) + 16 = 72px
+  //
+  // Dos formas de activar el layout mobile (se pueden combinar):
+  //   1. Media query: automático al viewport ≤ 768px
+  //   2. Clase --mobile: override explícito cuando el padre lo pasa via [device]="'mobile'"
+  //      Útil para forzar mobile en un contexto desktop (ej: panel lateral, preview).
+
+  @mixin mobile-styles {
+    min-width: var(--button-dimensions-min-width, 72px);
+    padding: var(--spacing-component-lg) var(--spacing-component-2xl);
+
+    .pds-cta__icon-wrapper {
+      width: 40px;
+      height: 40px;
+      --icon-xl: 40px;
+    }
+  }
+
+  &--mobile {
+    @include mobile-styles;
+  }
+
+  @media (max-width: 768px) {
+    @include mobile-styles;
+  }
+}

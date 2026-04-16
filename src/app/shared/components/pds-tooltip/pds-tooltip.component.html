@@ -1,0 +1,11 @@
+<!-- Wrapper: position: relative en el host (SCSS) -->
+<ng-content />
+
+@if (!disabled()) {
+  <div
+    [id]="tooltipId"
+    role="tooltip"
+    [ngClass]="bubbleClasses()">
+    {{ text() }}
+  </div>
+}

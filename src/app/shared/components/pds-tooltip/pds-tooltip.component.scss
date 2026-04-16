@@ -1,0 +1,135 @@
+// ── pds-tooltip ───────────────────────────────────────────────────────────────
+//
+// El host actúa como wrapper (position: relative; display: inline-flex).
+// El bubble se posiciona absolutamente respecto al host.
+// Visibilidad: CSS puro — :hover + :focus-within en el host.
+//
+// Arrow: pseudo-elemento ::before con border trick (triángulo CSS).
+//   --bottom  → flecha apunta arriba  (borde superior del bubble)
+//   --top     → flecha apunta abajo   (borde inferior del bubble)
+//   --left    → flecha apunta derecha (borde derecho del bubble)
+//   --right   → flecha apunta izquierda (borde izquierdo del bubble)
+//
+// Tokens pendientes: --text-body (usa --typography-family-sans2 como fallback)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Tamaño del triángulo de la flecha
+$arrow-size: 6px;
+// Gap entre el borde del activador y el borde del bubble (sin contar la flecha)
+$gap: 4px;
+
+:host {
+  position: relative;
+  display: inline-flex;
+
+  // Mostrar el bubble con hover o cuando el foco está dentro del host (teclado)
+  &:hover,
+  &:focus-within {
+    .pds-tooltip__bubble {
+      opacity: 1;
+      pointer-events: none;
+    }
+  }
+}
+
+.pds-tooltip__bubble {
+  // Visualmente oculto por defecto
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+
+  // Posicionamiento
+  position: absolute;
+  z-index: 1000;
+
+  // Dimensiones y caja
+  padding: var(--spacing-component-xs) var(--spacing-component-sm); // 6px 8px
+  max-width: 240px;
+  width: max-content;
+  border-radius: var(--radius-component-2xs); // 4px
+
+  // Color
+  background: var(--surface-neutral-inverse);
+  color: var(--fg-on-color-inverse);
+  text-align: center;
+
+  // Tipografía — Figma: Open Sans, 14px, semibold, 150%
+  font-family: var(--text-body, var(--typography-family-sans2, 'Open Sans'));
+  font-size: var(--font-size-f-sm);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: var(--line-height-lh-base); // 1.5
+
+  white-space: normal;
+
+  // Arrow base — hereda el color del bubble
+  &::before {
+    content: '';
+    position: absolute;
+    border: #{$arrow-size} solid transparent;
+  }
+
+  // ── Posiciones ──────────────────────────────────────────────────────────────
+
+  // TOP: tooltip encima del activador, flecha apunta hacia abajo
+  &--top {
+    bottom: calc(100% + #{$gap});
+    left: 50%;
+    transform: translateX(-50%);
+
+    &::before {
+      top: 100%; // debajo del bubble
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: var(--surface-neutral-inverse);
+    }
+  }
+
+  // BOTTOM: tooltip debajo del activador, flecha apunta hacia arriba
+  &--bottom {
+    top: calc(100% + #{$gap});
+    left: 50%;
+    transform: translateX(-50%);
+
+    &::before {
+      bottom: 100%; // encima del bubble
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-color: var(--surface-neutral-inverse);
+    }
+  }
+
+  // LEFT: tooltip a la izquierda del activador, flecha apunta hacia la derecha
+  &--left {
+    right: calc(100% + #{$gap});
+    top: 50%;
+    transform: translateY(-50%);
+
+    &::before {
+      left: 100%; // a la derecha del bubble
+      top: 50%;
+      transform: translateY(-50%);
+      border-left-color: var(--surface-neutral-inverse);
+    }
+  }
+
+  // RIGHT: tooltip a la derecha del activador, flecha apunta hacia la izquierda
+  &--right {
+    left: calc(100% + #{$gap});
+    top: 50%;
+    transform: translateY(-50%);
+
+    &::before {
+      right: 100%; // a la izquierda del bubble
+      top: 50%;
+      transform: translateY(-50%);
+      border-right-color: var(--surface-neutral-inverse);
+    }
+  }
+}
+
+// Reducir movimiento: eliminar transición (no desactivar el tooltip)
+@media (prefers-reduced-motion: reduce) {
+  .pds-tooltip__bubble {
+    transition: none;
+  }
+}
