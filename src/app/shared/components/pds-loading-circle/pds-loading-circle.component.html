@@ -1,0 +1,10 @@
+<span class="pds-loading-circle__wrapper">
+  <span
+    role="status"
+    [ngClass]="spinnerClasses()">
+    <span class="pds-loading-circle__sr-only">{{ ariaLabel() }}</span>
+  </span>
+  @if (label()) {
+    <span class="pds-loading-circle__label" aria-hidden="true">{{ label() }}</span>
+  }
+</span>

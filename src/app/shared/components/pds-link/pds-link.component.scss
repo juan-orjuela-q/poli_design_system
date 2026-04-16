@@ -1,0 +1,36 @@
+.pds-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-xxs);
+  color: var(--fg-brand-link);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  transition: color 150ms ease;
+
+  // El icono externo hereda el color del enlace en cada estado
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  &:hover {
+    color: var(--fg-brand-primary-strong);
+  }
+
+  &:active {
+    color: var(--fg-brand-primary-strong);
+  }
+
+  &:visited {
+    color: var(--fg-status-visited);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: var(--radius-component-2xs);
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+}

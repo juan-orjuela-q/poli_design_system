@@ -1,0 +1,69 @@
+// El elemento host es un custom element (display: inline por defecto).
+// display: contents lo hace transparente: el mat-icon interno determina
+// el tamano real sin que el wrapper agregue line-height ni espacio extra.
+:host {
+  display: contents;
+}
+
+.pds-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+
+  // Tamanios: font-size + bounding box + opsz ajustado al tamano real
+  // opsz correcto evita espacio optico sobrante que desalinea el icono
+  &--xs { font-size: var(--icon-xs); width: var(--icon-xs); height: var(--icon-xs); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 16; }
+  &--sm { font-size: var(--icon-sm); width: var(--icon-sm); height: var(--icon-sm); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  &--md { font-size: var(--icon-md); width: var(--icon-md); height: var(--icon-md); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  &--lg { font-size: var(--icon-lg); width: var(--icon-lg); height: var(--icon-lg); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32; }
+  &--xl { font-size: var(--icon-xl); width: var(--icon-xl); height: var(--icon-xl); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40; }
+
+  // ── Modos de color — solo foreground (sin background) ─────────────────────
+  // --pds-icon-color permite que un componente padre (ej. pds-button) inyecte
+  // el color vía currentColor, sin modificar la lógica interna del icono.
+  &--neutral         { color: var(--pds-icon-color, var(--fg-neutral-primary)); }
+  &--brand           { color: var(--pds-icon-color, var(--fg-brand-primary)); }
+  &--brand-ghost     { color: var(--pds-icon-color, var(--fg-brand-primary)); }
+  &--brand-secondary { color: var(--pds-icon-color, var(--fg-brand-primary)); }
+  &--brand-subtle    { color: var(--pds-icon-color, var(--fg-brand-primary)); }
+  &--error           { color: var(--pds-icon-color, var(--fg-status-error)); }
+  &--success         { color: var(--pds-icon-color, var(--fg-status-success)); }
+  &--warning         { color: var(--pds-icon-color, var(--fg-status-warning)); }
+
+  // ── Shape — standalone con contenedor ─────────────────────────────────────
+  // Sobreescribe width/height para crecer con el padding
+  &--circle,
+  &--rectangle {
+    width: auto;
+    height: auto;
+
+    // Padding escalado al tamaño del ícono
+    &.pds-icon--xs { padding: var(--spacing-component-xxs); }
+    &.pds-icon--sm { padding: var(--spacing-component-xs);  }
+    &.pds-icon--md { padding: var(--spacing-component-sm);  }
+    &.pds-icon--lg { padding: var(--spacing-component-md);  }
+    &.pds-icon--xl { padding: var(--spacing-component-lg);  }
+
+    // Fondos semánticos (brand-ghost siempre transparente, no aparece aquí)
+    &.pds-icon--neutral         { background: var(--surface-neutral-subtle);         color: var(--fg-neutral-primary);          }
+    &.pds-icon--brand           { background: var(--surface-brand-primary-base);     color: var(--fg-on-color-brand-primary);   }
+    &.pds-icon--brand-secondary { background: var(--surface-brand-secondary-muted);  color: var(--fg-brand-primary);            }
+    &.pds-icon--brand-subtle    { background: var(--surface-brand-primary-subtle);   color: var(--fg-brand-primary);            }
+    &.pds-icon--error           { background: var(--surface-status-error-solid);     color: var(--fg-on-color-error);           }
+    &.pds-icon--success         { background: var(--surface-status-success-solid);   color: var(--fg-brand-primary);            }
+    &.pds-icon--warning         { background: var(--surface-status-warning-solid);   color: var(--fg-brand-primary);            }
+  }
+
+  // ── Border radius por shape ────────────────────────────────────────────────
+  &--circle { border-radius: var(--radius-pill); }
+
+  &--rectangle {
+    &.pds-icon--xs { border-radius: var(--radius-component-xs); }
+    &.pds-icon--sm { border-radius: var(--radius-component-sm); }
+    &.pds-icon--md { border-radius: var(--radius-component-md); }
+    &.pds-icon--lg { border-radius: var(--radius-component-lg); }
+    &.pds-icon--xl { border-radius: var(--radius-component-xl); }
+  }
+}

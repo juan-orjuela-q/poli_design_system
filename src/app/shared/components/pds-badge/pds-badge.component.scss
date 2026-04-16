@@ -1,0 +1,78 @@
+﻿.pds-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-xxs);
+  font-family: var(--text-component);
+  font-weight: var(--font-weight-w-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: var(--badge-radius-pill);
+
+  // Los iconos heredan el color del texto del badge
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // Tamanios con padding por talla (valores exactos de Figma)
+  // SM: py=4px(xxs) px=8px(sm) | MD: py=6px(xs) px=12px(md) | LG: py=8px(sm) px=16px(lg)
+  &--sm {
+    padding: var(--spacing-component-xxs) var(--spacing-component-sm);
+    min-height: var(--badge-dimensions-min-height-sm);
+    font-size: var(--font-size-f-xs);
+  }
+
+  &--md {
+    padding: var(--spacing-component-xs) var(--spacing-component-md);
+    min-height: var(--badge-dimensions-min-height-md);
+    font-size: var(--font-size-f-xs);
+  }
+
+  &--lg {
+    padding: var(--spacing-component-sm) var(--spacing-component-lg);
+    min-height: var(--badge-dimensions-min-height-lg);
+    font-size: var(--font-size-f-sm);
+  }
+
+  // Forma
+  &--rectangle {
+    border-radius: var(--badge-radius-rectangle);
+  }
+
+  // Estados de color
+  &--brand {
+    background: var(--surface-brand-primary-base);
+    color: var(--fg-on-color-brand-primary);
+  }
+
+  &--brand-subtle {
+    background: var(--surface-brand-primary-soft);
+    color: var(--fg-brand-primary);
+  }
+
+  &--brand-secondary {
+    background: var(--surface-brand-secondary-muted);
+    color: var(--fg-brand-primary);
+  }
+
+  &--neutral {
+    background: var(--surface-neutral-subtle);
+    color: var(--fg-neutral-primary);
+  }
+
+  &--success {
+    background: var(--surface-status-success-solid);
+    color: var(--fg-brand-primary);
+  }
+
+  &--warning {
+    background: var(--surface-status-warning-solid);
+    color: var(--fg-brand-primary);
+  }
+
+  &--error {
+    background: var(--surface-status-error-solid);
+    color: var(--fg-on-color-error);
+  }
+}

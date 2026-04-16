@@ -1,0 +1,130 @@
+@use "sass:map";
+$transition: 150ms ease;
+:host {
+  display: block;
+  width: 100%;
+}
+.form-textarea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-universal-spacing-small);
+
+
+  .form-textarea__field {
+    color: var(--color-text-text-primary);
+  }
+
+  &.left {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--spacing-universal-spacing-xl);
+
+    .form-textarea__control {
+      flex: 1;
+    }
+  }
+
+  &.disabled {
+    opacity: var(--opacidad-50);
+    pointer-events: none;
+  }
+
+
+
+  /* Status border colors */
+  &.success .form-textarea__field {
+    border-color: var(--colores-marca-poli-verde-base);
+    background: var(--colores-marca-poli-verde-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-verde-base);
+    }
+  }
+  &.warning .form-textarea__field {
+    border-color: var(--colores-marca-poli-amarillo-base);
+    background: var(--colores-marca-poli-amarillo-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-amarillo-base);
+    }
+  }
+  &.error .form-textarea__field {
+    border-color: var(--colores-marca-poli-magenta-base);
+    background: var(--colores-marca-poli-magenta-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-magenta-base);
+    }
+  }
+  &.disabled .form-textarea__field {
+    border-color: var(--color-input-disabled-border-50, #4F586080);
+    background: var(--color-input-disabled-background-50, #DCDCDC80);
+  }
+
+  /* Label */
+  .form-textarea__label {
+    font-family: var(--tipografia-font-family-family-sans-heading);
+    font-weight: var(--tipografia-font-weight-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-universal-spacing-small);
+    font-size: var(--tipografia-font-size-body-body-base);
+  }
+  /*.form-textarea__label-text {
+
+  }*/
+  .form-textarea__required-tag {
+    color: var(--color-error-600, #d32f2f);
+  }
+
+  /* Field */
+  .form-textarea__field {
+    width: 100%;
+    min-height: var(--spacing-universal-spacing-24);
+    border-radius: var(--radius-inputs-inputs-base-radius, 10px);
+    border: var(--spacing-border-border-small) solid
+      var(--color-input-default-border);
+    background: var(--color-input-default-background);
+    transition: border $transition, box-shadow $transition;
+    padding: var(--spacing-universal-spacing-base, 8px);
+    font-size: var(--tipografia-font-size-body-body-base);
+
+    &::placeholder {
+      color: var(--color-input-default-placeholder);
+      font-size: var(--tipografia-font-size-body-body-base);
+    }
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-input-default-border-focused);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 0px
+          var(--spacing-effects-focus-ring-inner-spread, 2px)
+          var(--color-surface-surface-primary, #fff),
+        0px 0px 0px var(--spacing-effects-focus-ring-outer-spread, 4px)
+          var(--color-accent-accent-main, #1fb2de);
+    }
+  }
+
+  /* Message */
+  .form-textarea__message {
+
+
+    &.success {
+      color: var(--colores-marca-poli-verde-dark);
+    }
+    &.warning {
+      color: var(--colores-marca-poli-amarillo-dark);
+    }
+    &.error {
+      color: var(--colores-marca-poli-magenta-dark);
+    }
+  }
+  /*Tooltip*/
+  .form-textarea__tooltip ::ng-deep .mat-icon {
+    color: var(--colores-marca-poli-gris-dark);
+    font-size: var(--tipografia-font-size-body-body-md);
+    width: var(--tipografia-font-size-body-body-md);
+    height: var(--tipografia-font-size-body-body-md);
+    position: relative;
+    top: 2px;
+  }
+}

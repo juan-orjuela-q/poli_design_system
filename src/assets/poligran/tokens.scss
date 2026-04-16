@@ -1,0 +1,184 @@
+
+// Do not edit directly, this file was auto-generated.
+
+$surface-neutral-canvas: #ffffff; // Fondo base de la aplicación. Superficie de mayor área, sobre la que se colocan cards, paneles y contenedores.
+$surface-neutral-card: #ffffff; // Fondo de tarjetas y contenedores elevados sobre el canvas.
+$surface-neutral-modal: #ffffff; // Fondo de modales, drawers y overlays flotantes.
+$surface-neutral-weak: #f1f3f5; // Superficie de contraste mínimo, más suave que subtle. Para fondos de hover muy sutiles o zonas de relleno ligero.
+$surface-neutral-subtle: #e5e9ec; // Superficie neutra de bajo contraste para áreas secundarias, sidebars o fondos de secciones sin énfasis.
+$surface-neutral-sunken: #ced5db; // Superficie hundida, por debajo del nivel del canvas. Uso típico: fondos de inputs, áreas de código o zonas deprimidas.
+$surface-neutral-inverse: #0c0f12; // Superficie oscura para contextos invertidos como tooltips oscuros o banners de alto contraste.
+$surface-brand-overlay: rgba(15, 56, 90, 0.9); // Superposición semitransparente con el color primario de marca. Uso en image overlays o capas de énfasis sobre fotografías.
+$surface-brand-primary-base: #0f385a; // Superficie con el color primario de marca. Uso en encabezados, banners o elementos de identidad de alto énfasis.
+$surface-brand-primary-strong: #002b49; // Superficie primaria oscura. Para encabezados o zonas de énfasis donde se necesita mayor peso visual que base.
+$surface-brand-primary-muted: #b4d8fd; // Superficie primaria atenuada. Para fondos pressed o zonas activas de menor énfasis dentro de contextos brand.
+$surface-brand-primary-soft: #e6effd; // Superficie suave del color primario, entre subtle y base. Para estados hover de elementos brand en variante subtle.
+$surface-brand-primary-subtle: #f0f8ff; // Superficie muy suave del color primario. Para fondos de secciones o chips con tinte de marca sin sobrecarga visual.
+$surface-brand-secondary-solid: #007ba4; // Superficie secundaria sólida de alto contraste. Para encabezados o zonas de énfasis secundario.
+$surface-brand-secondary-muted: #1fb2de; // Superficie del color secundario de marca en tono base. Para elementos de identidad secundaria.
+$surface-brand-secondary-soft: #70d5f0; // Superficie suave del color secundario. Para fondos hover o zonas de tinte secundario sin saturación plena.
+$surface-status-error-solid: #e0006e; // Fondo sólido de error. Para banners, encabezados de alerta o componentes de notificación de error de alto énfasis.
+$surface-status-error-subtle: #fff6f9; // Fondo de bajo contraste para zonas de error. Uso típico: alertas inline, fondos de mensajes de validación.
+$surface-status-error-dark: #b5055b; // Fondo de error oscuro para estados hover o variantes de mayor contraste dentro de superficies de error.
+$surface-status-warning-solid: #fbaf17; // Fondo sólido de advertencia. Para banners o notificaciones de atención de alto énfasis. Verificar contraste del texto sobre este fondo.
+$surface-status-warning-subtle: #fff7e8; // Fondo de bajo contraste para zonas de advertencia. Uso típico: alertas inline, mensajes preventivos.
+$surface-status-warning-dark: #d96c06; // Fondo de advertencia oscuro para estados hover o variantes de mayor contraste dentro de superficies de advertencia.
+$surface-status-success-solid: #a6ce38; // Fondo sólido de éxito. Para banners o notificaciones de confirmación de alto énfasis. Verificar contraste del texto sobre este fondo.
+$surface-status-success-subtle: #f7fbec; // Fondo de bajo contraste para zonas de éxito. Uso típico: mensajes de confirmación, alertas de operación completada.
+$surface-status-success-dark: #6f921e; // Fondo de éxito oscuro para estados hover o variantes de mayor contraste dentro de superficies de éxito.
+$surface-status-info-solid: #15bece; // Fondo sólido informativo. Para banners o notificaciones de información de alto énfasis. Verificar contraste del texto sobre este fondo.
+$surface-status-info-subtle: #e8f9fb; // Fondo de bajo contraste para zonas informativas. Uso típico: tooltips, mensajes de contexto, banners informativos.
+$surface-status-info-dark: #1492a6; // Fondo informativo oscuro para estados hover o variantes de mayor contraste dentro de superficies informativas.
+$portal-focus-inner: #0f385a; // Anillo de foco interior para todos los Portal Icons. Se usa junto con el focusRing de cada variante para el efecto de doble anillo.
+$portal-blue-bg: #1fb2de; // Fondo del Portal Icon en variante azul (color secundario de marca).
+$portal-blue-fg: #0f385a; // Color de texto e íconos sobre el fondo azul del Portal Icon.
+$portal-blue-fg-color: #1fb2de; // Color de acento o detalle del ícono en variante azul, sobre fondos claros.
+$portal-blue-border-on-light: #007ba4; // Borde del Portal Icon azul sobre fondos claros.
+$portal-blue-border-on-brand: #1fb2de; // Borde del Portal Icon azul sobre fondos de marca.
+$portal-blue-focus-ring: #1fb2de; // Anillo de foco del Portal Icon en variante azul.
+$portal-yellow-bg: #fbaf17; // Fondo del Portal Icon en variante amarilla.
+$portal-yellow-fg: #0f385a; // Color de texto e íconos sobre el fondo amarillo del Portal Icon.
+$portal-yellow-fg-color: #fbaf17; // Color de acento o detalle del ícono en variante amarilla, sobre fondos claros.
+$portal-yellow-border-on-light: #b44a09; // Borde del Portal Icon amarillo sobre fondos claros.
+$portal-yellow-border-on-brand: #fbaf17; // Borde del Portal Icon amarillo sobre fondos de marca.
+$portal-yellow-focus-ring: #fbaf17; // Anillo de foco del Portal Icon en variante amarilla.
+$portal-green-bg: #a6ce38; // Fondo del Portal Icon en variante verde.
+$portal-green-fg: #0f385a; // Color de texto e íconos sobre el fondo verde del Portal Icon.
+$portal-green-fg-color: #a6ce38; // Color de acento o detalle del ícono en variante verde, sobre fondos claros.
+$portal-green-border-on-light: #55701b; // Borde del Portal Icon verde sobre fondos claros.
+$portal-green-border-on-brand: #a6ce38; // Borde del Portal Icon verde sobre fondos de marca.
+$portal-green-focus-ring: #a6ce38; // Anillo de foco del Portal Icon en variante verde.
+$portal-magenta-bg: #e0006e; // Fondo del Portal Icon en variante magenta.
+$portal-magenta-fg: #ffffff; // Color de texto e íconos sobre el fondo magenta del Portal Icon.
+$portal-magenta-fg-color: #f9218c; // Color de acento o detalle del ícono en variante magenta, sobre fondos claros.
+$portal-magenta-border-on-light: #b5055b; // Borde del Portal Icon magenta sobre fondos claros.
+$portal-magenta-border-on-brand: #f9218c; // Borde del Portal Icon magenta sobre fondos de marca.
+$portal-magenta-focus-ring: #f9218c; // Anillo de foco del Portal Icon en variante magenta.
+$fg-neutral-primary: #0c0f12; // Color principal para títulos y cuerpo de texto sobre fondos claros.
+$fg-neutral-secondary: #4d5b69; // Color de texto secundario para metadatos, etiquetas de apoyo y texto de menor jerarquía.
+$fg-neutral-placeholder: #627380; // Color del texto placeholder en campos de formulario.
+$fg-neutral-disabled: #627380; // Color de texto para elementos en estado deshabilitado.
+$fg-neutral-inverse: #ffffff; // Color de texto para usar sobre superficies oscuras o inversas.
+$fg-brand-primary: #0f385a; // Texto o íconos con el color primario de marca. Uso en enlaces, etiquetas de énfasis o elementos interactivos con identidad de marca.
+$fg-brand-primary-strong: #002b49; // Variante más oscura del color primario para texto de menor tamaño (inferior a 14px) garantizando ratio AA de contraste.
+$fg-brand-secondary: #007ba4; // Texto o íconos con el color secundario de marca.
+$fg-brand-secondary-strong: #11637c; // Variante más oscura del color secundario para texto pequeño o contextos de mayor exigencia de contraste.
+$fg-brand-link: #007ba4; // Color para texto de enlace. Usar exclusivamente en elementos <a> o componentes Link.
+$fg-on-color-brand-primary: #ffffff; // Texto sobre fondos del color primario de marca (surface/brand/primary/*). Garantiza legibilidad sobre azul primario.
+$fg-on-color-brand-secondary: #002b49; // Texto sobre fondos del color secundario de marca (surface/brand/secondary/*). Garantiza legibilidad sobre azul secundario.
+$fg-on-color-inverse: #ffffff; // Texto sobre superficies oscuras o inversas (surface/neutral/inverse). Color claro para garantizar contraste.
+$fg-on-color-error: #ffffff; // Texto sobre fondos sólidos de error (surface/status/error/solid). Garantiza legibilidad sobre magenta.
+$fg-on-color-disabled: #ffffff; // Texto sobre fondos de elementos deshabilitados con fondo de color.
+$fg-status-error: #e0006e; // Color de texto e íconos para mensajes y etiquetas de error. Usar sobre surface/status/error/subtle o fondos claros.
+$fg-status-warning: #b44a09; // Color de texto e íconos para mensajes y etiquetas de advertencia. Usar sobre surface/status/warning/subtle o fondos claros.
+$fg-status-success: #55701b; // Color de texto e íconos para mensajes y etiquetas de éxito. Usar sobre surface/status/success/subtle o fondos claros.
+$fg-status-info: #177687; // Color de texto e íconos para mensajes y etiquetas informativas. Usar sobre surface/status/info/subtle o fondos claros.
+$fg-status-visited: #7b2cbf; // Color de texto para enlaces ya visitados.
+$border-neutral-transparent: #ffffff; // Borde transparente. Útil para reservar espacio de borde sin mostrarlo, evitando saltos de layout al agregar bordes en hover o focus.
+$border-neutral-subtle: #b6c0ca; // Borde de bajo contraste para divisores, separadores y estructuras de baja jerarquía.
+$border-neutral-default: #627380; // Borde estándar para inputs, tablas y contenedores en estado reposo.
+$border-neutral-strong: #3b4651; // Borde de alto contraste para elementos que requieren mayor definición o separación visual.
+$border-brand-primary-subtle: #e6effd; // Borde muy suave del color primario. Para contenedores de tinte brand sin énfasis de selección.
+$border-brand-primary-soft: #b4d8fd; // Borde intermedio del color primario. Para estados activos suaves o contornos de énfasis moderado.
+$border-brand-primary-light: #165386; // Borde claro del color primario. Para estados hover de elementos brand o delimitación suave de zonas de marca.
+$border-brand-primary-solid: #0f385a; // Borde sólido del color primario. Para inputs en focus, elementos seleccionados o énfasis de marca.
+$border-brand-secondary-solid: #007ba4; // Borde sólido del color secundario. Para contornos de elementos secundarios seleccionados o en focus.
+$border-brand-secondary-dark: #11637c; // Borde oscuro del color secundario. Para elementos de énfasis secundario o estados activos sobre fondos claros.
+$border-status-error-subtle: #f9218c; // Borde de bajo contraste para contenedores y alertas de error.
+$border-status-error-solid: #e0006e; // Borde sólido para alertas, inputs y componentes de error de mayor énfasis.
+$border-status-warning-subtle: #fcbd3f; // Borde de bajo contraste para contenedores y alertas de advertencia.
+$border-status-warning-solid: #d96c06; // Borde sólido para alertas, inputs y componentes de advertencia de mayor énfasis.
+$border-status-success-subtle: #b5d659; // Borde de bajo contraste para contenedores y alertas de éxito.
+$border-status-success-solid: #6f921e; // Borde sólido para alertas, inputs y componentes de éxito de mayor énfasis.
+$border-status-info-subtle: #23d8e9; // Borde de bajo contraste para contenedores y mensajes informativos.
+$border-status-info-solid: #1492a6; // Borde sólido para alertas, inputs y componentes informativos de mayor énfasis.
+$action-focus-inner: #ffffff; // Anillo de foco interior (blanco) que contrasta con el focusRing exterior. Se usa junto con el focusRing de cada variante para crear el efecto de doble anillo de accesibilidad.
+$action-primary-focus-ring: #007ba4; // Anillo de foco exterior para elementos interactivos Primary. Usar junto con action/focusInner.
+$action-primary-solid-fg: #ffffff; // Color del texto e íconos sobre el fondo solid del botón Primary.
+$action-primary-solid-bg: #0f385a; // Fondo del botón Primary en variante solid, estado reposo.
+$action-primary-solid-bg-hover: #165386; // Fondo del botón Primary solid al hacer hover.
+$action-primary-solid-bg-pressed: #002b49; // Fondo del botón Primary solid al hacer clic o presionar.
+$action-primary-subtle-fg: #0f385a; // Color principal del texto e íconos en botón Primary subtle.
+$action-primary-subtle-fg-light: #11637c; // Color de texto secundario o de menor jerarquía en botón Primary subtle.
+$action-primary-subtle-fg-strong: #002b49; // Color de texto enfatizado en botón Primary subtle.
+$action-primary-subtle-bg: #f0f8ff; // Fondo del botón Primary en variante subtle, estado reposo. Tono muy suave del color de marca.
+$action-primary-subtle-bg-hover: #e6effd; // Fondo del botón Primary subtle al hacer hover.
+$action-primary-subtle-bg-hover-dark: #b4d8fd; // Variante más oscura del hover en botón Primary subtle, para contextos de mayor contraste.
+$action-primary-subtle-bg-pressed: #f0f8ff; // Fondo del botón Primary subtle al hacer clic o presionar.
+$action-primary-ghost-fg: #0f385a; // Color del texto e íconos en botón Primary ghost.
+$action-primary-ghost-fg-strong: #002b49; // Color de texto enfatizado en botón Primary ghost, por ejemplo etiquetas en estado activo.
+$action-primary-ghost-bg: #ffffff; // Fondo del botón Primary en variante ghost, estado reposo. Generalmente transparente.
+$action-primary-ghost-bg-hover: #e6effd; // Fondo del botón Primary ghost al hacer hover.
+$action-primary-ghost-bg-pressed: #b4d8fd; // Fondo del botón Primary ghost al hacer clic o presionar.
+$action-secondary-focus-ring: #007ba4; // Anillo de foco exterior para elementos interactivos Secondary. Usar junto con action/focusInner.
+$action-secondary-solid-fg: #002b49; // Color del texto e íconos sobre el fondo solid del botón Secondary.
+$action-secondary-solid-bg: #1fb2de; // Fondo del botón Secondary en variante solid, estado reposo.
+$action-secondary-solid-border: #007ba4; // Borde del botón Secondary solid. Aporta definición al contorno sin depender solo del fondo.
+$action-secondary-solid-bg-hover: #70d5f0; // Fondo del botón Secondary solid al hacer hover.
+$action-secondary-solid-bg-pressed: #007ba4; // Fondo del botón Secondary solid al hacer clic o presionar.
+$action-secondary-subtle-fg: #11637c; // Color del texto e íconos en botón Secondary subtle.
+$action-secondary-subtle-bg: #ffffff; // Fondo del botón Secondary en variante subtle, estado reposo.
+$action-secondary-subtle-bg-hover: #70d5f0; // Fondo del botón Secondary subtle al hacer hover.
+$action-secondary-subtle-bg-pressed: #70d5f0; // Fondo del botón Secondary subtle al hacer clic o presionar.
+$action-neutral-focus-ring: #627380; // Anillo de foco exterior para elementos interactivos Neutral. Usar junto con action/focusInner.
+$action-neutral-solid-fg: #ffffff; // Color del texto e íconos sobre el fondo solid del botón Neutral.
+$action-neutral-solid-text-disabled: #627380; // Color del texto en botón Neutral solid cuando está deshabilitado.
+$action-neutral-solid-bg: #627380; // Fondo del botón Neutral en variante solid, estado reposo.
+$action-neutral-solid-bg-hover: #3b4651; // Fondo del botón Neutral solid al hacer hover.
+$action-neutral-solid-bg-pressed: #171c21; // Fondo del botón Neutral solid al hacer clic o presionar.
+$action-neutral-solid-bg-subtle: #ced5db; // Fondo alternativo más suave para botón Neutral solid en contextos de menor énfasis.
+$action-neutral-solid-bg-disabled: #627380; // Fondo del botón Neutral solid en estado deshabilitado.
+$action-neutral-subtle-fg: #627380; // Color principal del texto e íconos en botón Neutral subtle.
+$action-neutral-subtle-fg-disabled: #627380; // Color del texto e íconos en botón Neutral subtle cuando está deshabilitado.
+$action-neutral-subtle-fg-strong: #0c0f12; // Color de texto enfatizado en botón Neutral subtle.
+$action-neutral-subtle-bg: #e5e9ec; // Fondo del botón Neutral en variante subtle, estado reposo.
+$action-neutral-subtle-bg-hover: #ced5db; // Fondo del botón Neutral subtle al hacer hover.
+$action-neutral-subtle-bg-pressed: #b6c0ca; // Fondo del botón Neutral subtle al hacer clic o presionar.
+$action-neutral-ghost-fg: #627380; // Color del texto e íconos en botón Neutral ghost.
+$action-neutral-ghost-fg-disabled: #627380; // Color del texto e íconos en botón Neutral ghost cuando está deshabilitado.
+$action-neutral-ghost-fg-strong: #0c0f12; // Color de texto enfatizado en botón Neutral ghost.
+$action-neutral-ghost-bg: #ffffff; // Fondo del botón Neutral en variante ghost, estado reposo. Generalmente transparente.
+$action-neutral-ghost-bg-hover: #e5e9ec; // Fondo del botón Neutral ghost al hacer hover.
+$action-neutral-ghost-bg-pressed: #ced5db; // Fondo del botón Neutral ghost al hacer clic o presionar.
+$action-neutral-ghost-bg-disabled: #ced5db; // Fondo del botón Neutral ghost en estado deshabilitado.
+$action-cta-ico: #1fb2de; // Color del ícono en el componente CTA en estado reposo.
+$action-cta-ico-hover: #ec0677; // Color del ícono en el componente CTA al hacer hover.
+$action-status-error-focus-ring: #e0006e; // Anillo de foco exterior para elementos interactivos de estado error.
+$action-status-error-solid-fg: #ffffff; // Color del texto e íconos sobre el fondo solid de error.
+$action-status-error-solid-bg: #e0006e; // Fondo de elemento interactivo de error en variante solid, estado reposo.
+$action-status-error-solid-bg-hover: #b5055b; // Fondo de elemento interactivo de error solid al hacer hover.
+$action-status-error-solid-bg-pressed: #e0006e; // Fondo de elemento interactivo de error solid al hacer clic o presionar.
+$action-status-error-subtle-fg: #e0006e; // Color del texto e íconos en variante subtle de error.
+$action-status-error-subtle-fg-strong: #b5055b; // Color de texto enfatizado en variante subtle de error.
+$action-status-error-subtle-bg: #fff6f9; // Fondo de elemento de error en variante subtle. Uso típico: badges, alertas inline, campos con validación.
+$action-status-error-subtle-bg-hover: #fff6f9; // Fondo subtle de error al hacer hover.
+$action-status-error-subtle-bg-pressed: #fff6f9; // Fondo subtle de error al hacer clic o presionar.
+$action-status-error-ghost-fg: #e0006e; // Color del texto e íconos en elemento interactivo de error ghost.
+$action-status-error-ghost-fg-strong: #b5055b; // Color de texto enfatizado en elemento interactivo de error ghost.
+$action-status-error-ghost-bg: #ffffff; // Fondo del elemento interactivo de error en variante ghost, estado reposo.
+$action-status-error-ghost-bg-hover: #fff6f9; // Fondo del elemento interactivo de error ghost al hacer hover.
+$action-status-error-ghost-bg-pressed: #ffffff; // Fondo del elemento interactivo de error ghost al hacer clic o presionar.
+$action-status-success-focus-ring: #6f921e; // Anillo de foco exterior para elementos interactivos de estado éxito.
+$action-status-success-solid-fg: #ffffff; // Color del texto e íconos sobre fondos solid de éxito. Uso reservado para casos excepcionales donde se requiera un elemento interactivo verde.
+$action-status-success-subtle-fg: #0f385a; // Color del texto e íconos en variante subtle de éxito.
+$action-status-success-subtle-fg-strong: #002b49; // Color de texto enfatizado en variante subtle de éxito.
+$action-status-success-subtle-bg: #f7fbec; // Fondo de elemento de éxito en variante subtle. Uso típico: badges, notificaciones, mensajes de confirmación.
+$action-status-success-subtle-bg-hover: #f7fbec; // Fondo subtle de éxito al hacer hover.
+$action-status-success-subtle-bg-pressed: #f7fbec; // Fondo subtle de éxito al hacer clic o presionar.
+$action-status-success-ghost-bg: #ffffff; // Fondo del elemento interactivo de éxito en variante ghost, estado reposo.
+$action-status-warning-focus-ring: #d96c06; // Anillo de foco exterior para elementos interactivos de estado advertencia.
+$action-status-warning-solid-fg: #ffffff; // Color del texto e íconos sobre fondos solid de advertencia. Uso reservado para casos excepcionales donde se requiera un elemento interactivo amarillo.
+$action-status-warning-subtle-fg: #0f385a; // Color del texto e íconos en variante subtle de advertencia.
+$action-status-warning-subtle-fg-strong: #002b49; // Color de texto enfatizado en variante subtle de advertencia.
+$action-status-warning-subtle-bg: #fff7e8; // Fondo de elemento de advertencia en variante subtle. Uso típico: badges, alertas de atención, mensajes preventivos.
+$action-status-warning-subtle-bg-hover: #fff7e8; // Fondo subtle de advertencia al hacer hover.
+$action-status-warning-subtle-bg-pressed: #fff7e8; // Fondo subtle de advertencia al hacer clic o presionar.
+$action-status-warning-ghost-bg: #ffffff; // Fondo del elemento interactivo de advertencia en variante ghost, estado reposo.
+$action-status-info-focus-ring: #1492a6; // Anillo de foco exterior para elementos interactivos de estado informativo.
+$action-status-info-solid-fg: #ffffff; // Color del texto e íconos sobre fondos solid de información. Uso reservado para casos excepcionales donde se requiera un elemento interactivo cyan.
+$action-status-info-subtle-fg: #0f385a; // Color del texto e íconos en variante subtle informativa.
+$action-status-info-subtle-fg-strong: #002b49; // Color de texto enfatizado en variante subtle informativa.
+$action-status-info-subtle-bg: #e8f9fb; // Fondo de elemento informativo en variante subtle. Uso típico: badges, tooltips, mensajes de contexto.
+$action-status-info-subtle-bg-hover: #e8f9fb; // Fondo subtle informativo al hacer hover.
+$action-status-info-subtle-bg-pressed: #e8f9fb; // Fondo subtle informativo al hacer clic o presionar.
+$action-status-info-ghost-bg: #ffffff; // Fondo del elemento interactivo informativo en variante ghost, estado reposo.

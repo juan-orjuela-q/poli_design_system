@@ -1,0 +1,102 @@
+@use '../../../../assets/poligran/variables_foundation.scss' as *;
+@use '../../../../assets/poligran/variables_tokens.scss' as *;
+
+.code-input {
+  display: flex;
+  gap: var(--spacing-universal-spacing-base, 8px);
+  align-items: center;
+  justify-content: center;
+  
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.code-input__digit {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: var(--radius-inputs-inputs-base-radius, 10px);
+  border: var(--spacing-inputs-input-large-border-width, 1px) solid var(--color-input-default-border, #B4D8FD);
+  background: var(--color-input-default-background, #F0F8FF);
+  
+  // Tipografía
+  font-family: var(--tipografia-font-family-family-sans-heading, Poppins);
+  font-size: var(--tipografia-font-size-body-body-lg, 18px);
+  font-weight: 600;
+  color: var(--color-text-text-primary, #0f385a);
+  line-height: 1.2;
+  overflow: visible;
+  
+  // Transiciones
+  transition: all 0.2s ease;
+  
+  // Remover estilos por defecto del input
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  
+  // Hover
+  &:hover:not(:disabled) {
+    border-color: var(--colores-marca-poli-azul-secundario-base, #1fb2de);
+  }
+  
+  // Focus
+  &:focus {
+    border-color: var(--colores-marca-poli-azul-secundario-base, #1fb2de);
+    box-shadow: 0 0 0 3px rgba(31, 178, 222, 0.15);
+    background: var(--color-surface-surface-primary, #fff);
+  }
+  
+  // Disabled
+  &:disabled {
+    cursor: not-allowed;
+    background: var(--color-surface-surface-quaternary, #e5e9ec);
+    border-color: var(--colores-utility-bruma-300, #b6c0ca);
+  }
+  
+  // Remover spinners de número
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// Estados
+.code-input.success .code-input__digit {
+  border-color: var(--colores-marca-poli-verde-base, #a6ce38);
+  background: var(--colores-marca-poli-verde-base-10, #a6ce381a);
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(166, 206, 56, 0.15);
+  }
+}
+
+.code-input.error .code-input__digit {
+  border-color: var(--colores-marca-poli-magenta-base, #ec0677);
+  background: var(--colores-marca-poli-magenta-base-10, #ec06771a);
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(236, 6, 119, 0.15);
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .code-input {
+    gap: var(--spacing-universal-spacing-small, 4px);
+  }
+  
+  .code-input__digit {
+    width: 36px;
+    height: 36px;
+    font-size: var(--tipografia-font-size-body-body-base, 16px);
+  }
+}

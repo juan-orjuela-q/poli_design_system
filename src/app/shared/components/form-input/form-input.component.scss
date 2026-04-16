@@ -1,0 +1,207 @@
+@use "sass:map";
+$transition: 150ms ease;
+:host {
+  display: block;
+  width: 100%;
+}
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-universal-spacing-base);
+
+  .form-input__field {
+    color: var(--color-text-text-primary);
+  }
+  .form-input__control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-universal-spacing-base, 8px);
+  }
+
+  &.left {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-universal-spacing-xl);
+
+    .form-input__control {
+      flex: 1;
+    }
+  }
+
+  &.disabled {
+    opacity: var(--opacidad-50);
+    pointer-events: none;
+  }
+
+  /* Size variants */
+
+  .form-input__field {
+    padding: var(--spacing-universal-spacing-small)
+      var(--spacing-universal-spacing-medium);
+    font-size: var(--tipografia-font-size-body-body-base);
+    min-height: var(--spacing-inputs-input-large-height);
+  }
+
+  /* Status border colors */
+  &.success .form-input__field {
+    border-color: var(--colores-marca-poli-verde-base);
+    background: var(--colores-marca-poli-verde-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-verde-base);
+    }
+  }
+  &.warning .form-input__field {
+    border-color: var(--colores-marca-poli-amarillo-base);
+    background: var(--colores-marca-poli-amarillo-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-amarillo-base);
+    }
+  }
+  &.error .form-input__field {
+    border-color: var(--colores-marca-poli-magenta-base);
+    background: var(--colores-marca-poli-magenta-base-10);
+    &:hover:not(:disabled) {
+      border-color: var(--colores-marca-poli-magenta-base);
+    }
+  }
+  &.disabled .form-input__field {
+    border-color: var(--color-input-disabled-border-50, #4F586080);
+    background: var(--color-input-disabled-background-50, #DCDCDC80);
+  }
+
+  /* Label */
+  .form-input__label {
+    font-family: var(--tipografia-font-family-family-sans-heading);
+    font-weight: var(--tipografia-font-weight-weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-universal-spacing-small);
+  }
+  /*.form-input__label-text {
+
+  }*/
+  .form-input__required-tag {
+    color: var(--color-error-600, #d32f2f);
+  }
+
+  /* Field wrapper (para posicionar el toggle) */
+  .form-input__field-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Field */
+  .form-input__field {
+    width: 100%;
+    border-radius: var(--radius-inputs-inputs-base-radius, 10px);
+    border: var(--spacing-border-border-small) solid
+      var(--color-input-default-border);
+    background: var(--color-input-default-background);
+    transition: border $transition, box-shadow $transition;
+
+    &::placeholder {
+      color: var(--color-input-default-placeholder);
+      font-size: var(--tipografia-font-size-body-body-base);
+    }
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-input-default-border-focused);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 0px
+          var(--spacing-effects-focus-ring-inner-spread, 2px)
+          var(--color-surface-surface-primary, #fff),
+        0px 0px 0px var(--spacing-effects-focus-ring-outer-spread, 4px)
+          var(--color-accent-accent-main, #1fb2de);
+    }
+    
+    // Ocultar iconos nativos del navegador para password
+    &::-ms-reveal,
+    &::-ms-clear {
+      display: none;
+    }
+    
+    &::-webkit-credentials-auto-fill-button,
+    &::-webkit-password-auto-fill-button {
+      display: none !important;
+      visibility: hidden;
+      pointer-events: none;
+      height: 0;
+      width: 0;
+      margin: 0;
+    }
+  }
+  
+  /* Toggle password button */
+  .form-input__toggle-password {
+    position: absolute;
+    right: var(--spacing-universal-spacing-medium, 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--spacing-inputs-input-large-height, 40px);
+    width: 28px;
+    color: var(--colores-marca-poli-azul-principal-base, #0F385A);
+    transition: color 0.2s ease;
+    z-index: 2;
+    user-select: none;
+    -webkit-user-select: none;
+    
+    &:hover {
+      color: var(--colores-marca-poli-azul-secundario-base, #1fb2de);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid var(--colores-marca-poli-azul-secundario-base, #1fb2de);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+    
+    app-icon {
+      display: block;
+      pointer-events: none;
+      height: 20px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  }
+  
+  // Ajustar padding cuando hay toggle
+  .form-input__field-wrapper:has(.form-input__toggle-password) .form-input__field {
+    padding-right: 44px;
+  }
+
+  /* Message */
+  .form-input__message {
+    &.success {
+      color: var(--colores-marca-poli-verde-dark);
+    }
+    &.warning {
+      color: var(--colores-marca-poli-amarillo-dark);
+    }
+    &.error {
+      color: var(--colores-marca-poli-magenta-dark);
+    }
+  }
+  /*Tooltip*/
+  .form-input__tooltip ::ng-deep .mat-icon {
+    color: var(--colores-marca-poli-gris-dark);
+    font-size: var(--tipografia-font-size-body-body-md);
+    width: var(--tipografia-font-size-body-body-md);
+    height: var(--tipografia-font-size-body-body-md);
+    position: relative;
+    top: 2px;
+  }
+}

@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>Selecciona una hora</mat-label>
+  <input matInput [matTimepicker]="picker">
+  <mat-hint>Formato: HH:MM</mat-hint>
+  <mat-timepicker-toggle matIconSuffix [for]="picker"/>
+  <mat-timepicker #picker/>
+</mat-form-field>
+

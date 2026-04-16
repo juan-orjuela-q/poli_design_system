@@ -1,0 +1,78 @@
+<div class="user-profile-modal-container">
+  <div class="user-profile-content">
+
+    <!-- Información del usuario -->
+      <div class="profile-info">
+        
+        <!-- Correo electrónico -->
+        <div class="info-item">
+          <div class="info-label">
+            <div class="icon-wrapper">
+              <app-icon icon="email" size="18"></app-icon>
+            </div>
+            <span>Correo electrónico</span>
+          </div>
+          <div class="info-value">{{ userEmail() }}</div>
+        </div>
+
+        <!-- Rol -->
+        <div class="info-item">
+          <div class="info-label">
+            <div class="icon-wrapper">
+              <app-icon icon="badge" size="18"></app-icon>
+            </div>
+            <span>Rol</span>
+          </div>
+          <div class="info-value">
+            @if (userRole()) {
+              <app-badge 
+                [text]="userRole()" 
+                [status]="'light'"
+                [type]="'rectangle'"
+                [size]="'small'">
+              </app-badge>
+            } @else {
+              <span class="no-data">No disponible</span>
+            }
+          </div>
+        </div>
+
+        <!-- Unidad Organizacional -->
+        <div class="info-item">
+          <div class="info-label">
+            <div class="icon-wrapper">
+              <app-icon icon="business" size="18"></app-icon>
+            </div>
+            <span>Unidad Organizacional</span>
+          </div>
+          <div class="info-value">
+            @if (userOU()) {
+              <app-badge 
+                [text]="userOU()" 
+                [status]="'light'"
+                [type]="'rectangle'"
+                [size]="'small'">
+              </app-badge>
+            } @else {
+              <span class="no-data">No disponible</span>
+            }
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botón de cerrar sesión -->
+    @if (showLogoutButton()) {
+      <div class="profile-actions">
+        <app-button
+          [type]="'destructive'"
+          [size]="'medium'"
+          [iconStart]="'logout'"
+          (onclick)="handleLogout()">
+          {{ logoutButtonText() }}
+        </app-button>
+      </div>
+    }
+
+  </div>
+</div>

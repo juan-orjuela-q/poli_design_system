@@ -1,0 +1,14 @@
+<button class="btn poli-botones-button" type="button" (click)="onClick($event)"
+  [ngClass]="[type, size, disabled ? 'is-disabled' : '', isBadge ? 'is-bagde' : '']" [disabled]="disabled">
+  <span class="btn__icon btn__icon--start" *ngIf="iconStart">
+    <app-icon [icon]="iconStart" [size]="getIconSize()"></app-icon>
+  </span>
+
+  <span class="btn__label">
+    <ng-content></ng-content>
+  </span>
+
+  <span class="btn__icon btn__icon--end" *ngIf="iconEnd">
+    <app-icon [icon]="iconEnd" [size]="getIconSize()"></app-icon>
+  </span>
+</button>

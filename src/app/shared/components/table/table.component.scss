@@ -1,0 +1,301 @@
+// Paleta local (puedes convertirla a CSS vars si lo prefieres)
+$table-header-bg: var(--colores-marca-poli-azul-claro-base, #e6effd);
+$table-header-fg: var(--color-text-text-button-dark, #0f385a);
+$table-row-hover: var(--colores-marca-poli-azul-claro-light, #f0f8ff);
+$table-row-selected: var(--colores-marca-poli-azul-claro-dark, #f0f8ff);
+
+// Contenedor general
+:host {
+  display: block;
+}
+
+// Ajustes de layout / scroll
+.table-container {
+  width: 100%;
+}
+
+// Sección de filtros
+.filters-section {
+  margin-bottom: var(--spacing-universal-spacing-xl, 16px);
+
+  // Grid principal para TODOS los filtros (incluyendo el principal)
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-universal-spacing-lg, 16px);
+
+    // En pantallas grandes, máximo 3 columnas
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    // En pantallas medianas, máximo 2 columnas
+    @media (max-width: 1199px) and (min-width: 769px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    // En pantallas pequeñas, 1 columna
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-item {
+      width: 100%;
+    }
+  }
+}
+
+//Input de búsqueda
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-universal-spacing-base);
+  width: 100%;
+  .filter_field {
+    width: 100%;
+    max-width: 380px;
+  }
+  .form-input__field {
+    width: 100%;
+    border-radius: var(--radius-inputs-inputs-base-radius, 10px);
+    border: var(--spacing-border-border-small) solid
+      var(--color-input-default-border);
+    background: var(--color-input-default-background);
+
+    &::placeholder {
+      color: var(--color-input-default-placeholder);
+      font-size: var(--tipografia-font-size-body-body-base);
+    }
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-input-default-border-focused);
+    }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0px 0px 0px
+          var(--spacing-effects-focus-ring-inner-spread, 2px)
+          var(--color-surface-surface-primary, #fff),
+        0px 0px 0px var(--spacing-effects-focus-ring-outer-spread, 4px)
+          var(--color-accent-accent-main, #1fb2de);
+    }
+  }
+}
+
+// Tabla con estilos personalizados
+.poli-table-container {
+  max-width: 100%;
+  overflow: auto;
+
+  // Para que no se superponga el scroll horizontal al contenido
+  padding-bottom: var(--spacing-universal-spacing-base, 8px);
+}
+
+.poli-table {
+  margin-bottom: var(--spacing-universal-spacing-lg);
+  border-radius: 0;
+  background: var(--color-surface-surface-primary, #fff);
+  
+  //Checkbox
+  ::ng-deep {
+    .mdc-checkbox__background {
+      border-radius: var(--spacing-universal-spacing-small, 4px);
+      border: 1px solid var(--color-border-border-tertiary, #b6c0ca);
+      background: var(--colores-marca-poli-azul-claro-base, #e6effd);
+    }
+    .mdc-checkbox:hover .mdc-checkbox__background {
+      border-color: var(--color-input-default-border-focused) !important;
+    }
+    .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+    .mdc-checkbox__native-control:enabled:indeterminate
+      ~ .mdc-checkbox__background {
+      border-color: transparent;
+      background: var(--color-accent-accent-main, #1FB2DE);
+    }
+    .mdc-checkbox__ripple {
+      opacity: 0 !important
+    }
+  }
+
+  // Cabecera
+  .mat-mdc-header-row {
+    background-color: $table-header-bg;
+    color: $table-header-fg;
+    font-family: var(--tipografia-font-family-family-sans-heading, Poppins);
+    font-size: var(--tipografia-font-size-body-body-base, 16px);
+    font-weight: 600;
+    line-height: var(--tipografia-line-height-body-line-height-body-base, 22px);
+    th {
+      border: 2px solid
+        var(--colores-marca-poli-azul-claro-base, #e6effd);
+    }
+  }
+
+  // Celdas
+  .mat-mdc-cell {
+    padding: 0px var(--spacing-universal-spacing-lg, 16px);
+    height: var(--spacing-universal-spacing-9xl, 56px);
+    border-right: 2px solid var(--colores-marca-poli-azul-claro-base, #e6effd);
+    border-bottom: 2px solid var(--colores-marca-poli-azul-claro-base, #e6effd);
+    color: var(--color-text-text-primary, #0f385a);
+    font-family: var(--tipografia-font-family-family-sans-body, "Open Sans");
+    font-size: var(--tipografia-font-size-body-body-sm, 14px);
+    &:first-child {
+      border-left: 2px solid var(--colores-marca-poli-azul-claro-base, #e6effd);
+    }
+  }
+
+  // Hover
+  .mat-mdc-row:hover {
+    background-color: $table-row-hover;
+  }
+
+  // Fila "seleccionada" (si gestionas selección propia)
+  .mat-mdc-row.cdk-row-selected {
+    background-color: $table-row-selected;
+  }
+
+  // Flecha de ordenación para que mantenga contraste
+  .mat-sort-header-arrow {
+    color: $table-header-fg;
+  }
+  
+  //Select
+  .selected {
+    background: var(--colores-marca-poli-azul-claro-light, #f0f8ff);
+  }
+  
+  .mat-column-select {
+    width: 72px;
+    text-align: center;
+  }
+
+  // Anchos fijos
+  .w-50 { width: 50px !important; max-width: 50px !important; }
+  .w-80 { width: 80px !important; max-width: 80px !important; }
+  .w-100 { width: 100px !important; max-width: 100px !important; }
+  .w-120 { width: 120px !important; max-width: 120px !important; }
+  .w-150 { width: 150px !important; max-width: 150px !important; }
+  .w-200 { width: 200px !important; max-width: 200px !important; }
+  .w-250 { width: 250px !important; max-width: 250px !important; }
+  .w-300 { width: 300px !important; max-width: 300px !important; }
+
+  // Anchos especiales
+  .w-actions-xs { width: 60px !important; max-width: 60px !important; text-align: center !important; }
+  .w-actions { width: 120px !important; max-width: 120px !important; text-align: center !important; }
+  .w-actions-lg { width: 160px !important; max-width: 160px !important; text-align: center !important; }
+  .w-select { width: 60px !important; max-width: 60px !important; text-align: center !important; }
+
+  // Para aplicar a celdas específicas
+  th, td {
+    &.w-50 { width: 50px !important; max-width: 50px !important; }
+    &.w-80 { width: 80px !important; max-width: 80px !important; }
+    &.w-100 { width: 100px !important; max-width: 100px !important; }
+    &.w-120 { width: 120px !important; max-width: 120px !important; }
+    &.w-150 { width: 150px !important; max-width: 150px !important; }
+    &.w-200 { width: 200px !important; max-width: 200px !important; }
+    &.w-250 { width: 250px !important; max-width: 250px !important; }
+    &.w-300 { width: 300px !important; max-width: 300px !important; }
+    &.w-600 { width: 600px !important; max-width: 600px !important; }
+
+    &.w-actions { width: 120px !important; max-width: 120px !important; text-align: center !important; }
+    &.w-actions-lg { width: 160px !important; max-width: 160px !important; text-align: center !important; }
+    &.w-select { width: 60px !important; max-width: 60px !important; text-align: center !important; }
+  }
+}
+
+// Columna de acciones
+.actions-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-universal-spacing-small, 4px);
+  
+
+  button {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0;   
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+
+    &:hover {
+      background-color: var(--colores-marca-poli-azul-claro-base, #e6effd);
+    }
+
+    app-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      ::ng-deep {
+        .mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+  .action-view {
+    color: var(--color-button-primary-button-primary-default);
+    
+    &:hover {
+      color: var(--color-button-primary-button-primary-hover);
+    }
+  }
+
+  .action-edit {
+    color: var(--color-button-primary-button-primary-default);
+    
+    &:hover {
+      color: var(--color-button-primary-button-primary-hover);
+    }
+  }
+
+  .action-delete {
+    color: var(--color-button-destructive-button-destructive-default);
+    
+    &:hover {
+      color: var(--color-button-destructive-button-destructive-hover);
+    }
+  }
+
+  .action-custom {
+    color: var(--color-button-primary-button-primary-default);
+    
+    &:hover {
+      color: var(--color-button-primary-button-primary-hover);
+    }
+  }
+}
+//
+@media screen and (max-width: 600px) {
+  .poli-table {
+    min-width: 600px;
+  }
+  
+  .actions-container {
+    button {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      
+      app-icon {
+        ::ng-deep {
+          .mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+          }
+        }
+      }
+    }
+  }
+}

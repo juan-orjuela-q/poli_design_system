@@ -1,0 +1,37 @@
+<div class="desktop-nav-container">
+  <app-header-nav [portalName]="'CPO'" [portalIcon]="'key'" [type]="'primary'" [dashboardRoute]="'/'">
+    <!-- User info hidden for CPO -->
+    <!-- <div>
+      <span class="poli-label-user">{{ userName() }}</span>
+      <span class="poli-label-user"> | </span>
+      <span class="poli-cuerpo-sm dark">{{ userRole() }}</span>
+    </div>
+    <app-avatar 
+      class="cursor-pointer" 
+      (click)="onAvatarClick()" 
+      [type]="'letter'" 
+      [size]="'small'" 
+      [notification]="0"
+      [status]="'online'" 
+      [letter]="userInitials() || 'U'">
+    </app-avatar> -->
+  </app-header-nav>
+</div>
+
+<!-- Modal derecho con el componente compartido de perfil de usuario -->
+<app-right-modal 
+  [closeOnBackdrop]="true" 
+  [visible]="rightModalOpen()" 
+  [title]="config.labels.userModal.title"
+  (close)="closeRightModal()">
+  
+  <!-- Usar el nuevo componente compartido -->
+  <app-user-profile-modal
+    [isOpen]="rightModalOpen()"
+    [title]="config.labels.userModal.title"
+    [logoutButtonText]="config.labels.userModal.logoutButton"
+    (close)="closeRightModal()"
+    (logout)="signOut()">
+  </app-user-profile-modal>
+  
+</app-right-modal>

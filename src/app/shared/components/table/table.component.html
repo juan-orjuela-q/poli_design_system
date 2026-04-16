@@ -1,0 +1,151 @@
+<div class="table-container">
+
+  <!-- Sección de filtros -->
+  <div class="filters-section" *ngIf="!hideFilter">
+    <!-- Grid de filtros con 3 columnas responsive -->
+    <div class="filters-grid">
+      <!-- Campo de filtro principal -->
+      <div class="filter-item">
+        <app-material-input 
+          [label]="'Filtrar'" 
+          [placeholder]="filterPlaceholder" 
+          [type]="'text'"
+          (input)="applyMainFilter($event)">
+        </app-material-input>
+      </div>
+
+      <!-- Filtros adicionales -->
+      <div class="filter-item" *ngFor="let filter of additionalFilters; trackBy: trackByFilterKey">
+        <app-material-input 
+          [label]="filter.label" 
+          *ngIf="filter.type === 'text'" 
+          [placeholder]="filter.placeholder"
+          [type]="'text'" 
+          (input)="applyAdditionalFilter(filter.key, $event)">
+        </app-material-input>
+
+        <app-material-select 
+          [label]="filter.label" 
+          *ngIf="filter.type === 'select'" 
+          [placeholder]="filter.placeholder"
+          (selectionChange)="onSelectFilterChange(filter.key, $event)" 
+          [options]="filter.options!">
+        </app-material-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="poli-table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="poli-table">
+
+      <!-- Columna de selección -->
+      <ng-container matColumnDef="select" *ngIf="showSelection">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox 
+            (change)="toggleAllRows()" 
+            [checked]="isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" 
+            [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox 
+            (click)="$event.stopPropagation()" 
+            (change)="selection.toggle(row)"
+            (keydown.enter)="selection.toggle(row)" 
+            (keydown.space)="selection.toggle(row)"
+            [checked]="selection.isSelected(row)" 
+            [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Columnas de datos con clases de ancho dinámicas -->
+      <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header [class]="getColumnWidthClass(col)">
+          {{ headerLabels[col] || col }}
+        </th>
+        <td mat-cell *matCellDef="let row" [class]="getColumnWidthClass(col)">
+          <!-- Template personalizado si existe -->
+          <ng-container *ngIf="hasCustomTemplate(col); else defaultCell">
+            <ng-container
+              *ngTemplateOutlet="getColumnTemplate(col)!; context: { $implicit: row, column: col, value: row[col] }">
+            </ng-container>
+          </ng-container>
+          <!-- Template por defecto -->
+          <ng-template #defaultCell>
+            {{ row[col] }}
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Columna de acciones -->
+      <ng-container *ngIf="showActions" matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="actions-container">
+            <!-- Ver -->
+            <button 
+              *ngIf="actions.view?.enabled" 
+              mat-icon-button 
+              (click)="onActionView(row)"
+              class="action-view"
+              [attr.aria-label]="actions.view?.label || 'Ver'">
+              <app-icon [icon]="actions.view?.icon || 'visibility'" size="20px"></app-icon>
+            </button>
+
+            <!-- Editar -->
+            <button 
+              *ngIf="actions.edit?.enabled" 
+              mat-icon-button 
+              (click)="onActionEdit(row)"
+              class="action-edit"
+              [attr.aria-label]="actions.edit?.label || 'Editar'">
+              <app-icon [icon]="actions.edit?.icon || 'edit'" size="20px"></app-icon>
+            </button>
+
+            <!-- Eliminar -->
+            <button 
+              *ngIf="actions.delete?.enabled" 
+              mat-icon-button 
+              class="action-delete"
+              (click)="onActionDelete(row)"
+              [attr.aria-label]="actions.delete?.label || 'Eliminar'">
+              <app-icon [icon]="actions.delete?.icon || 'delete'" size="20px"></app-icon>
+            </button>
+
+            <!-- Acciones personalizadas -->
+            <button 
+              *ngFor="let action of actions.custom"
+              mat-icon-button 
+              [class]="'action-custom ' + (action.class || '')"
+              (click)="onActionCustom(action.key, row)"
+              [attr.aria-label]="action.label">
+              <app-icon [icon]="action.icon" size="20px"></app-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Filas -->
+      <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: allColumns"
+        [class.selected]="showSelection && selection.isSelected(row)" 
+        [tabindex]="showSelection ? 0 : -1"
+        (click)="showSelection ? selection.toggle(row) : null"
+        (keydown.enter)="showSelection ? selection.toggle(row) : null"
+        (keydown.space)="showSelection ? selection.toggle(row) : null">
+      </tr>
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <ng-container *ngIf="!hidePaginator">
+    <app-paginator 
+      [length]="manualPagination ? totalRecords : dataSource.data.length" 
+      [pageSizeOptions]="pageSizeOptions" 
+      (page)="onPage($event)">
+    </app-paginator>
+  </ng-container>
+</div>

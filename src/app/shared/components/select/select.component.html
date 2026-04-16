@@ -1,0 +1,29 @@
+<div class="form-input" [ngClass]="[status, labelPosition, disabled ? 'disabled' : '']">
+
+  <!-- Label -->
+  <label *ngIf="label" class="form-input__label" [for]="fieldID">
+    <span class="form-input__label-text">{{ label }}</span>
+    <span *ngIf="required" class="form-input__required-tag">*</span>
+
+    <span *ngIf="tooltip" class="form-input__tooltip" [attr.title]="tooltip">
+      <app-icon>help</app-icon>
+    </span>
+  </label>
+
+  <!-- Control -->
+  <div class="form-input__control">
+    <mat-form-field>
+      <mat-select panelClass="custom-select-panel" class="form-input__field" [id]="fieldID" [attr.name]="name"
+        [placeholder]="placeholder" [required]="required" [disabled]="disabled" [multiple]="multiple"
+        [compareWith]="compareWith" [(ngModel)]="value" (selectionChange)="handleSelectionChange($event)">
+        <mat-option *ngFor="let opt of options" [value]="opt.value" [disabled]="opt.disabled">
+          {{ opt.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span *ngIf="message" class="form-input__message poli-utility-info-adicional" [ngClass]="status">
+      {{ message }}
+    </span>
+  </div>
+</div>

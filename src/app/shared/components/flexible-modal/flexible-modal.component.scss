@@ -1,0 +1,122 @@
+.flexible-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--colores-marca-poli-azul-principal-base-15);
+  z-index: 1000;
+}
+
+.flexible-modal-container {
+  position: fixed;
+  z-index: 1010;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-base-rounded-large, 8px);
+  background: var(--color-surface-surface-primary);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  /* shadow-medium */
+  box-shadow: var(--spacing-effects-shadow-medium-offset-x, 0px)
+    var(--spacing-effects-shadow-medium-offset-y, 0px)
+    var(--spacing-effects-shadow-medium-blur, 16px)
+    var(--spacing-effects-shadow-small-spread, 0px)
+    var(--color-shadow-shadow-medium, rgba(15, 56, 90, 0.15));
+
+  // Tamaños del modal
+  &.size-small {
+    width: 90%;
+    max-width: 400px;
+    padding: var(--spacing-universal-spacing-lg, 16px);
+    gap: var(--spacing-universal-spacing-lg, 16px);
+  }
+
+  &.size-medium {
+    width: 90%;
+    max-width: var(--screens-sm, 640px);
+    padding: var(--spacing-universal-spacing-xl, 20px)
+      var(--spacing-universal-spacing-lg, 16px);
+    gap: var(--spacing-universal-spacing-xl, 20px);
+  }
+
+  &.size-large {
+    width: 90%;
+    max-width: var(--screens-md, 768px);
+    padding: var(--spacing-universal-spacing-xl, 20px);
+    gap: var(--spacing-universal-spacing-xl, 20px);
+  }
+
+  &.size-extra-large {
+    width: 90%;
+    max-width: var(--screens-lg, 1024px);
+    padding: var(--spacing-universal-spacing-xxl, 24px);
+    gap: var(--spacing-universal-spacing-xl, 20px);
+  }
+
+  &.size-full-width {
+    width: 85%;
+    height: 85%;
+    padding: var(--spacing-universal-spacing-xxl, 24px);
+    gap: var(--spacing-universal-spacing-xl, 20px);
+  }
+
+  // Responsivo para pantallas pequeñas
+  @media (max-width: 768px) {
+    &.size-small,
+    &.size-medium,
+    &.size-large,
+    &.size-extra-large,
+    &.size-full-width {
+      width: 95%;
+      margin: var(--spacing-universal-spacing-base, 8px);
+      max-width: none;
+      max-height: 85vh;
+    }
+  }
+}
+
+.close-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: calc(-1 * var(--spacing-universal-spacing-sm, 12px));
+}
+
+
+.modal-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--colores-marca-poli-azul-claro-base, #E6EFFD);
+  margin: 0;
+}
+
+.modal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; // Permite scroll en contenido hijo si es necesario
+}
+
+// Botón de cerrar flotante por fuera del modal - SOLO para full-width
+.close-container-outside {
+  position: fixed;
+  z-index: 1020;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  // Posición para full-width (width: 85%, height: 85%)
+  top: calc(50% - 42.5vh - 50px);
+  right: calc(50% - 42.5vw);
+
+  // Responsivo para pantallas pequeñas
+  @media (max-width: 768px) {
+    top: calc(50% - 42.5vh - 40px);
+    right: calc(50% - 47.5vw - 15px);
+  }
+}

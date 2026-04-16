@@ -1,0 +1,58 @@
+<nav class="sidenav" [class.collapsed]="collapsed">
+  <!-- Header -->
+  <header class="sidenav__header">
+    <div class="header-content" (click)="navigateToMain()">
+      <app-badge 
+        [text]="''" 
+        [type]="'pill'" 
+        [size]="'xl'" 
+        [status]="'info'" 
+        [iconStart]="headerIcon">
+      </app-badge>
+
+      <div class="titles" *ngIf="!collapsed">
+        <span class="title">{{ title }}</span>
+      </div>
+    </div>
+
+    <button class="toggle" type="button" (click)="toggle()" aria-label="Toggle side navigation">
+      <app-icon [icon]="collapsed ? 'left_panel_open' : 'left_panel_closed'"></app-icon>
+    </button>
+  </header>
+
+  <!-- Menú -->
+
+  <ul class="menu">
+  @for (item of items; track item.label) {
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="menu-item">
+      @if (!item.children) {
+        <a [routerLink]="item.route" class="menu-link">
+          <app-icon [icon]="item.icon"></app-icon>
+          <span class="sidenav-label" *ngIf="!collapsedMenu">{{ item.label }}</span>
+        </a>
+      } @else {
+        <div class="menu-link has-children" (click)="toggleMenu(item.label)">
+          <app-icon [icon]="item.icon"></app-icon>
+          <span class="sidenav-label" *ngIf="!collapsedMenu">{{ item.label }}</span>
+          <app-icon class="chevron"
+                    [icon]="isOpen(item.label) ? 'arrow_drop_up' : 'arrow_drop_down'"></app-icon>
+        </div>
+        <ul class="submenu" *ngIf="isOpen(item.label)">
+          @for (child of item.children; track child.label) {
+            <li routerLinkActive="active" class="submenu-item">
+              <a [routerLink]="child.route" class="submenu-link">
+                <span class="sidenav-label" *ngIf="!collapsedMenu">{{ child.label }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+    </li>
+  }
+</ul>
+
+  <!-- Footer -->
+  <footer class="sidenav__footer" *ngIf="!collapsed">
+    <ng-content select="[sidenav-footer]"></ng-content>
+  </footer> 
+</nav>

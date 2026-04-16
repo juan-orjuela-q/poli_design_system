@@ -1,0 +1,9 @@
+<span [ngClass]="badgeClasses()" role="status">
+  @if (iconStart()) {
+    <pds-icon [name]="iconStart()!" [size]="iconSize()" [ariaHidden]="true" />
+  }
+  <ng-content />
+  @if (iconEnd()) {
+    <pds-icon [name]="iconEnd()!" [size]="iconSize()" [ariaHidden]="true" />
+  }
+</span>

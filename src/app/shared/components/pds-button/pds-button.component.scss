@@ -1,0 +1,186 @@
+﻿.pds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-xs);
+  height: var(--button-dimensions-height);
+  min-width: var(--button-dimensions-min-width);
+  padding: 0 var(--button-dimensions-padding-x);
+  font-family: var(--text-component);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-medium);
+  line-height: var(--line-height-lh-none);
+  border-radius: var(--button-radius-base);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+
+  // Token del anillo de foco — se sobreescribe por variante
+  --pds-focus-ring: var(--action-primary-focus-ring);
+
+  // Los iconos heredan el color del texto del boton
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // Sombras de elevacion — solo cuando el elemento no está deshabilitado
+  &:not([aria-disabled="true"]):not(.pds-button--disabled) {
+    &:hover {
+      box-shadow: var(--shadow-component-hover);
+    }
+
+    &:active {
+      box-shadow: var(--shadow-component-pressed);
+    }
+  }
+
+  // Focus ring unificado: 2px gap blanco + 4px anillo de color
+  // Al tener la misma especificidad que :hover/:active y declararse despues, sobreescribe las sombras cuando el elemento tiene foco
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--pds-focus-ring);
+  }
+
+  // Disabled: aria-disabled en lugar de :disabled para mantener el elemento
+  // en el tab order (WCAG 2.1.1). pointer-events se mantiene para que el
+  // cursor: not-allowed sea visible al usuario de ratón (WCAG 1.4.13).
+  &[aria-disabled="true"],
+  &.pds-button--disabled {
+    cursor: not-allowed;
+  }
+
+  // Tamanios
+  &--sm {
+    position: relative;
+    gap: var(--spacing-component-2xs);
+    height: var(--button-dimensions-height-sm);
+    padding: 0 var(--button-dimensions-padding-x-sm);
+    font-size: var(--font-size-f-sm);
+
+    // Area tactil minima 48x48px (WCAG 2.5.5) sin alterar la apariencia visual
+    &::after {
+      content: '';
+      position: absolute;
+      inset: calc((48px - var(--button-dimensions-height-sm)) / -2) 0;
+    }
+  }
+
+  &--lg {
+    gap: var(--spacing-component-sm);
+    height: var(--button-dimensions-height-lg);
+    padding: 0 var(--button-dimensions-padding-x-lg);
+    font-size: var(--font-size-f-lg);
+  }
+
+  // Primary
+  &--primary {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+
+    &:hover { background: var(--action-primary-solid-bg-hover); }
+    &:active { background: var(--action-primary-solid-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-solid-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+    }
+  }
+
+  // Secondary
+  &--secondary {
+    --pds-focus-ring: var(--action-secondary-focus-ring);
+    background: var(--action-secondary-solid-bg);
+    color: var(--action-secondary-solid-fg);
+    border: var(--border-thick) solid var(--action-secondary-solid-border);
+
+    &:hover { background: var(--action-secondary-solid-bg-hover); }
+    &:active { background: var(--action-secondary-solid-bg-pressed); border-color: transparent; }
+    &:focus-visible { background: var(--action-secondary-solid-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+      border-color: transparent;
+    }
+  }
+
+  // Outline
+  &--outline {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: transparent;
+    color: var(--action-primary-ghost-fg);
+    border: var(--border-thick) solid var(--action-primary-ghost-fg);
+
+    &:hover { background: var(--action-primary-ghost-bg-hover); }
+    &:active { background: var(--action-primary-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-ghost-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: transparent;
+      border-color: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+
+  // Ghost
+  &--ghost {
+    --pds-focus-ring: var(--action-primary-focus-ring);
+    background: transparent;
+    color: var(--action-primary-ghost-fg);
+
+    &:hover { background: var(--action-primary-ghost-bg-hover); }
+    &:active { background: var(--action-primary-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-primary-ghost-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: transparent;
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+
+  // Destructive
+  &--destructive {
+    --pds-focus-ring: var(--action-status-error-focus-ring);
+    background: var(--action-status-error-solid-bg);
+    color: var(--action-status-error-solid-fg);
+
+    &:hover { background: var(--action-status-error-solid-bg-hover); }
+    &:active { background: var(--action-status-error-solid-bg-pressed); }
+    &:focus-visible { background: var(--action-status-error-solid-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-primary-solid-fg);
+    }
+  }
+
+  // Destructive Outline
+  &--destructive-outline {
+    --pds-focus-ring: var(--action-status-error-focus-ring);
+    background: transparent;
+    color: var(--action-status-error-ghost-fg);
+    border: var(--border-thick) solid var(--action-status-error-ghost-fg);
+
+    &:hover { background: var(--action-status-error-ghost-bg-hover); }
+    &:active { background: var(--action-status-error-ghost-bg-pressed); }
+    &:focus-visible { background: var(--action-status-error-ghost-bg-hover); }
+
+    &:disabled,
+    &.pds-button--disabled {
+      background: transparent;
+      border-color: var(--action-neutral-solid-bg-disabled);
+      color: var(--action-neutral-solid-bg-disabled);
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<div *ngIf="isVisible" class="alert medium" [ngClass]="alertType" role="alert">
+    <!-- Icon -->
+    <div class="alert__icon">
+        <app-icon [icon]="icon"></app-icon>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="alert__body">
+        <!-- Título y descripción -->
+        <div class="alert__info">
+            <h6 *ngIf="hasTitle" class="alert__title">{{ config.title }}</h6>
+            <p class="alert__description">{{ config.message }}</p>
+            
+            <!-- Detalles adicionales (errores de validación) -->
+            <ul *ngIf="hasDetails" class="alert__details">
+                <li *ngFor="let detail of config.details">{{ detail }}</li>
+            </ul>
+            
+            <!-- TraceId para errores -->
+            <p *ngIf="config.traceId" class="alert__trace-id">
+                <small>ID de seguimiento: {{ config.traceId }}</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Botón cerrar -->
+    <button type="button" class="alert__close" (click)="close()" aria-label="Cerrar alerta">
+        &times;
+    </button>
+</div>

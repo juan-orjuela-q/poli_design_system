@@ -1,0 +1,32 @@
+@use '../../../../assets/poligran/variables_foundation.scss' as *;
+@use '../../../../assets/poligran/variables_tokens.scss' as *;
+
+.desktop-nav-container {
+  display: none;
+}
+
+.mobile-nav-container {
+  display: block;
+  pointer-events: none; // No bloquear interacciones, dejar que los elementos internos controlen esto
+}
+
+// Padding para el contenido en mobile (debajo de las barras fijas)
+.side-container {
+  padding-top: 110px; // 70px top-bar + 40px app-bar
+}
+
+@media (min-width: 1025px) {
+  .desktop-nav-container {
+    display: flex;
+    height: 100%;
+  }
+  
+  .mobile-nav-container {
+    display: none;
+  }
+  
+  .side-container {
+    padding-top: 0; // Sin padding en desktop
+    min-height: 100%; // Solo en desktop
+  }
+}

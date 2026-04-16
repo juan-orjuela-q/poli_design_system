@@ -1,0 +1,29 @@
+<div class="form-input poli-datepicker" [ngClass]="[status, disabled ? 'disabled' : '']">
+  <label *ngIf="label" class="form-input__label" [for]="fieldID">
+    <span class="form-input__label-text">{{ label }}</span>
+    <span *ngIf="required" class="form-input__required-tag">*</span>
+    <span *ngIf="tooltip" class="form-input__tooltip" [attr.title]="tooltip">
+      <app-icon icon="help"></app-icon>
+    </span>
+  </label>
+  <div class="form-input__control">
+    <!-- Cuando está habilitado: usa mat-form-field completo -->
+    <mat-form-field *ngIf="!disabled">
+      <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" placeholder="DD/MM/AAAA" [id]="fieldID" class="form-input__field"
+        [value]="value" [min]="minDate" [max]="maxDate" (dateChange)="onDateChange($event.value)" (blur)="onDateBlur()">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker [startAt]="minDate"></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Cuando está disabled: input simple sin Material -->
+    <div *ngIf="disabled" class="disabled-input-container">
+      <input type="text" [disabled]="true" placeholder="DD/MM/AAAA" [id]="fieldID" [value]="value | date:'dd/MM/yyyy'"
+        class="form-input__field disabled-input">
+    </div>
+
+    <!-- Helper / validation message -->
+    <span *ngIf="message" class="form-input__message poli-utility-info-adicional" [ngClass]="status">
+      {{ message }}
+    </span>
+  </div>
+</div>

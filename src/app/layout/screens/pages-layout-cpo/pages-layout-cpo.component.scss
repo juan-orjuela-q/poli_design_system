@@ -1,0 +1,12 @@
+@use '../../../../assets/poligran/variables_foundation.scss' as *;
+@use '../../../../assets/poligran/variables_tokens.scss' as *;
+
+.sidenav-main-container {
+  display: flex;
+  min-height: calc(100vh - 64px); // Altura del header
+  
+  // Sobrescribir el overflow del layout global para permitir scroll completo en mobile
+  app-page-content {
+    overflow-y: visible;
+  }
+}

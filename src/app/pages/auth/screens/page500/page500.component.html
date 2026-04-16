@@ -1,0 +1,24 @@
+<div class="error-container">
+  <div class="error-icon">
+    <app-icon [icon]="'error'"></app-icon>
+  </div>
+
+  <h1 class="error-title">Error 500</h1>
+  <h3 class="error-subtitle">Error interno del servidor</h3>
+  <p class="error-description">
+    Lo sentimos, ha ocurrido un error inesperado en nuestro servidor.
+    Por favor, intenta nuevamente más tarde o contacta a nuestro equipo de soporte si el problema persiste.
+  </p>
+  <p class="error-thanks">¡Gracias por tu comprensión!</p>
+
+  <div class="error-actions">
+    <app-button type="primary" size="medium" iconEnd="undo"
+      (click)="submit()">
+      Regresa a la página anterior
+    </app-button>
+    <app-button type="outline" size="medium"
+      (click)="submit()">
+      Volver al inicio
+    </app-button>
+  </div>
+</div>

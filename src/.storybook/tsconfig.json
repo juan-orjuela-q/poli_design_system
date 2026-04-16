@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "baseUrl": "../",
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true        // Evita errores en dependencias externas (como Webpack)
+  },
+  "include": [
+    "../app/**/*.stories.ts",
+    "../shared/**/*.stories.ts",
+    "./*.ts"
+  ]
+}

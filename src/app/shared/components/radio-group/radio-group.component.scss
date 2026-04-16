@@ -1,0 +1,80 @@
+@use '../../../../assets/poligran/variables_foundation.scss' as *;
+@use '../../../../assets/poligran/variables_tokens.scss' as *;
+
+.radio-group {
+  display: flex;
+  gap: var(--spacing-universal-spacing-2xl, 24px);
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-universal-spacing-medium, 12px);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--colores-utility-bruma-300, #B6C0CA);
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--colores-marca-poli-azul-secundario-base, #1FB2DE);
+    transition: transform 0.2s ease;
+  }
+}
+
+.radio-option:hover:not(.disabled) .radio-custom {
+  border-color: var(--colores-marca-poli-azul-secundario-base, #1FB2DE);
+}
+
+.radio-input:checked + .radio-custom {
+  border-color: var(--colores-marca-poli-azul-secundario-base, #1FB2DE);
+  
+  &::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.radio-input:focus-visible + .radio-custom {
+  outline: 2px solid var(--colores-marca-poli-azul-secundario-base, #1FB2DE);
+  outline-offset: 2px;
+}
+
+.radio-label {
+  font-family: var(--tipografia-font-family-family-sans-body, 'Open Sans');
+  font-size: var(--tipografia-font-size-body-body-base, 16px);
+  color: var(--color-text-text-primary, #0F385A);
+  line-height: 1.5;
+}
+
+.radio-option.disabled .radio-label {
+  color: var(--colores-utility-bruma-400, #9FACB8);
+}

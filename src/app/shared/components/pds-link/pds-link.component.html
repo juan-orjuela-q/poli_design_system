@@ -1,0 +1,14 @@
+<a
+  class="pds-link"
+  [href]="href()"
+  [target]="target()"
+  [attr.rel]="rel()">
+  <ng-content />
+  @if (external()) {
+    <pds-icon
+      name="open_in_new"
+      size="xs"
+      [ariaHidden]="false"
+      ariaLabel="Abre en nueva pestaña" />
+  }
+</a>

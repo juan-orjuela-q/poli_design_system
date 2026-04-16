@@ -1,0 +1,97 @@
+.pds-progress-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs);
+  width: 100%;
+
+  // ── Valor porcentual (arriba) ─────────────────────────────────────────────────
+  &__value {
+    font-family: var(--typography-family-sans2, 'Open Sans');
+    font-size: var(--font-size-f-sm);
+    font-weight: var(--font-weight-w-bold);
+    line-height: var(--line-height-lh-base);
+    // El color lo hereda del estado (definido en cada &--status)
+    color: currentColor;
+  }
+
+  // ── Track (fondo de la barra) ─────────────────────────────────────────────────
+  &__track {
+    width: 100%;
+    height: var(--size-2xs);
+    border-radius: var(--radius-pill);
+    border: var(--border-thin) solid transparent;
+    overflow: hidden;
+  }
+
+  // ── Fill (barra activa) ───────────────────────────────────────────────────────
+  &__fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    transition: width 300ms ease;
+  }
+
+  // ── Etiqueta (debajo) ─────────────────────────────────────────────────────────
+  &__label {
+    font-family: var(--typography-family-sans2, "Open Sans");
+    font-size: var(--font-size-f-sm);
+    font-weight: var(--font-weight-w-regular);
+    line-height: var(--line-height-lh-base);
+    color: var(--fg-neutral-secondary);
+  }
+
+  // ── Estados ───────────────────────────────────────────────────────────────────
+  &--primary {
+    color: var(--fg-neutral-primary);
+
+    .pds-progress-bar__track {
+      background: var(--surface-brand-primary-soft);
+      border-color: var(--border-brand-primary-solid);
+    }
+    .pds-progress-bar__fill {
+      background: var(--surface-brand-primary-base);
+    }
+  }
+
+  &--success {
+    color: var(--fg-status-success);
+
+    .pds-progress-bar__track {
+      background: var(--surface-status-success-subtle);
+      border-color: var(--border-status-success-solid);
+    }
+    .pds-progress-bar__fill {
+      background: var(--surface-status-success-dark);
+    }
+  }
+
+  &--warning {
+    color: var(--fg-status-warning);
+
+    .pds-progress-bar__track {
+      background: var(--surface-status-warning-subtle);
+      border-color: var(--border-status-warning-solid);
+    }
+    .pds-progress-bar__fill {
+      background: var(--surface-status-warning-dark);
+    }
+  }
+
+  &--error {
+    color: var(--fg-status-error);
+
+    .pds-progress-bar__track {
+      background: var(--surface-status-error-subtle);
+      border-color: var(--border-status-error-solid);
+    }
+    .pds-progress-bar__fill {
+      background: var(--surface-status-error-solid);
+    }
+  }
+
+  // ── Movimiento reducido ───────────────────────────────────────────────────────
+  @media (prefers-reduced-motion: reduce) {
+    &__fill {
+      transition: none;
+    }
+  }
+}

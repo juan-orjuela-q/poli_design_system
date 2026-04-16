@@ -1,0 +1,117 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-surface-surface-backdrop, rgba(15, 56, 90, 0.9));
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-container {
+  position: fixed;
+  z-index: 1010;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: var(--screens-sm);
+  max-height: 95vh;
+  overflow-y: auto;
+  scrollbar-color: var(--color-border-border-tertiary, #9aa3ac) transparent;
+  padding: var(--spacing-universal-spacing-xl, 20px)
+  var(--spacing-universal-spacing-lg, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-universal-spacing-xl, 20px);
+  border-radius: var(--radius-base-rounded-large, 8px);
+  background: var(--color-surface-surface-primary);
+  animation: slideUpFadeIn 0.3s ease-out;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  /* shadow-medium */
+  box-shadow: var(--spacing-effects-shadow-medium-offset-x, 0px)
+    var(--spacing-effects-shadow-medium-offset-y, 0px)
+    var(--spacing-effects-shadow-medium-blur, 16px)
+    var(--spacing-effects-shadow-small-spread, 0px)
+    var(--color-shadow-shadow-medium, rgba(15, 56, 90, 0.15));
+}
+
+.close-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: -12px;
+}
+
+.modal-divider {
+  border: none;
+  border-top: 1px solid var(--color-border-border-tertiary, #9aa3ac);
+  margin: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-universal-spacing-lg, 8px);
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  // Override para mostrar bullets en listas
+  ::ng-deep ul {
+    list-style-type: disc !important;
+    padding-left: var(--spacing-universal-spacing-2xl, 24px) !important;
+    margin: var(--spacing-universal-spacing-medium, 12px) 0 !important;
+
+    li {
+      list-style-type: disc !important;
+      margin-bottom: var(--spacing-universal-spacing-base, 8px);
+    }
+  }
+
+  ::ng-deep ol {
+    list-style-type: decimal !important;
+    padding-left: var(--spacing-universal-spacing-2xl, 24px) !important;
+    margin: var(--spacing-universal-spacing-medium, 12px) 0 !important;
+
+    li {
+      list-style-type: decimal !important;
+      margin-bottom: var(--spacing-universal-spacing-base, 8px);
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-universal-spacing-medium, 12px);
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 20px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}

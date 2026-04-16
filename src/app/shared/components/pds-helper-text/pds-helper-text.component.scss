@@ -1,0 +1,37 @@
+.pds-helper-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-xxs);
+
+  font-family: var(--input-font-label, Poppins);
+  font-size: var(--font-size-f-sm);
+  font-style: normal;
+  font-weight: var(--font-weight-w-semibold);
+  line-height: var(--line-height-lh-base);
+
+  // El ícono hereda el color del estado
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // ── Estados ─────────────────────────────────────────────────────────────────
+  &--default {
+    color: var(--fg-neutral-secondary);
+  }
+
+  &--info {
+    color: var(--fg-status-info);
+  }
+
+  &--error {
+    color: var(--fg-status-error);
+  }
+
+  &--warning {
+    color: var(--fg-status-warning);
+  }
+
+  &--success {
+    color: var(--fg-status-success);
+  }
+}

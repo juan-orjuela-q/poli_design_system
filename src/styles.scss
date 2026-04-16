@@ -1,0 +1,39 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+// @use '@angular/material' as mat;
+
+@use './assets/poligran/fuentes.scss';
+@use './assets/poligran/variables_foundation.scss';
+@use './assets/poligran/variables_tokens.scss';
+@use './assets/poligran/estilos_generales.scss';
+@use './assets/poligran/input_material.scss';
+@use './assets/poligran/layouts_poli.scss';
+@use "tailwindcss";
+
+// DS v2 — tokens mobile (overrides sobre typescale-desktop.css y layout-desktop.css)
+@media (max-width: 768px) {
+  :root {
+    --font-size-f-lg: 1.125rem;
+    --font-size-f-xl: 1.25rem;
+    --font-size-f-2xl: 1.5rem;
+    --font-size-f-3xl: 1.75rem;
+    --font-size-f-4xl: 2rem;
+    --font-size-f-5xl: 2.5rem;
+    --font-size-f-6xl: 3rem;
+    --font-size-f-7xl: 3.5rem;
+    --font-size-f-8xl: 4rem;
+    --font-size-f-9xl: 4.5rem;
+    --font-size-f-10xl: 5.25rem;
+    --font-size-component-cta: 1.125rem;
+    --spacing-layout-page-margin: 20px;
+    --spacing-layout-gutter: 20px;
+    --spacing-layout-section-gap: 40px;
+  }
+}
+
+@layer utilities {
+  .shadow-center {
+    @apply shadow-[0_0_10px_rgba(0,0,0,0.1)];
+  }
+}

@@ -1,0 +1,16 @@
+<button
+  [type]="type()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [ngClass]="buttonClasses()"
+  (click)="handleClick($event)">
+
+  @if (iconStart()) {
+    <pds-icon [name]="iconStart()!" size="sm" [ariaHidden]="true" />
+  }
+
+  <ng-content />
+
+  @if (iconEnd()) {
+    <pds-icon [name]="iconEnd()!" size="sm" [ariaHidden]="true" />
+  }
+</button>

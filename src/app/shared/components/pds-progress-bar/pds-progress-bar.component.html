@@ -1,0 +1,21 @@
+<div [ngClass]="containerClasses()">
+
+  @if (showValue()) {
+    <span class="pds-progress-bar__value" aria-hidden="true">{{ clampedValue() }}%</span>
+  }
+
+  <div
+    class="pds-progress-bar__track"
+    role="progressbar"
+    [attr.aria-valuenow]="clampedValue()"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-label]="label() ?? 'Cargando'">
+    <div class="pds-progress-bar__fill" [ngStyle]="fillStyle()"></div>
+  </div>
+
+  @if (label()) {
+    <pds-helper-text [status]="helperStatus()">{{ label() }}</pds-helper-text>
+  }
+
+</div>

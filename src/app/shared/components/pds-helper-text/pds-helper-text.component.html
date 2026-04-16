@@ -1,0 +1,8 @@
+<span [ngClass]="hostClasses()">
+  @if (icon()) {
+    <pds-icon [name]="icon()!" size="xs" aria-hidden="true" />
+  }
+  <span class="pds-helper-text__text">
+    <ng-content />
+  </span>
+</span>

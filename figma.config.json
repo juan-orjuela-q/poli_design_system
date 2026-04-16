@@ -1,0 +1,7 @@
+{
+  "codeConnect": {
+    "include": [
+      "src/app/shared/components/pds-**/*.figma.ts"
+    ]
+  }
+}

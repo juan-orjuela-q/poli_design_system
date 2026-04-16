@@ -1,0 +1,177 @@
+$remove-color: #002b49;
+
+.pds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-xs);
+  // padding-left para el label; padding-right se anula cuando hay remove (ver __remove margin)
+  padding: 0 var(--spacing-component-md);
+  height: 32px;      // altura visual
+  min-width: 48px;
+  position: relative; // necesario para el área táctil
+  border-radius: var(--radius-component-md, 10px);
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-component-tag, 14px);
+  font-style: normal;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: 1;           // 100%
+  letter-spacing: 0.28px;
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease;
+  border: none;
+  text-decoration: none;
+
+  // Área táctil mínima 48px (WCAG 2.5.5) sin alterar el layout
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px 0;
+  }
+
+  // Íconos heredan el color del estado
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // ── Variantes ────────────────────────────────────────────────────────────────
+  &--primary {
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+
+    &:not(.pds-tag--disabled):hover {
+      background: var(--action-primary-solid-bg-hover);
+      box-shadow: var(--shadow-component-hover);
+    }
+
+    &:not(.pds-tag--disabled):active {
+      background: var(--action-primary-solid-bg-pressed);
+      box-shadow: var(--shadow-component-pressed);
+    }
+
+    .pds-tag__remove {
+      background: rgba($remove-color, 0.9);
+      &:hover { background: rgba($remove-color, 1); }
+    }
+  }
+
+  &--secondary {
+    background: var(--action-secondary-solid-bg);
+    color: var(--action-secondary-solid-fg);
+    border: var(--border-thick) solid var(--action-secondary-solid-border);
+
+    &:not(.pds-tag--disabled):hover {
+      background: var(--action-secondary-solid-bg-hover);
+      box-shadow: var(--shadow-component-hover);
+    }
+
+    &:not(.pds-tag--disabled):active {
+      background: var(--action-secondary-solid-bg-pressed);
+      box-shadow: var(--shadow-component-pressed);
+    }
+
+    .pds-tag__remove {
+      background: rgba($remove-color, 0.15);
+      &:hover { background: rgba($remove-color, 0.25); }
+    }
+  }
+
+  &--tertiary {
+    background: transparent;
+    color: var(--action-primary-ghost-fg);
+    border: var(--border-thick) solid var(--border-brand-primary-solid);
+
+    &:not(.pds-tag--disabled):hover {
+      background: var(--action-primary-ghost-bg-hover);
+      box-shadow: var(--shadow-component-hover);
+    }
+
+    &:not(.pds-tag--disabled):active {
+      background: var(--action-primary-ghost-bg-pressed);
+      box-shadow: var(--shadow-component-pressed);
+    }
+
+    .pds-tag__remove {
+      background: rgba($remove-color, 0.10);
+      &:hover { background: rgba($remove-color, 0.20); }
+    }
+  }
+
+  // ── Estado deshabilitado (convención Button) ──────────────────────────────────
+  &--primary#{&}--disabled {
+    background: var(--action-neutral-solid-bg-disabled);
+    color: var(--action-primary-solid-fg);
+    cursor: not-allowed;
+    .pds-tag__remove {
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &--secondary#{&}--disabled {
+    background: var(--action-neutral-solid-bg-disabled);
+    color: var(--action-primary-solid-fg);
+    border-color: transparent;
+    cursor: not-allowed;
+    .pds-tag__remove {
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  &--tertiary#{&}--disabled {
+    background: transparent;
+    border-color: var(--action-neutral-solid-bg-disabled);
+    color: var(--action-neutral-solid-bg-disabled);
+    cursor: not-allowed;
+    .pds-tag__remove {
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  // ── Focus visible ──────────────────────────────────────────────────────────
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+
+  // ── Texto ──────────────────────────────────────────────────────────────────
+  &__label {
+    white-space: nowrap;
+  }
+
+  // ── Botón eliminar ────────────────────────────────────────────────────────
+  // Flush al borde derecho: margin negativo cancela el padding del padre,
+  // align-self: stretch lo lleva al alto completo del tag.
+  // overflow: hidden en el padre lo recorta con el radius.
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;                                   // ocupa el alto completo
+    margin-right: calc(-1 * var(--spacing-component-md)); // flush al borde derecho
+    padding: 0 var(--spacing-component-sm);               // espacio interno del icono
+    // redondear solo las esquinas derechas para encajar con el radius del tag
+    border-radius: 0 var(--radius-component-md, 10px) var(--radius-component-md, 10px) 0;
+    cursor: pointer;
+    transition: background 150ms ease;
+    position: relative; // necesario para el área táctil
+
+    // Área táctil 48×48px independiente del área del tag
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -8px -14px;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 6px var(--action-primary-focus-ring);
+    }
+  }
+}
+

@@ -1,0 +1,150 @@
+<div class="forgot-username-container">
+  
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+        <h1 class="poli-titulo-h2">{{ pageTitle }}</h1>
+        <p class="page-description poli-cuerpo-base">{{ pageSubtitle }}</p>
+      </div>
+      <div class="header-actions">
+        <app-button 
+          type="outline" 
+          size="medium"
+          iconStart="help"
+          (onclick)="openHelpModal()">
+          Ayuda
+        </app-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor gris externo -->
+  <div class="process-outer-container">
+    
+    <!-- Tarjeta blanca del proceso -->
+    <div class="process-card">
+
+      <!-- =============== FORMULARIO =============== -->
+      <div *ngIf="currentView() === 'form'" class="form-view">
+        <p class="form-description">
+          Ingresa tu número de documento y te enviaremos un mensaje al <strong>correo personal</strong> que tenemos registrado, con instrucciones para recuperar tu usuario.
+        </p>
+
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="forgot-username-form">
+          
+          <app-form-input
+            type="text"
+            label="Número de documento"
+            placeholder="Ingresa tu número de documento"
+            formControlName="documentNumber"
+            [required]="true"
+            [status]="documentNumberStatus"
+            [message]="documentNumberMessage"
+            hint="Sin puntos ni espacios">
+          </app-form-input>
+
+          <div class="form-group" [ngClass]="roleStatus">
+            <label class="form-group__label">
+              <span class="form-group__label-text">Selecciona tu rol</span>
+              <span class="form-group__required-tag">*</span>
+            </label>
+            <div class="form-group__control">
+              <app-radio-group
+                formControlName="role"
+                [options]="roleOptions"
+                name="role">
+              </app-radio-group>
+              <span *ngIf="roleMessage" class="form-group__message poli-utility-info-adicional" [ngClass]="roleStatus">
+                {{ roleMessage }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <app-button 
+              type="primary" 
+              size="medium"
+              iconEnd="arrow_forward"
+              (onclick)="onSubmit()">
+              Continuar
+            </app-button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- =============== ESTADO DE ÉXITO =============== -->
+      <div *ngIf="currentView() === 'success'" class="success-view">
+        <div class="success-icon">
+          <app-icon icon="check_circle" size="56px"></app-icon>
+        </div>
+        
+        <p class="success-message">Hemos enviado un correo a:</p>
+        <p class="success-email">{{ maskedEmail() }}</p>
+        <p class="success-instructions">Con instrucciones para recuperar tu usuario.</p>
+
+        <app-button 
+          type="primary" 
+          size="medium"
+          iconStart="arrow_back"
+          (onclick)="onReturnToHome()">
+          Regresar al inicio
+        </app-button>
+      </div>
+
+      <!-- =============== ESTADO DE ERROR =============== -->
+      <div *ngIf="currentView() === 'error'" class="error-view">
+        <app-alert
+          type="danger"
+          size="medium"
+          title="Usuario no encontrado"
+          description="No encontramos un usuario registrado con la información suministrada. Verifica tus datos e intenta nuevamente."
+          [closable]="false">
+        </app-alert>
+
+        <div class="error-actions">
+          <app-button 
+            type="outline" 
+            size="medium"
+            iconStart="arrow_back"
+            (onclick)="onBackToForm()">
+            Volver a intentar
+          </app-button>
+          <app-button 
+            type="primary" 
+            size="medium"
+            (onclick)="onReturnToHome()">
+            Regresar al inicio
+          </app-button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de ayuda -->
+<app-modal
+  [visible]="showHelpModal()"
+  [title]="'¿Necesitas ayuda?'"
+  [primaryButtonText]="'Cerrar'"
+  (primary)="closeHelpModal()"
+  (closed)="closeHelpModal()">
+  <div modal-text>
+    <h3 class="help-section-title">Recuperación de usuario</h3>
+    <p class="help-text">
+      Si olvidaste tu nombre de usuario, ingresa tu número de documento y selecciona tu rol.
+      Te enviaremos un correo al email personal que tenemos registrado con tu nombre de usuario.
+    </p>
+    
+    <h3 class="help-section-title">¿Qué hago si no recibo el correo?</h3>
+    <ul class="help-list">
+      <li>Verifica que los datos ingresados sean correctos</li>
+      <li>Revisa tu carpeta de spam o correo no deseado</li>
+      <li>Asegúrate de tener un correo personal registrado en el sistema</li>
+      <li>Si el problema persiste, contacta a soporte técnico</li>
+    </ul>
+  </div>
+</app-modal>

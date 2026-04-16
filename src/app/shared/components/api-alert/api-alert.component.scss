@@ -1,0 +1,197 @@
+@use "sass:map";
+
+$radius: var(--radius-lg, 0.75rem);
+
+// Color tokens (background & border & text per status)
+$palette: (
+  light: (
+    bg: var(--color-surface-surface-primary, #fff),
+    border: var(--color-border-border-quaternary, #c7ccd1),
+  ),
+  info: (
+    bg: var(--color-surface-surface-panel-info, rgba(21, 190, 206, 0.1)),
+    border: var(--colores-marca-poli-cian-base, #15bece),
+  ),
+  success: (
+    bg: var(--color-surface-surface-panel-success, rgba(166, 206, 56, 0.1)),
+    border: var(--colores-marca-poli-verde-base, #a6ce38),
+  ),
+  warning: (
+    bg: var(--color-surface-surface-panel-warning, rgba(251, 175, 23, 0.1)),
+    border: var(--colores-marca-poli-amarillo-base, #fbaf17),
+  ),
+  danger: (
+    bg: var(--color-surface-surface-panel-danger, rgba(236, 6, 119, 0.1)),
+    border: var(--colores-marca-poli-magenta-base, #ec0677),
+  ),
+);
+
+// Mixin for status styles
+@mixin alert-theme($status) {
+  background-color: map.get($palette, $status, bg);
+  border: 2px solid map.get($palette, $status, border);
+  .alert__icon {
+    background-color: map.get($palette, $status, border);
+  }
+}
+
+// Base alert component
+.alert {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  position: relative;
+  border-radius: $radius;
+  animation: slideIn 0.3s ease-out;
+
+  // Status variants
+  &.light {
+    @include alert-theme(light);
+  }
+  &.info {
+    @include alert-theme(info);
+  }
+  &.success {
+    @include alert-theme(success);
+  }
+  &.warning {
+    @include alert-theme(warning);
+  }
+  &.danger {
+    @include alert-theme(danger);
+  }
+
+  // Size: medium (fixed for api-alert)
+  &.medium {
+    padding: 0;
+    box-shadow: var(--spacing-effects-shadow-small-offset-x, 0px)
+      var(--spacing-effects-shadow-small-offset-y, 1px)
+      var(--spacing-effects-shadow-small-blur, 2px)
+      var(--spacing-effects-shadow-small-spread, 0px) 
+      var(--color-shadow-shadow-sm, rgba(15, 56, 90, 0.10));
+    backdrop-filter: blur(calc(var(--spacing-effects-background-blur-xl, 40px) / 2));
+    border: none;
+    overflow: hidden;
+    gap: var(--spacing-universal-spacing-medium, 12px);
+    margin-bottom: 16px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Icon container
+.alert__icon {
+  padding: var(--spacing-universal-spacing-xl, 20px) var(--spacing-universal-spacing-base, 8px);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  
+  ::ng-deep .material-symbols-rounded {
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Body content
+.alert__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-universal-spacing-base, 8px) var(--spacing-universal-spacing-xl, 20px) var(--spacing-universal-spacing-base, 8px) 0;
+  gap: var(--spacing-universal-spacing-base, 8px);
+  min-width: 0;
+}
+
+.alert__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alert__title {
+  margin: 0;
+  font-size: var(--tipografia-font-size-headers-header-h6, 20px);
+  line-height: var(--tipografia-line-height-headers-line-height-header-h6, 30px);
+  letter-spacing: var(--tipografia-letter-spacing-normal, 0px);
+  font-weight: 600;
+}
+
+.alert__description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alert__details {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.4;
+  
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+.alert__trace-id {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  opacity: 0.7;
+  font-family: monospace;
+}
+
+// Close button
+.alert__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: 600;
+  height: var(--spacing-button-button-small-height, 32px);
+  width: var(--spacing-button-button-small-height, 32px);
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 640px) {
+  .alert {
+    gap: 8px;
+  }
+  
+  .alert__body {
+    padding: var(--spacing-universal-spacing-base, 8px) var(--spacing-universal-spacing-medium, 12px) var(--spacing-universal-spacing-base, 8px) 0;
+  }
+  
+  .alert__title {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  
+  .alert__description {
+    font-size: 13px;
+  }
+}

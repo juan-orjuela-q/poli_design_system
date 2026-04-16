@@ -1,0 +1,18 @@
+<div class="modal-backdrop" (click)="onBackdropClick()" *ngIf="visible"></div>
+<div class="modal-container" *ngIf="visible" role="dialog" aria-modal="true" [attr.aria-labelledby]="title ? 'modal-title' : null" [attr.aria-label]="title ? null : 'Diálogo'">
+  <div class="close-container">
+    <app-button type="ghost" iconStart="close" (click)="close()" aria-label="Cerrar">Cerrar</app-button>
+  </div>
+  <hr class="modal-divider" />
+  <div class="info">
+    <h4 *ngIf="title" id="modal-title" class="modal-title m-0">{{ title }}</h4>
+    <ng-content select="[modal-text]"></ng-content>
+    <div *ngIf="!hasProjectedText">{{ text }}</div>
+  </div>
+  <hr class="modal-divider" />
+  <div class="footer" *ngIf="primaryButtonText">
+    <app-button [type]="secondaryButtonType" *ngIf="secondaryButtonText" (click)="onSecondary()">{{ secondaryButtonText
+      }}</app-button>
+    <app-button [type]="primaryButtonType" (click)="onPrimary()">{{ primaryButtonText }}</app-button>
+  </div>
+</div>

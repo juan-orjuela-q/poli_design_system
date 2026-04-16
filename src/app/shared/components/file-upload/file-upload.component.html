@@ -1,0 +1,52 @@
+<div class="file-upload">
+  <label class="file-upload__label poli-labels-label-base">
+    {{ label }}
+    <span class="file-upload__required" *ngIf="required">*</span>
+  </label>
+  
+  <p class="file-upload__help-text poli-utility-info-adicional-2">
+    {{ attachmentHelpText }}
+  </p>
+
+  <!-- Lista de archivos subidos -->
+  <div *ngIf="uploadedFiles.length > 0" class="file-upload__file-list">
+    <app-attachment-item
+      *ngFor="let file of uploadedFiles; let i = index"
+      [fileName]="file.name"
+      [fileSizeFormatted]="formatFileSize(file.size)"
+      [mode]="'delete'"
+      (delete)="removeFile(i)"
+    ></app-attachment-item>
+  </div>
+
+  <!-- Botón para agregar archivos -->
+  <div *ngIf="canAddMoreFiles" class="file-upload__upload-button">
+    <input 
+      type="file" 
+      #fileInput
+      [accept]="allowedFileTypes.length > 0 ? '.' + allowedFileTypes.join(',.') : '*'"
+      (change)="onFileSelected($event)"
+      style="display: none"
+      [id]="'file-upload-' + label"
+    />
+    <app-button
+      [type]="'outline'"
+      [size]="'small'"
+      [iconStart]="'attach_file'"
+      (onclick)="fileInput.click()"
+    >
+      {{ uploadedFiles.length === 0 ? 'Adjuntar archivo' : 'Adjuntar otro archivo' }}
+    </app-button>
+  </div>
+
+  <!-- Mensaje de validación -->
+  <div 
+    *ngIf="!isAttachmentValid && uploadedFiles.length > 0" 
+    class="file-upload__error"
+  >
+    <span class="material-icons">error</span>
+    <span class="poli-utility-info-adicional-2">
+      Debes adjuntar entre {{ minAttachments }} y {{ maxAttachments }} archivo(s)
+    </span>
+  </div>
+</div>

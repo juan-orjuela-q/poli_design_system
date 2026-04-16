@@ -1,0 +1,26 @@
+<div class="avatar"
+     [ngClass]="[type, 'size-' + size, status ? 'has-status' : '', notification ? 'has-notification' : '']">
+  <!-- Imagen -->
+  <ng-container *ngIf="type === 'image'">
+    <img *ngIf="src" [src]="src" alt="Avatar" class="avatar-img" />
+    <span *ngIf="!src" class="avatar-placeholder-icon"><app-icon icon="person"></app-icon></span>
+  </ng-container>
+
+  <!-- Placeholder -->
+  <ng-container *ngIf="type === 'placeholder'">
+    <span class="avatar-placeholder-icon"><app-icon>person</app-icon></span>
+  </ng-container>
+
+  <!-- Letter -->
+  <ng-container *ngIf="type === 'letter'">
+    <span class="avatar-letter">{{ letter || '?' }}</span>
+  </ng-container>
+
+  <!-- Notificación -->
+  <span *ngIf="notification" class="avatar-notification">
+    <ng-container *ngIf="size === '2xl' && typeof notification === 'number'">{{ notification }}</ng-container>
+  </span>
+
+  <!-- Status -->
+  <span *ngIf="status" class="avatar-status" [ngClass]="status"></span>
+</div>

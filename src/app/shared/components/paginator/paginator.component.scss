@@ -1,0 +1,48 @@
+/* paginator.component.scss – estilo extra */
+:host ::ng-deep .mat-mdc-paginator {
+  background: transparent;
+  font-family: var(--tipografia-font-family-family-sans-heading, Poppins);
+  color: var(--color-text-text-tertiary, #6e7a87);
+  font-size: var(--tipografia-font-size-body-body-sm, 14px);
+  //
+  .mat-mdc-select-value {
+    font-family: var(--tipografia-font-family-family-sans-body, "Open Sans");
+    font-size: var(--tipografia-font-size-body-body-base, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(
+      --tipografia-line-height-body-line-height-body-base,
+      22px
+    ); /* 137.5% */
+    letter-spacing: var(--tipografia-letter-spacing-normal, 0px);
+  }
+  //
+  .mat-mdc-icon-button {
+    color: #00838f;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+  //
+  .mat-mdc-paginator-range-label {
+    margin: 0 var(--spacing-universal-spacing-base);
+  }
+  .mat-mdc-paginator-page-size-select > .mdc-text-field {
+    background: var(--colores-marca-poli-azul-claro-light, #f0f8ff);
+    border-radius: 10px;
+  }
+
+  .mat-mdc-notch-piece {
+    border-color: var(--colores-marca-poli-azul-claro-dark, #b4d8fd) !important;
+  }
+  .mdc-notched-outline__leading {
+    border-top-left-radius: var(--radius-inputs-inputs-base-radius, 10px);
+    border-bottom-left-radius: var(--radius-inputs-inputs-base-radius, 10px);
+  }
+  .mdc-notched-outline__trailing {
+    border-top-right-radius: var(--radius-inputs-inputs-base-radius, 10px);
+    border-bottom-right-radius: var(--radius-inputs-inputs-base-radius, 10px);
+  }
+  
+  
+}

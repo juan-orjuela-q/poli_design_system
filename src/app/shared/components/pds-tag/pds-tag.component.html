@@ -1,0 +1,31 @@
+<!--
+  Outer: <button> para soporte nativo de teclado y AT.
+  Remove: <span role="button"> para evitar <button> anidado en <button> (HTML inválido).
+-->
+<button
+  type="button"
+  [ngClass]="tagClasses()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [attr.aria-pressed]="selected()"
+  (click)="handleClick($event)">
+
+  @if (iconStart()) {
+    <pds-icon [name]="iconStart()!" size="xs" aria-hidden="true" />
+  }
+
+  <span class="pds-tag__label"><ng-content /></span>
+
+  @if (removable()) {
+    <span
+      role="button"
+      class="pds-tag__remove"
+      [attr.tabindex]="disabled() ? '-1' : '0'"
+      [attr.aria-label]="removeAriaLabel()"
+      [attr.aria-disabled]="disabled() ? 'true' : null"
+      (click)="onRemove($event)"
+      (keydown)="handleRemoveKeydown($event)">
+      <pds-icon name="close" size="xs" aria-hidden="true" />
+    </span>
+  }
+
+</button>
