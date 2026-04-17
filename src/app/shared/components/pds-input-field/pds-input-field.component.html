@@ -1,10 +1,19 @@
 <div [ngClass]="hostClasses()">
-  <label class="pds-input-field__label" [for]="inputId">
-    {{ label() }}
-    @if (required()) {
-      <span class="pds-input-field__required" aria-hidden="true"> *</span>
+  <div class="pds-input-field__label-row">
+    <label class="pds-input-field__label" [for]="inputId">
+      {{ label() }}
+      @if (required()) {
+        <span class="pds-input-field__required" aria-hidden="true"> *</span>
+      }
+    </label>
+    @if (helpText()) {
+      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
+        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
+          <pds-icon name="help" size="xs" [ariaHidden]="true" />
+        </button>
+      </pds-tooltip>
     }
-  </label>
+  </div>
 
   <div [ngClass]="wrapperClasses()">
     @if (iconStart()) {
@@ -28,7 +37,7 @@
       [attr.autocomplete]="autocomplete() || null"
       [attr.aria-required]="required() ? 'true' : null"
       [attr.aria-invalid]="status() === 'error' ? 'true' : null"
-      [attr.aria-describedby]="helperText() || showCounter() ? helperId : null"
+      [attr.aria-describedby]="feedbackText() || showCounter() ? helperId : null"
       [attr.readonly]="readonly() ? '' : null"
       [attr.disabled]="internalDisabled() ? '' : null"
       (input)="handleInput($event)"
@@ -60,10 +69,10 @@
     }
   </div>
 
-  @if (helperText() || showCounter()) {
+  @if (feedbackText() || showCounter()) {
     <div class="pds-input-field__footer" [id]="helperId">
-      @if (helperText()) {
-        <pds-helper-text [text]="helperText()!" [status]="helperStatus()" />
+      @if (feedbackText()) {
+        <pds-helper-text [status]="helperStatus()">{{ feedbackText() }}</pds-helper-text>
       }
       @if (showCounter() && maxLength()) {
         <span class="pds-input-field__counter" aria-live="polite">

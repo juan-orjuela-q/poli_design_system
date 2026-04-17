@@ -16,7 +16,9 @@ const meta: Meta<PdsInputFieldComponent> = {
     showCounter: { control: 'boolean' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
-    helperText: { control: 'text' },
+    feedbackText: { control: 'text' },
+    maxLength: { control: 'number' },
+    helpText: { control: 'text' },
   },
   parameters: { layout: 'padded' },
 };
@@ -28,24 +30,33 @@ export const Default: Story = {
   args: { label: 'Nombre completo', placeholder: 'Ingresa tu nombre' },
 };
 
-export const WithHelperText: Story = {
-  args: { label: 'Correo electrónico', type: 'email', placeholder: 'nombre@poli.edu.co', helperText: 'Usa tu correo institucional' },
+export const WithHelpTooltip: Story = {
+  args: {
+    label: 'Correo electrónico',
+    type: 'email',
+    placeholder: 'nombre@poli.edu.co',
+    helpText: 'Usa tu correo institucional @poligran.edu.co. No uses cuentas personales.',
+  },
+};
+
+export const WithFeedbackText: Story = {
+  args: { label: 'Correo electrónico', type: 'email', placeholder: 'nombre@poli.edu.co', feedbackText: 'Usa tu correo institucional' },
 };
 
 export const Error: Story = {
-  args: { label: 'Email', type: 'email', status: 'error', helperText: 'El correo no tiene un formato válido', value: 'correo-invalido' },
+  args: { label: 'Email', type: 'email', status: 'error', feedbackText: 'El correo no tiene un formato válido', value: 'correo-invalido' },
 };
 
 export const Warning: Story = {
-  args: { label: 'Usuario', status: 'warning', helperText: 'Este usuario ya existe, verifica', value: 'jgarcia' },
+  args: { label: 'Usuario', status: 'warning', feedbackText: 'Este usuario ya existe, verifica', value: 'jgarcia' },
 };
 
 export const Success: Story = {
-  args: { label: 'Email', type: 'email', status: 'success', helperText: 'Correo verificado', value: 'juan@poli.edu.co' },
+  args: { label: 'Email', type: 'email', status: 'success', feedbackText: 'Correo verificado', value: 'juan@poli.edu.co' },
 };
 
 export const Loading: Story = {
-  args: { label: 'Buscar código', status: 'loading', placeholder: 'Ej: 101010', helperText: 'Verificando disponibilidad...' },
+  args: { label: 'Buscar código', status: 'loading', placeholder: 'Ej: 101010', feedbackText: 'Verificando disponibilidad...' },
 };
 
 export const Password: Story = {

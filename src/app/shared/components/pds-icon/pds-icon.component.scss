@@ -14,11 +14,12 @@
 
   // Tamanios: font-size + bounding box + opsz ajustado al tamano real
   // opsz correcto evita espacio optico sobrante que desalinea el icono
-  &--xs { font-size: var(--icon-xs); width: var(--icon-xs); height: var(--icon-xs); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 16; }
-  &--sm { font-size: var(--icon-sm); width: var(--icon-sm); height: var(--icon-sm); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
-  &--md { font-size: var(--icon-md); width: var(--icon-md); height: var(--icon-md); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  &--lg { font-size: var(--icon-lg); width: var(--icon-lg); height: var(--icon-lg); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32; }
-  &--xl { font-size: var(--icon-xl); width: var(--icon-xl); height: var(--icon-xl); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40; }
+  // --pds-icon-fill permite que un padre inyecte FILL=1 (filled) sin ::ng-deep
+  &--xs { font-size: var(--icon-xs); width: var(--icon-xs); height: var(--icon-xs); font-variation-settings: 'FILL' var(--pds-icon-fill, 0), 'wght' 400, 'GRAD' 0, 'opsz' 16; }
+  &--sm { font-size: var(--icon-sm); width: var(--icon-sm); height: var(--icon-sm); font-variation-settings: 'FILL' var(--pds-icon-fill, 0), 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  &--md { font-size: var(--icon-md); width: var(--icon-md); height: var(--icon-md); font-variation-settings: 'FILL' var(--pds-icon-fill, 0), 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  &--lg { font-size: var(--icon-lg); width: var(--icon-lg); height: var(--icon-lg); font-variation-settings: 'FILL' var(--pds-icon-fill, 0), 'wght' 400, 'GRAD' 0, 'opsz' 32; }
+  &--xl { font-size: var(--icon-xl); width: var(--icon-xl); height: var(--icon-xl); font-variation-settings: 'FILL' var(--pds-icon-fill, 0), 'wght' 400, 'GRAD' 0, 'opsz' 40; }
 
   // ── Modos de color — solo foreground (sin background) ─────────────────────
   // --pds-icon-color permite que un componente padre (ej. pds-button) inyecte

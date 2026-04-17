@@ -1,10 +1,19 @@
 <div class="pds-select-field-container" [ngClass]="hostClasses()" [id]="selectId + '-container'">
-  <label class="pds-select-field__label" [for]="selectId">
-    {{ label() }}
-    @if (required()) {
-      <span class="pds-select-field__required" aria-hidden="true"> *</span>
+  <div class="pds-select-field__label-row">
+    <label class="pds-select-field__label" [for]="selectId">
+      {{ label() }}
+      @if (required()) {
+        <span class="pds-select-field__required" aria-hidden="true"> *</span>
+      }
+    </label>
+    @if (helpText()) {
+      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
+        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
+          <pds-icon name="help" size="xs" [ariaHidden]="true" />
+        </button>
+      </pds-tooltip>
     }
-  </label>
+  </div>
 
   <button
     type="button"
@@ -17,7 +26,7 @@
     [attr.aria-activedescendant]="activedescendant()"
     [attr.aria-required]="required() ? 'true' : null"
     [attr.aria-invalid]="status() === 'error' ? 'true' : null"
-    [attr.aria-describedby]="helperText() ? helperId : null"
+    [attr.aria-describedby]="feedbackText() ? helperId : null"
     [attr.aria-disabled]="internalDisabled() ? 'true' : null"
     (click)="toggleOpen()"
   >
@@ -64,7 +73,7 @@
 
   @if (helperText()) {
     <div [id]="helperId">
-      <pds-helper-text [text]="helperText()!" [status]="status() === 'default' ? 'default' : status()" />
+      <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{ feedbackText() }}</pds-helper-text>
     </div>
   }
 </div>

@@ -6,11 +6,18 @@
 
   &__legend {
     font-family: var(--input-font-label, Poppins);
-    font-size: var(--font-size-f-sm);
-    font-weight: var(--font-weight-w-semibold);
-    color: var(--fg-brand-primary);
+    font-size: var(--font-size-f-base, 16px);
+    font-style: normal;
+    font-weight: var(--font-weight-w-medium, 500);
+    color: var(--fg-brand-primary, #0F385A);
+    line-height: 1;
     margin-bottom: var(--spacing-component-lg);
     padding: 0;
+  }
+
+  // Legend disabled — el fieldset recibe [attr.disabled] cuando el grupo está deshabilitado
+  &[disabled] &__legend {
+    color: var(--fg-neutral-disabled);
   }
 
   &__list {

@@ -14,7 +14,7 @@ const meta: Meta<PdsTextareaFieldComponent> = {
     showCounter: { control: 'boolean' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
-    helperText: { control: 'text' },
+    feedbackText: { control: 'text' },
     rows: { control: 'number' },
   },
   parameters: { layout: 'padded' },
@@ -28,15 +28,15 @@ export const Default: Story = {
 };
 
 export const WithHelperText: Story = {
-  args: { label: 'Observaciones', helperText: 'Máximo 300 caracteres', maxLength: 300, showCounter: true },
+  args: { label: 'Observaciones', feedbackText: 'Máximo 300 caracteres', maxLength: 300, showCounter: true },
 };
 
 export const Error: Story = {
-  args: { label: 'Descripción', status: 'error', helperText: 'Este campo es requerido' },
+  args: { label: 'Descripción', status: 'error', feedbackText: 'Este campo es requerido' },
 };
 
 export const Success: Story = {
-  args: { label: 'Justificación', status: 'success', helperText: 'Texto validado', value: 'Justificación completa.' },
+  args: { label: 'Justificación', status: 'success', feedbackText: 'Texto validado', value: 'Justificación completa.' },
 };
 
 export const Disabled: Story = {

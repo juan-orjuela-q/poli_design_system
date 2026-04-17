@@ -16,6 +16,7 @@ import { PdsIconComponent } from '../pds-icon/pds-icon.component';
 import { PdsIconButtonComponent } from '../pds-icon-button/pds-icon-button.component';
 import { PdsLoadingCircleComponent } from '../pds-loading-circle/pds-loading-circle.component';
 import { PdsHelperTextComponent } from '../pds-helper-text/pds-helper-text.component';
+import { PdsTooltipComponent } from '../pds-tooltip/pds-tooltip.component';
 
 let inputCounter = 0;
 
@@ -25,7 +26,7 @@ export type InputFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 
 @Component({
   selector: 'pds-input-field',
   standalone: true,
-  imports: [NgClass, PdsIconComponent, PdsIconButtonComponent, PdsLoadingCircleComponent, PdsHelperTextComponent],
+  imports: [NgClass, PdsIconComponent, PdsIconButtonComponent, PdsLoadingCircleComponent, PdsHelperTextComponent, PdsTooltipComponent],
   templateUrl: './pds-input-field.component.html',
   styleUrl: './pds-input-field.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,11 +42,12 @@ export class PdsInputFieldComponent implements ControlValueAccessor {
   @ViewChild('inputEl') inputEl!: ElementRef<HTMLInputElement>;
 
   readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
   readonly placeholder = input<string>('');
   readonly type = input<InputFieldType>('text');
   readonly value = input<string>('');
   readonly status = input<InputFieldStatus>('default');
-  readonly helperText = input<string | null>(null);
+  readonly feedbackText = input<string | null>(null);
   readonly maxLength = input<number | null>(null);
   readonly showCounter = input<boolean>(false);
   readonly required = input<boolean>(false);

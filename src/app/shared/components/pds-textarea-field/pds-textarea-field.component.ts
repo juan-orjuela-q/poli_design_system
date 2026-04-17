@@ -11,6 +11,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { PdsHelperTextComponent } from '../pds-helper-text/pds-helper-text.component';
+import { PdsIconComponent } from '../pds-icon/pds-icon.component';
+import { PdsTooltipComponent } from '../pds-tooltip/pds-tooltip.component';
 
 let textareaCounter = 0;
 
@@ -19,7 +21,7 @@ export type TextareaStatus = 'default' | 'error' | 'warning' | 'success';
 @Component({
   selector: 'pds-textarea-field',
   standalone: true,
-  imports: [NgClass, PdsHelperTextComponent],
+  imports: [NgClass, PdsHelperTextComponent, PdsIconComponent, PdsTooltipComponent],
   templateUrl: './pds-textarea-field.component.html',
   styleUrl: './pds-textarea-field.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,10 +35,11 @@ export type TextareaStatus = 'default' | 'error' | 'warning' | 'success';
 })
 export class PdsTextareaFieldComponent implements ControlValueAccessor {
   readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
   readonly placeholder = input<string>('');
   readonly value = input<string>('');
   readonly status = input<TextareaStatus>('default');
-  readonly helperText = input<string | null>(null);
+  readonly feedbackText = input<string | null>(null);
   readonly maxLength = input<number | null>(null);
   readonly showCounter = input<boolean>(false);
   readonly rows = input<number>(3);

@@ -13,6 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { PdsIconComponent } from '../pds-icon/pds-icon.component';
 import { PdsHelperTextComponent } from '../pds-helper-text/pds-helper-text.component';
+import { PdsTooltipComponent } from '../pds-tooltip/pds-tooltip.component';
 
 let selectCounter = 0;
 
@@ -25,7 +26,7 @@ export interface SelectOption {
 @Component({
   selector: 'pds-select-field',
   standalone: true,
-  imports: [NgClass, PdsIconComponent, PdsHelperTextComponent],
+  imports: [NgClass, PdsIconComponent, PdsHelperTextComponent, PdsTooltipComponent],
   templateUrl: './pds-select-field.component.html',
   styleUrl: './pds-select-field.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,11 +40,12 @@ export interface SelectOption {
 })
 export class PdsSelectFieldComponent implements ControlValueAccessor {
   readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
   readonly options = input.required<SelectOption[]>();
   readonly value = input<string | null>(null);
   readonly placeholder = input<string>('Selecciona una opción');
   readonly status = input<'default' | 'error' | 'warning' | 'success'>('default');
-  readonly helperText = input<string | null>(null);
+  readonly feedbackText = input<string | null>(null);
   readonly disabled = input<boolean>(false);
   readonly required = input<boolean>(false);
 
@@ -81,6 +83,7 @@ export class PdsSelectFieldComponent implements ControlValueAccessor {
   protected readonly hostClasses = computed(() => ({
     'pds-select-field': true,
     [`pds-select-field--${this.status()}`]: this.status() !== 'default',
+    'pds-select-field--disabled': this.internalDisabled(),
   }));
 
   protected activeOptionId(index: number): string {

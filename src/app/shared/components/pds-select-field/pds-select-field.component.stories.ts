@@ -20,7 +20,7 @@ const meta: Meta<PdsSelectFieldComponent> = {
     required: { control: 'boolean' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
-    helperText: { control: 'text' },
+    feedbackText: { control: 'text' },
   },
   parameters: { layout: 'padded' },
 };
@@ -37,7 +37,7 @@ export const WithValue: Story = {
 };
 
 export const Error: Story = {
-  args: { label: 'Facultad', options: FACULTIES, status: 'error', helperText: 'Debes seleccionar una facultad', required: true },
+  args: { label: 'Facultad', options: FACULTIES, status: 'error', feedbackText: 'Debes seleccionar una facultad', required: true },
 };
 
 export const Disabled: Story = {
@@ -58,7 +58,7 @@ export const WithReactiveForm: Story = {
           placeholder="Selecciona una facultad"
           [options]="options"
           [status]="ctrl.invalid && ctrl.touched ? 'error' : 'default'"
-          [helperText]="ctrl.invalid && ctrl.touched ? 'Selección requerida' : null"
+          [feedbackText]="ctrl.invalid && ctrl.touched ? 'Selección requerida' : null"
           [formControl]="ctrl"
           [required]="true"
         />
