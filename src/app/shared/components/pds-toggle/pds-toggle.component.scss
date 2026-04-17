@@ -1,0 +1,112 @@
+.pds-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-sm);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  position: relative;
+
+  // Touch target mínimo 48px (WCAG 2.5.5) — track de 24px, 12px de expansión
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -12px 0;
+  }
+
+  &__track {
+    position: relative;
+    flex-shrink: 0;
+    width: 44px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--action-neutral-solid-bg, #627380);
+    transition: background 150ms ease;
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--action-neutral-solid-fg, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 150ms ease;
+  }
+
+  // Check icon — solo visible en ON (renderizado condicionalmente en el HTML)
+  &__check {
+    --pds-icon-color: var(--action-primary-solid-bg, #0f385a);
+  }
+
+  &__label {
+    font-family: var(--text-body, 'Open Sans');
+    font-size: var(--font-size-f-sm);
+    color: var(--fg-brand-primary);
+    line-height: var(--line-height-lh-base);
+    pointer-events: none;
+  }
+
+  // Hover — OFF track más oscuro (intención real del usuario)
+  &:not(.pds-toggle--disabled):not(.pds-toggle--on):hover &__track {
+    background: var(--action-neutral-solid-bgHover, #3B4651);
+  }
+
+  // On state
+  &--on &__track {
+    background: var(--action-primary-solid-bg);
+  }
+
+  &--on &__thumb {
+    transform: translateX(20px);
+    background: var(--action-primary-solid-fg, #ffffff);
+  }
+
+  // Hover — ON track ligeramente más claro
+  &:not(.pds-toggle--disabled).pds-toggle--on:hover &__track {
+    background: var(--action-primary-solid-bg-hover, #165386);
+  }
+
+  // Focus visible — OFF usa anillo neutral, ON usa anillo primario
+  &:focus-visible {
+    outline: none;
+
+    .pds-toggle__track {
+      box-shadow:
+        0 0 0 var(--border-thin) var(--action-focus-inner),
+        0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-neutral-focus-ring);
+    }
+  }
+
+  &.pds-toggle--on:focus-visible .pds-toggle__track {
+    box-shadow:
+      0 0 0 var(--border-thin) var(--action-focus-inner),
+      0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring);
+  }
+
+  // Disabled
+  // Nota: --button-opacity-disabled vale 80 (sin unidad) en el token global;
+  // se usa 0.8 directamente hasta que el token sea corregido a 0.8.
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  // Disabled OFF: mantiene el color base (sin degradar a subtle)
+  &--disabled:not(.pds-toggle--on) &__track {
+    background: var(--action-neutral-solid-bg, #627380);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__track,
+    &__thumb {
+      transition: none;
+    }
+  }
+}

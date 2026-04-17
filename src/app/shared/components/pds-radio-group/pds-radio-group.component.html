@@ -1,0 +1,16 @@
+<fieldset class="pds-radio-group" [attr.disabled]="internalDisabled() ? '' : null">
+  <legend class="pds-radio-group__legend">{{ groupLabel() }}</legend>
+  <div [ngClass]="listClasses()">
+    @for (option of options(); track option.value; let i = $index) {
+      <pds-radio
+        [label]="option.label"
+        [name]="name()"
+        [value]="option.value"
+        [checked]="isChecked(option.value)"
+        [disabled]="isDisabled(option)"
+        [tabIndex]="getTabIndex(option.value, i)"
+        (checkedChange)="handleSelect($event)"
+      />
+    }
+  </div>
+</fieldset>

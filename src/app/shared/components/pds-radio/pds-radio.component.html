@@ -1,0 +1,15 @@
+<label [ngClass]="hostClasses()" [for]="radioId">
+  <input
+    type="radio"
+    class="sr-only"
+    [id]="radioId"
+    [name]="name()"
+    [value]="value()"
+    [checked]="internalChecked()"
+    [tabindex]="tabIndex()"
+    [attr.disabled]="internalDisabled() ? '' : null"
+    (change)="handleChange()"
+  />
+  <div class="pds-radio__control" aria-hidden="true"></div>
+  <span class="pds-radio__label">{{ label() }}</span>
+</label>

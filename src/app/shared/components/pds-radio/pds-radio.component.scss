@@ -1,0 +1,113 @@
+.pds-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-sm);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+
+  // Touch target mínimo 48px (WCAG 2.5.5)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -14px 0;
+  }
+
+  &__control {
+    flex-shrink: 0;
+    position: relative;
+    width: var(--input-dimensions-radio-checkbox-height);
+    height: var(--input-dimensions-radio-checkbox-height);
+    border-radius: 50%;
+    border: var(--border-thin) solid var(--border-neutral-default, #b0bec5);
+    background: var(--action-primary-ghost-bg);
+    transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+
+    // Dot interior
+    &::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: var(--fg-brand-primary, #0f385a);
+      opacity: 0;
+      transition: opacity 150ms ease;
+    }
+  }
+
+  &__label {
+    font-family: var(--text-body, 'Open Sans');
+    font-size: var(--font-size-f-sm);
+    color: var(--fg-brand-primary);
+    line-height: var(--line-height-lh-base);
+  }
+
+  // Hover
+  // box-shadow inset simula borde 2px sin afectar al layout
+  &:not(.pds-radio--disabled):hover &__control {
+    border-color: var(--border-brand-primary-solid);
+    box-shadow: inset 0 0 0 1px var(--border-brand-primary-solid);
+    background: var(--action-primary-ghost-bg-hover);
+  }
+
+  // Focus visible
+  .sr-only:focus-visible + &__control {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--border-thin) var(--action-focus-inner),
+      0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring);
+  }
+
+  // Checked
+  &--checked &__control {
+    border-color: var(--border-brand-primary-solid);
+    box-shadow: inset 0 0 0 1px var(--border-brand-primary-solid);
+    background: var(--action-primary-ghost-bg);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  // Checked + Hover
+  &--checked:not(.pds-radio--disabled):hover &__control {
+    background: var(--action-primary-ghost-bg-hover);
+  }
+
+  // Disabled
+  &--disabled {
+    cursor: not-allowed;
+
+    .pds-radio__control {
+      background: var(--action-neutral-solid-bg-disabled, #627380);
+      border-color: transparent;
+    }
+
+    .pds-radio__label {
+      color: var(--fg-neutral-disabled);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__control,
+    &__control::after {
+      transition: none;
+    }
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

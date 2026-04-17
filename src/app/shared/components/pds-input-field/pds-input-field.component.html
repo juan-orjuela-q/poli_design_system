@@ -1,0 +1,75 @@
+<div [ngClass]="hostClasses()">
+  <label class="pds-input-field__label" [for]="inputId">
+    {{ label() }}
+    @if (required()) {
+      <span class="pds-input-field__required" aria-hidden="true"> *</span>
+    }
+  </label>
+
+  <div [ngClass]="wrapperClasses()">
+    @if (iconStart()) {
+      <pds-icon
+        class="pds-input-field__icon pds-input-field__icon--start"
+        [name]="iconStart()!"
+        size="sm"
+        [ariaHidden]="true"
+      />
+    }
+
+    <input
+      #inputEl
+      class="pds-input-field__input"
+      [id]="inputId"
+      [type]="resolvedType()"
+      [name]="name() ?? inputId"
+      [placeholder]="placeholder()"
+      [value]="internalValue()"
+      [maxlength]="maxLength() ?? ''"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.aria-required]="required() ? 'true' : null"
+      [attr.aria-invalid]="status() === 'error' ? 'true' : null"
+      [attr.aria-describedby]="helperText() || showCounter() ? helperId : null"
+      [attr.readonly]="readonly() ? '' : null"
+      [attr.disabled]="internalDisabled() ? '' : null"
+      (input)="handleInput($event)"
+      (blur)="handleBlur()"
+      (focus)="focus.emit()"
+    />
+
+    @if (status() === 'loading') {
+      <pds-loading-circle size="sm" class="pds-input-field__loading" />
+    } @else if (showEndIcon()) {
+      <pds-icon
+        class="pds-input-field__icon pds-input-field__icon--end"
+        [name]="iconEnd()!"
+        size="sm"
+        [ariaHidden]="true"
+      />
+    }
+
+    @if (showPasswordBtn()) {
+      <pds-icon-button
+        class="pds-input-field__password-toggle"
+        [iconName]="showPassword() ? 'visibility_off' : 'visibility'"
+        [ariaLabel]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        variant="ghost-neutral"
+        size="sm"
+        [attr.aria-controls]="inputId"
+        (click)="togglePasswordVisibility()"
+      />
+    }
+  </div>
+
+  @if (helperText() || showCounter()) {
+    <div class="pds-input-field__footer" [id]="helperId">
+      @if (helperText()) {
+        <pds-helper-text [text]="helperText()!" [status]="helperStatus()" />
+      }
+      @if (showCounter() && maxLength()) {
+        <span class="pds-input-field__counter" aria-live="polite">
+          {{ charCount() }}/{{ maxLength() }}
+        </span>
+      }
+    </div>
+  }
+</div>

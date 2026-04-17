@@ -1,0 +1,24 @@
+<label [ngClass]="hostClasses()" [for]="checkboxId">
+  <input
+    #inputRef
+    type="checkbox"
+    class="sr-only"
+    [id]="checkboxId"
+    [name]="name() ?? checkboxId"
+    [value]="value() ?? ''"
+    [checked]="internalChecked()"
+    [attr.disabled]="internalDisabled() ? '' : null"
+    [attr.aria-checked]="indeterminate() ? 'mixed' : internalChecked()"
+    [attr.aria-required]="null"
+    (change)="handleChange($event)"
+  />
+  <div class="pds-checkbox__control" aria-hidden="true">
+    <pds-icon
+      [name]="indeterminate() ? 'remove' : 'check'"
+      size="xs"
+      [ariaHidden]="true"
+      class="pds-checkbox__icon"
+    />
+  </div>
+  <span class="pds-checkbox__label">{{ label() }}</span>
+</label>

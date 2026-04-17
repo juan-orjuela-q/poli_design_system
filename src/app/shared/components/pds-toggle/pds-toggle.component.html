@@ -1,0 +1,24 @@
+<button
+  type="button"
+  [id]="toggleId"
+  role="switch"
+  [ngClass]="hostClasses()"
+  [attr.aria-checked]="internalChecked()"
+  [attr.aria-disabled]="internalDisabled() ? 'true' : null"
+  [attr.aria-label]="label()"
+  (click)="handleClick()"
+>
+  @if (labelPosition() === 'left') {
+    <span class="pds-toggle__label" aria-hidden="true">{{ label() }}</span>
+  }
+  <div class="pds-toggle__track" aria-hidden="true">
+    <div class="pds-toggle__thumb">
+      @if (internalChecked()) {
+        <pds-icon name="check" size="xs" class="pds-toggle__check" />
+      }
+    </div>
+  </div>
+  @if (labelPosition() === 'right') {
+    <span class="pds-toggle__label" aria-hidden="true">{{ label() }}</span>
+  }
+</button>

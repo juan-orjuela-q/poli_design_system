@@ -145,8 +145,14 @@ Figma node ID, variantes → props, CSS vars a aplicar, API Angular con signals,
 - [ ] `pds-dialog` / `pds-modal` — depende de `pds-button`
 
 ### Fase 4 — Formularios
-- [ ] `pds-checkbox`, `pds-radio`, `pds-toggle`
-- [ ] `pds-input`, `pds-select`, `pds-textarea`
+- [x] `pds-checkbox` — CVA completo, indeterminate con ElementRef, `<input>` nativo oculto
+- [x] `pds-checkbox-group` — fieldset + legend, CVA con `string[]`
+- [x] `pds-radio` — `<input type=radio>` nativo oculto, tabIndex controlable externamente
+- [x] `pds-radio-group` — CVA, tabindex roving, ArrowKey navigation (APG pattern)
+- [x] `pds-toggle` — `<button role="switch">`, CVA boolean
+- [x] `pds-input-field` — 9 estados, password toggle, iconStart/End, loading, counter, CVA string
+- [x] `pds-textarea-field` — variante de input-field con resize:vertical, CVA string
+- [x] `pds-select-field` — custom dropdown ARIA combobox/listbox, ArrowKey nav, CVA string|null
 
 ### Fase 5 — Navegación
 - [ ] `pds-breadcrumb`, `pds-tabs`, `pds-paginator`
@@ -255,6 +261,11 @@ Estos tokens se usan con fallback y deben formalizarse en la próxima iteración
 | `--loading-circle-border-lg` | `10px` | `pds-loading-circle` |
 | `--color-cta-gradient-end` | `#29015c` | `pds-cta` (extremo del gradiente magenta en hover/pressed) |
 | `--text-body` | `Open Sans` | `pds-tooltip` (usa `--typography-family-sans2` como fallback) |
+| `--border-neutral-default` | `#b0bec5` | `pds-checkbox`, `pds-radio`, `pds-input-field`, `pds-textarea-field`, `pds-select-field` (borde en estado default) |
+| `--fg-status-error` | `#e0006e` | `pds-input-field` (asterisco requerido + color icono error) |
+| `--fg-status-success` | `#6f921e` | `pds-input-field` (color icono success) |
+| `--fg-status-warning` | `#d96c06` | `pds-input-field` (color icono warning) |
+| `--action-tag-remove-bg` | `#002b49` | `pds-tag` (base para `rgba()` del botón remove en variante primary; actualmente hardcodeado como `$remove-color`) |
 
 ### Tokens ya disponibles (no pendientes)
 
@@ -271,6 +282,48 @@ Estos tokens se usan con fallback y deben formalizarse en la próxima iteración
 **Tag removable**: las acciones click (toggle selección) y eliminar son independientes. Click en el tag = `aria-pressed`. Click en la X = emite `(removed)`. Nunca fusionar ambas acciones.
 
 **`pds-helper-text`**: componente nuevo no en specs originales. Encapsula el patrón icono + texto de feedback que se repite en progress-bar, inputs, select, textarea, file-uploader. Evita duplicar SCSS de estados en cada formulario.
+
+---
+
+### Patrones de Fase 4 consolidados
+
+**CVA + signals (patrón base para todos los form controls)**:
+- `internalValue = signal(initial)` — fuente de verdad del UI
+- `effect(() => internalValue.set(input()))` — sincroniza prop → signal al montar (uso sin formControl)
+- `writeValue(val)` → `internalValue.set(val)` — CVA sobrescribe cuando hay formControl
+- `setDisabledState(bool)` → `internalDisabled.set(bool)` — siempre separado de `disabled` input
+
+**Input nativo oculto + control visual custom** (checkbox, radio):
+- `<input type="checkbox/radio" class="sr-only">` — maneja la semántica nativa, tab order, y cambio de estado
+- `<div class="__control">` — el visual custom que el usuario ve
+- Focus ring: selector CSS `.sr-only:focus-visible + .__control` — no necesita JS
+- Indeterminate: requiere `ElementRef` → `nativeElement.indeterminate = true` en `effect()`
+
+**Tabindex roving** (radio-group — APG pattern):
+- Solo el radio seleccionado (o el primero si ninguno) tiene `tabindex="0"`; el resto `-1`
+- Las flechas cambian la selección Y mueven el foco en el mismo gesto
+- `HostListener('keydown')` en el grupo — escucha ArrowDown/Up/Left/Right, Home, End
+
+**Custom dropdown** (select-field — ARIA combobox/listbox):
+- Trigger: `role="combobox"` + `aria-expanded` + `aria-haspopup="listbox"` + `aria-activedescendant`
+- Lista: `role="listbox"` con `id` único; opciones: `role="option"` con `aria-selected`
+- Cierre fuera del componente: `@HostListener('document:click')` filtrando por `closest('#container-id')`
+- No usar `pointer-events: none` en opciones disabled — el cursor must-allow hover para feedback visual
+
+**Focus ring en campo de texto** (input-field, textarea, select trigger):
+- El focus ring va en el **wrapper**, no en el `<input>` nativo, usando `:focus-within`
+- Estados de error/warning/success tienen su propio `--action-status-{status}-focus-ring`
+- Password toggle: `pds-icon-button` dentro del wrapper — NO produce doble focus ring porque el wrapper usa `:focus-within`
+
+**Tokens de input confirmados en `component.css`**:
+- `--input-font-main: Open Sans` — texto dentro del campo
+- `--input-font-label: Poppins` — label, helper, contador
+- `--input-radius-base: 10px` — radio del wrapper
+- `--input-dimensions-min-height: 48px` — alto mínimo del campo
+- `--input-dimensions-padding-y: 4px` / `--input-dimensions-padding-x: 12px`
+- `--input-dimensions-textarea-min-height: 96px` / `--input-dimensions-textarea-padding-y: 16px`
+- `--input-dimensions-radio-checkbox-height: 20px`
+- `--radius-checkbox: 4px`
 
 ---
 

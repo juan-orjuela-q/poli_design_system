@@ -1,0 +1,28 @@
+.pds-checkbox-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
+
+  &__legend {
+    font-family: var(--input-font-label, Poppins);
+    font-size: var(--font-size-f-sm);
+    font-weight: var(--font-weight-w-semibold);
+    color: var(--fg-brand-primary);
+    margin-bottom: var(--spacing-component-lg);
+    padding: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    // 28px mínimo para que los touch targets de 48px (14px expansión × 2) no se solapen
+    gap: var(--spacing-component-2xl);
+
+    &--horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--spacing-component-lg);
+    }
+  }
+}

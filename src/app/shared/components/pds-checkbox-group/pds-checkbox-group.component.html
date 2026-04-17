@@ -1,0 +1,14 @@
+<fieldset class="pds-checkbox-group">
+  <legend class="pds-checkbox-group__legend">{{ groupLabel() }}</legend>
+  <div [ngClass]="listClasses()">
+    @for (option of options(); track option.value) {
+      <pds-checkbox
+        [label]="option.label"
+        [value]="option.value"
+        [checked]="isChecked(option.value)"
+        [disabled]="isDisabled(option)"
+        (checkedChange)="handleChange(option.value, $event)"
+      />
+    }
+  </div>
+</fieldset>

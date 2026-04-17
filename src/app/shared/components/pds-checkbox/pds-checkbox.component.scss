@@ -1,0 +1,139 @@
+.pds-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-sm);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+
+  // Touch target mínimo 48px (WCAG 2.5.5)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -14px 0;
+  }
+
+  &__control {
+    flex-shrink: 0;
+    width: var(--input-dimensions-radio-checkbox-height);
+    height: var(--input-dimensions-radio-checkbox-height);
+    border-radius: var(--radius-checkbox);
+    border: var(--border-thin) solid var(--border-neutral-default, #b0bec5);
+    background: var(--action-primary-ghost-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+
+    pds-icon {
+      display: flex; // evita que el componente inline afecte el baseline del flex container
+    }
+  }
+
+  // El icono está siempre en el DOM para evitar layout shift;
+  // se muestra solo en checked o indeterminate
+  &__icon {
+    opacity: 0;
+    transition: opacity 100ms ease;
+  }
+
+  &--checked &__icon,
+  &--indeterminate &__icon {
+    opacity: 1;
+  }
+
+  &__label {
+    font-family: var(--text-body, 'Open Sans');
+    font-size: var(--font-size-f-sm);
+    color: var(--fg-brand-primary);
+    line-height: var(--line-height-lh-base);
+  }
+
+  // Hover (solo cuando no está disabled)
+  // box-shadow inset simula borde 2px sin afectar al layout
+  &:not(.pds-checkbox--disabled):hover &__control {
+    border-color: var(--border-brand-primary-solid);
+    box-shadow: inset 0 0 0 1px var(--border-brand-primary-solid);
+    background: var(--action-primary-ghost-bg-hover);
+  }
+
+  // Focus visible — el input nativo oculto transfiere el foco visible al control custom
+  .sr-only:focus-visible + &__control {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--border-thin) var(--action-focus-inner),
+      0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring);
+  }
+
+  // Checked
+  &--checked &__control {
+    background: var(--action-primary-solid-bg);
+    border-color: var(--border-brand-primary-solid);
+
+    pds-icon {
+      --pds-icon-color: var(--action-primary-solid-fg, #ffffff);
+    }
+  }
+
+  // Checked + Hover → fondo azul claro, icono brand oscuro
+  &--checked:not(.pds-checkbox--disabled):hover &__control {
+    background: var(--action-primary-ghost-bg-hover);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, #0f385a);
+    }
+  }
+
+  // Indeterminate
+  &--indeterminate &__control {
+    background: var(--action-primary-solid-bg);
+    border-color: var(--border-brand-primary-solid);
+
+    pds-icon {
+      --pds-icon-color: var(--action-primary-solid-fg, #ffffff);
+    }
+  }
+
+  // Indeterminate + Hover → fondo azul claro, icono brand oscuro
+  &--indeterminate:not(.pds-checkbox--disabled):hover &__control {
+    background: var(--action-primary-ghost-bg-hover);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, #0f385a);
+    }
+  }
+
+  // Disabled
+  &--disabled {
+    cursor: not-allowed;
+
+    .pds-checkbox__control {
+      background: var(--action-neutral-solid-bg-disabled, #627380);
+      border-color: transparent;
+    }
+
+    .pds-checkbox__label {
+      color: var(--fg-neutral-disabled);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__control,
+    &__icon {
+      transition: none;
+    }
+  }
+}
+
+// Utility — visually hidden but accessible
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

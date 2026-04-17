@@ -22,12 +22,23 @@ $gap: 4px;
   position: relative;
   display: inline-flex;
 
-  // Mostrar el bubble con hover o cuando el foco está dentro del host (teclado)
-  &:hover,
+  // Hover con ratón: respeta el retraso intencional configurado por el consumidor.
+  // --pds-tooltip-hover-delay controla el delay de aparición (por defecto 0ms).
+  // El ocultamiento nunca tiene delay (transition-delay: 0ms en el estado base).
+  &:hover {
+    .pds-tooltip__bubble {
+      opacity: 1;
+      pointer-events: none;
+      transition-delay: var(--pds-tooltip-hover-delay, 0ms);
+    }
+  }
+
+  // Foco de teclado: siempre inmediato — el usuario ya tomó la decisión de navegar.
   &:focus-within {
     .pds-tooltip__bubble {
       opacity: 1;
       pointer-events: none;
+      transition-delay: 0ms;
     }
   }
 }

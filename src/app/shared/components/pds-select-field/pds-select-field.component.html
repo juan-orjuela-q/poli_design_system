@@ -1,0 +1,70 @@
+<div class="pds-select-field-container" [ngClass]="hostClasses()" [id]="selectId + '-container'">
+  <label class="pds-select-field__label" [for]="selectId">
+    {{ label() }}
+    @if (required()) {
+      <span class="pds-select-field__required" aria-hidden="true"> *</span>
+    }
+  </label>
+
+  <button
+    type="button"
+    [id]="selectId"
+    [ngClass]="triggerClasses()"
+    role="combobox"
+    [attr.aria-expanded]="isOpen()"
+    aria-haspopup="listbox"
+    [attr.aria-controls]="listboxId"
+    [attr.aria-activedescendant]="activedescendant()"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-invalid]="status() === 'error' ? 'true' : null"
+    [attr.aria-describedby]="helperText() ? helperId : null"
+    [attr.aria-disabled]="internalDisabled() ? 'true' : null"
+    (click)="toggleOpen()"
+  >
+    <span class="pds-select-field__value" [class.pds-select-field__value--placeholder]="!selectedLabel()">
+      {{ selectedLabel() ?? placeholder() }}
+    </span>
+    <pds-icon
+      name="expand_more"
+      size="sm"
+      [ariaHidden]="true"
+      class="pds-select-field__chevron"
+      [class.pds-select-field__chevron--open]="isOpen()"
+    />
+  </button>
+
+  @if (isOpen()) {
+    <ul
+      [id]="listboxId"
+      role="listbox"
+      class="pds-select-field__dropdown"
+      [attr.aria-label]="label()"
+    >
+      @for (option of options(); track option.value; let i = $index) {
+        <li
+          [id]="activeOptionId(i)"
+          role="option"
+          class="pds-select-field__option"
+          [class.pds-select-field__option--selected]="isSelected(option)"
+          [class.pds-select-field__option--focused]="focusedIndex() === i"
+          [class.pds-select-field__option--disabled]="option.disabled"
+          [attr.aria-selected]="isSelected(option)"
+          [attr.aria-disabled]="option.disabled ? 'true' : null"
+          (click)="selectOption(option)"
+          (mouseenter)="focusedIndex.set(i)"
+        >
+          {{ option.label }}
+          @if (isSelected(option)) {
+            <pds-icon name="check" size="xs" [ariaHidden]="true" class="pds-select-field__option-check" />
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  @if (helperText()) {
+    <div [id]="helperId">
+      <pds-helper-text [text]="helperText()!" [status]="status() === 'default' ? 'default' : status()" />
+    </div>
+  }
+</div>
