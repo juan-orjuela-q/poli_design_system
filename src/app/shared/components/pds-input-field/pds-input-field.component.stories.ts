@@ -12,7 +12,6 @@ const meta: Meta<PdsInputFieldComponent> = {
     disabled: { control: 'boolean' },
     readonly: { control: 'boolean' },
     required: { control: 'boolean' },
-    showPasswordToggle: { control: 'boolean' },
     showCounter: { control: 'boolean' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
@@ -60,7 +59,7 @@ export const Loading: Story = {
 };
 
 export const Password: Story = {
-  args: { label: 'Contraseña', type: 'password', showPasswordToggle: true, placeholder: 'Ingresa tu contraseña' },
+  args: { label: 'Contraseña', type: 'password', placeholder: 'Ingresa tu contraseña' },
 };
 
 export const WithCounter: Story = {

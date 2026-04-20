@@ -31,8 +31,8 @@
   &__trigger {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-component-xs);
+    gap: var(--spacing-component-xxs, 4px);
+    justify-content: flex-start;
     width: 100%;
     min-height: var(--input-dimensions-min-height);
     padding: var(--input-dimensions-padding-y) var(--input-dimensions-padding-x);
@@ -92,6 +92,11 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    color: var(--fg-neutral-secondary);
   }
 
   &__value {

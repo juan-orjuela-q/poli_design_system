@@ -55,7 +55,6 @@ export class PdsInputFieldComponent implements ControlValueAccessor {
   readonly readonly = input<boolean>(false);
   readonly iconStart = input<string | null>(null);
   readonly iconEnd = input<string | null>(null);
-  readonly showPasswordToggle = input<boolean>(false);
   readonly autocomplete = input<string>('');
   readonly name = input<string | null>(null);
 
@@ -85,11 +84,11 @@ export class PdsInputFieldComponent implements ControlValueAccessor {
   protected readonly charCount = computed(() => this.internalValue().length);
 
   protected readonly showEndIcon = computed(() =>
-    this.status() === 'loading' ? false : !!this.iconEnd()
+    this.status() !== 'loading' && this.type() !== 'password' && !!this.iconEnd()
   );
 
   protected readonly showPasswordBtn = computed(() =>
-    this.type() === 'password' && this.showPasswordToggle()
+    this.type() === 'password'
   );
 
   protected readonly wrapperClasses = computed(() => ({

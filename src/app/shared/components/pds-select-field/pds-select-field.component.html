@@ -30,6 +30,9 @@
     [attr.aria-disabled]="internalDisabled() ? 'true' : null"
     (click)="toggleOpen()"
   >
+    @if (iconStart()) {
+      <pds-icon class="pds-select-field__icon" [name]="iconStart()!" size="sm" [ariaHidden]="true" />
+    }
     <span class="pds-select-field__value" [class.pds-select-field__value--placeholder]="!selectedLabel()">
       {{ selectedLabel() ?? placeholder() }}
     </span>
@@ -71,7 +74,7 @@
     </ul>
   }
 
-  @if (helperText()) {
+  @if (feedbackText()) {
     <div [id]="helperId">
       <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{ feedbackText() }}</pds-helper-text>
     </div>

@@ -48,6 +48,7 @@ export class PdsSelectFieldComponent implements ControlValueAccessor {
   readonly feedbackText = input<string | null>(null);
   readonly disabled = input<boolean>(false);
   readonly required = input<boolean>(false);
+  readonly iconStart = input<string | null>(null);
 
   readonly valueChange = output<string>();
 

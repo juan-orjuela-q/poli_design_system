@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-component-xs);
+  gap: var(--spacing-component-xxs, 4px);
   height: var(--button-dimensions-height);
   min-width: var(--button-dimensions-min-width);
   padding: 0 var(--button-dimensions-padding-x);
@@ -56,7 +56,7 @@
   // Tamanios
   &--sm {
     position: relative;
-    gap: var(--spacing-component-2xs);
+    gap: var(--spacing-component-xxs, 4px);
     height: var(--button-dimensions-height-sm);
     padding: 0 var(--button-dimensions-padding-x-sm);
     font-size: var(--font-size-f-sm);
@@ -70,7 +70,7 @@
   }
 
   &--lg {
-    gap: var(--spacing-component-sm);
+    gap: var(--spacing-component-xxs, 4px);
     height: var(--button-dimensions-height-lg);
     padding: 0 var(--button-dimensions-padding-x-lg);
     font-size: var(--font-size-f-lg);
