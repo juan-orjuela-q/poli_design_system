@@ -35,25 +35,25 @@
     border-radius: var(--input-radius-base);
     transition: box-shadow 150ms ease, background 150ms ease;
 
-    &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--readonly):not(.pds-input-field__wrapper--error):not(.pds-input-field__wrapper--success):not(.pds-input-field__wrapper--warning) {
+    &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--readonly):not(.pds-input-field__wrapper--loading):not(.pds-input-field__wrapper--error):not(.pds-input-field__wrapper--success):not(.pds-input-field__wrapper--warning) {
       box-shadow: inset 0 0 0 var(--border-thick) var(--border-brand-primary-solid);
       background: var(--action-primary-subtle-bg-hover, #E6EFFD);
     }
 
-    &:hover:not(.pds-input-field__wrapper--disabled).pds-input-field__wrapper--error {
+    &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--loading).pds-input-field__wrapper--error {
       box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-error-solid);
       background: var(--action-status-error-subtle-bg-hover);
     }
-    &:hover:not(.pds-input-field__wrapper--disabled).pds-input-field__wrapper--success {
+    &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--loading).pds-input-field__wrapper--success {
       box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-success-solid);
       background: var(--action-status-success-subtle-bg-hover);
     }
-    &:hover:not(.pds-input-field__wrapper--disabled).pds-input-field__wrapper--warning {
+    &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--loading).pds-input-field__wrapper--warning {
       box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-warning-solid);
       background: var(--action-status-warning-subtle-bg-hover);
     }
 
-    &:focus-within:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--error):not(.pds-input-field__wrapper--success):not(.pds-input-field__wrapper--warning) {
+    &:focus-within:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--readonly):not(.pds-input-field__wrapper--loading):not(.pds-input-field__wrapper--error):not(.pds-input-field__wrapper--success):not(.pds-input-field__wrapper--warning) {
       box-shadow:
         inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid),
         0 0 0 var(--border-thin) var(--action-focus-inner),
@@ -70,15 +70,21 @@
     &--warning:focus-within { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-warning-solid), 0 0 0 var(--border-thin) var(--action-focus-inner), 0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-status-warning-focus-ring); }
 
     &--disabled {
-      background: var(--action-neutral-solid-bg-subtle, #ced5db);
-      box-shadow: none;
-      opacity: 0.6;
-      pointer-events: none;
+      background: var(--action-neutral-subtle-bg, #E5E9EC);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      cursor: not-allowed;
     }
 
     &--readonly {
-      background: var(--action-neutral-solid-bg-subtle, #ced5db);
-      cursor: default;
+      background: var(--action-neutral-subtle-bg, #E5E9EC);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      cursor: text;
+    }
+
+    &--loading {
+      background: var(--action-neutral-subtle-bg, #E5E9EC);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      cursor: wait;
     }
   }
 
@@ -129,11 +135,17 @@
 
   &__counter {
     font-family: var(--input-font-label, Poppins);
-    font-size: var(--font-size-f-xs);
+    font-size: var(--font-size-f-sm);
+    font-weight: var(--font-weight-w-semibold);
     color: var(--fg-neutral-secondary);
     white-space: nowrap;
     margin-left: auto;
   }
+
+  // Cursor inheritance for native input
+  &__wrapper--disabled &__input  { cursor: not-allowed; }
+  &__wrapper--readonly &__input  { cursor: text; }
+  &__wrapper--loading  &__input  { cursor: wait; }
 
   // Status icon colors
   &--error   .pds-input-field__icon { color: var(--fg-status-error, #e0006e); }

@@ -15,7 +15,7 @@
     }
   </div>
 
-  <div [ngClass]="wrapperClasses()">
+  <div [ngClass]="wrapperClasses()" [attr.aria-busy]="status() === 'loading' ? 'true' : null">
     <textarea
       class="pds-textarea-field__input"
       [id]="textareaId"

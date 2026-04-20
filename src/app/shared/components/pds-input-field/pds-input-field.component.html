@@ -15,7 +15,7 @@
     }
   </div>
 
-  <div [ngClass]="wrapperClasses()">
+  <div [ngClass]="wrapperClasses()" [attr.aria-busy]="status() === 'loading' ? 'true' : null">
     @if (iconStart()) {
       <pds-icon
         class="pds-input-field__icon pds-input-field__icon--start"
@@ -61,7 +61,7 @@
         class="pds-input-field__password-toggle"
         [iconName]="showPassword() ? 'visibility_off' : 'visibility'"
         [ariaLabel]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-        variant="ghost-neutral"
+        variant="ghost-brand"
         size="sm"
         [attr.aria-controls]="inputId"
         (click)="togglePasswordVisibility()"
