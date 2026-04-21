@@ -1,0 +1,98 @@
+<!-- ── Miniatura ─────────────────────────────────────────────────────────── -->
+<div class="pds-file-uploader-item__thumb" aria-hidden="true">
+  @if (item().previewUrl && item().status !== 'error') {
+    <img
+      class="pds-file-uploader-item__thumb-img"
+      [src]="item().previewUrl"
+      [alt]="item().name"
+    />
+  } @else if (item().status === 'error') {
+    <div class="pds-file-uploader-item__thumb-error">
+      <span class="pds-file-uploader-item__thumb-icon">
+        <pds-icon name="attach_file" size="md" />
+      </span>
+    </div>
+  } @else {
+    <div class="pds-file-uploader-item__thumb-generic">
+      <span class="pds-file-uploader-item__thumb-icon">
+        <pds-icon name="attach_file" size="md" />
+      </span>
+    </div>
+  }
+</div>
+
+<!-- ── Cuerpo del item ───────────────────────────────────────────────────── -->
+<div class="pds-file-uploader-item__body">
+
+  <!-- Fila superior: nombre + badge de estado -->
+  <div class="pds-file-uploader-item__top">
+    @if (item().status === 'success' && item().previewUrl) {
+      <a
+        class="pds-file-uploader-item__name pds-file-uploader-item__name--link"
+        [href]="item().previewUrl"
+        [download]="item().name"
+        target="_blank"
+        rel="noopener noreferrer"
+      >{{ item().name }}</a>
+    } @else {
+      <span class="pds-file-uploader-item__name">{{ item().name }}</span>
+    }
+
+    <!-- Badge de estado -->
+    <div
+      class="pds-file-uploader-item__badge pds-file-uploader-item__badge--{{ item().status }}"
+      [attr.aria-label]="statusText()"
+    >
+      @if (item().status !== 'error') {
+        <span class="pds-file-uploader-item__badge-label">{{ statusText() }}</span>
+        <span class="pds-file-uploader-item__badge-pill">
+          @if (statusIcon()) {
+            <pds-icon [name]="statusIcon()!" size="xs" />
+          }
+          <span>{{ progressLabel() }}</span>
+        </span>
+      } @else {
+        <span class="pds-file-uploader-item__badge-label pds-file-uploader-item__badge-label--solid">
+          {{ statusText() }}
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- Fila de barra: tamaño + progress bar -->
+  <div class="pds-file-uploader-item__bar-row">
+    <span class="pds-file-uploader-item__size">{{ formattedSize() }}</span>
+    <div
+      class="pds-file-uploader-item__track pds-file-uploader-item__track--{{ item().status }}"
+      role="progressbar"
+      [attr.aria-valuenow]="fillPercent()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-label]="'Progreso de carga: ' + item().name"
+    >
+      <div
+        class="pds-file-uploader-item__fill"
+        [style.width.%]="fillPercent()"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Mensaje de error -->
+  @if (item().status === 'error' && item().errorMessage) {
+    <div class="pds-file-uploader-item__error-msg" role="alert">
+      <pds-icon name="error" size="xs" />
+      <span>{{ item().errorMessage }}</span>
+    </div>
+  }
+
+</div>
+
+<!-- ── Botón eliminar ────────────────────────────────────────────────────── -->
+<button
+  class="pds-file-uploader-item__remove"
+  type="button"
+  [attr.aria-label]="'Eliminar ' + item().name"
+  (click)="onRemove()"
+>
+  <pds-icon name="close" size="md" />
+</button>

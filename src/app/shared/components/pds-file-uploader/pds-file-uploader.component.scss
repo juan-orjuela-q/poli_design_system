@@ -1,0 +1,233 @@
+// ── Host ────────────────────────────────────────────────────────────────────
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+  width: 100%;
+}
+
+// ── Clase SR-only (accesibilidad) ────────────────────────────────────────────
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ── Etiqueta ─────────────────────────────────────────────────────────────────
+
+.pds-file-uploader__label {
+  font-family: var(--input-font-label, Poppins);
+  font-size: var(--font-size-f-base);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--fg-brand-primary);
+  margin: 0;
+}
+
+.pds-file-uploader__required {
+  color: var(--fg-status-error, #e0006e);
+  margin-left: 2px;
+}
+
+// ── Zona de drop ─────────────────────────────────────────────────────────────
+
+.pds-file-uploader__zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-md);
+  padding: var(--spacing-component-2xl);
+  background: var(--action-primary-subtle-bg, #f0f8ff);
+  border: var(--border-thin) dashed var(--border-brand-secondary-solid);
+  border-radius: var(--radius-component-md);
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  // Forzar que el label no dé estilos de texto al zone-text
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &--drag-over {
+    background: var(--action-primary-subtle-bg-hover, #daf0fc);
+    border-color: var(--border-brand-primary-solid);
+    border-style: solid;
+  }
+
+  &--drag-over {
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+// Ícono central de la zona
+.pds-file-uploader__zone-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-md);
+  border-radius: var(--radius-pill);
+
+  pds-icon {
+    --pds-icon-color: var(--fg-brand-primary);
+  }
+}
+
+// Texto instruccional
+.pds-file-uploader__zone-text {
+  font-family: var(--input-font-body, 'Open Sans');
+  font-size: var(--font-size-f-base, 16px);
+  font-weight: var(--font-weight-w-regular, 400);
+  line-height: 1.5;
+  color: var(--fg-brand-primary);
+  text-align: center;
+  margin: 0;
+  width: min-content;
+  min-width: 100%;
+}
+
+// Botón "Selecciona" (presentacional — es un <span> dentro del label)
+.pds-file-uploader__select-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--button-dimensions-height-md, 48px);
+  min-width: var(--button-dimensions-min-width, 72px);
+  padding: 0 var(--button-dimensions-padding-x, 20px);
+  background: var(--action-primary-solid-bg, #0f385a);
+  border-radius: var(--button-radius-base, var(--radius-pill));
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-base, 16px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--action-primary-solid-fg, white);
+  white-space: nowrap;
+  pointer-events: none; // el label padre maneja los clics
+}
+
+// ── Texto de ayuda ────────────────────────────────────────────────────────────
+
+.pds-file-uploader__hint {
+  font-family: var(--input-font-label, Poppins);
+  font-size: var(--font-size-f-sm, 14px);
+  font-style: normal;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: 1.5;
+  color: var(--fg-neutral-secondary, #4d5b69);
+  margin: 0;
+}
+
+// ── Contenedor de archivos cargados (lista + agregar otro) ─────────────────────────
+
+.pds-file-uploader__files-container {
+  display: flex;
+  padding: var(--spacing-component-md, 12px);
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  align-self: stretch;
+  border-radius: var(--radius-container-sm, 10px);
+  background: var(--surface-brand-primary-subtle, #f0f8ff);
+}
+
+// ── Lista de archivos ─────────────────────────────────────────────────
+
+.pds-file-uploader__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+  width: 100%;
+}
+
+// ── Botones de acción (compact trigger + agregar otro) ──────────────────────
+
+.pds-file-uploader__compact-trigger,
+.pds-file-uploader__add-more {
+  display: flex;
+}
+
+// Botón compact: label estilizado como pds-button outline md
+.pds-file-uploader__compact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-xxs, 4px);
+  min-height: var(--button-dimensions-height-md, 48px);
+  min-width: var(--button-dimensions-min-width, 72px);
+  padding: 0 var(--button-dimensions-padding-x, 20px);
+  border: var(--border-thick) solid var(--action-primary-ghost-fg);
+  border-radius: var(--button-radius-base, var(--radius-pill));
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-base, 16px);
+  font-weight: var(--font-weight-w-medium, 500);
+  line-height: var(--line-height-lh-none, 1);
+  color: var(--action-primary-ghost-fg);
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover);
+    box-shadow: var(--shadow-component-hover);
+  }
+
+  &:active {
+    background: var(--action-primary-ghost-bg-pressed);
+    box-shadow: var(--shadow-component-pressed);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: var(--action-primary-ghost-bg-hover);
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    border-color: var(--action-neutral-solid-bg-disabled);
+    color: var(--action-neutral-solid-bg-disabled);
+  }
+}
+
+// ── Variante Compact ──────────────────────────────────────────────────────
+// En compact la drop zone no se renderiza; solo aparece el trigger button.
+// Los archivos añadidos se muestran en el mismo contenedor subtle.

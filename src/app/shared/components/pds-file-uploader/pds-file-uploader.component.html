@@ -1,0 +1,122 @@
+<!-- ── Etiqueta del campo ──────────────────────────────────────────────────── -->
+@if (label()) {
+  <p class="pds-file-uploader__label">
+    {{ label() }}
+    @if (required()) {
+      <span class="pds-file-uploader__required" aria-hidden="true">*</span>
+    }
+  </p>
+}
+
+<!-- Variante LARGE: drop zone -->
+@if (type() === 'large') {
+  <label
+  class="pds-file-uploader__zone"
+  [class.pds-file-uploader__zone--drag-over]="isDragOver()"
+  [class.pds-file-uploader__zone--disabled]="disabled()"
+  [for]="inputId"
+  tabindex="0"
+  [attr.aria-label]="instructive() + '. Haz clic o arrastra archivos aquí'"
+  [attr.aria-disabled]="disabled() || null"
+  [attr.aria-dropeffect]="isDragOver() ? 'copy' : 'none'"
+  (keydown.enter)="openFilePicker($event)"
+  (keydown.space)="openFilePicker($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+>
+  <!-- Ícono de upload -->
+  <span class="pds-file-uploader__zone-icon" aria-hidden="true">
+    <pds-icon name="upload" size="lg" />
+  </span>
+
+  <!-- Texto instruccional -->
+  <p class="pds-file-uploader__zone-text">{{ instructive() }}</p>
+
+  <!-- Botón "Selecciona" — presentacional, el label maneja la interacción -->
+  <span class="pds-file-uploader__select-btn" aria-hidden="true">
+    Selecciona
+  </span>
+
+  <!-- Input nativo oculto -->
+  <input
+    #fileInput
+    class="sr-only"
+    type="file"
+    [id]="inputId"
+    [accept]="accept()"
+    [multiple]="multiple()"
+    [attr.aria-label]="label() ?? 'Seleccionar archivos'"
+    [attr.aria-required]="required() || null"
+    [disabled]="disabled()"
+    (change)="onInputChange($event)"
+    />
+  </label>
+}
+
+<!-- Variante COMPACT: botón outline md -->
+@if (type() === 'compact') {
+  <div class="pds-file-uploader__compact-trigger">
+    <!-- Input nativo oculto: tabindex="-1" para que el Tab no lo duplique con el label -->
+    <input
+      #fileInput
+      class="sr-only"
+      type="file"
+      tabindex="-1"
+      [id]="inputId"
+      [accept]="accept()"
+      [multiple]="multiple()"
+      [attr.aria-label]="label() ?? 'Seleccionar archivos'"
+      [attr.aria-required]="required() || null"
+      [disabled]="disabled()"
+      (change)="onInputChange($event)"
+    />
+    <!-- Label estilizado como button outline md (abre el explorador de forma nativa) -->
+    <label
+      class="pds-file-uploader__compact-btn"
+      [class.pds-file-uploader__compact-btn--disabled]="disabled()"
+      [for]="inputId"
+      tabindex="0"
+      [attr.aria-disabled]="disabled() || null"
+    >
+      <pds-icon name="upload" size="md" />
+      Seleccionar archivo
+    </label>
+  </div>
+}
+
+<!-- Texto de ayuda -->
+@if (hint()) {
+  <p class="pds-file-uploader__hint">{{ hint() }}</p>
+}
+
+<!-- Archivos cargados + Agregar otro (contenedor subtle) -->
+@if (displayItems().length > 0 || showAddMore()) {
+  <div class="pds-file-uploader__files-container">
+
+    @if (displayItems().length > 0) {
+      <div class="pds-file-uploader__items" role="list">
+        @for (item of displayItems(); track item.id) {
+          <pds-file-uploader-item
+            role="listitem"
+            [item]="item"
+            (removed)="onItemRemoved($event)"
+          />
+        }
+      </div>
+    }
+
+    @if (showAddMore()) {
+      <div class="pds-file-uploader__add-more">
+        <pds-button
+          variant="outline"
+          size="sm"
+          iconStart="upload"
+          [disabled]="disabled()"
+          (click)="openFilePicker($event)"
+        >Agregar otro</pds-button>
+      </div>
+    }
+
+  </div>
+}
