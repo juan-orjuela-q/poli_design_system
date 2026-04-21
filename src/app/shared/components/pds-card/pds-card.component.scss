@@ -1,0 +1,324 @@
+// ============================================================
+// pds-card — Design System v2
+// Nodo Figma: Info Card 766:3395 · Nav Card 766:3925 · Selectable 766:5587
+// ============================================================
+
+// Sombra Shadow/200 (info card no la tiene; nav/selectable sí)
+$shadow-200:
+  0 4px 6px -4px rgba(24, 39, 75, 0.12),
+  0 8px 8px -4px rgba(24, 39, 75, 0.08);
+
+// Accent inferior del estado selected simulado con box-shadow inset (no afecta layout)
+// Figma: 6px bottom — `inset 0 -6px 0 0` pinta 6px desde el borde inferior hacia adentro
+$card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
+
+// ── Host ─────────────────────────────────────────────────────────────────────
+
+:host {
+  display: block;
+  background: var(--surface-neutral-card);
+  border: var(--border-thin) solid var(--border-neutral-default);
+  border-radius: var(--radius-container-sm);
+  overflow: hidden; // clip de imagen al border-radius
+  position: relative;
+}
+
+// ── Comportamientos interactivos (nav + selectable) ───────────────────────────
+
+:host(.pds-card--nav),
+:host(.pds-card--selectable) {
+  cursor: pointer;
+  box-shadow: $shadow-200;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover);
+    border-color: var(--border-brand-primary-solid);
+    // Simula borde de 2px con outer ring sin mover el layout
+    box-shadow:
+      0 0 0 1px var(--border-brand-primary-solid),
+      var(--shadow-component-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 1px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  &:active:not(.pds-card--selected) {
+    background: var(--action-primary-ghost-bg-pressed);
+    border-color: var(--border-brand-primary-solid);
+    // Simula borde de 2px con outer ring
+    box-shadow:
+      0 0 0 1px var(--border-brand-primary-solid),
+      var(--shadow-component-pressed);
+  }
+}
+
+// ── Estado seleccionado ───────────────────────────────────────────────────────
+
+:host(.pds-card--selected) {
+  background: var(--action-primary-ghost-bg-hover);
+  border-color: var(--border-brand-primary-solid);
+  // Accent de 6px en borde inferior: inset shadow no afecta el layout
+  // border-radius inferior = 0 para que el accent quede recto
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: $card-accent-shadow, $shadow-200;
+
+  &:hover {
+    background: var(--action-primary-subtle-bg-hover);
+  }
+}
+
+// ── Estado deshabilitado ──────────────────────────────────────────────────────
+
+:host(.pds-card--disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// ── Imagen de cabecera ────────────────────────────────────────────────────────
+
+.pds-card__image {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+}
+
+// ── Contenedor de contenido ───────────────────────────────────────────────────
+
+.pds-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+  padding: 12px var(--spacing-component-md);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// ── Contenedor del ícono pill ─────────────────────────────────────────────────
+
+.pds-card__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-sm);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: fit-content;
+
+  // Info card: fondo soft (azul muy suave), ícono brand-primary
+  &--soft {
+    background: var(--surface-brand-primary-soft);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary);
+    }
+  }
+
+  // Nav / Selectable: fondo sólido brand-primary, ícono blanco
+  &--solid {
+    background: var(--surface-brand-primary-base);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-on-color-brand-primary);
+    }
+  }
+}
+
+// ── Bloque de información (título, subtítulo, descripción) ────────────────────
+
+.pds-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs);
+  width: 100%;
+}
+
+// Header row: headings (icon + título) + action icon
+.pds-card__header {
+  display: flex;
+  gap: var(--spacing-component-sm);
+  align-items: flex-start;
+  width: 100%;
+}
+
+// Columna de encabezados: icon-wrap + title-group (o icon + title + subtitle en selectable)
+.pds-card__headings {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: var(--spacing-component-xxs);
+
+  // El icon-wrap en nav/selectable tiene padding inferior adicional
+  .pds-card__icon-wrap {
+    margin-bottom: var(--spacing-component-xs);
+  }
+}
+
+// Grupo título + subtítulo dentro de headings (nav card)
+.pds-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs);
+}
+
+// ── Textos ────────────────────────────────────────────────────────────────────
+
+.pds-card__title {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1.2;
+  color: var(--fg-brand-primary);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.pds-card__subtitle {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1.5;
+  color: var(--fg-neutral-secondary);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.pds-card__description {
+  font-family: var(--text-body, 'Open Sans');
+  font-size: var(--font-size-f-sm, 14px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5; // 150% = 21px
+  color: var(--fg-brand-primary, #0f385a);
+  margin: 0;
+  width: 100%;
+}
+
+// ── Ícono de acción (nav: arrow_forward) ──────────────────────────────────────
+
+.pds-card__action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-sm);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  align-self: flex-start;
+  transition: transform 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  pds-icon {
+    --pds-icon-color: var(--fg-brand-primary);
+  }
+}
+
+// La flecha se desplaza a la derecha en hover
+:host(.pds-card--nav):hover .pds-card__action-icon {
+  transform: translateX(4px);
+}
+
+// ── Indicador de selección (selectable: circle / check_circle) ───────────────
+
+.pds-card__select-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-xs);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  align-self: flex-start;
+
+  pds-icon {
+    --pds-icon-color: var(--fg-neutral-secondary);
+  }
+
+  &--selected pds-icon {
+    --pds-icon-color: var(--fg-brand-primary);
+  }
+}
+
+// ── Footer con botón de acción (behavior=info) ────────────────────────────────
+
+.pds-card__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: var(--spacing-component-md);
+  border-top: var(--border-thin) solid var(--border-neutral-subtle);
+  width: 100%;
+}
+
+.pds-card__action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-xxs);
+  min-height: var(--button-dimensions-height-sm);
+  min-width: var(--button-dimensions-min-width);
+  padding: 0 var(--button-dimensions-padding-x-sm);
+  border: var(--border-thick) solid var(--border-brand-primary-solid);
+  border-radius: var(--button-radius-base);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1;
+  color: var(--action-primary-ghost-fg);
+  white-space: nowrap;
+  position: relative; // para touch target
+
+  // Touch target WCAG 2.5.5 (min 48px)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px 0;
+  }
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover);
+  }
+
+  &:active {
+    background: var(--action-primary-ghost-bg-pressed);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 1px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+}

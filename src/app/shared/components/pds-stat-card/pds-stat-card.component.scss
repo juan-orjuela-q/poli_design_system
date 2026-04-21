@@ -1,0 +1,204 @@
+// ============================================================
+// pds-stat-card — Design System v2
+// Nodo Figma: Stat Info 774:3289 · Stat Nav 774:3439 · Stat Selectable 774:3841
+// ============================================================
+
+$shadow-200:
+  0 4px 6px -4px rgba(24, 39, 75, 0.12),
+  0 8px 8px -4px rgba(24, 39, 75, 0.08);
+
+// Accent inferior del estado selected simulado con box-shadow inset (no afecta layout)
+$card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
+
+// ── Host ─────────────────────────────────────────────────────────────────────
+
+:host {
+  display: block;
+  background: var(--surface-neutral-card);
+  border: var(--border-thin) solid var(--border-neutral-default);
+  border-radius: var(--radius-container-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+// ── Comportamientos interactivos ──────────────────────────────────────────────
+
+:host(.pds-stat-card--nav),
+:host(.pds-stat-card--selectable) {
+  cursor: pointer;
+  box-shadow: $shadow-200;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover);
+    border-color: var(--border-brand-primary-solid);
+    box-shadow:
+      0 0 0 1px var(--border-brand-primary-solid),
+      var(--shadow-component-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 1px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  &:active:not(.pds-stat-card--selected) {
+    background: var(--action-primary-ghost-bg-pressed);
+    border-color: var(--border-brand-primary-solid);
+    box-shadow:
+      0 0 0 1px var(--border-brand-primary-solid),
+      var(--shadow-component-pressed);
+  }
+}
+
+// ── Estado seleccionado ───────────────────────────────────────────────────────
+
+:host(.pds-stat-card--selected) {
+  background: var(--action-primary-ghost-bg-hover);
+  border-color: var(--border-brand-primary-solid);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: $card-accent-shadow, $shadow-200;
+
+  &:hover {
+    background: var(--action-primary-subtle-bg-hover);
+  }
+}
+
+// ── Estado deshabilitado ──────────────────────────────────────────────────────
+
+:host(.pds-stat-card--disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// ── Contenedor de contenido ───────────────────────────────────────────────────
+
+.pds-stat-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+  padding: 12px var(--spacing-component-md);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative; // para posicionar ícono nav y select en top-right
+}
+
+// ── Ícono principal (pill) ────────────────────────────────────────────────────
+
+.pds-stat-card__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-sm);
+  border-radius: var(--radius-pill);
+  background: var(--surface-brand-primary-base);
+  flex-shrink: 0;
+  align-self: flex-start;
+
+  pds-icon {
+    --pds-icon-color: var(--fg-on-color-brand-primary);
+  }
+}
+
+// ── Ícono de acción (nav: arrow_forward) ──────────────────────────────────────
+
+.pds-stat-card__action-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-sm);
+  border-radius: var(--radius-pill);
+  transition: transform 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  pds-icon {
+    --pds-icon-color: var(--fg-brand-primary);
+  }
+}
+
+:host(.pds-stat-card--nav):hover .pds-stat-card__action-icon {
+  transform: translateX(4px);
+}
+
+// ── Indicador de selección ────────────────────────────────────────────────────
+
+.pds-stat-card__select-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-xs);
+  border-radius: var(--radius-pill);
+
+  pds-icon {
+    --pds-icon-color: var(--fg-neutral-secondary);
+  }
+
+  &--selected pds-icon {
+    --pds-icon-color: var(--fg-brand-primary);
+  }
+}
+
+// ── Bloque de métrica ─────────────────────────────────────────────────────────
+
+.pds-stat-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs);
+}
+
+.pds-stat-card__label {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1.5;
+  color: var(--fg-neutral-secondary);
+  margin: 0;
+}
+
+.pds-stat-card__value {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1.2;
+  color: var(--fg-brand-primary);
+  margin: 0;
+}
+
+// ── Sección de tendencia (More Info) ─────────────────────────────────────────
+
+.pds-stat-card__trend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-xxs);
+  padding-top: var(--spacing-component-sm);
+  border-top: var(--border-thin) solid var(--border-neutral-subtle);
+}
+
+.pds-stat-card__trend-label {
+  font-family: var(--input-font-label, Poppins);
+  font-size: var(--font-size-f-sm);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: 1.5;
+  color: var(--fg-neutral-secondary);
+  white-space: nowrap;
+}

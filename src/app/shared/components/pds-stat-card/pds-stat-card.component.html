@@ -1,0 +1,45 @@
+<div class="pds-stat-card__content">
+  <!-- Ícono principal (pill, fondo brand-primary-base) -->
+  <div class="pds-stat-card__icon-wrap" aria-hidden="true">
+    <pds-icon [name]="iconName()" size="md" />
+  </div>
+
+  <!-- Indicador de selección (solo selectable) -->
+  @if (behavior() === 'selectable') {
+    <div
+      class="pds-stat-card__select-icon"
+      [class.pds-stat-card__select-icon--selected]="isSelected()"
+      aria-hidden="true"
+    >
+      <pds-icon [name]="selectIcon()" size="sm" />
+    </div>
+  }
+
+  <!-- Flecha de navegación (solo nav) -->
+  @if (behavior() === 'nav') {
+    <div class="pds-stat-card__action-icon" aria-hidden="true">
+      <pds-icon name="arrow_forward" size="md" />
+    </div>
+  }
+
+  <!-- Bloque de métrica -->
+  <div class="pds-stat-card__info">
+    <p class="pds-stat-card__label">{{ label() }}</p>
+    <p class="pds-stat-card__value">{{ value() }}</p>
+  </div>
+
+  <!-- More Info: tendencia + contexto -->
+  @if (showTrend()) {
+    <div class="pds-stat-card__trend">
+      <pds-badge
+        [status]="badgeStatus()"
+        size="sm"
+        shape="rectangle"
+        [iconStart]="badgeIcon()"
+      >{{ trendValue() }}</pds-badge>
+      @if (trendLabel()) {
+        <span class="pds-stat-card__trend-label">{{ trendLabel() }}</span>
+      }
+    </div>
+  }
+</div>

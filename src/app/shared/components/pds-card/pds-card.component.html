@@ -1,0 +1,119 @@
+<!-- ============================================================
+     INFO CARD
+     Contenido estático + botón de acción opcional en footer.
+     ============================================================ -->
+@if (behavior() === 'info') {
+  @if (imageSrc()) {
+    <div class="pds-card__image">
+      <img [src]="imageSrc()" [alt]="imageAlt()" />
+    </div>
+  }
+
+  <div class="pds-card__content">
+    @if (iconName()) {
+      <div class="pds-card__icon-wrap pds-card__icon-wrap--soft">
+        <pds-icon [name]="iconName()!" size="md" />
+      </div>
+    }
+
+    <div class="pds-card__info">
+      <h4 class="pds-card__title">{{ title() }}</h4>
+      @if (subtitle()) {
+        <h6 class="pds-card__subtitle">{{ subtitle() }}</h6>
+      }
+      @if (description()) {
+        <p class="pds-card__description">{{ description() }}</p>
+      }
+    </div>
+
+    @if (showAction()) {
+      <div class="pds-card__footer">
+        <button
+          type="button"
+          class="pds-card__action-btn"
+          (click)="onActionClick($event)"
+        >
+          {{ actionLabel() }}
+          <pds-icon name="arrow_forward" size="sm" />
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- ============================================================
+     NAV CARD
+     Toda la card es interactiva. Muestra flecha de navegación.
+     ============================================================ -->
+@if (behavior() === 'nav') {
+  @if (imageSrc()) {
+    <div class="pds-card__image">
+      <img [src]="imageSrc()" [alt]="imageAlt()" />
+    </div>
+  }
+
+  <div class="pds-card__content">
+    <div class="pds-card__info">
+      <div class="pds-card__header">
+        <div class="pds-card__headings">
+          @if (iconName()) {
+            <div class="pds-card__icon-wrap pds-card__icon-wrap--solid">
+              <pds-icon [name]="iconName()!" size="md" />
+            </div>
+          }
+          <div class="pds-card__title-group">
+            <h4 class="pds-card__title">{{ title() }}</h4>
+            @if (subtitle()) {
+              <h6 class="pds-card__subtitle">{{ subtitle() }}</h6>
+            }
+          </div>
+        </div>
+
+        <div class="pds-card__action-icon" aria-hidden="true">
+          <pds-icon name="arrow_forward" size="md" />
+        </div>
+      </div>
+
+      @if (description()) {
+        <p class="pds-card__description">{{ description() }}</p>
+      }
+    </div>
+  </div>
+}
+
+<!-- ============================================================
+     SELECTABLE CARD
+     Toda la card actúa como botón toggle. Muestra indicador
+     de selección (circle / check_circle) en la esquina superior.
+     ============================================================ -->
+@if (behavior() === 'selectable') {
+  <div class="pds-card__content">
+    <div class="pds-card__info">
+      <div class="pds-card__header">
+        <div class="pds-card__headings">
+          @if (iconName()) {
+            <div class="pds-card__icon-wrap pds-card__icon-wrap--solid">
+              <pds-icon [name]="iconName()!" size="md" />
+            </div>
+          }
+          <h4 class="pds-card__title">{{ title() }}</h4>
+          @if (subtitle()) {
+            <h6 class="pds-card__subtitle">{{ subtitle() }}</h6>
+          }
+        </div>
+
+        <div
+          class="pds-card__select-icon"
+          [class.pds-card__select-icon--selected]="isSelected()"
+          aria-hidden="true"
+        >
+          <pds-icon [name]="selectIcon()" size="sm" />
+        </div>
+      </div>
+
+      @if (description()) {
+        <p class="pds-card__description">{{ description() }}</p>
+      }
+    </div>
+  </div>
+}
