@@ -1,0 +1,48 @@
+<button
+  class="pds-accordion__header"
+  [class.pds-accordion__header--expanded]="isExpanded()"
+  [class.pds-accordion__header--disabled]="disabled()"
+  type="button"
+  [attr.id]="headerId"
+  [attr.aria-expanded]="isExpanded()"
+  [attr.aria-controls]="panelId"
+  [attr.aria-disabled]="disabled() ? true : null"
+  (click)="toggle()"
+>
+  @if (iconName()) {
+    <pds-icon
+      class="pds-accordion__icon-start"
+      [name]="iconName()!"
+      size="md"
+      [ariaHidden]="true"
+    />
+  }
+  <span class="pds-accordion__title-container">
+    <span class="pds-accordion__title">{{ title() }}</span>
+  </span>
+  <span
+    class="pds-accordion__chevron"
+    [class.pds-accordion__chevron--expanded]="isExpanded()"
+    aria-hidden="true"
+  >
+    <pds-icon
+      [name]="disabled() ? 'block' : 'keyboard_arrow_down'"
+      size="md"
+      [ariaHidden]="true"
+    />
+  </span>
+</button>
+
+@if (isExpanded()) {
+  <div
+    class="pds-accordion__panel"
+    role="region"
+    [attr.id]="panelId"
+    [attr.aria-labelledby]="headerId"
+  >
+    @if (subtitle()) {
+      <p class="pds-accordion__subtitle">{{ subtitle() }}</p>
+    }
+    <ng-content />
+  </div>
+}

@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
+
+// ─────────────────────────────────────────
+// Host
+// ─────────────────────────────────────────
+
+:host {
+  display: block;
+}
+
+.pds-code-block {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // No overflow:hidden — tooltip del botón de copia debe poder salir del contenedor
+}
+
+// ─────────────────────────────────────────
+// Header
+// ─────────────────────────────────────────
+
+.pds-code-block__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm);
+  padding: var(--spacing-component-md);
+  background: var(--surface-brand-primary-base);
+  border-radius: var(--radius-container-md) var(--radius-container-md) 0 0;
+}
+
+.pds-code-block__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: var(--line-height-lh-base);
+  color: var(--fg-neutral-inverse);
+}
+
+// Icon button: override color tokens so the tertiary btn renders correctly
+// on the dark navy header background
+.pds-code-block__copy-btn {
+  flex-shrink: 0;
+
+  // Copied state: green tint to communicate success
+  &--copied {
+    --pds-icon-button-bg: var(--surface-brand-secondary-muted);
+  }
+}
+
+// ─────────────────────────────────────────
+// Body
+// ─────────────────────────────────────────
+
+.pds-code-block__body {
+  display: flex;
+  gap: var(--spacing-component-sm);
+  align-items: flex-start;
+  padding: var(--spacing-component-md);
+  background: var(--surface-neutral-inverse);
+  border: var(--border-thin) solid var(--border-neutral-subtle);
+  border-top: none;
+  border-radius: 0 0 var(--radius-container-md) var(--radius-container-md);
+  overflow-x: auto;
+
+  // Scrollbar sobre fondo negro — thumb blanco semitransparente
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0 0 var(--radius-container-md) var(--radius-container-md);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // Windows High Contrast — delegar al sistema
+  @media (forced-colors: active) {
+    scrollbar-color: auto;
+  }
+
+  // When no header, all corners are rounded
+  &--no-header {
+    border: var(--border-thin) solid var(--border-neutral-subtle);
+    border-radius: var(--radius-container-md);
+  }
+}
+
+// ─────────────────────────────────────────
+// Line numbers
+// ─────────────────────────────────────────
+
+.pds-code-block__numbers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  width: 32px;
+  text-align: right;
+}
+
+.pds-code-block__line-number {
+  font-family: var(--text-code, 'IBM Plex Mono', monospace);
+  font-size: var(--font-size-f-sm);
+  font-weight: var(--font-weight-w-regular);
+  line-height: var(--line-height-lh-base);
+  color: var(--fg-neutral-inverse);
+  opacity: 0.6;
+  user-select: none;
+}
+
+// ─────────────────────────────────────────
+// Code pre/code
+// ─────────────────────────────────────────
+
+.pds-code-block__pre {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.pds-code-block__code {
+  font-family: var(--text-code, 'IBM Plex Mono', monospace);
+  font-size: var(--font-size-f-sm);
+  font-weight: var(--font-weight-w-regular);
+  line-height: var(--line-height-lh-base);
+  color: var(--fg-neutral-inverse);
+  background: transparent;
+  padding: 0;
+  border: none;
+}

@@ -1,0 +1,59 @@
+<div [ngClass]="hostClasses()">
+
+  <!-- Label row -->
+  <div class="pds-time-picker__label-row">
+    <label class="pds-time-picker__label" [for]="id">
+      {{ label() }}
+      @if (required()) {
+        <span class="pds-time-picker__required" aria-hidden="true"> *</span>
+      }
+    </label>
+    @if (helpText()) {
+      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
+        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
+          <pds-icon name="help" size="xs" [ariaHidden]="true" />
+        </button>
+      </pds-tooltip>
+    }
+  </div>
+
+  <!-- Field wrapper -->
+  <div [ngClass]="wrapperClasses()">
+    <pds-icon
+      name="schedule"
+      size="sm"
+      mode="brand"
+      [ariaHidden]="true"
+      class="pds-time-picker__icon"
+    />
+
+    <input
+      #inputEl
+      type="time"
+      class="pds-time-picker__input"
+      [id]="id"
+      [name]="name() ?? id"
+      [value]="internalValue()"
+      [attr.min]="min()"
+      [attr.max]="max()"
+      [attr.step]="step() !== 60 ? step() : null"
+      [attr.aria-required]="required() ? 'true' : null"
+      [attr.aria-invalid]="status() === 'error' ? 'true' : null"
+      [attr.aria-describedby]="feedbackText() ? helperId : null"
+      [attr.disabled]="internalDisabled() ? '' : null"
+      (change)="handleChange($event)"
+      (blur)="handleBlur()"
+      (focus)="focus.emit()"
+    />
+  </div>
+
+  <!-- Helper / feedback text -->
+  @if (feedbackText()) {
+    <pds-helper-text
+      [id]="helperId"
+      [status]="status()"
+      [text]="feedbackText()!"
+    />
+  }
+
+</div>

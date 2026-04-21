@@ -1,0 +1,318 @@
+// Visual + layout dimensions
+$thumb-size:        24px;   // visual diameter of the thumb
+$track-height:      12px;   // height of the track bar
+$num-input-height:  36px;   // height of the side numeric inputs — track-wrap matches this
+$touch-extend:       6px;   // how far the native input extends beyond track-wrap each side
+                             // total touch target = $num-input-height + 2 × $touch-extend = 48px ✓
+$thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thumb over track
+
+.pds-range {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xs, 8px);
+  width: 100%;
+
+  // ── Label (single mode) ───────────────────────────────────────────────────
+  &__label {
+    font-family: var(--input-font-label, Poppins);
+    font-size: var(--font-size-f-base, 16px);
+    font-weight: var(--font-weight-w-medium, 500);
+    color: var(--fg-brand-primary, #0F385A);
+    line-height: 1;
+  }
+
+  // ── Row: input + slider (+ input for double) ──────────────────────────────
+  // flex-end: aligns the bottom of the num-input with the bottom of track-wrap.
+  // In single mode both are 36px so it's equivalent to center.
+  // In double mode the labeled side-input is taller (label + gap + input),
+  // so flex-end ensures the input itself aligns with the track, not the label.
+  &__row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--spacing-component-sm, 12px);
+    overflow: visible; // allow tooltip to render above the row
+  }
+
+  // ── Side numeric input ────────────────────────────────────────────────────
+  &__side-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;  // label → input gap (consistent with other DS v2 form controls)
+    flex-shrink: 0;
+
+    &--labeled { align-items: center; }
+  }
+
+  &__side-label {
+    font-family: var(--input-font-label, Poppins);
+    font-size: var(--font-size-f-sm, 14px);
+    font-weight: var(--font-weight-w-medium, 500);
+    color: var(--fg-brand-primary, #0F385A);
+    line-height: 1;
+    text-align: center;
+  }
+
+  &__num-input {
+    width: 64px;
+    height: 36px;
+    padding: 0 var(--spacing-component-xs, 8px);
+    border: none;
+    box-shadow: inset 0 0 0 var(--border-thin) var(--border-brand-secondary-solid, #007BA4);
+    border-radius: var(--radius-component-sm, 6px);
+    background: var(--action-primary-subtle-bg, #F0F8FF);
+    font-family: var(--input-font-main, 'Open Sans');
+    font-size: var(--font-size-f-sm, 14px);
+    color: var(--fg-brand-primary, #0F385A);
+    font-weight: var(--font-weight-w-semibold, 600);
+    text-align: center;
+    outline: none;
+    transition: box-shadow 150ms ease;
+
+    // Hide browser spinners
+    appearance: textfield;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button { display: none; }
+
+    &:focus-visible {
+      box-shadow:
+        inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid, #007BA4),
+        0 0 0 var(--border-thin) var(--action-focus-inner, #fff),
+        0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring, #007BA4);
+    }
+
+    &:disabled {
+      background: var(--action-neutral-subtle-bg, #E5E9EC);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      color: var(--action-neutral-ghost-fg, #627380);
+      cursor: not-allowed;
+    }
+  }
+
+  // ── Slider area (takes remaining space) ───────────────────────────────────
+  &__slider-area {
+    flex: 1;
+    position: relative;     // anchor for absolutely-positioned tooltips
+    min-width: 0;
+    overflow: visible;
+  }
+
+  // ── Tooltip row — absolutely above track-wrap, does NOT affect row height ─
+  &__tooltips {
+    position: absolute;
+    bottom: calc(100% + 6px); // 6px gap above track-wrap top edge
+    left: 0;
+    right: 0;
+    height: 30px;             // bubble (~22px) + arrow (6px) + 2px breathing room
+    pointer-events: none;
+  }
+
+  // Matches pds-tooltip bubble styles
+  &__tooltip {
+    position: absolute;
+    left: calc(var(--pct, 0) * (100% - #{$thumb-size}) + #{$thumb-size * 0.5});
+    bottom: 0;
+    transform: translateX(-50%);
+    min-width: 28px;
+    padding: var(--spacing-component-xs, 6px) var(--spacing-component-sm, 8px);
+    border-radius: var(--radius-component-2xs, 4px);
+    background: var(--surface-neutral-inverse, #0c0f12);
+    color: var(--fg-on-color-inverse, #fff);
+    font-family: var(--text-body, var(--typography-family-sans2, 'Open Sans'));
+    font-size: var(--font-size-f-sm, 14px);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: var(--line-height-lh-base, 1.5);
+    text-align: center;
+    white-space: nowrap;
+
+    // Downward arrow (6px — same as pds-tooltip $arrow-size)
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;  // element is 12px tall (6px border × 2); place top at parent's bottom
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-top-color: var(--surface-neutral-inverse, #0c0f12);
+    }
+  }
+
+  // ── Track wrap — height matches num-input so they center-align ───────────
+  &__track-wrap {
+    position: relative;
+    width: 100%;
+    height: $num-input-height;  // 36px — matches side inputs; overflow: visible for touch target
+    overflow: visible;
+    display: flex;
+    align-items: center;
+  }
+
+  // ── Track background ──────────────────────────────────────────────────────
+  &__track-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: $track-height;           // 12px
+    box-sizing: border-box;
+    border-radius: var(--radius-pill, 9999px);
+    border: var(--border-thin) solid var(--border-brand-primary-light, #165386);
+    background: var(--surface-brand-primary-subtle, #F0F8FF);
+    pointer-events: none;
+  }
+
+  // ── Fill (filled portion of track) — sits inside track-bg ────────────────
+  &__fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: var(--radius-pill, 9999px);
+    background: var(--fg-brand-primary, #0F385A);
+    pointer-events: none;
+  }
+
+  // ── Native range inputs ───────────────────────────────────────────────────
+  // The input is position:absolute extending $touch-extend beyond track-wrap
+  // on each side → total interactive height = 36 + 6 + 6 = 48px (WCAG 2.5.5)
+  &__native {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: -$touch-extend;     // extend 6px above layout box
+    bottom: -$touch-extend;  // extend 6px below layout box
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+
+    // ── WebKit (Chrome, Safari, Edge) ──────────────────────────────────────
+    &::-webkit-slider-runnable-track {
+      height: $track-height;
+      background: transparent;
+      border-radius: var(--radius-pill, 9999px);
+    }
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: $thumb-size;    // 24px
+      height: $thumb-size;   // 24px
+      margin-top: $thumb-margin-top;   // -6px: centers 24px thumb over 12px track
+      border-radius: 50%;
+      background: var(--surface-neutral-card, #fff);
+      border: 2px solid var(--border-brand-primary-solid, #0F385A);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+      cursor: grab;
+      transition: box-shadow 100ms ease, border-width 100ms ease;
+    }
+
+    // Hover — solid ring 4px, no blur
+    &:hover:not(:disabled)::-webkit-slider-thumb {
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 4px rgba(30, 101, 236, 0.25);
+    }
+
+    // Active — solid ring 8px, no blur
+    &:active:not(:disabled)::-webkit-slider-thumb {
+      border-width: 4px;
+      cursor: grabbing;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 8px rgba(30, 101, 236, 0.25);
+    }
+
+    // Focus — double ring per DS v2 convention
+    &:focus-visible:not(:disabled)::-webkit-slider-thumb {
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner, #fff),
+        0 0 0 5px var(--action-primary-focus-ring, #007BA4);
+    }
+
+    // ── Firefox ───────────────────────────────────────────────────────────
+    &::-moz-range-track {
+      height: $track-height;
+      background: transparent;
+      border: none;
+    }
+
+    &::-moz-range-thumb {
+      width: $thumb-size;
+      height: $thumb-size;
+      border-radius: 50%;
+      border: 2px solid var(--border-brand-primary-solid, #0F385A);
+      background: var(--surface-neutral-card, #fff);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+      cursor: grab;
+      transition: box-shadow 100ms ease, border-width 100ms ease;
+    }
+
+    &:hover:not(:disabled)::-moz-range-thumb {
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 4px rgba(30, 101, 236, 0.25);
+    }
+
+    &:active:not(:disabled)::-moz-range-thumb {
+      border-width: 4px;
+      cursor: grabbing;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 8px rgba(30, 101, 236, 0.25);
+    }
+
+    &:focus-visible:not(:disabled)::-moz-range-thumb {
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner, #fff),
+        0 0 0 5px var(--action-primary-focus-ring, #007BA4);
+    }
+
+    // ── Disabled thumb ────────────────────────────────────────────────────
+    &:disabled {
+      cursor: not-allowed;
+
+      &::-webkit-slider-thumb {
+        background: var(--action-neutral-subtle-bg, #E5E9EC);
+        border-color: var(--border-neutral-default, #627380);
+        border-width: 2px;
+        cursor: not-allowed;
+        box-shadow: none;
+        filter: none;
+      }
+
+      &::-moz-range-thumb {
+        background: var(--action-neutral-subtle-bg, #E5E9EC);
+        border-color: var(--border-neutral-default, #627380);
+        border-width: 2px;
+        cursor: not-allowed;
+        box-shadow: none;
+        filter: none;
+      }
+    }
+
+    // ── Double mode: overlay both inputs, only thumbs capture events ──────
+    &--min,
+    &--max {
+      pointer-events: none;
+    }
+
+    &--min::-webkit-slider-thumb,
+    &--max::-webkit-slider-thumb { pointer-events: all; }
+
+    &--min::-moz-range-thumb,
+    &--max::-moz-range-thumb { pointer-events: all; }
+  }
+
+  // ── Disabled state ────────────────────────────────────────────────────────
+  &--disabled {
+    .pds-range__label,
+    .pds-range__side-label { color: var(--fg-neutral-disabled); }
+
+    .pds-range__fill {
+      background: var(--action-neutral-ghost-fg, #627380);
+    }
+
+    .pds-range__track-bg {
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+    }
+
+    .pds-range__tooltip {
+      background: var(--action-neutral-ghost-fg, #627380);
+
+      &::after { border-top-color: var(--action-neutral-ghost-fg, #627380); }
+    }
+  }
+}

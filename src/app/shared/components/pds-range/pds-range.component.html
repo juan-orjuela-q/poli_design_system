@@ -1,0 +1,160 @@
+<div [ngClass]="hostClasses()">
+
+  @if (type() === 'single') {
+    <!-- ── SINGLE ────────────────────────────────────────────────────────── -->
+
+    @if (label()) {
+      <div class="pds-range__label">{{ label() }}</div>
+    }
+
+    <div class="pds-range__row">
+
+      @if (showInputs()) {
+        <div class="pds-range__side-input">
+          <input
+            type="number"
+            class="pds-range__num-input"
+            [value]="internalValue()"
+            [min]="min()"
+            [max]="max()"
+            [step]="step()"
+            [attr.aria-label]="label() || 'Valor'"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (change)="onSingleText($event)"
+          />
+        </div>
+      }
+
+      <div class="pds-range__slider-area">
+        <!-- Value tooltip (always visible) -->
+        <div class="pds-range__tooltips" aria-hidden="true">
+          <div
+            class="pds-range__tooltip"
+            [style.--pct]="singlePct() / 100"
+          >{{ internalValue() }}</div>
+        </div>
+
+        <!-- Track + native input -->
+        <div class="pds-range__track-wrap">
+          <div class="pds-range__track-bg">
+            <div class="pds-range__fill" [ngStyle]="fillStyle()"></div>
+          </div>
+          <input
+            type="range"
+            class="pds-range__native"
+            [value]="internalValue()"
+            [min]="min()"
+            [max]="max()"
+            [step]="step()"
+            [attr.aria-label]="label() || 'Valor'"
+            [attr.aria-valuemin]="min()"
+            [attr.aria-valuemax]="max()"
+            [attr.aria-valuenow]="internalValue()"
+            [attr.aria-valuetext]="internalValue().toString()"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (input)="onSingleSlider($event)"
+          />
+        </div>
+      </div>
+
+    </div>
+
+  } @else {
+    <!-- ── DOUBLE ────────────────────────────────────────────────────────── -->
+
+    <div class="pds-range__row">
+
+      @if (showInputs()) {
+        <div class="pds-range__side-input pds-range__side-input--labeled">
+          <label class="pds-range__side-label" [for]="idMin">{{ labelMin() }}</label>
+          <input
+            type="number"
+            class="pds-range__num-input"
+            [id]="idMin"
+            [value]="internalMin()"
+            [min]="min()"
+            [max]="internalMax() - step()"
+            [step]="step()"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (change)="onMinText($event)"
+          />
+        </div>
+      }
+
+      <div class="pds-range__slider-area">
+        <!-- Value tooltips (always visible) -->
+        <div class="pds-range__tooltips" aria-hidden="true">
+          <div
+            class="pds-range__tooltip"
+            [style.--pct]="minPct() / 100"
+          >{{ internalMin() }}</div>
+          <div
+            class="pds-range__tooltip"
+            [style.--pct]="maxPct() / 100"
+          >{{ internalMax() }}</div>
+        </div>
+
+        <!-- Track + two overlaid native inputs -->
+        <div class="pds-range__track-wrap">
+          <div class="pds-range__track-bg">
+            <div class="pds-range__fill" [ngStyle]="fillStyle()"></div>
+          </div>
+
+          <!-- Min thumb -->
+          <input
+            type="range"
+            class="pds-range__native pds-range__native--min"
+            [value]="internalMin()"
+            [min]="min()"
+            [max]="max()"
+            [step]="step()"
+            [style.z-index]="minZIndex()"
+            [attr.aria-label]="labelMin() + ': ' + internalMin()"
+            [attr.aria-valuemin]="min()"
+            [attr.aria-valuemax]="max()"
+            [attr.aria-valuenow]="internalMin()"
+            [attr.aria-valuetext]="internalMin().toString()"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (input)="onMinSlider($event)"
+          />
+
+          <!-- Max thumb -->
+          <input
+            type="range"
+            class="pds-range__native pds-range__native--max"
+            [value]="internalMax()"
+            [min]="min()"
+            [max]="max()"
+            [step]="step()"
+            [attr.aria-label]="labelMax() + ': ' + internalMax()"
+            [attr.aria-valuemin]="min()"
+            [attr.aria-valuemax]="max()"
+            [attr.aria-valuenow]="internalMax()"
+            [attr.aria-valuetext]="internalMax().toString()"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (input)="onMaxSlider($event)"
+          />
+        </div>
+      </div>
+
+      @if (showInputs()) {
+        <div class="pds-range__side-input pds-range__side-input--labeled">
+          <label class="pds-range__side-label" [for]="idMax">{{ labelMax() }}</label>
+          <input
+            type="number"
+            class="pds-range__num-input"
+            [id]="idMax"
+            [value]="internalMax()"
+            [min]="internalMin() + step()"
+            [max]="max()"
+            [step]="step()"
+            [attr.disabled]="internalDisabled() ? '' : null"
+            (change)="onMaxText($event)"
+          />
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

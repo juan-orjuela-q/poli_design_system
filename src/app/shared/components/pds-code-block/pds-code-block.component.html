@@ -1,0 +1,39 @@
+<div class="pds-code-block">
+
+  @if (showHeader()) {
+    <div class="pds-code-block__header">
+      @if (title()) {
+        <h6 class="pds-code-block__title">{{ title() }}</h6>
+      }
+      @if (showCopyButton()) {
+        <pds-icon-button
+          class="pds-code-block__copy-btn"
+          variant="tertiary"
+          size="sm"
+          rounded="rectangle"
+          [iconName]="copyIcon()"
+          [ariaLabel]="tooltipText()"
+          [tooltipText]="tooltipText()"
+          tooltipPosition="bottom"
+          [class.pds-code-block__copy-btn--copied]="copyTooltip() === 'copied'"
+          (click)="handleCopy()"
+        />
+      }
+    </div>
+  }
+
+  <div class="pds-code-block__body" [class.pds-code-block__body--no-header]="!showHeader()"
+    [style.maxHeight]="maxHeight()"
+    [style.overflowY]="maxHeight() ? 'auto' : null"
+  >
+    @if (showNumbers()) {
+      <ol class="pds-code-block__numbers" aria-hidden="true">
+        @for (line of lines(); track $index) {
+          <li class="pds-code-block__line-number">{{ $index + 1 }}</li>
+        }
+      </ol>
+    }
+    <pre class="pds-code-block__pre"><code class="pds-code-block__code">{{ code() }}</code></pre>
+  </div>
+
+</div>

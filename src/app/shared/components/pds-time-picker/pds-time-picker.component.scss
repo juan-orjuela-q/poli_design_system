@@ -1,0 +1,139 @@
+.pds-time-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xs);
+  width: 100%;
+
+  // ── Label row ─────────────────────────────────────────────────────────────
+  &__label-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-component-2xs, 4px);
+  }
+
+  &__label {
+    font-family: var(--input-font-label, Poppins);
+    font-size: var(--font-size-f-base, 16px);
+    font-weight: var(--font-weight-w-medium, 500);
+    color: var(--fg-brand-primary, #0F385A);
+    line-height: 1;
+  }
+
+  &__required { color: var(--fg-status-error, #e0006e); }
+
+  // ── Wrapper ───────────────────────────────────────────────────────────────
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-component-xxs, 4px);
+    min-height: var(--input-dimensions-min-height, 48px);
+    padding: var(--input-dimensions-padding-y, 4px) var(--input-dimensions-padding-x, 12px);
+    background: var(--action-primary-subtle-bg, #F0F8FF);
+    box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #b0bec5);
+    border-radius: var(--input-radius-base, 10px);
+    transition: box-shadow 150ms ease, background 150ms ease;
+
+    &:hover:not(&--disabled):not(&--error):not(&--success):not(&--warning) {
+      box-shadow: inset 0 0 0 var(--border-thick) var(--border-brand-primary-solid);
+      background: var(--action-primary-subtle-bg-hover, #E6EFFD);
+    }
+
+    &:hover:not(&--disabled).pds-time-picker__wrapper--error   { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-error-solid);   background: var(--action-status-error-subtle-bg-hover); }
+    &:hover:not(&--disabled).pds-time-picker__wrapper--success { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-success-solid); background: var(--action-status-success-subtle-bg-hover); }
+    &:hover:not(&--disabled).pds-time-picker__wrapper--warning { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-warning-solid); background: var(--action-status-warning-subtle-bg-hover); }
+
+    &:focus-within:not(&--disabled):not(&--error):not(&--success):not(&--warning) {
+      box-shadow:
+        inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid),
+        0 0 0 var(--border-thin) var(--action-focus-inner),
+        0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring);
+    }
+
+    // Status variants
+    &--error   { box-shadow: inset 0 0 0 var(--border-thin) var(--border-status-error-solid);   background: var(--action-status-error-subtle-bg); }
+    &--success { box-shadow: inset 0 0 0 var(--border-thin) var(--border-status-success-solid); background: var(--action-status-success-subtle-bg); }
+    &--warning { box-shadow: inset 0 0 0 var(--border-thin) var(--border-status-warning-solid); background: var(--action-status-warning-subtle-bg); }
+
+    &--error:focus-within   { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-error-solid),   0 0 0 var(--border-thin) var(--action-focus-inner), 0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-status-error-focus-ring); }
+    &--success:focus-within { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-success-solid), 0 0 0 var(--border-thin) var(--action-focus-inner), 0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-status-success-focus-ring); }
+    &--warning:focus-within { box-shadow: inset 0 0 0 var(--border-thick) var(--border-status-warning-solid), 0 0 0 var(--border-thin) var(--action-focus-inner), 0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-status-warning-focus-ring); }
+
+    &--disabled {
+      background: var(--action-neutral-subtle-bg, #E5E9EC);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      cursor: not-allowed;
+    }
+  }
+
+  // ── Clock icon ────────────────────────────────────────────────────────────
+  &__icon { flex-shrink: 0; }
+
+  // ── Native time input ─────────────────────────────────────────────────────
+  &__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--input-font-main, 'Open Sans');
+    font-size: var(--font-size-f-base, 16px);
+    color: var(--fg-brand-primary, #0F385A);
+    cursor: pointer;
+
+    // Reset webkit appearance
+    appearance: none;
+
+    // Chrome/Edge/Safari: colorear las partes del editor de hora
+    &::-webkit-datetime-edit            { color: var(--fg-brand-primary, #0F385A); }
+    &::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+    &::-webkit-datetime-edit-hour-field,
+    &::-webkit-datetime-edit-minute-field,
+    &::-webkit-datetime-edit-second-field,
+    &::-webkit-datetime-edit-ampm-field { color: var(--fg-brand-primary, #0F385A); }
+    &::-webkit-datetime-edit-text       { color: var(--fg-neutral-secondary, #627380); }
+
+    // Ocultar el botón nativo del spinner
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+      appearance: none;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--action-neutral-ghost-fg, #627380);
+
+      &::-webkit-datetime-edit-hour-field,
+      &::-webkit-datetime-edit-minute-field,
+      &::-webkit-datetime-edit-second-field,
+      &::-webkit-datetime-edit-ampm-field { color: var(--action-neutral-ghost-fg, #627380); }
+    }
+  }
+
+  // ── Disabled: label ───────────────────────────────────────────────────────
+  &--disabled &__label { color: var(--fg-neutral-disabled); }
+
+  // ── Status: label color ───────────────────────────────────────────────────
+  &--error &__label { color: var(--fg-status-error, #e0006e); }
+
+  // ── Help button ───────────────────────────────────────────────────────────
+  .pds-field-help {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    color: var(--fg-neutral-secondary);
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 4px var(--action-primary-focus-ring);
+    }
+  }
+}

@@ -1,0 +1,180 @@
+// ─────────────────────────────────────────
+// Host: flex column so header + panel have gap
+// ─────────────────────────────────────────
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+}
+
+// ─────────────────────────────────────────
+// Header (trigger button)
+// ─────────────────────────────────────────
+
+.pds-accordion__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm);
+  width: 100%;
+  min-height: 64px;
+  padding: var(--spacing-component-sm) var(--spacing-component-lg);
+  border: var(--border-thin) solid var(--border-brand-primary-solid);
+  border-radius: var(--radius-container-sm);
+  background: var(--action-primary-subtle-bg);
+  color: var(--action-primary-subtle-fg);
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: var(--line-height-lh-tight);
+
+  // Icons inherit the button's text color
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // ── Hover ──────────────────────────────
+  &:hover:not(.pds-accordion__header--disabled):not(.pds-accordion__header--expanded) {
+    background: var(--action-primary-subtle-bg-hover-dark);
+    border-width: var(--border-thick);
+    box-shadow:
+      0 4px 4px -2px rgba(24, 39, 75, 0.08),
+      0 2px 4px -2px rgba(24, 39, 75, 0.12);
+  }
+
+  // ── Focus ──────────────────────────────
+  &:focus-visible {
+    outline: none;
+    background: var(--action-primary-subtle-bg-hover);
+    box-shadow:
+      0 0 0 1px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  // ── Expanded ───────────────────────────
+  // All 4 corners remain rounded (panel is separated by gap, not flush)
+  &--expanded {
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+    border-color: var(--border-neutral-transparent);
+
+    &:hover {
+      background: var(--action-primary-solid-bg-hover);
+    }
+  }
+
+  // ── Disabled ───────────────────────────
+  // Gray solid background, white text, block icon — keep in tab order (aria-disabled)
+  &--disabled {
+    background: var(--action-neutral-solid-bg-disabled);
+    color: var(--fg-neutral-inverse);
+    border-color: transparent;
+    cursor: not-allowed;
+  }
+}
+
+// ─────────────────────────────────────────
+// Title container (flex-1, centered text)
+// ─────────────────────────────────────────
+
+.pds-accordion__title-container {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pds-accordion__title {
+  text-align: center;
+  // Inherits font-family, size, weight, color from the button
+}
+
+// ─────────────────────────────────────────
+// Left icon
+// ─────────────────────────────────────────
+
+.pds-accordion__icon-start {
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────
+// Chevron icon (right)
+// ─────────────────────────────────────────
+
+.pds-accordion__chevron {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease;
+
+  &--expanded {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ─────────────────────────────────────────
+// Panel (content area)
+// ─────────────────────────────────────────
+
+.pds-accordion__panel {
+  border-radius: var(--radius-component-md);
+  background: var(--surface-neutral-card);
+  padding: var(--spacing-component-2xl);
+  color: var(--fg-brand-primary);
+  font-family: var(--text-body, Open Sans);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-regular);
+  line-height: var(--line-height-lh-base);
+  box-shadow:
+    0 8px 16px -6px rgba(24, 39, 75, 0.08),
+    0 6px 8px -6px rgba(24, 39, 75, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-md);
+
+  animation: pds-accordion-slide-down 200ms ease-out both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// ─────────────────────────────────────────
+// Panel subtitle (H5 heading inside panel)
+// ─────────────────────────────────────────
+
+.pds-accordion__subtitle {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-lg);
+  font-weight: var(--font-weight-w-semibold);
+  line-height: var(--line-height-lh-tight);
+  color: var(--fg-brand-primary);
+  margin: 0;
+}
+
+@keyframes pds-accordion-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
