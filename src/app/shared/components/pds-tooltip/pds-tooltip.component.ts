@@ -39,7 +39,7 @@ export class PdsTooltipComponent {
   readonly text = input.required<string>();
 
   /** Posición del tooltip respecto al activador. */
-  readonly position = input<'top' | 'bottom' | 'left' | 'right'>('top');
+  readonly position = input<'top' | 'top-end' | 'bottom' | 'left' | 'right'>('top');
 
   /** Deshabilita la aparición del tooltip. */
   readonly disabled = input<boolean>(false);

@@ -1,0 +1,369 @@
+:host {
+  display: block;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ── Contenedor principal ────────────────────────────────────────────────
+
+.pds-table-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-lg);
+}
+
+// ── Barra de filtros ─────────────────────────────────────────────────────
+
+.pds-table__filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-component-lg);
+  align-items: flex-end;
+}
+
+.pds-table__filter-item {
+  // Crece para ocupar espacio disponible, pero no más de 360px
+  flex: 1 1 220px;
+  max-width: 360px;
+
+  // En pantallas pequeñas ocupa todo el ancho
+  @media (max-width: 600px) {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.pds-table__filter-wrap {
+  position: relative;
+
+  // El campo ocupa todo el ancho del wrapper
+  pds-input-field,
+  pds-select-field {
+    display: block;
+    width: 100%;
+  }
+}
+
+.pds-table__filter-clear {
+  position: absolute;
+  // Alineado con el campo de texto (por encima del label)
+  bottom: 0;
+  right: var(--spacing-component-xs, 4px);
+  // Altura del campo input/select mínimo
+  height: var(--input-dimensions-min-height, 48px);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-component-xs, 4px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fg-neutral-secondary);
+  border-radius: var(--radius-component-xs);
+  opacity: 0;
+  transition: opacity 120ms ease, color 120ms ease;
+
+  &:hover {
+    color: var(--fg-brand-primary);
+  }
+
+  &:focus-visible {
+    opacity: 1;
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+}
+
+// Mostrar el clear button al hacer hover sobre el wrapper
+.pds-table__filter-wrap:hover .pds-table__filter-clear {
+  opacity: 1;
+}
+
+// ── Scroll horizontal ───────────────────────────────────────────────────
+
+.pds-table-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-component-sm);
+  border: var(--border-thin) solid var(--border-brand-secondary-solid);
+  background: var(--surface-neutral-canvas);
+}
+
+// ── Tabla base ──────────────────────────────────────────────────────────
+
+.pds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--input-font-main, 'Open Sans');
+  font-size: var(--font-size-f-sm);
+  color: var(--fg-brand-primary);
+
+  // ── Fila de encabezado ──────────────────────────────────────────────
+
+  &__header-row {
+    background: var(--action-primary-subtle-bg, #F0F8FF);
+  }
+
+  // ── Celdas de encabezado ────────────────────────────────────────────
+
+  &__th {
+    height: 48px;
+    padding: 0 var(--spacing-component-md, 12px);
+    vertical-align: middle;
+    font-family: var(--text-component, Poppins);
+    font-size: var(--font-size-f-sm);
+    font-weight: var(--font-weight-w-semibold);
+    color: var(--fg-brand-primary);
+    border-bottom: var(--border-thick) solid var(--border-brand-secondary-solid);
+    border-right: var(--border-thin) solid var(--action-primary-subtle-bg-hover, #E6EFFD);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    text-align: left;
+    white-space: nowrap;
+
+    &--select {
+      width: 52px;
+      text-align: center;
+      // Eliminar padding para que el checkbox quede centrado
+      padding: var(--spacing-component-xs) var(--spacing-component-sm);
+    }
+
+    &--actions {
+      // Columna "shrink-to-fit"
+      width: 1%;
+      text-align: center;
+    }
+
+    // La columna sortable delega el padding al botón interno
+    &--sortable {
+      padding: 0;
+    }
+  }
+
+  // ── Texto del encabezado no sortable ─────────────────────────────────
+
+  &__th-label {
+    display: block;
+  }
+
+  // ── Botón de sort ────────────────────────────────────────────────────
+
+  &__sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-component-xs);
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--spacing-component-md, 12px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    text-align: left;
+
+    &:hover {
+      background: var(--action-primary-subtle-bg-hover, #E6EFFD);
+      color: var(--fg-brand-primary-strong);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 4px var(--action-primary-focus-ring);
+    }
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary);
+      flex-shrink: 0;
+    }
+  }
+
+  // ── Filas de datos ───────────────────────────────────────────────────
+
+  &__row {
+    transition: background 120ms ease;
+    border-bottom: var(--border-thin) solid var(--action-primary-subtle-bg-hover, #E6EFFD);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--action-primary-subtle-bg);
+    }
+
+    &--selected {
+      background: var(--action-primary-subtle-bg-hover);
+
+      &:hover {
+        background: var(--action-primary-subtle-bg-hover-dark);
+      }
+    }
+  }
+
+  // ── Celdas de datos ──────────────────────────────────────────────────
+
+  &__td {
+    padding: 0 var(--spacing-component-md, 12px);
+    height: 48px;
+    vertical-align: middle;
+    color: var(--fg-brand-primary);
+    border-right: var(--border-thin) solid var(--action-primary-subtle-bg-hover, #E6EFFD);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &--select {
+      width: 52px;
+      text-align: center;
+      padding: var(--spacing-component-xs) var(--spacing-component-sm);
+    }
+
+    &--actions {
+      text-align: center;
+      white-space: nowrap;
+      padding: var(--spacing-component-xs) var(--spacing-component-sm);
+      // overflow: visible permite que los tooltips salgan de la celda
+      overflow: visible;
+      position: relative;
+    }
+  }
+
+  // ── Wrapper del checkbox (centra el control, oculta el label) ────────
+
+  &__select-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Ocultar visualmente el texto del label sin quitarlo del DOM
+    // (el input.sr-only ya provee el nombre accesible al lector de pantalla)
+    ::ng-deep .pds-checkbox__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  }
+
+  // ── Grupo de botones de acción ───────────────────────────────────────
+
+  &__actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-component-lg, 16px);
+    // Contexto de posicionamiento para tooltips hijos
+    position: relative;
+    overflow: visible;
+  }
+
+  // ── Estado vacío ─────────────────────────────────────────────────────
+
+  &__empty-cell {
+    padding: var(--spacing-component-3xl) var(--spacing-component-lg);
+    text-align: center;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-component-sm);
+    color: var(--fg-neutral-secondary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-neutral-secondary);
+    }
+
+    span {
+      font-family: var(--text-component, Poppins);
+      font-size: var(--font-size-f-sm);
+      color: var(--fg-neutral-secondary);
+    }
+  }
+
+  // ── Tipos de celda ────────────────────────────────────────────────────
+
+  &__cell-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-component-xxs);
+    color: var(--fg-neutral-secondary);
+    font-size: var(--font-size-f-sm);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, var(--fg-neutral-secondary));
+      flex-shrink: 0;
+    }
+  }
+
+  &__cell-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-component-xxs);
+    color: var(--fg-brand-secondary, var(--action-primary-ghost-fg));
+    text-decoration: none;
+    font-size: var(--font-size-f-sm);
+    transition: color 120ms ease;
+
+    pds-icon {
+      --pds-icon-color: currentColor;
+      flex-shrink: 0;
+    }
+
+    span {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    &:hover {
+      color: var(--fg-brand-primary);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-radius: var(--radius-component-2xs);
+      box-shadow:
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 4px var(--action-primary-focus-ring);
+    }
+  }
+
+  &__cell-with-helper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-component-2xs, 2px);
+  }
+
+  &__cell-primary {
+    line-height: 1.4;
+  }
+}

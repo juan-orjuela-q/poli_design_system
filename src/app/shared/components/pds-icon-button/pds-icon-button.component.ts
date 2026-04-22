@@ -49,7 +49,7 @@ export class PdsIconButtonComponent {
   readonly tooltipText = input<string | null>(null);
 
   /** Posición del tooltip respecto al botón. */
-  readonly tooltipPosition = input<'top' | 'bottom' | 'left' | 'right'>('top');
+  readonly tooltipPosition = input<'top' | 'top-end' | 'bottom' | 'left' | 'right'>('top');
 
   /** Tipo HTML del botón. */
   readonly type = input<'button' | 'submit'>('button');

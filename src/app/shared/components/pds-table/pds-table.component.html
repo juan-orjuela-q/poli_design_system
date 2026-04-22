@@ -1,0 +1,289 @@
+<div class="pds-table-container">
+  <!-- ── Toolbar ──────────────────────────────────────────────── -->
+  @if (showAddButton()) {
+    <div class="pds-table__toolbar">
+      <button type="button" class="pds-table__add-btn" (click)="addClick.emit()">
+        <pds-icon name="add" size="sm" [ariaHidden]="true" />
+        {{ addButtonLabel() }}
+      </button>
+    </div>
+  }
+  <!-- ── Barra de filtros ─────────────────────────────────────────── -->
+  @if (filters().length > 0) {
+    <div class="pds-table__filter-bar" role="search" aria-label="Filtrar tabla">
+      @for (filter of filters(); track filter.key) {
+
+        @if (filter.type === 'search') {
+          <div class="pds-table__filter-wrap pds-table__filter-item">
+            <pds-input-field
+              [label]="filter.label"
+              [placeholder]="filter.placeholder || 'Buscar…'"
+              type="search"
+              iconStart="search"
+              [value]="getFilterValue(filter.key)"
+              (valueChange)="onFilterChange(filter.key, $event)"
+            />
+            @if (getFilterValue(filter.key)) {
+              <button
+                type="button"
+                class="pds-table__filter-clear"
+                [attr.aria-label]="'Quitar filtro ' + filter.label"
+                (click)="onFilterChange(filter.key, '')"
+              >
+                <pds-icon name="close" size="sm" [ariaHidden]="true" />
+              </button>
+            }
+          </div>
+        }
+
+        @if (filter.type === 'select') {
+          <div class="pds-table__filter-wrap pds-table__filter-item">
+            <pds-select-field
+              [label]="filter.label"
+              [placeholder]="filter.placeholder || 'Todos'"
+              [options]="filter.options || []"
+              [value]="getFilterValue(filter.key) || null"
+              (valueChange)="onFilterChange(filter.key, $event)"
+            />
+            @if (getFilterValue(filter.key)) {
+              <button
+                type="button"
+                class="pds-table__filter-clear"
+                [attr.aria-label]="'Quitar filtro ' + filter.label"
+                (click)="onFilterChange(filter.key, '')"
+              >
+                <pds-icon name="close" size="sm" [ariaHidden]="true" />
+              </button>
+            }
+          </div>
+        }
+
+      }
+    </div>
+  }
+
+  <!-- ── Tabla ────────────────────────────────────────────────────── -->
+  <div class="pds-table-scroll">
+    <table
+      class="pds-table"
+      role="grid"
+      [attr.aria-rowcount]="_displayData().length"
+      [attr.aria-multiselectable]="showSelection() ? true : null"
+    >
+      <!-- ── Encabezado ──────────────────────────────────────────── -->
+      <thead>
+        <tr class="pds-table__header-row" role="row">
+
+          <!-- Columna de selección -->
+          @if (showSelection()) {
+            <th
+              class="pds-table__th pds-table__th--select"
+              scope="col"
+              role="columnheader"
+              aria-label="Seleccionar"
+            >
+              <div class="pds-table__select-wrap">
+                <pds-tooltip text="Seleccionar todo" position="right">
+                  <pds-checkbox
+                    label="Seleccionar todo"
+                    [checked]="_allSelected()"
+                    [indeterminate]="_someSelected()"
+                    (checkedChange)="toggleAllRows()"
+                  />
+                </pds-tooltip>
+              </div>
+              <span class="sr-only">Seleccionar</span>
+            </th>
+          }
+
+          <!-- Columnas de datos -->
+          @for (col of columns(); track col.key) {
+            <th
+              class="pds-table__th"
+              [class.pds-table__th--sortable]="col.sortable"
+              [class.pds-table__th--sort-asc]="sortKey() === col.key && sortDirection() === 'asc'"
+              [class.pds-table__th--sort-desc]="sortKey() === col.key && sortDirection() === 'desc'"
+              [style.width]="col.width || null"
+              [style.text-align]="col.align || null"
+              scope="col"
+              role="columnheader"
+              [attr.aria-sort]="col.sortable
+                ? (sortKey() === col.key
+                  ? (sortDirection() === 'asc' ? 'ascending' : 'descending')
+                  : 'none')
+                : null"
+            >
+              @if (col.sortable) {
+                  <button
+                    type="button"
+                    class="pds-table__sort-btn"
+                    [attr.aria-label]="'Ordenar por ' + col.label"
+                    (click)="onSortClick(col.key)"
+                  >
+                    <span>{{ col.label }}</span>
+                    <pds-icon [name]="getSortIcon(col.key)" size="sm" [ariaHidden]="true" />
+                  </button>
+              } @else {
+                <span class="pds-table__th-label">{{ col.label }}</span>
+              }
+            </th>
+          }
+
+          <!-- Columna de acciones -->
+          @if (actions().length > 0) {
+            <th
+              class="pds-table__th pds-table__th--actions"
+              scope="col"
+              role="columnheader"
+            >
+              <span class="pds-table__th-label">Acciones</span>
+            </th>
+          }
+
+        </tr>
+      </thead>
+
+      <!-- ── Cuerpo ──────────────────────────────────────────────── -->
+      <tbody>
+
+        @for (row of _displayData(); track $index; let i = $index) {
+          <tr
+            class="pds-table__row"
+            [class.pds-table__row--selected]="isSelected(row)"
+            role="row"
+            [attr.aria-selected]="showSelection() ? isSelected(row) : null"
+          >
+
+            <!-- Celda de selección -->
+            @if (showSelection()) {
+              <td
+                class="pds-table__td pds-table__td--select"
+                role="gridcell"
+              >
+                <div class="pds-table__select-wrap">
+                  <pds-tooltip [text]="'Seleccionar fila ' + (i + 1)" position="right">
+                    <pds-checkbox
+                      [label]="'Seleccionar fila ' + (i + 1)"
+                      [checked]="isSelected(row)"
+                      (checkedChange)="toggleRow(row)"
+                    />
+                  </pds-tooltip>
+                </div>
+              </td>
+            }
+
+            <!-- Celdas de datos -->
+            @for (col of columns(); track col.key) {
+              <td
+                class="pds-table__td"
+                [style.text-align]="col.align || null"
+                [attr.data-label]="col.label"
+                role="gridcell"
+              >
+                @if (getCellTemplate(col.key); as tpl) {
+                  <ng-container
+                    *ngTemplateOutlet="tpl; context: { $implicit: getCellValue(row, col.key), row: row, index: i }"
+                  />
+                } @else {
+                  @switch (col.type ?? 'text') {
+
+                    @case ('badge') {
+                      <pds-badge [status]="getBadgeVariant(row, col)" size="sm">
+                        {{ getCellValue(row, col.key) }}
+                      </pds-badge>
+                    }
+
+                    @case ('date') {
+                      <span class="pds-table__cell-date">
+                        <pds-icon name="calendar_month" size="xs" [ariaHidden]="true" />
+                        <span>{{ formatDate(getCellValue(row, col.key), col.dateLocale) }}</span>
+                      </span>
+                    }
+
+                    @case ('link') {
+                      <a
+                        class="pds-table__cell-link"
+                        [href]="getLinkHref(row, col)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <pds-icon [name]="col.linkIcon || 'attach_file'" size="xs" [ariaHidden]="true" />
+                        <span>{{ getCellValue(row, col.key) }}</span>
+                      </a>
+                    }
+
+                    @case ('with-helper') {
+                      <span class="pds-table__cell-with-helper">
+                        <span class="pds-table__cell-primary">{{ getCellValue(row, col.key) }}</span>
+                        @if (getHelperText(row, col)) {
+                          <pds-helper-text [status]="getHelperStatus(row, col)">
+                            {{ getHelperText(row, col) }}
+                          </pds-helper-text>
+                        }
+                      </span>
+                    }
+
+                    @default {
+                      {{ getCellValue(row, col.key) }}
+                    }
+
+                  }
+                }
+              </td>
+            }
+
+            <!-- Celda de acciones -->
+            @if (actions().length > 0) {
+              <td class="pds-table__td pds-table__td--actions" role="gridcell">
+                <div class="pds-table__actions" role="group" [attr.aria-label]="'Acciones fila ' + (i + 1)">
+                  @for (action of actions(); track action.key) {
+                    <pds-icon-button
+                      [variant]="action.variant || 'outline'"
+                      size="sm"
+                      rounded="rectangle"
+                      [iconName]="action.icon"
+                      [ariaLabel]="action.label"
+                      tooltipPosition="top-end"
+                      (click)="onActionClick(action.key, row, i)"
+                    />
+                  }
+                </div>
+              </td>
+            }
+
+          </tr>
+        }
+
+        <!-- Estado vacío -->
+        @if (_displayData().length === 0) {
+          <tr class="pds-table__empty-row" role="row">
+            <td
+              class="pds-table__empty-cell"
+              [attr.colspan]="_colSpan()"
+              role="gridcell"
+            >
+              <div class="pds-table__empty">
+                <pds-icon name="table_rows" size="lg" [ariaHidden]="true" />
+                <span>Sin registros para mostrar</span>
+              </div>
+            </td>
+          </tr>
+        }
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Paginador ────────────────────────────────────────────────── -->
+  @if (showPaginator() && totalItems() > 0) {
+    <pds-paginator
+      [totalItems]="totalItems()"
+      [pageSize]="pageSize()"
+      [currentPage]="currentPage()"
+      [pageSizeOptions]="pageSizeOptions()"
+      (pageChange)="pageChange.emit($event)"
+      (pageSizeChange)="pageSizeChange.emit($event)"
+    />
+  }
+
+</div>

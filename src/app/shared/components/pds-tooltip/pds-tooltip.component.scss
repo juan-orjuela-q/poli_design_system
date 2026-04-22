@@ -95,6 +95,18 @@ $gap: 4px;
     }
   }
 
+  // TOP-END: tooltip encima del activador, alineado al borde derecho (evita overflow)
+  &--top-end {
+    bottom: calc(100% + #{$gap});
+    right: 0;
+
+    &::before {
+      top: 100%;
+      right: $arrow-size * 2;
+      border-top-color: var(--surface-neutral-inverse);
+    }
+  }
+
   // BOTTOM: tooltip debajo del activador, flecha apunta hacia arriba
   &--bottom {
     top: calc(100% + #{$gap});

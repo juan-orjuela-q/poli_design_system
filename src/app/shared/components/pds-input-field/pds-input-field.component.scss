@@ -31,12 +31,12 @@
     min-height: var(--input-dimensions-min-height);
     padding: var(--input-dimensions-padding-y) var(--input-dimensions-padding-x);
     background: var(--action-primary-subtle-bg, #F0F8FF);
-    box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #b0bec5);
+    box-shadow: inset 0 0 0 var(--border-thin) var(--border-brand-secondary-solid);
     border-radius: var(--input-radius-base);
     transition: box-shadow 150ms ease, background 150ms ease;
 
     &:hover:not(.pds-input-field__wrapper--disabled):not(.pds-input-field__wrapper--readonly):not(.pds-input-field__wrapper--loading):not(.pds-input-field__wrapper--error):not(.pds-input-field__wrapper--success):not(.pds-input-field__wrapper--warning) {
-      box-shadow: inset 0 0 0 var(--border-thick) var(--border-brand-primary-solid);
+      box-shadow: inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid);
       background: var(--action-primary-subtle-bg-hover, #E6EFFD);
     }
 

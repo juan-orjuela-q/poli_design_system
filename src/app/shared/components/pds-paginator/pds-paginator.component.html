@@ -1,0 +1,97 @@
+<nav class="pds-paginator" aria-label="Paginación">
+
+  <!-- ── Selector de items por página ─────────────────────────────── -->
+  @if (showPageSizeSelector()) {
+    <div class="pds-paginator__page-size" #pageSizeContainer>
+      <span class="pds-paginator__page-size-label">Items por página</span>
+
+      <div class="pds-paginator__page-size-select">
+        <!-- Trigger -->
+        <button
+          type="button"
+          class="pds-paginator__page-size-btn"
+          [attr.aria-expanded]="_isPageSizeOpen()"
+          aria-haspopup="listbox"
+          (click)="togglePageSizeDropdown()"
+        >
+          <span>{{ pageSize() }}</span>
+          <pds-icon name="expand_more" size="sm" />
+        </button>
+
+        <!-- Dropdown -->
+        @if (_isPageSizeOpen()) {
+          <ul
+            class="pds-paginator__page-size-list"
+            role="listbox"
+            aria-label="Items por página"
+          >
+            @for (option of pageSizeOptions(); track option) {
+              <li
+                class="pds-paginator__page-size-option"
+                [class.pds-paginator__page-size-option--selected]="option === pageSize()"
+                role="option"
+                [attr.aria-selected]="option === pageSize()"
+                tabindex="0"
+                (click)="selectPageSize(option)"
+                (keydown)="onOptionKeydown($event, option)"
+              >{{ option }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ── Indicador de estado: Mostrando X-Y de Z ──────────────────── -->
+  <div class="pds-paginator__state-indicator" aria-live="polite" aria-atomic="true">
+    <span class="pds-paginator__state-text">{{ stateText() }}</span>
+  </div>
+
+  <!-- ── Controles de navegación ──────────────────────────────────── -->
+  <div class="pds-paginator__nav" role="group" aria-label="Navegación de páginas">
+    <pds-icon-button
+      variant="outline"
+      size="sm"
+      rounded="rectangle"
+      iconName="first_page"
+      ariaLabel="Primera página"
+      tooltipPosition="top"
+      [disabled]="isFirst()"
+      (click)="goFirst()"
+    />
+
+    <pds-icon-button
+      variant="outline"
+      size="sm"
+      rounded="rectangle"
+      iconName="chevron_left"
+      ariaLabel="Página anterior"
+      tooltipPosition="top"
+      [disabled]="isFirst()"
+      (click)="goPrev()"
+    />
+
+    <pds-icon-button
+      variant="outline"
+      size="sm"
+      rounded="rectangle"
+      iconName="chevron_right"
+      ariaLabel="Página siguiente"
+      tooltipPosition="top"
+      [disabled]="isLast()"
+      (click)="goNext()"
+    />
+
+    <pds-icon-button
+      variant="outline"
+      size="sm"
+      rounded="rectangle"
+      iconName="last_page"
+      ariaLabel="Última página"
+      tooltipPosition="top"
+      [disabled]="isLast()"
+      (click)="goLast()"
+    />
+  </div>
+
+</nav>
