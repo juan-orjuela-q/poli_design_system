@@ -1,25 +1,31 @@
 <div [ngClass]="hostClasses()">
-
   <!-- Label row -->
   <div class="pds-date-picker__label-row">
     <label class="pds-date-picker__label" [for]="id">
       {{ label() }}
       @if (required()) {
-        <span class="pds-date-picker__required" aria-hidden="true"> *</span>
+      <span class="pds-date-picker__required" aria-hidden="true"> *</span>
       }
     </label>
     @if (helpText()) {
-      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
-        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
-          <pds-icon name="help" size="xs" [ariaHidden]="true" />
-        </button>
-      </pds-tooltip>
+    <pds-tooltip
+      [text]="helpText()!"
+      position="top"
+      style="--pds-tooltip-hover-delay: 300ms"
+    >
+      <button
+        type="button"
+        class="pds-field-help"
+        [attr.aria-label]="helpText()"
+      >
+        <pds-icon name="help" size="xs" [ariaHidden]="true" />
+      </button>
+    </pds-tooltip>
     }
   </div>
 
   <!-- Field wrap (relative context for dropdown) -->
   <div class="pds-date-picker__field-wrap">
-
     <!-- Trigger button -->
     <button
       type="button"
@@ -34,141 +40,190 @@
       [attr.aria-label]="displayValue() || placeholder()"
       (click)="toggleOpen()"
     >
-      <pds-icon name="calendar_month" size="sm" mode="brand" [ariaHidden]="true" class="pds-date-picker__cal-icon" />
+      <pds-icon
+        name="calendar_month"
+        size="sm"
+        mode="brand"
+        [ariaHidden]="true"
+        class="pds-date-picker__cal-icon"
+      />
       <span class="pds-date-picker__value">
         {{ displayValue() || placeholder() }}
       </span>
-      <pds-icon name="expand_more" size="sm" [ariaHidden]="true" class="pds-date-picker__chevron"
+      <pds-icon
+        name="expand_more"
+        size="sm"
+        [ariaHidden]="true"
+        class="pds-date-picker__chevron"
         [class.pds-date-picker__chevron--open]="isOpen()"
-        [class.pds-date-picker__chevron--filled]="!!displayValue()" />
+        [class.pds-date-picker__chevron--filled]="!!displayValue()"
+      />
     </button>
 
     <!-- Calendar panel -->
     @if (isOpen()) {
-      <div
-        role="dialog"
-        class="pds-date-picker__panel"
-        [attr.aria-label]="mode() === 'range' ? 'Seleccionar rango de fechas' : 'Seleccionar fecha'"
-        (click)="$event.stopPropagation()"
-      >
+    <div
+      role="dialog"
+      class="pds-date-picker__panel"
+      [attr.aria-label]="
+        mode() === 'range' ? 'Seleccionar rango de fechas' : 'Seleccionar fecha'
+      "
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Header: month/year navigation -->
+      <div class="pds-date-picker__cal-header">
+        <pds-icon-button
+          [iconName]="
+            view() === 'years' ? 'keyboard_double_arrow_left' : 'chevron_left'
+          "
+          [ariaLabel]="view() === 'years' ? 'Rango anterior' : 'Mes anterior'"
+          variant="outline"
+          size="sm"
+          (click)="view() === 'years' ? prevYearRange() : prevMonth()"
+        />
 
-        <!-- Header: month/year navigation -->
-        <div class="pds-date-picker__cal-header">
-          <pds-icon-button
-            [iconName]="view() === 'years' ? 'keyboard_double_arrow_left' : 'chevron_left'"
-            [ariaLabel]="view() === 'years' ? 'Rango anterior' : 'Mes anterior'"
-            variant="outlined-brand"
-            size="sm"
-            (click)="view() === 'years' ? prevYearRange() : prevMonth()"
-          />
-
-          <div class="pds-date-picker__cal-nav">
-            @if (view() === 'days') {
-              <button type="button" class="pds-date-picker__nav-btn" (click)="setView('months')" aria-label="Seleccionar mes">
-                {{ viewMonthLabel() }}
-              </button>
-            } @else if (view() === 'months') {
-              <button type="button" class="pds-date-picker__nav-btn" (click)="setView('years')" aria-label="Seleccionar año">
-                {{ viewMonthLabel() }}
-              </button>
-            } @else {
-              <span class="pds-date-picker__nav-btn pds-date-picker__nav-btn--static">
-                {{ yearRange()[0] }} – {{ yearRange()[11] }}
-              </span>
-            }
-          </div>
-
-          <pds-icon-button
-            [iconName]="view() === 'years' ? 'keyboard_double_arrow_right' : 'chevron_right'"
-            [ariaLabel]="view() === 'years' ? 'Rango siguiente' : 'Mes siguiente'"
-            variant="outlined-brand"
-            size="sm"
-            (click)="view() === 'years' ? nextYearRange() : nextMonth()"
-          />
+        <div class="pds-date-picker__cal-nav">
+          @if (view() === 'days') {
+          <button
+            type="button"
+            class="pds-date-picker__nav-btn"
+            (click)="setView('months')"
+            aria-label="Seleccionar mes"
+          >
+            {{ viewMonthLabel() }}
+          </button>
+          } @else if (view() === 'months') {
+          <button
+            type="button"
+            class="pds-date-picker__nav-btn"
+            (click)="setView('years')"
+            aria-label="Seleccionar año"
+          >
+            {{ viewMonthLabel() }}
+          </button>
+          } @else {
+          <span
+            class="pds-date-picker__nav-btn pds-date-picker__nav-btn--static"
+          >
+            {{ yearRange()[0] }} – {{ yearRange()[11] }}
+          </span>
+          }
         </div>
 
-        <!-- Days view -->
-        @if (view() === 'days') {
-          <div class="pds-date-picker__grid" role="grid" [attr.aria-label]="viewMonthLabel()">
-            <!-- Week day headers -->
-            <div class="pds-date-picker__weekdays" role="row">
-              @for (wd of weekDays; track wd) {
-                <span class="pds-date-picker__weekday" role="columnheader" aria-hidden="true">{{ wd }}</span>
-              }
-            </div>
-            <!-- Day cells -->
-            <div class="pds-date-picker__days" role="rowgroup">
-              @for (day of calendarDays(); track day.toISOString()) {
-                <button
-                  type="button"
-                  [ngClass]="dayClasses(day)"
-                  role="gridcell"
-                  [attr.aria-label]="dayAriaLabel(day)"
-                  [attr.aria-selected]="isSelected(day) || null"
-                  [attr.aria-disabled]="isDayDisabled(day) ? 'true' : null"
-                  [attr.tabindex]="isDayDisabled(day) ? -1 : 0"
-                  (click)="selectDay(day)"
-                  (mouseenter)="onHoverDay(day)"
-                >
-                  {{ day.getDate() }}
-                </button>
-              }
-            </div>
-          </div>
-        }
-
-        <!-- Months view -->
-        @if (view() === 'months') {
-          <div class="pds-date-picker__month-grid" role="grid" aria-label="Seleccionar mes">
-            @for (month of months; track month; let i = $index) {
-              <button
-                type="button"
-                class="pds-date-picker__month-cell"
-                [class.pds-date-picker__month-cell--selected]="isMonthSelected(i)"
-                role="gridcell"
-                [attr.aria-selected]="isMonthSelected(i)"
-                [attr.aria-label]="month"
-                (click)="selectMonth(i)"
-              >
-                {{ month | slice:0:3 }}
-              </button>
-            }
-          </div>
-        }
-
-        <!-- Years view -->
-        @if (view() === 'years') {
-          <div class="pds-date-picker__year-grid" role="grid" aria-label="Seleccionar año">
-            @for (year of yearRange(); track year) {
-              <button
-                type="button"
-                class="pds-date-picker__year-cell"
-                [class.pds-date-picker__year-cell--selected]="isYearSelected(year)"
-                role="gridcell"
-                [attr.aria-selected]="isYearSelected(year)"
-                [attr.aria-label]="year.toString()"
-                (click)="selectYear(year)"
-              >
-                {{ year }}
-              </button>
-            }
-          </div>
-        }
-
+        <pds-icon-button
+          [iconName]="
+            view() === 'years' ? 'keyboard_double_arrow_right' : 'chevron_right'
+          "
+          [ariaLabel]="view() === 'years' ? 'Rango siguiente' : 'Mes siguiente'"
+          variant="outline"
+          size="sm"
+          (click)="view() === 'years' ? nextYearRange() : nextMonth()"
+        />
       </div>
+
+      <!-- Days view -->
+      @if (view() === 'days') {
+      <div
+        class="pds-date-picker__grid"
+        role="grid"
+        [attr.aria-label]="viewMonthLabel()"
+      >
+        <!-- Week day headers -->
+        <div class="pds-date-picker__weekdays" role="row">
+          @for (wd of weekDays; track wd) {
+          <span
+            class="pds-date-picker__weekday"
+            role="columnheader"
+            aria-hidden="true"
+            >{{ wd }}</span
+          >
+          }
+        </div>
+        <!-- Day cells -->
+        <div class="pds-date-picker__days" role="rowgroup">
+          @for (day of calendarDays(); track day.toISOString()) {
+          <button
+            type="button"
+            [ngClass]="dayClasses(day)"
+            role="gridcell"
+            [attr.aria-label]="dayAriaLabel(day)"
+            [attr.aria-selected]="isSelected(day) || null"
+            [attr.aria-disabled]="isDayDisabled(day) ? 'true' : null"
+            [attr.tabindex]="isDayDisabled(day) ? -1 : 0"
+            (click)="selectDay(day)"
+            (mouseenter)="onHoverDay(day)"
+          >
+            {{ day.getDate() }}
+          </button>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Months view -->
+      @if (view() === 'months') {
+      <div
+        class="pds-date-picker__month-grid"
+        role="grid"
+        aria-label="Seleccionar mes"
+      >
+        @for (month of months; track month; let i = $index) {
+        <button
+          type="button"
+          class="pds-date-picker__month-cell"
+          [class.pds-date-picker__month-cell--selected]="isMonthSelected(i)"
+          role="gridcell"
+          [attr.aria-selected]="isMonthSelected(i)"
+          [attr.aria-label]="month"
+          (click)="selectMonth(i)"
+        >
+          {{ month.slice(0, 3) }}
+        </button>
+        }
+      </div>
+      }
+
+      <!-- Years view -->
+      @if (view() === 'years') {
+      <div
+        class="pds-date-picker__year-grid"
+        role="grid"
+        aria-label="Seleccionar año"
+      >
+        @for (year of yearRange(); track year) {
+        <button
+          type="button"
+          class="pds-date-picker__year-cell"
+          [class.pds-date-picker__year-cell--selected]="isYearSelected(year)"
+          role="gridcell"
+          [attr.aria-selected]="isYearSelected(year)"
+          [attr.aria-label]="year.toString()"
+          (click)="selectYear(year)"
+        >
+          {{ year }}
+        </button>
+        }
+      </div>
+      }
+    </div>
     }
   </div>
 
   <!-- Helper / feedback text -->
   @if (feedbackText()) {
-    <div [id]="helperId">
-      <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{ feedbackText() }}</pds-helper-text>
-    </div>
+  <div [id]="helperId">
+    <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{
+      feedbackText()
+    }}</pds-helper-text>
+  </div>
   }
-
 </div>
 
 <!-- Overlay to close on outside click -->
 @if (isOpen()) {
-  <div class="pds-date-picker__overlay" (click)="closePanel()" aria-hidden="true"></div>
+<div
+  class="pds-date-picker__overlay"
+  (click)="closePanel()"
+  aria-hidden="true"
+></div>
 }

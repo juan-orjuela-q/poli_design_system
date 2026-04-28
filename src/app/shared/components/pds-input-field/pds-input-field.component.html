@@ -3,26 +3,37 @@
     <label class="pds-input-field__label" [for]="inputId">
       {{ label() }}
       @if (required()) {
-        <span class="pds-input-field__required" aria-hidden="true"> *</span>
+      <span class="pds-input-field__required" aria-hidden="true"> *</span>
       }
     </label>
     @if (helpText()) {
-      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
-        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
-          <pds-icon name="help" size="xs" [ariaHidden]="true" />
-        </button>
-      </pds-tooltip>
+    <pds-tooltip
+      [text]="helpText()!"
+      position="top"
+      style="--pds-tooltip-hover-delay: 300ms"
+    >
+      <button
+        type="button"
+        class="pds-field-help"
+        [attr.aria-label]="helpText()"
+      >
+        <pds-icon name="help" size="xs" [ariaHidden]="true" />
+      </button>
+    </pds-tooltip>
     }
   </div>
 
-  <div [ngClass]="wrapperClasses()" [attr.aria-busy]="status() === 'loading' ? 'true' : null">
+  <div
+    [ngClass]="wrapperClasses()"
+    [attr.aria-busy]="status() === 'loading' ? 'true' : null"
+  >
     @if (iconStart()) {
-      <pds-icon
-        class="pds-input-field__icon pds-input-field__icon--start"
-        [name]="iconStart()!"
-        size="sm"
-        [ariaHidden]="true"
-      />
+    <pds-icon
+      class="pds-input-field__icon pds-input-field__icon--start"
+      [name]="iconStart()!"
+      size="sm"
+      [ariaHidden]="true"
+    />
     }
 
     <input
@@ -33,11 +44,13 @@
       [name]="name() ?? inputId"
       [placeholder]="placeholder()"
       [value]="internalValue()"
-      [maxlength]="maxLength() ?? ''"
+      [attr.maxlength]="maxLength() ?? null"
       [attr.autocomplete]="autocomplete() || null"
       [attr.aria-required]="required() ? 'true' : null"
       [attr.aria-invalid]="status() === 'error' ? 'true' : null"
-      [attr.aria-describedby]="feedbackText() || showCounter() ? helperId : null"
+      [attr.aria-describedby]="
+        feedbackText() || showCounter() ? helperId : null
+      "
       [attr.readonly]="readonly() ? '' : null"
       [attr.disabled]="internalDisabled() ? '' : null"
       (input)="handleInput($event)"
@@ -46,39 +59,38 @@
     />
 
     @if (status() === 'loading') {
-      <pds-loading-circle size="sm" class="pds-input-field__loading" />
+    <pds-loading-circle size="sm" class="pds-input-field__loading" />
     } @else if (showEndIcon()) {
-      <pds-icon
-        class="pds-input-field__icon pds-input-field__icon--end"
-        [name]="iconEnd()!"
-        size="sm"
-        [ariaHidden]="true"
-      />
-    }
-
-    @if (showPasswordBtn()) {
-      <pds-icon-button
-        class="pds-input-field__password-toggle"
-        [iconName]="showPassword() ? 'visibility_off' : 'visibility'"
-        [ariaLabel]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-        variant="ghost-brand"
-        size="sm"
-        [attr.aria-controls]="inputId"
-        (click)="togglePasswordVisibility()"
-      />
+    <pds-icon
+      class="pds-input-field__icon pds-input-field__icon--end"
+      [name]="iconEnd()!"
+      size="sm"
+      [ariaHidden]="true"
+    />
+    } @if (showPasswordBtn()) {
+    <pds-icon-button
+      class="pds-input-field__password-toggle"
+      [iconName]="showPassword() ? 'visibility_off' : 'visibility'"
+      [ariaLabel]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+      variant="ghost-neutral"
+      size="sm"
+      [attr.aria-controls]="inputId"
+      (click)="togglePasswordVisibility()"
+    />
     }
   </div>
 
   @if (feedbackText() || showCounter()) {
-    <div class="pds-input-field__footer" [id]="helperId">
-      @if (feedbackText()) {
-        <pds-helper-text [status]="helperStatus()">{{ feedbackText() }}</pds-helper-text>
-      }
-      @if (showCounter() && maxLength()) {
-        <span class="pds-input-field__counter" aria-live="polite">
-          {{ charCount() }}/{{ maxLength() }}
-        </span>
-      }
-    </div>
+  <div class="pds-input-field__footer" [id]="helperId">
+    @if (feedbackText()) {
+    <pds-helper-text [status]="helperStatus()">{{
+      feedbackText()
+    }}</pds-helper-text>
+    } @if (showCounter() && maxLength()) {
+    <span class="pds-input-field__counter" aria-live="polite">
+      {{ charCount() }}/{{ maxLength() }}
+    </span>
+    }
+  </div>
   }
 </div>

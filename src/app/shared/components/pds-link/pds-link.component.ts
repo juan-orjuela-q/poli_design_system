@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { PdsIconComponent } from '../pds-icon/pds-icon.component';
 
 @Component({
   selector: 'pds-link',
   standalone: true,
-  imports: [NgClass, PdsIconComponent],
+  imports: [PdsIconComponent],
   templateUrl: './pds-link.component.html',
   styleUrl: './pds-link.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
