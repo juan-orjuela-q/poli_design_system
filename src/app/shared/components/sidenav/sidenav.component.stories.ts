@@ -6,7 +6,7 @@ import { IconComponent } from '../icon/icon.component'; // corrige la ruta
 
 /* ---------- Configuración global del story ---------- */
 const meta: Meta<SidenavComponent> = {
-  title: 'Componentes/Sidenav',
+  title: 'DS v1 (Legacy)/Sidenav',
   component: SidenavComponent,
 
   /* ⬇️  Aquí van los *EnvironmentProviders* */

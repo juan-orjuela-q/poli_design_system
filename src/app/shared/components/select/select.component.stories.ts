@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialSelectComponent } from './select.component';
 
 const meta: Meta<MaterialSelectComponent> = {
-  title: 'Componentes/Select',
+  title: 'DS v1 (Legacy)/Select',
   component: MaterialSelectComponent,
     tags: ['autodocs'],
   decorators: [

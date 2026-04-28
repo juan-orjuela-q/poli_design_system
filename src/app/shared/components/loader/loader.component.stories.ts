@@ -12,7 +12,7 @@ import { LoaderComponent } from './loader.component';
  * - Modo fullscreen con overlay
  */
 const meta: Meta<LoaderComponent> = {
-  title: 'Componentes/Loader',
+  title: 'DS v1 (Legacy)/Loader',
   component: LoaderComponent,
   tags: ['autodocs'],
   argTypes: {

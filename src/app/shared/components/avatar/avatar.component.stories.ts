@@ -4,7 +4,7 @@ import { IconComponent } from '../icon/icon.component'; // Ajusta la ruta si es 
 import { CommonModule } from '@angular/common';
 
 const meta: Meta<AvatarComponent> = {
-  title: 'Componentes/Avatar',
+  title: 'DS v1 (Legacy)/Avatar',
   component: AvatarComponent,
   tags: ['autodocs'],
   decorators: [

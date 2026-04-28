@@ -25,7 +25,7 @@ const footerLinks: NavLink[] = [
 ];
 
 const meta: Meta<MobileNavComponent> = {
-  title: 'Navigation/MobileNav',
+  title: 'DS v1 (Legacy)/MobileNav',
   component: MobileNavComponent,
   tags: ['autodocs'],
   decorators: [

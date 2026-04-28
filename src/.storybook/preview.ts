@@ -14,7 +14,19 @@ const preview: Preview = {
     },
     docs: {
       autodocs: true,
-    }
+    },
+    a11y: {
+      // Ejecutar axe-core en todas las stories automáticamente
+      manual: false,
+      config: {
+        rules: [
+          // Desactivar solo reglas que generan falsos positivos en stories aisladas
+          { id: 'color-contrast', enabled: true },
+          { id: 'landmark-one-main', enabled: false },
+          { id: 'region', enabled: false },
+        ],
+      },
+    },
   },
 };
 

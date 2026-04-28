@@ -1,22 +1,76 @@
-# Portal Colaborador - Frontend
+# Semilla Front — Poli Design System v2
 
-Portal institucional del Politécnico Grancolombiano construido con Angular 19.2.0.
+Proyecto base (starter) del Politécnico Grancolombiano. Angular 19, standalone components, DS v2.
 
-## 📚 Documentación del Proyecto
+---
 
-### Sistema de Navegación (Mejorado ✨)
+## ¿Cómo consumir este repo?
 
-El sistema de navegación ha sido completamente refactorizado para facilitar su implementación en nuevos proyectos:
+### Opción A — Solo el Design System (recomendado para apps nuevas)
 
-- **[🚀 Quick Start - Navegación](docs/QUICK_START_NAVEGACION.md)** - Inicio rápido con ejemplos visuales
-- **[📖 Guía Completa de Implementación](docs/guia-implementacion-navegacion.md)** - Documentación detallada paso a paso
-- **[📝 Ejemplo Completo](docs/EJEMPLO_COMPLETO_NAVEGACION.md)** - Código completo comentado
-- **[🔄 Resumen de Mejoras](docs/MEJORAS_NAVEGACION.md)** - Qué cambió y por qué
+Próximamente disponible como paquete npm `@poli/ds`. Por ahora, copiar la carpeta `src/app/shared/components/pds-*` a tu proyecto e importar los tokens desde `src/assets/poligran/`.
 
-### Documentación General
+### Opción B — App starter completa
 
-- **[📋 Contexto del Proyecto](docs/contexto-proyecto.md)** - Arquitectura, estructura y convenciones
-- **[🔍 Análisis de Navegación](docs/analisis-navegacion.md)** - Análisis detallado del sistema original
+Clona el repo y elimina el contenido de negocio que no necesites (`src/app/pages/`, rutas específicas, etc.):
+
+```bash
+git clone https://github.com/appicua/semilla-front.git mi-nuevo-proyecto
+cd mi-nuevo-proyecto
+npm install
+ng serve
+```
+
+---
+
+## Storybook — Catálogo de componentes
+
+```bash
+npm run storybook
+```
+
+- **DS v2** — Componentes del sistema de diseño v2 con prefijo `pds-`
+- **DS v1 (Legacy)** — Componentes del sistema anterior (deprecados, solo para comparación)
+
+El Storybook publicado está disponible en Azure Static Web Apps.
+
+---
+
+## Lint de accesibilidad
+
+```bash
+npm run lint
+```
+
+Ejecutar antes de hacer PR. Revisa reglas WCAG en los templates Angular (`alt-text`, `label-has-associated-control`, `valid-aria`, etc.).
+
+---
+
+## Tokens de diseño
+
+Los tokens CSS viven en `src/assets/poligran/`. Se generan con Style Dictionary desde el repositorio `poli-tokens`. No editar manualmente.
+
+---
+
+## Documentación
+
+- **Specs de componentes**: `specs/*.md`
+- **Guías técnicas**: `docs/`
+- **Documentación editorial (Loop)**: enlazada desde las páginas del Storybook
+- **Diseño (Figma)**: enlazado desde el plugin Storybook Connect
+
+---
+
+## Scripts principales
+
+| Script | Descripción |
+|--------|-------------|
+| `npm start` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm test` | Pruebas unitarias |
+| `npm run lint` | Lint TypeScript + templates |
+| `npm run storybook` | Catálogo de componentes |
+| `npm run build-storybook` | Build estático del Storybook |
 
 ---
 

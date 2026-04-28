@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { IconComponent } from './icon.component';
 
 const meta: Meta<IconComponent> = {
-  title: 'Componentes/Icon',
+  title: 'DS v1 (Legacy)/Icon',
   component: IconComponent,
   tags: ['autodocs'],
   parameters: {

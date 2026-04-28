@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { FormTextareaComponent } from './form-textarea.component';
 
 const meta: Meta<FormTextareaComponent> = {
-  title: 'Componentes/Form Textarea',
+  title: 'DS v1 (Legacy)/Form Textarea',
   component: FormTextareaComponent,
   tags: ['autodocs'],
   parameters: {

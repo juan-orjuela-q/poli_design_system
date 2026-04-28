@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { MaterialInputComponent } from './material-input.component';
 
 const meta: Meta<MaterialInputComponent> = {
-  title: 'Componentes/Material Input',
+  title: 'DS v1 (Legacy)/Material Input',
   component: MaterialInputComponent,
   tags: ['autodocs'],
   parameters: {

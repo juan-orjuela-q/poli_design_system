@@ -3,7 +3,7 @@ import { HeaderComponent } from './header.component';
 
 
 const meta: Meta<HeaderComponent> = {
-  title: 'Componentes/Header',
+  title: 'DS v1 (Legacy)/Header',
   component: HeaderComponent,
   tags: ['autodocs'],
   parameters: {

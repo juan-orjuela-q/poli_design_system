@@ -7,7 +7,7 @@ import { DatePickerComponent } from './date-picker.component';
  * Meta config
  */
 const meta: Meta<DatePickerComponent> = {
-  title: 'Componentes/Date Picker',
+  title: 'DS v1 (Legacy)/Date Picker',
   component: DatePickerComponent,
   tags: ['autodocs'],          // Habilita la generación automática de docs
   decorators: [

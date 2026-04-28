@@ -14,7 +14,7 @@ interface ButtonStoryArgs {
 }
 
 const meta: Meta<ButtonStoryArgs> = {
-  title: 'Componentes/Button',
+  title: 'DS v1 (Legacy)/Button',
   component: ButtonComponent,
   tags: ['autodocs'],
   parameters: {

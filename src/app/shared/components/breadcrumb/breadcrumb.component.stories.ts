@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from './breadcrumb.component';
 
 export default {
-  title: 'Componentes/Breadcrumb',
+  title: 'DS v1 (Legacy)/Breadcrumb',
   component: BreadcrumbComponent,
   tags: ['autodocs'],
 

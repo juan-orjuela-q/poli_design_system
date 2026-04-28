@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { CtaButtonComponent } from './cta-button.component';
 
 const meta: Meta<CtaButtonComponent> = {
-  title: 'Componentes/CTA Button',
+  title: 'DS v1 (Legacy)/CTA Button',
   component: CtaButtonComponent,
   tags: ['autodocs'],
   parameters: {

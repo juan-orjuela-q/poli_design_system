@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TabsComponent } from './tabs.component';
 
 const meta: Meta<TabsComponent> = {
-  title: 'Componentes/Tabs',
+  title: 'DS v1 (Legacy)/Tabs',
   component: TabsComponent,
   tags: ['autodocs'],
   decorators: [

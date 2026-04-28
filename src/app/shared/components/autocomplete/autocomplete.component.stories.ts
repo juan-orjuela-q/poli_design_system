@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { AutocompleteComponent } from './autocomplete.component';
 
 const meta: Meta<AutocompleteComponent> = {
-  title: 'Componentes/Autocomplete',
+  title: 'DS v1 (Legacy)/Autocomplete',
   component: AutocompleteComponent,
   tags: ['autodocs'],
   decorators: [

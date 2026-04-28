@@ -19,7 +19,7 @@ interface AccordionStoryArgs {
 }
 
 const meta: Meta<AccordionStoryArgs> = {
-  title: 'Componentes/Accordion',
+  title: 'DS v1 (Legacy)/Accordion',
   component: AccordionComponent,
   tags: ['autodocs'],
   argTypes: {

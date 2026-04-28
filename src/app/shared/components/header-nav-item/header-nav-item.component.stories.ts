@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';          // 👈
 import { HeaderNavItemComponent } from './header-nav-item.component';
 
 const meta: Meta<HeaderNavItemComponent> = {
-  title: 'Componentes/Header Nav Item',
+  title: 'DS v1 (Legacy)/Header Nav Item',
   component: HeaderNavItemComponent,
   tags: ['autodocs'],
   decorators: [

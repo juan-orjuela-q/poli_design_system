@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { ApiAlertComponent } from './api-alert.component';
 
 export default {
-  title: 'Componentes/Api Alert',
+  title: 'DS v1 (Legacy)/Api Alert',
   component: ApiAlertComponent,
   tags: ['autodocs'],
   parameters: {

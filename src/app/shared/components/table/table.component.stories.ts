@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 const meta: Meta<TableComponent> = {
-  title: 'Componentes/Table',
+  title: 'DS v1 (Legacy)/Table',
   component: TableComponent,
   tags: ['autodocs'],
   decorators: [

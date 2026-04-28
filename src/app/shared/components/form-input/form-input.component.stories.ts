@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { FormInputComponent } from './form-input.component';
 
 const meta: Meta<FormInputComponent> = {
-  title: 'Componentes/Form Input',
+  title: 'DS v1 (Legacy)/Form Input',
   component: FormInputComponent,
   tags: ['autodocs'],
   parameters: {
