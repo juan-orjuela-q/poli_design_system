@@ -1,0 +1,127 @@
+<nav [ngClass]="navClasses()" aria-label="Navegación principal">
+  <!-- ── Encabezado ──────────────────────────────────────────────── -->
+  <div class="pds-sidenav__header">
+    <!-- Ícono del portal -->
+    <div class="pds-sidenav__portal-icon" aria-hidden="true">
+      <pds-icon [name]="appIconName()" size="lg" />
+    </div>
+
+    <!-- Título y subtítulo (se occultan con CSS al colapsar) -->
+    <div class="pds-sidenav__title-block">
+      <span class="pds-sidenav__app-title">{{ appTitle() }}</span>
+      @if (appSubtitle()) {
+      <span class="pds-sidenav__app-subtitle">{{ appSubtitle() }}</span>
+      }
+    </div>
+
+    <!-- Botón toggle (cuelga fuera del borde derecho) -->
+    <button
+      class="pds-sidenav__toggle"
+      type="button"
+      [attr.aria-expanded]="expanded()"
+      [attr.aria-label]="toggleAriaLabel()"
+      (click)="toggleSidenav()"
+    >
+      <pds-icon [name]="toggleIconName()" size="sm" [ariaHidden]="true" />
+    </button>
+  </div>
+
+  <!-- ── Lista de ítems ──────────────────────────────────────────── -->
+  <div class="pds-sidenav__nav" role="list">
+    @for (item of items(); track item.id) {
+
+    <!-- Tooltip activo solo cuando el sidenav está colapsado -->
+    <pds-tooltip [text]="item.label" position="right" [disabled]="expanded()">
+      @if (hasChildren(item)) {
+      <!-- ── Ítem padre (acordeón) ─────────────────────────── -->
+      <button
+        [ngClass]="itemClasses(item)"
+        type="button"
+        role="listitem"
+        [attr.aria-expanded]="isItemOpen(item.id)"
+        [attr.aria-current]="activeItemId() === item.id ? 'true' : null"
+        (click)="onItemClick(item)"
+      >
+        <span class="pds-sidenav__item-icon" aria-hidden="true">
+          <pds-icon [name]="item.icon" size="md" [ariaHidden]="true" />
+        </span>
+        <span class="pds-sidenav__item-label">{{ item.label }}</span>
+        <span class="pds-sidenav__item-chevron" aria-hidden="true">
+          <pds-icon
+            [name]="chevronIcon(item.id)"
+            size="sm"
+            [ariaHidden]="true"
+          />
+        </span>
+      </button>
+
+      } @else if (item.routerLink) {
+      <!-- ── Ítem hoja con routerLink ──────────────────────── -->
+      <a
+        [ngClass]="itemClasses(item)"
+        role="listitem"
+        [routerLink]="item.routerLink"
+        [attr.aria-current]="activeItemId() === item.id ? 'page' : null"
+        (click)="onItemClick(item)"
+      >
+        <span class="pds-sidenav__item-icon" aria-hidden="true">
+          <pds-icon [name]="item.icon" size="md" [ariaHidden]="true" />
+        </span>
+        <span class="pds-sidenav__item-label">{{ item.label }}</span>
+      </a>
+
+      } @else {
+      <!-- ── Ítem hoja sin routerLink ──────────────────────── -->
+      <button
+        [ngClass]="itemClasses(item)"
+        type="button"
+        role="listitem"
+        [attr.aria-current]="activeItemId() === item.id ? 'page' : null"
+        (click)="onItemClick(item)"
+      >
+        <span class="pds-sidenav__item-icon" aria-hidden="true">
+          <pds-icon [name]="item.icon" size="md" [ariaHidden]="true" />
+        </span>
+        <span class="pds-sidenav__item-label">{{ item.label }}</span>
+      </button>
+      }
+    </pds-tooltip>
+
+    <!-- Sub-ítems (solo visibles cuando el padre está abierto Y el sidenav está expandido) -->
+    @if (hasChildren(item) && isItemOpen(item.id) && expanded()) {
+    <div
+      class="pds-sidenav__subitems"
+      role="list"
+      [attr.aria-label]="item.label + ' submenú'"
+    >
+      @for (sub of item.children; track sub.id) { @if (sub.routerLink) {
+      <a
+        [ngClass]="subItemClasses(sub)"
+        role="listitem"
+        [routerLink]="sub.routerLink"
+        [attr.aria-current]="activeSubItemId() === sub.id ? 'page' : null"
+        (click)="onSubItemClick(sub, item)"
+        >{{ sub.label }}</a
+      >
+      } @else {
+      <button
+        [ngClass]="subItemClasses(sub)"
+        type="button"
+        role="listitem"
+        [attr.aria-current]="activeSubItemId() === sub.id ? 'page' : null"
+        (click)="onSubItemClick(sub, item)"
+      >
+        {{ sub.label }}
+      </button>
+      } }
+    </div>
+    } }
+  </div>
+
+  <!-- ── Pie de página (slot opcional) ──────────────────────────── -->
+  @if (showFooter()) {
+  <div class="pds-sidenav__footer">
+    <ng-content select="[slot=footer]" />
+  </div>
+  }
+</nav>

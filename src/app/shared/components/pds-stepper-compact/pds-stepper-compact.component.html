@@ -1,0 +1,79 @@
+<div class="pds-stepper-compact">
+  <!-- ── Encabezado (info + marcadores) ──────────────────────────────── -->
+  <div
+    class="pds-stepper-compact__header"
+    role="group"
+    [attr.aria-labelledby]="countId"
+  >
+    <!-- Bloque de información -->
+    <div class="pds-stepper-compact__info">
+      <!-- "Paso X de Y" — live region para anunciar cambios de paso -->
+      <p
+        [id]="countId"
+        class="pds-stepper-compact__count"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {{ countText() }}
+      </p>
+
+      <!-- Título del paso y línea "Siguiente paso:" -->
+      <div class="pds-stepper-compact__step-info">
+        @if (currentStep()) {
+        <p class="pds-stepper-compact__title">{{ currentStep()!.label }}</p>
+        } @if (followingStep()) {
+        <div class="pds-stepper-compact__next-step">
+          <span class="pds-stepper-compact__next-label">Siguiente paso:</span>
+          <span class="pds-stepper-compact__next-value">{{
+            followingStep()!.label
+          }}</span>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Marcadores de progreso (decorativos) -->
+    <div class="pds-stepper-compact__markers" aria-hidden="true">
+      @for (step of steps(); track step.id; let i = $index) {
+      <div
+        class="pds-stepper-compact__marker"
+        [class.pds-stepper-compact__marker--current]="
+          markerState(i) === 'current'
+        "
+      ></div>
+      }
+    </div>
+  </div>
+
+  <!-- ── Zona de contenido (ng-content) ──────────────────────────────── -->
+  <div class="pds-stepper-compact__content">
+    <ng-content />
+  </div>
+
+  <!-- ── Pie de navegación (opcional) ────────────────────────────────── -->
+  @if (showFooter()) {
+  <div class="pds-stepper-compact__footer">
+    <!-- Botón "Anterior" — oculto en el primer paso -->
+    @if (!isFirst()) {
+    <pds-button
+      variant="ghost"
+      size="md"
+      iconStart="arrow_back"
+      (click)="onPrev()"
+    >
+      {{ prevLabel() }}
+    </pds-button>
+    }
+
+    <!-- Botón "Siguiente" / "Finalizar" -->
+    <pds-button
+      variant="primary"
+      size="md"
+      [iconEnd]="primaryBtnIcon()"
+      (click)="onNext()"
+    >
+      {{ primaryBtnLabel() }}
+    </pds-button>
+  </div>
+  }
+</div>

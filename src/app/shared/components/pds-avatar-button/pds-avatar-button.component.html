@@ -1,0 +1,55 @@
+<button
+  [ngClass]="buttonClasses()"
+  [type]="buttonType()"
+  [attr.aria-label]="resolvedAriaLabel()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  (click)="handleClick($event)"
+  (keydown)="handleKeydown($event)"
+>
+  <!-- Overlay de estado pressed (no afecta el layout) -->
+  <span class="pds-avatar-button__overlay" aria-hidden="true"></span>
+
+  <!-- Nombre + rol (a la izquierda del avatar, solo si showName) -->
+  @if (showName()) {
+  <span class="pds-avatar-button__name-block">
+    <span class="pds-avatar-button__name">{{ name() }}</span>
+    @if (showRole() && role()) {
+    <span class="pds-avatar-button__role">{{ role() }}</span>
+    }
+  </span>
+  }
+
+  <!-- Avatar pic -->
+  <span [ngClass]="avatarClasses()">
+    @switch (type()) { @case ('image') {
+    <img
+      class="pds-avatar-button__img"
+      [src]="imageSrc()"
+      [alt]="name()"
+      aria-hidden="true"
+    />
+    } @case ('icon') {
+    <pds-icon
+      [name]="iconName()"
+      size="md"
+      [ariaHidden]="true"
+      class="pds-avatar-button__icon"
+    />
+    } @default {
+    <!-- letter -->
+    <span class="pds-avatar-button__letter" aria-hidden="true">
+      {{ resolvedLetter() }}
+    </span>
+    } }
+
+    <!-- Indicador de notificación (badge) -->
+    @if (showBadge()) {
+    <span class="pds-avatar-button__badge" aria-hidden="true">
+      <pds-icon name="notifications" size="sm" [ariaHidden]="true" />
+    </span>
+    }
+  </span>
+
+  <!-- Indicador de estado activo (línea azul en hover/pressed) -->
+  <span class="pds-avatar-button__indicator" aria-hidden="true"></span>
+</button>

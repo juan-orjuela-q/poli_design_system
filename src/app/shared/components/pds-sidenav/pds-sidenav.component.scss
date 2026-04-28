@@ -1,0 +1,367 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// pds-sidenav
+// Barra de navegación lateral del DS v2.
+// Tokens: layout-desktop.css, tokens.css, typescale-desktop.css, component.css
+// ─────────────────────────────────────────────────────────────────────────────
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+// ── Contenedor principal ────────────────────────────────────────────────────
+
+.pds-sidenav {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-sidenav-open); // 304px
+  min-height: 100%;
+  background: var(--surface-neutral-subtle); // #e5e9ec
+  overflow: visible; // necesario para que el toggle cuelgue fuera del borde
+  transition: width 250ms ease;
+
+  &--collapsed {
+    width: var(--component-sidenav-closed); // 80px
+
+    // Ocultar labels con transición (NO display:none — mantiene accesibilidad)
+    .pds-sidenav__title-block {
+      max-width: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pds-sidenav__item-label {
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    // Ocultar chevron (decorativo, no afecta tab order)
+    .pds-sidenav__item-chevron {
+      display: none;
+    }
+
+    // Centrar ícono cuando solo queda el ícono
+    .pds-sidenav__item {
+      justify-content: center;
+      padding: var(--spacing-component-md); // 12px
+    }
+
+    // El ícono del portal se centra en 80px
+    .pds-sidenav__header {
+      justify-content: center;
+    }
+
+    // Ocultar bloque de título con transición
+    .pds-sidenav__portal-icon {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ── Encabezado ──────────────────────────────────────────────────────────────
+
+.pds-sidenav__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-md); // 12px
+  padding: var(--spacing-component-md); // 12px
+  min-height: 72px;
+  position: relative; // base para el toggle posicionado absolutamente
+  border-bottom: var(--border-thin) solid var(--border-neutral-default, #b0bec5);
+  overflow: visible; // permite que el toggle cuelgue fuera
+}
+
+// ── Ícono del portal ─────────────────────────────────────────────────────────
+
+.pds-sidenav__portal-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-component-md); // 10px
+  background: var(--portal-blue-bg); // #1fb2de
+  border: var(--border-thick) solid var(--portal-blue-border-on-light); // 2px #007ba4
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // El ícono hereda el color del portal
+  pds-icon {
+    --pds-icon-color: var(--portal-blue-fg, #0f385a);
+  }
+}
+
+// ── Bloque de título / subtítulo ────────────────────────────────────────────
+
+.pds-sidenav__title-block {
+  flex: 1;
+  min-width: 0;
+  max-width: 300px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-width 200ms ease, opacity 150ms ease;
+}
+
+.pds-sidenav__app-title {
+  display: block;
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-component-sidenav-title); // 1.25rem (20px)
+  font-weight: var(--font-weight-w-semibold); // 600
+  line-height: var(--line-height-lh-tight); // 1.2
+  color: var(--fg-brand-primary); // #0f385a
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pds-sidenav__app-subtitle {
+  display: block;
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-component-sidenav-subtitle); // 0.875rem (14px)
+  font-weight: var(--font-weight-w-medium); // 500
+  line-height: var(--line-height-lh-tight); // 1.2
+  color: var(--fg-neutral-secondary); // #4d5b69
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+// ── Botón toggle (cuelga fuera del borde derecho del sidenav) ────────────────
+
+.pds-sidenav__toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  z-index: 10;
+
+  // Visual: 32×32px
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-component-md); // 10px
+  background: var(--surface-neutral-canvas); // #ffffff
+  border: var(--border-thick) solid var(--border-brand-primary-solid); // 2px #0f385a
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--fg-brand-primary); // #0f385a
+
+  // Touch target 48×48px (WCAG 2.5.5)
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover, #e6effd);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+}
+
+// ── Contenedor de la lista de ítems ─────────────────────────────────────────
+
+.pds-sidenav__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs, 4px);
+  padding: var(--spacing-component-sm); // 8px
+  overflow-y: auto;
+  overflow-x: visible; // para no cortar el focus ring
+
+  // El host del tooltip debe ser bloque para que los ítems sean full-width
+  pds-tooltip {
+    display: block;
+  }
+}
+
+// ── Ítem de navegación ───────────────────────────────────────────────────────
+
+.pds-sidenav__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm); // 8px
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--spacing-component-md); // 0 12px
+  border-radius: var(--radius-component-md); // 10px
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--fg-brand-primary); // #0f385a
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm); // 0.875rem (14px)
+  font-weight: var(--font-weight-w-semibold); // 600
+  line-height: 1;
+  letter-spacing: 0.01em;
+  transition: background 150ms ease, box-shadow 150ms ease,
+    padding-left 150ms ease, color 150ms ease;
+
+  // Heredar color en íconos
+  pds-icon {
+    --pds-icon-color: currentColor;
+  }
+
+  // ── Estado hover (no aplica a activos ni disabled) ─────────────────────
+  &:hover:not(.pds-sidenav__item--active):not(.pds-sidenav__item--open):not(
+      [aria-disabled="true"]
+    ) {
+    background: var(--surface-neutral-canvas); // #ffffff
+    box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12),
+      0 4px 4px -2px rgba(24, 39, 75, 0.08);
+    padding-left: var(--spacing-component-xl); // 20px
+    color: var(--fg-brand-primary-strong); // #002b49
+  }
+
+  // ── Estado focus ───────────────────────────────────────────────────────
+  &:focus-visible {
+    outline: none;
+    background: var(--surface-neutral-subtle);
+    box-shadow: inset 0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  // ── Estado activo ──────────────────────────────────────────────────────
+  &--active {
+    background: var(--action-primary-solid-bg); // #0f385a
+    color: var(--action-primary-solid-fg); // #ffffff
+
+    &:hover {
+      background: var(--action-primary-solid-bg-hover, #165386);
+    }
+  }
+
+  // ── Ítem padre expandido (mismo aspecto que activo) ────────────────────
+  &--open {
+    background: var(--action-primary-solid-bg); // #0f385a
+    color: var(--action-primary-solid-fg); // #ffffff
+
+    &:hover {
+      background: var(--action-primary-solid-bg-hover, #165386);
+    }
+  }
+}
+
+// ── Ícono del ítem ───────────────────────────────────────────────────────────
+
+.pds-sidenav__item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+// ── Label del ítem ───────────────────────────────────────────────────────────
+
+.pds-sidenav__item-label {
+  flex: 1;
+  text-align: left;
+  max-width: 200px;
+  opacity: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: max-width 200ms ease, opacity 150ms ease;
+}
+
+// ── Flecha de acordeón ───────────────────────────────────────────────────────
+
+.pds-sidenav__item-chevron {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+// ── Sub-ítems ────────────────────────────────────────────────────────────────
+
+.pds-sidenav__subitems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs, 4px);
+  padding: var(--spacing-component-xxs, 4px) var(--spacing-component-sm); // 4px 8px
+  padding-left: calc(
+    var(--spacing-component-sm) + 24px + var(--spacing-component-sm)
+  ); // indentar tras ícono
+}
+
+.pds-sidenav__subitem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  padding: var(--spacing-component-xs) var(--spacing-component-md); // 6px 12px
+  border-radius: var(--radius-component-2xs); // 4px
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--fg-brand-primary); // #0f385a
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm); // 14px
+  font-weight: var(--font-weight-w-medium); // 500
+  line-height: 1;
+  transition: background 150ms ease, box-shadow 150ms ease,
+    padding-left 150ms ease, color 150ms ease;
+
+  // ── Hover ─────────────────────────────────────────────────────────────
+  &:hover:not(.pds-sidenav__subitem--active):not([aria-disabled="true"]) {
+    background: var(--surface-neutral-canvas);
+    box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12),
+      0 4px 4px -2px rgba(24, 39, 75, 0.08);
+    padding-left: var(--spacing-component-xl); // 20px
+    color: var(--fg-brand-primary-strong);
+  }
+
+  // ── Focus ─────────────────────────────────────────────────────────────
+  &:focus-visible {
+    outline: none;
+    background: var(--surface-neutral-sunken); // #ced5db
+    box-shadow: inset 0 0 0 2px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+
+  // ── Activo ────────────────────────────────────────────────────────────
+  &--active {
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+
+    &:hover {
+      background: var(--action-primary-solid-bg-hover, #165386);
+    }
+  }
+}
+
+// ── Pie de página ────────────────────────────────────────────────────────────
+
+.pds-sidenav__footer {
+  padding: var(--spacing-component-sm); // 8px
+  border-top: var(--border-thin) solid var(--border-neutral-default, #b0bec5);
+  margin-top: auto;
+}
+
+// ── Accesibilidad: reducción de movimiento ───────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .pds-sidenav,
+  .pds-sidenav__item,
+  .pds-sidenav__subitem,
+  .pds-sidenav__item-label,
+  .pds-sidenav__title-block,
+  .pds-sidenav__toggle {
+    transition: none;
+  }
+}
