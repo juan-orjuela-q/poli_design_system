@@ -1,0 +1,174 @@
+// ============================================================
+// pds-dialog — Design System v2
+// Reglas: 100% CSS custom properties · BEM con prefijo pds- · sin valores hardcoded
+// ============================================================
+
+// ── Overlay ─────────────────────────────────────────────────────────────────
+.pds-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-brand-overlay, rgba(15, 56, 90, 0.9));
+  z-index: var(--z-index-overlay, 1200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Padding para que el dialog no toque los bordes en pantallas pequeñas
+  padding: var(--spacing-component-lg, 16px);
+}
+
+// ── Card del dialog ──────────────────────────────────────────────────────────
+.pds-dialog {
+  background: var(--surface-neutral-modal, #fff);
+  border-radius: var(--radius-container-md, 16px);
+  width: 100%;
+  max-width: var(--container-width-sm, 420px);
+  // Shadow/500 del Design System
+  box-shadow: 0 6px 14px rgba(24, 39, 75, 0.12),
+    0 10px 32px rgba(24, 39, 75, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-lg, 16px);
+  padding: var(--spacing-component-xl, 20px);
+
+  // ── Variantes por modo (border + background) ──────────────────────────────
+  &--error {
+    background: var(--surface-status-error-subtle, #fff6f9);
+    border: var(--border-thin, 1px) solid
+      var(--border-status-error-subtle, #f9218c);
+  }
+
+  &--warning {
+    background: var(--surface-status-warning-subtle, #fff7e8);
+    border: var(--border-thin, 1px) solid
+      var(--border-status-warning-subtle, #fcbd3f);
+  }
+
+  &--success {
+    background: var(--surface-status-success-subtle, #f7fbec);
+    border: var(--border-thin, 1px) solid
+      var(--border-status-success-subtle, #b5d659);
+  }
+
+  // ── Encabezado: ícono + título ────────────────────────────────────────────
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-component-md, 12px);
+  }
+
+  // Círculo contenedor del ícono — fondo semántico por modo
+  &__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-component-md, 12px);
+    border-radius: var(--radius-pill, 9999px);
+    // Default: fondo azul suave
+    background: var(--surface-brand-primary-soft, #e6effd);
+    // Ícono hereda color del contenedor via --pds-icon-color
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, #0f385a);
+      --pds-icon-fill: 1;
+    }
+  }
+
+  // Fondos y colores del ícono por modo
+  &--error &__icon-wrap {
+    background: var(--surface-status-error-solid, #e0006e);
+    pds-icon {
+      --pds-icon-color: var(--fg-on-color-error, #fff);
+    }
+  }
+
+  &--warning &__icon-wrap {
+    background: var(--surface-status-warning-solid, #fbaf17);
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, #0f385a);
+    }
+  }
+
+  &--success &__icon-wrap {
+    background: var(--surface-status-success-solid, #a6ce38);
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary, #0f385a);
+    }
+  }
+
+  // ── Título ────────────────────────────────────────────────────────────────
+  &__title {
+    margin: 0;
+    font-family: var(--text-headings, Poppins);
+    font-size: var(--font-size-f-2xl, 1.5rem);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: 1.2;
+    color: var(--fg-brand-primary, #0f385a);
+    text-align: center;
+  }
+
+  // ── Cuerpo ────────────────────────────────────────────────────────────────
+  &__body {
+    font-family: var(--text-body, Open Sans);
+    font-size: var(--font-size-f-base, 1rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--fg-brand-primary, #0f385a);
+    text-align: center;
+  }
+
+  // ── Divisor horizontal ────────────────────────────────────────────────────
+  &__divider {
+    width: 100%;
+    height: var(--border-thin, 1px);
+    background: var(--border-neutral-subtle, #e0e6ea);
+  }
+
+  // ── Acciones: botones alineados a la derecha ──────────────────────────────
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-component-md, 12px);
+  }
+}
+
+// ── Animaciones de apertura ──────────────────────────────────────────────────
+@media (prefers-reduced-motion: no-preference) {
+  .pds-dialog-overlay {
+    animation: pds-dialog-overlay-in 150ms ease;
+  }
+
+  .pds-dialog {
+    animation: pds-dialog-scale-in 150ms ease;
+  }
+}
+
+@keyframes pds-dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pds-dialog-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// ── Sin animación (prefers-reduced-motion) ───────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .pds-dialog-overlay,
+  .pds-dialog {
+    animation: none;
+    transition: none;
+  }
+}

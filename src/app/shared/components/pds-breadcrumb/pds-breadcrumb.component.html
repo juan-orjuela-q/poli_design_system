@@ -1,0 +1,36 @@
+<!--
+  pds-breadcrumb
+  Navegación tipo breadcrumb con todos sus estados.
+
+  Accesibilidad:
+  - <nav aria-label="Ruta de navegación"> como contenedor semántico
+  - <ol> (lista ordenada — el orden de la ruta tiene significado)
+  - Separadores: aria-hidden="true"
+  - Página actual: aria-current="page" en el último ítem
+-->
+<nav aria-label="Ruta de navegación" class="pds-breadcrumb-nav">
+  <ol class="pds-breadcrumb">
+    @for (item of items(); track item.label; let last = $last; let i = $index) {
+    <li class="pds-breadcrumb__item">
+      @if (!last) {
+      <!-- Ítem navegable — enlace a una sección anterior -->
+      <a class="pds-breadcrumb__link" [attr.href]="item.href ?? null">{{
+        item.label
+      }}</a>
+      <!-- Separador decorativo -->
+      <pds-icon
+        name="chevron_right"
+        size="xs"
+        [ariaHidden]="true"
+        class="pds-breadcrumb__separator"
+      />
+      } @else {
+      <!-- Ítem actual — no es enlace -->
+      <span class="pds-breadcrumb__current" aria-current="page">{{
+        item.label
+      }}</span>
+      }
+    </li>
+    }
+  </ol>
+</nav>

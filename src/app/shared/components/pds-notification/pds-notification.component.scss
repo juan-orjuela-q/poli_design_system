@@ -1,0 +1,209 @@
+// ============================================================
+// pds-notification — Design System v2
+// Reglas:  100 % CSS custom properties · BEM · sin valores hardcoded
+// ============================================================
+
+.pds-notification {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  gap: var(--spacing-component-md);
+  padding: var(--spacing-component-md) var(--spacing-component-lg);
+  border-radius: var(--radius-container-sm);
+  border-left: var(--border-bold) solid transparent;
+  position: relative;
+  padding-bottom: 5px;
+
+  // ── Ícono ──────────────────────────────────────────────────
+  &__icon {
+    grid-row: 1;
+    grid-column: 1;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-top: 2px; // alineación óptica con la primera línea del título
+  }
+
+  // ── Contenido ─────────────────────────────────────────────
+  &__content {
+    grid-row: 1;
+    grid-column: 2;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-component-xs, 4px);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--text-component, Poppins);
+    font-size: var(--font-size-component-notification-title, 1.25rem);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: var(--line-height-lh-tight, 1.25);
+    color: inherit;
+  }
+
+  &__body {
+    font-family: var(--text-body, Open Sans);
+    font-size: var(--font-size-f-sm, 0.875rem);
+    line-height: var(--line-height-lh-base, 1.5);
+    color: var(--fg-neutral-secondary);
+    margin: 0;
+  }
+
+  // ── Acciones (botones modales) ─────────────────────────────
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-component-sm);
+    margin-top: var(--spacing-component-md);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    pds-button {
+      min-width: auto;
+    }
+  }
+
+  &__actions--with-divider {
+    border-top: 1px solid var(--border-neutral-default, #b0bec5);
+    padding-top: var(--spacing-component-md);
+    margin-left: calc(-1 * var(--spacing-component-lg));
+    margin-right: calc(-1 * var(--spacing-component-lg));
+  }
+
+  // ── Botón cerrar ──────────────────────────────────────────
+  &__close {
+    grid-row: 1;
+    grid-column: 3;
+    flex-shrink: 0;
+    // Alinear el botón de 32px con el texto de 20px del título
+    margin-top: calc(-1 * var(--spacing-component-xs, 4px));
+  }
+
+  // ── Timer visual (barra de progreso inferior) ──────────────
+  &__timer {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 calc(-1 * var(--spacing-component-lg))
+      calc(-1 * var(--spacing-component-md));
+  }
+
+  &__timer-bar {
+    height: 100%;
+    transition: width 0.1s linear;
+    border-radius: 2px;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // ESTADOS — fondos, bordes y colores de ícono
+  // ══════════════════════════════════════════════════════════
+
+  &--default {
+    background-color: var(--surface-brand-primary-soft);
+    border-left-color: var(--border-brand-primary-solid);
+    color: var(--fg-brand-primary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-brand-primary);
+    }
+
+    .pds-notification__timer-bar {
+      background-color: var(--border-brand-primary-solid);
+    }
+  }
+
+  &--success {
+    background-color: var(--surface-status-success-subtle);
+    border-left-color: var(--border-status-success-solid);
+    color: var(--fg-neutral-primary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-status-success);
+    }
+
+    .pds-notification__timer-bar {
+      background-color: var(--border-status-success-solid);
+    }
+  }
+
+  &--warning {
+    background-color: var(--surface-status-warning-subtle);
+    border-left-color: var(--border-status-warning-solid);
+    color: var(--fg-neutral-primary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-status-warning);
+    }
+
+    .pds-notification__timer-bar {
+      background-color: var(--border-status-warning-solid);
+    }
+  }
+
+  &--error {
+    background-color: var(--surface-status-error-subtle);
+    border-left-color: var(--border-status-error-solid);
+    color: var(--fg-neutral-primary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-status-error);
+    }
+
+    .pds-notification__timer-bar {
+      background-color: var(--border-status-error-solid);
+    }
+  }
+
+  &--info {
+    background-color: var(--surface-status-info-subtle);
+    border-left-color: var(--border-status-info-solid);
+    color: var(--fg-neutral-primary);
+
+    pds-icon {
+      --pds-icon-color: var(--fg-status-info);
+    }
+
+    .pds-notification__timer-bar {
+      background-color: var(--border-status-info-solid);
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // TIPOS — posicionamiento flotante
+  // ══════════════════════════════════════════════════════════
+
+  &--snackbar,
+  &--toast {
+    position: fixed;
+    z-index: 1100;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    min-width: 320px;
+    max-width: 480px;
+  }
+
+  &--snackbar {
+    bottom: var(--spacing-component-2xl);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--toast {
+    top: var(--spacing-component-2xl);
+    right: var(--spacing-component-2xl);
+  }
+
+  // &--inline no requiere posicionamiento especial
+
+  // ══════════════════════════════════════════════════════════
+  // ACCESIBILIDAD
+  // ══════════════════════════════════════════════════════════
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

@@ -1,0 +1,169 @@
+// ============================================================
+// pds-modal — Design System v2
+// Reglas: 100% CSS custom properties · BEM con prefijo pds- · sin valores hardcoded
+// ============================================================
+
+// ── Overlay ─────────────────────────────────────────────────────────────────
+.pds-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-brand-overlay, rgba(15, 56, 90, 0.9));
+  z-index: var(--z-index-overlay, 1200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Padding para que el modal no toque los bordes en pantallas pequeñas
+  padding: var(--spacing-component-lg, 16px);
+  // Scroll vertical en caso de que el viewport sea muy reducido (ej. móvil + teclado abierto)
+  overflow-y: auto;
+}
+
+// ── Card del modal ───────────────────────────────────────────────────────────
+.pds-modal {
+  background: var(--surface-neutral-modal, #fff);
+  border-radius: var(--radius-container-md, 16px);
+  width: 100%;
+  // Shadow/500 del Design System
+  box-shadow: 0 6px 14px rgba(24, 39, 75, 0.12),
+    0 10px 32px rgba(24, 39, 75, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  // El cuerpo crece; header y footer tienen altura fija
+  max-height: 90vh;
+
+  // ── Tamaños — max-width controlado por tokens ──────────────────────────
+  &--sm {
+    max-width: var(--container-width-sm, 420px);
+  }
+  &--md {
+    max-width: var(--container-width-md, 560px);
+  }
+  &--lg {
+    max-width: var(--container-width-lg, 720px);
+  }
+  &--xl {
+    max-width: var(--container-width-xl, 900px);
+  }
+  &--2xl {
+    max-width: var(--container-width-2xl, 1200px);
+  }
+
+  // ── Header ────────────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-component-xl, 20px) var(--spacing-component-xl, 20px)
+      var(--spacing-component-lg, 16px);
+    border-bottom: var(--border-thick, 2px) solid
+      var(--border-neutral-subtle, #b6c0ca);
+    flex-shrink: 0;
+    gap: var(--spacing-component-md, 12px);
+  }
+
+  &__title {
+    flex: 1 0 0;
+    min-width: 0;
+    margin: 0;
+    font-family: var(--text-headings, Poppins);
+    font-size: var(--font-size-f-2xl, 1.5rem);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: 1.2;
+    color: var(--fg-brand-primary, #0f385a);
+    // Evita que un título largo empuje el botón X fuera de pantalla
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // El botón ✕ no necesita estilos extra — pds-icon-button los provee
+  // pero necesitamos que el focus ring no sea recortado por el header
+  pds-icon-button {
+    flex-shrink: 0;
+  }
+
+  // ── Body ──────────────────────────────────────────────────────────────
+  &__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--spacing-component-xl, 20px);
+    font-family: var(--text-body, Open Sans);
+    font-size: var(--font-size-f-base, 1rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--fg-brand-primary, #0f385a);
+    // scrollbar solo cuando hay desbordamiento
+    overscroll-behavior: contain;
+  }
+
+  // ── Footer (acciones built-in) ─────────────────────────────────────────
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-component-md, 12px);
+    padding: var(--spacing-component-lg, 16px) var(--spacing-component-xl, 20px)
+      var(--spacing-component-xl, 20px);
+    border-top: var(--border-thick, 2px) solid
+      var(--border-neutral-subtle, #b6c0ca);
+    flex-shrink: 0;
+  }
+}
+
+// ── Animaciones de apertura ──────────────────────────────────────────────────
+@media (prefers-reduced-motion: no-preference) {
+  .pds-modal-overlay {
+    animation: pds-modal-overlay-in 150ms ease;
+  }
+
+  .pds-modal {
+    animation: pds-modal-scale-in 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@keyframes pds-modal-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pds-modal-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// ── Sin animación (prefers-reduced-motion) ───────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .pds-modal-overlay,
+  .pds-modal {
+    animation: none;
+    transition: none;
+  }
+}
+
+// ── Responsive: pantallas pequeñas ──────────────────────────────────────────
+@media (max-width: 480px) {
+  .pds-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .pds-modal {
+    // En móvil se comporta como bottom sheet
+    border-radius: var(--radius-container-md, 16px)
+      var(--radius-container-md, 16px) 0 0;
+    max-height: 92vh;
+    max-width: 100%;
+    width: 100%;
+  }
+}

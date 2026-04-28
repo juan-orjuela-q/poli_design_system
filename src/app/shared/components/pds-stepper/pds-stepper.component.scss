@@ -1,0 +1,206 @@
+// ── pds-stepper ──────────────────────────────────────────────────────────────
+// Tokens used (all from src/assets/poligran/):
+//   layout-desktop.css  : --spacing-layout-gutter, --border-thin, --radius-pill
+//   tokens.css          : --fg-brand-primary, --fg-neutral-secondary,
+//                         --surface-brand-primary-base, --surface-brand-secondary-muted,
+//                         --action-neutral-subtle-bg, --border-neutral-subtle,
+//                         --border-brand-primary-solid
+//   component.css       : --spacing-component-sm/md/lg/xl, --border-thick,
+//                         --input-font-label, --text-headings, --text-body
+//   typescale-desktop.css: --font-size-f-base, --font-size-f-xl, --font-size-f-sm,
+//                          --font-weight-w-medium, --font-weight-w-semibold
+
+:host {
+  display: block;
+}
+
+.pds-stepper {
+  display: flex;
+  flex-direction: column;
+
+  // ── Header ────────────────────────────────────────────────────────────────
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-component-md, 12px);
+    padding-bottom: var(--spacing-component-md, 12px);
+    border-bottom: var(--border-thin, 1px) solid
+      var(--border-neutral-subtle, #b6c0ca);
+  }
+
+  // "Step X of N" counter label
+  &__count {
+    margin: 0;
+    font-family: var(--input-font-label, "Poppins", sans-serif);
+    font-size: var(--font-size-f-base, 16px);
+    font-weight: var(--font-weight-w-medium, 500);
+    line-height: 1;
+    color: var(--fg-brand-primary, #0f385a);
+  }
+
+  // ── Markers row ───────────────────────────────────────────────────────────
+
+  &__markers {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Horizontal: side by side, connector fills available space
+  &--horizontal &__markers {
+    flex-direction: row;
+    gap: 0; // connectors are flex children themselves, no gap needed
+  }
+
+  // ── Connector line ────────────────────────────────────────────────────────
+
+  &__connector {
+    flex: 1;
+    align-self: center;
+    min-width: var(--spacing-component-lg, 16px);
+    background: var(--border-neutral-subtle, #b6c0ca);
+  }
+
+  &--horizontal &__connector {
+    height: var(--border-thin, 1px);
+  }
+
+  // ── Single step marker ────────────────────────────────────────────────────
+
+  &__marker {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-component-sm, 8px);
+    min-height: 80px;
+    flex-shrink: 0;
+    // Each marker takes an equal share of the row via the connectors between them
+    // flex: 1 0 0 is implicit via parent flex layout
+  }
+
+  // ── Marker circle (icon container) ───────────────────────────────────────
+
+  &__marker-circle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill, 99999px);
+    padding: var(--spacing-component-lg, 16px);
+    overflow: hidden;
+    // Icon inherits color via currentColor
+    pds-icon {
+      --pds-icon-color: currentColor;
+    }
+  }
+
+  // ── Marker info text block ─────────────────────────────────────────────────
+
+  &__marker-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0; // prevent overflow in flex context
+  }
+
+  &__marker-label {
+    font-family: var(--text-headings, "Poppins", sans-serif);
+    font-size: var(--font-size-f-xl, 20px);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: 1.2;
+    color: var(
+      --fg-neutral-secondary,
+      #4d5b69
+    ); // default (completed / disabled)
+  }
+
+  &__marker-desc {
+    font-family: var(--text-body, "Open Sans", sans-serif);
+    font-size: var(--font-size-f-sm, 14px);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: 1.5;
+    color: var(--fg-neutral-secondary, #4d5b69);
+  }
+
+  // ── CURRENT marker state ───────────────────────────────────────────────────
+
+  &__marker--current {
+    .pds-stepper__marker-circle {
+      background: var(--surface-brand-secondary-muted, #1fb2de);
+      border: var(--border-thick, 2px) solid
+        var(--border-brand-primary-solid, #0f385a);
+      color: var(--fg-brand-primary, #0f385a);
+    }
+
+    .pds-stepper__marker-label {
+      color: var(--fg-brand-primary, #0f385a);
+    }
+  }
+
+  // ── COMPLETED marker state ─────────────────────────────────────────────────
+
+  &__marker--completed {
+    .pds-stepper__marker-circle {
+      background: var(--surface-brand-primary-base, #0f385a);
+      color: white; // check_circle icon appears white on dark navy
+    }
+  }
+
+  // ── DISABLED marker state ──────────────────────────────────────────────────
+
+  &__marker--disabled {
+    .pds-stepper__marker-circle {
+      background: var(--action-neutral-subtle-bg, #e5e9ec);
+      color: var(--fg-neutral-secondary, #4d5b69);
+    }
+  }
+
+  // ── Body: ng-content slot ──────────────────────────────────────────────────
+
+  &__body {
+    padding: var(--spacing-component-xl, 24px) 0;
+    flex: 1;
+  }
+
+  // ── Footer: navigation buttons ─────────────────────────────────────────────
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--spacing-component-md, 12px);
+    border-top: var(--border-thin, 1px) solid
+      var(--border-neutral-subtle, #b6c0ca);
+  }
+
+  // When on the first step there is only one button — push it to the right
+  &__footer--first {
+    justify-content: flex-end;
+  }
+
+  // ── Vertical orientation ──────────────────────────────────────────────────
+
+  &--vertical &__markers {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  &--vertical &__marker {
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: unset;
+  }
+
+  &--vertical &__marker-circle {
+    align-self: center;
+  }
+
+  &--vertical &__connector {
+    width: var(--border-thin, 1px);
+    height: var(--spacing-component-xl, 24px);
+    align-self: center;
+  }
+}

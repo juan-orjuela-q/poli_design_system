@@ -1,0 +1,63 @@
+<div [ngClass]="hostClasses()" role="group" [attr.aria-label]="ariaLabel()">
+  <!-- ── Header: step counter + markers row ─────────────────────────────── -->
+  <header class="pds-stepper__header">
+    @if (showCount()) {
+    <p class="pds-stepper__count" aria-live="polite" aria-atomic="true">
+      {{ stepCountLabel() }}
+    </p>
+    }
+
+    <div class="pds-stepper__markers" role="list">
+      @for (step of steps(); track step.id; let i = $index; let last = $last) {
+
+      <div
+        [ngClass]="markerClasses(stepStates()[i])"
+        role="listitem"
+        [attr.aria-current]="stepStates()[i] === 'current' ? 'step' : null"
+      >
+        <!-- Circular icon -->
+        <div class="pds-stepper__marker-circle" aria-hidden="true">
+          <pds-icon [name]="markerIcon(i, step)" size="lg" />
+        </div>
+
+        <!-- Label + description -->
+        <div class="pds-stepper__marker-info">
+          <span class="pds-stepper__marker-label">{{ step.label }}</span>
+          @if (step.description) {
+          <span class="pds-stepper__marker-desc">{{ step.description }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- Connector line between markers (not after the last one) -->
+      @if (!last) {
+      <div class="pds-stepper__connector" aria-hidden="true"></div>
+      } }
+    </div>
+  </header>
+
+  <!-- ── Body: projected content slot ──────────────────────────────────── -->
+  <div class="pds-stepper__body">
+    <ng-content />
+  </div>
+
+  <!-- ── Footer: navigation buttons ───────────────────────────────────── -->
+  <footer [ngClass]="footerClasses()">
+    @if (!isFirst()) {
+    <pds-button variant="outline" iconStart="arrow_back" (click)="onPrev()">{{
+      prevLabel()
+    }}</pds-button>
+    } @if (isLast()) {
+    <pds-button
+      variant="primary"
+      iconEnd="arrow_forward"
+      (click)="onFinish()"
+      >{{ finishLabel() }}</pds-button
+    >
+    } @else {
+    <pds-button variant="primary" iconEnd="arrow_forward" (click)="onNext()">{{
+      nextLabel()
+    }}</pds-button>
+    }
+  </footer>
+</div>
