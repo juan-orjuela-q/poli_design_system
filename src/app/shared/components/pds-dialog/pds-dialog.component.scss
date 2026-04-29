@@ -114,7 +114,6 @@
     font-weight: 400;
     line-height: 1.5;
     color: var(--fg-brand-primary, #0f385a);
-    text-align: center;
   }
 
   // ── Divisor horizontal ────────────────────────────────────────────────────
@@ -122,6 +121,16 @@
     width: 100%;
     height: var(--border-thin, 1px);
     background: var(--border-neutral-subtle, #e0e6ea);
+  }
+
+  &--error &__divider {
+    background: var(--border-status-error-subtle, #f9218c);
+  }
+  &--warning &__divider {
+    background: var(--border-status-warning-subtle, #fcbd3f);
+  }
+  &--success &__divider {
+    background: var(--border-status-success-subtle, #b5d659);
   }
 
   // ── Acciones: botones alineados a la derecha ──────────────────────────────
