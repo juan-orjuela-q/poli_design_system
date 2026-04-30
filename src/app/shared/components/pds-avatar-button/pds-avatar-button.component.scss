@@ -44,7 +44,7 @@
   transition: background 150ms ease, box-shadow 150ms ease;
 
   // ── Estado: Hover ──────────────────────────────────────────────
-  &:hover:not(.pds-avatar-button--disabled) {
+  &:hover {
     background: var(--surface-neutral-canvas); // blanco
     box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12),
       0 10px 32px -4px rgba(24, 39, 75, 0.1);
@@ -63,7 +63,7 @@
   }
 
   // ── Estado: Pressed (active) ──────────────────────────────────
-  &:active:not(.pds-avatar-button--disabled) {
+  &:active {
     background: var(--action-primary-subtle-bg-pressed);
 
     .pds-avatar-button__overlay {
@@ -73,13 +73,6 @@
     .pds-avatar-button__indicator {
       opacity: 1;
     }
-  }
-
-  // ── Modificador: disabled ─────────────────────────────────────
-  &--disabled {
-    cursor: not-allowed;
-    opacity: 0.4;
-    // NO pointer-events: none — se mantiene el cursor visible
   }
 
   // ── Bloque texto ──────────────────────────────────────────────
@@ -111,26 +104,30 @@
     line-height: 1;
   }
 
+  // ── Wrapper del avatar: contiene el círculo y el badge ──────
+  // NO tiene overflow:hidden para que el badge no sea recortado
+  &__pic-wrap {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   // ── Círculo del avatar ────────────────────────────────────────
   &__pic {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-pill);
     background: var(--surface-brand-primary-base); // #0f385a
-    flex-shrink: 0;
-    overflow: hidden; // para recortar imagen
+    overflow: hidden; // recorta imagen — está aquí y no en el wrapper
 
-    // Tamaños del avatar circle (Figma usa 40px como MD)
-    &--sm {
-      width: var(--size-xs, 24px);
-      height: var(--size-xs, 24px);
-    }
+    // Tamaños del avatar circle (Figma: md=40px, lg=64px)
     &--md {
       width: 40px;
       height: 40px;
-    } // Figma: 40px (entre size-sm 32 y size-md 48)
+    }
     &--lg {
       width: var(--size-lg, 64px);
       height: var(--size-lg, 64px);
@@ -179,6 +176,7 @@
     justify-content: center;
     --pds-icon-color: var(--fg-on-color-brand-primary, #ffffff);
     --pds-icon-size: 12px;
+    padding: 10px;
 
     // El pds-icon dentro necesita escalar
     pds-icon {
@@ -237,8 +235,8 @@
     .pds-avatar-button__badge {
       width: 26px;
       height: 26px;
-      bottom: -8px;
-      right: -8px;
+      bottom: 0px;
+      right: 0px;
     }
   }
 

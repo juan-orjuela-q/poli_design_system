@@ -60,18 +60,15 @@ export class PdsAvatarButtonComponent {
 
   /**
    * Tamaño del avatar (no del botón completo, sino del círculo del avatar).
-   * - `sm` → 24 px · `md` → 40 px (default Figma) · `lg` → 64 px
+   * - `md` → 40 px (default Figma) · `lg` → 64 px
    */
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly size = input<'md' | 'lg'>('md');
 
   /** Oculta el nombre y el rol junto al avatar. */
   readonly showName = input<boolean>(true);
 
   /** Oculta solo el rol (la línea secundaria). */
   readonly showRole = input<boolean>(true);
-
-  /** Estado deshabilitado. Usa aria-disabled (mantiene el tab order). */
-  readonly disabled = input<boolean>(false);
 
   /** Tipo HTML del botón. */
   readonly buttonType = input<'button' | 'submit'>('button');
@@ -97,7 +94,6 @@ export class PdsAvatarButtonComponent {
   protected readonly buttonClasses = computed(() => ({
     'pds-avatar-button': true,
     [`pds-avatar-button--${this.size()}`]: true,
-    'pds-avatar-button--disabled': this.disabled(),
     'pds-avatar-button--no-name': !this.showName(),
   }));
 
@@ -119,18 +115,10 @@ export class PdsAvatarButtonComponent {
   // ── Handlers ──────────────────────────────────────────────────────────
 
   protected handleClick(event: MouseEvent): void {
-    if (this.disabled()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      return;
-    }
     this.clicked.emit();
   }
 
   protected handleKeydown(event: KeyboardEvent): void {
-    if (this.disabled()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
+    // No hay lógica de disabled
   }
 }

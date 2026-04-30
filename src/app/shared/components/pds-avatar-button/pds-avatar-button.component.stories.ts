@@ -29,7 +29,7 @@ const meta: Meta<PdsAvatarButtonComponent> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
+      options: ['md', 'lg'],
       description: 'Tamaño del círculo del avatar.',
     },
     name: { control: 'text', description: 'Nombre del usuario.' },
@@ -55,10 +55,6 @@ const meta: Meta<PdsAvatarButtonComponent> = {
       description: 'Muestra el bloque de nombre y rol.',
     },
     showRole: { control: 'boolean', description: 'Muestra la línea de rol.' },
-    disabled: {
-      control: 'boolean',
-      description: 'Estado deshabilitado (aria-disabled).',
-    },
     buttonType: {
       control: 'select',
       options: ['button', 'submit'],
@@ -82,7 +78,6 @@ export const Default: Story = {
     showBadge: true,
     showName: true,
     showRole: true,
-    disabled: false,
   },
 };
 
@@ -98,7 +93,6 @@ export const SoloAvatar: Story = {
     showBadge: true,
     showName: false,
     showRole: false,
-    disabled: false,
   },
 };
 
@@ -114,7 +108,6 @@ export const SinRole: Story = {
     showBadge: false,
     showName: true,
     showRole: false,
-    disabled: false,
   },
 };
 
@@ -131,7 +124,6 @@ export const ConIcono: Story = {
     showBadge: true,
     showName: true,
     showRole: true,
-    disabled: false,
   },
 };
 
@@ -148,19 +140,17 @@ export const ConImagen: Story = {
     showBadge: true,
     showName: true,
     showRole: true,
-    disabled: false,
   },
 };
 
 // ── Tamaños ───────────────────────────────────────────────────────────
 
 export const Tamanios: Story = {
-  name: 'Tamaños (sm / md / lg)',
+  name: 'Tamaños (md / lg)',
   render: (args) => ({
     props: args,
     template: `
       <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
-        <pds-avatar-button name="Andrea Zamora" role="Admin" size="sm" [showBadge]="true" />
         <pds-avatar-button name="Andrea Zamora" role="Admin" size="md" [showBadge]="true" />
         <pds-avatar-button name="Andrea Zamora" role="Admin" size="lg" [showBadge]="true" />
       </div>
@@ -205,22 +195,6 @@ export const ConYSinBadge: Story = {
   }),
 };
 
-// ── Disabled ──────────────────────────────────────────────────────────
-
-export const Disabled: Story = {
-  name: 'Estado — Disabled',
-  args: {
-    name: 'Andrea Zamora',
-    role: 'Administrador',
-    type: 'letter',
-    size: 'md',
-    showBadge: true,
-    showName: true,
-    showRole: true,
-    disabled: true,
-  },
-};
-
 // ── Sobre fondo oscuro ────────────────────────────────────────────────
 
 export const SobreFondoOscuro: Story = {
@@ -236,7 +210,6 @@ export const SobreFondoOscuro: Story = {
     showBadge: true,
     showName: true,
     showRole: true,
-    disabled: false,
   },
 };
 
@@ -250,7 +223,6 @@ export const Accesibilidad: Story = {
         <pds-avatar-button
           name="Andrea Zamora"
           role="Administrador"
-          [showBadge]="false"
           aria-description="Sin notificaciones"
         />
         <pds-avatar-button
@@ -261,8 +233,7 @@ export const Accesibilidad: Story = {
         />
         <pds-avatar-button
           name="Andrea Zamora"
-          [disabled]="true"
-          aria-description="Deshabilitado — mantiene el tab order"
+          aria-description="Sin estado deshabilitado"
         />
       </div>
     `,

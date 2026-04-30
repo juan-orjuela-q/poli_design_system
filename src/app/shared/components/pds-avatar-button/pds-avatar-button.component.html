@@ -2,7 +2,6 @@
   [ngClass]="buttonClasses()"
   [type]="buttonType()"
   [attr.aria-label]="resolvedAriaLabel()"
-  [attr.aria-disabled]="disabled() ? 'true' : null"
   (click)="handleClick($event)"
   (keydown)="handleKeydown($event)"
 >
@@ -19,30 +18,32 @@
   </span>
   }
 
-  <!-- Avatar pic -->
-  <span [ngClass]="avatarClasses()">
-    @switch (type()) { @case ('image') {
-    <img
-      class="pds-avatar-button__img"
-      [src]="imageSrc()"
-      [alt]="name()"
-      aria-hidden="true"
-    />
-    } @case ('icon') {
-    <pds-icon
-      [name]="iconName()"
-      size="md"
-      [ariaHidden]="true"
-      class="pds-avatar-button__icon"
-    />
-    } @default {
-    <!-- letter -->
-    <span class="pds-avatar-button__letter" aria-hidden="true">
-      {{ resolvedLetter() }}
+  <!-- Avatar pic + badge (envueltos para que overflow:hidden no corte el badge) -->
+  <span class="pds-avatar-button__pic-wrap">
+    <span [ngClass]="avatarClasses()">
+      @switch (type()) { @case ('image') {
+      <img
+        class="pds-avatar-button__img"
+        [src]="imageSrc()"
+        [alt]="name()"
+        aria-hidden="true"
+      />
+      } @case ('icon') {
+      <pds-icon
+        [name]="iconName()"
+        size="md"
+        [ariaHidden]="true"
+        class="pds-avatar-button__icon"
+      />
+      } @default {
+      <!-- letter -->
+      <span class="pds-avatar-button__letter" aria-hidden="true">
+        {{ resolvedLetter() }}
+      </span>
+      } }
     </span>
-    } }
 
-    <!-- Indicador de notificación (badge) -->
+    <!-- Indicador de notificación (badge) — fuera del __pic para no ser recortado -->
     @if (showBadge()) {
     <span class="pds-avatar-button__badge" aria-hidden="true">
       <pds-icon name="notifications" size="sm" [ariaHidden]="true" />
