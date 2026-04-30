@@ -3,25 +3,23 @@
   role="status" → estados informativos: anuncia en la próxima pausa (aria-live="polite" implícito).
 -->
 <div [ngClass]="hostClasses()" [attr.role]="ariaRole()">
-  <!-- Ícono de estado (decorativo — el role y el título ya comunican el tipo) -->
-  <div class="pds-notification__icon" aria-hidden="true">
+  <!-- Franja de ícono (fondo sólido a la izquierda) -->
+  <div class="pds-notification__icon-strip" aria-hidden="true">
     <pds-icon [name]="statusIcon()" size="md" [ariaHidden]="true" />
   </div>
 
-  <!-- Contenido -->
+  <!-- Área de contenido -->
   <div class="pds-notification__content">
-    @if (title()) {
+    @if (title() && type() === 'snackbar') {
     <p class="pds-notification__title">{{ title() }}</p>
     }
     <div class="pds-notification__body">
       <ng-content />
     </div>
 
-    <!-- Acciones/Botones modales -->
+    <!-- Acciones con línea divisora -->
     @if (actions().length > 0) {
-    <div
-      class="pds-notification__actions pds-notification__actions--with-divider"
-    >
+    <div class="pds-notification__actions">
       @for (btn of actions(); track btn.id) {
       <pds-button
         [variant]="btn.variant ?? 'outline'"
@@ -48,7 +46,7 @@
   </div>
   }
 
-  <!-- Timer visual (barra de progreso inferior) -->
+  <!-- Timer visual — barra que crece de izquierda a derecha (posición absoluta inferior) -->
   @if (timerDuration() !== null && timerDuration()! > 0) {
   <div
     class="pds-notification__timer"
@@ -56,7 +54,7 @@
     [attr.aria-valuenow]="timerProgressRounded()"
     aria-valuemin="0"
     aria-valuemax="100"
-    [attr.aria-label]="'Tiempo restante: ' + timerProgressRounded() + '%'"
+    [attr.aria-label]="'Tiempo transcurrido: ' + timerProgressRounded() + '%'"
   >
     <div
       class="pds-notification__timer-bar"

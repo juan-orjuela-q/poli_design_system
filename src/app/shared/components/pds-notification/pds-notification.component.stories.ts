@@ -3,6 +3,7 @@ import {
   PdsNotificationComponent,
   NotificationStatus,
   NotificationType,
+  NotificationPosition,
   NotificationAction,
 } from './pds-notification.component';
 
@@ -48,6 +49,19 @@ y \`role="status"\` para el resto.
         'info',
       ] satisfies NotificationStatus[],
       description: 'Estado semántico',
+    },
+    position: {
+      control: 'select',
+      options: [
+        'top-left',
+        'top-center',
+        'top-right',
+        'bottom-left',
+        'bottom-center',
+        'bottom-right',
+      ] satisfies NotificationPosition[],
+      description:
+        'Posición del elemento flotante (solo snackbar y toast). Por defecto: bottom-center para snackbar, top-right para toast.',
     },
     title: {
       control: 'text',
@@ -260,7 +274,7 @@ export const TodosLosEstados: Story = {
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px;">
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
         <pds-notification status="default" title="Default" [autoDismiss]="null">
           Estado por defecto con color de marca primaria.
         </pds-notification>
@@ -287,7 +301,8 @@ export const TipoSnackbar: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Posición fija en la parte inferior-central de la pantalla.',
+        story:
+          'Flotante con posición configurable. Por defecto `bottom-center`. Usa el control `position` para cambiarla.',
       },
     },
   },
@@ -297,11 +312,16 @@ export const TipoSnackbar: Story = {
     title: 'Cambios guardados',
     dismissible: true,
     autoDismiss: null,
+    position: 'bottom-center',
+    actions: [
+      { id: 'cancel', label: 'Cancelar', variant: 'outline' },
+      { id: 'confirm', label: 'Confirmar', variant: 'primary' },
+    ] satisfies NotificationAction[],
   },
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; min-height: 160px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px;">
+      <div style="position: relative; min-height: 300px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
         <p style="color: var(--fg-neutral-secondary)">Área de contenido de la página</p>
         <pds-notification
           [type]="type"
@@ -309,9 +329,10 @@ export const TipoSnackbar: Story = {
           [title]="title"
           [dismissible]="dismissible"
           [autoDismiss]="autoDismiss"
-          style="position: absolute;"
+          [position]="position"
+          [actions]="actions"
         >
-          Los cambios han sido guardados.
+          Los cambios han sido guardados correctamente.
         </pds-notification>
       </div>
     `,
@@ -323,7 +344,8 @@ export const TipoToast: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Posición fija en la parte superior derecha de la pantalla.',
+        story:
+          'Flotante con posición configurable. Por defecto `top-right`. Usa el control `position` para cambiarla.',
       },
     },
   },
@@ -333,11 +355,12 @@ export const TipoToast: Story = {
     title: 'Nuevo mensaje',
     dismissible: true,
     autoDismiss: null,
+    position: 'top-right',
   },
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; min-height: 160px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px;">
+      <div style="position: relative; min-height: 300px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
         <p style="color: var(--fg-neutral-secondary)">Área de contenido de la página</p>
         <pds-notification
           [type]="type"
@@ -345,10 +368,65 @@ export const TipoToast: Story = {
           [title]="title"
           [dismissible]="dismissible"
           [autoDismiss]="autoDismiss"
-          style="position: absolute;"
+          [position]="position"
         >
           Tienes un nuevo mensaje en tu bandeja.
         </pds-notification>
+      </div>
+    `,
+  }),
+};
+
+export const PosicionesDisponibles: Story = {
+  name: 'Posiciones disponibles',
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'Muestra las 6 posiciones disponibles para snackbar y toast. Cada notificación se renderiza en un contenedor independiente con `position: relative` para evitar sobreposición.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-left</p>
+          <pds-notification type="snackbar" status="default" title="Top Left" position="top-left" [autoDismiss]="null">
+            Posición superior izquierda.
+          </pds-notification>
+        </div>
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-center</p>
+          <pds-notification type="snackbar" status="success" title="Top Center" position="top-center" [autoDismiss]="null">
+            Posición superior centrada.
+          </pds-notification>
+        </div>
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-right</p>
+          <pds-notification type="toast" status="info" position="top-right" [autoDismiss]="null">
+            Posición superior derecha.
+          </pds-notification>
+        </div>
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-left</p>
+          <pds-notification type="toast" status="warning" position="bottom-left" [autoDismiss]="null">
+            Posición inferior izquierda.
+          </pds-notification>
+        </div>
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-center</p>
+          <pds-notification type="snackbar" status="error" title="Bottom Center" position="bottom-center" [autoDismiss]="null">
+            Posición inferior centrada.
+          </pds-notification>
+        </div>
+        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
+          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-right</p>
+          <pds-notification type="toast" status="success" position="bottom-right" [autoDismiss]="null">
+            Posición inferior derecha.
+          </pds-notification>
+        </div>
       </div>
     `,
   }),
@@ -445,21 +523,21 @@ export const TodosLosEstadosConTimer: Story = {
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px;">
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
         <pds-notification status="default" title="Default" [autoDismiss]="null" [timerDuration]="30000">
-          Timer con color de contraste: marca primaria.
+          La barra crece de izquierda a derecha: marca primaria.
         </pds-notification>
         <pds-notification status="success" title="Éxito" [autoDismiss]="null" [timerDuration]="30000">
-          Timer con color de contraste: verde éxito.
+          La barra crece de izquierda a derecha: verde éxito.
         </pds-notification>
         <pds-notification status="warning" title="Advertencia" [autoDismiss]="null" [timerDuration]="30000">
-          Timer con color de contraste: naranja advertencia.
+          La barra crece de izquierda a derecha: naranja advertencia.
         </pds-notification>
         <pds-notification status="error" title="Error" [autoDismiss]="null" [timerDuration]="30000">
-          Timer con color de contraste: rojo error.
+          La barra crece de izquierda a derecha: error.
         </pds-notification>
         <pds-notification status="info" title="Información" [autoDismiss]="null" [timerDuration]="30000">
-          Timer con color de contraste: azul información.
+          La barra crece de izquierda a derecha: azul información.
         </pds-notification>
       </div>
     `,
@@ -480,7 +558,7 @@ export const TodosLosEstadosConAcciones: Story = {
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px;">
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
         <pds-notification status="default" title="Default" [autoDismiss]="null"
           [actions]="[
             { id: 'cancel', label: 'Cancelar', variant: 'outline' },

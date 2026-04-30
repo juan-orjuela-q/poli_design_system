@@ -20,6 +20,13 @@ export type NotificationStatus =
   | 'warning'
   | 'error'
   | 'info';
+export type NotificationPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
 export type NotificationActionVariant =
   | 'primary'
   | 'secondary'
@@ -63,6 +70,12 @@ export class PdsNotificationComponent implements OnDestroy {
   readonly actions = input<NotificationAction[]>([]);
 
   /**
+   * Posición del elemento flotante (solo para snackbar y toast).
+   * Por defecto: 'bottom-center' para snackbar, 'top-right' para toast.
+   */
+  readonly position = input<NotificationPosition | null>(null);
+
+  /**
    * Duración del timer visual en ms.
    * Si `null` o `<= 0`, el timer no se muestra.
    * Default: 30000 (30 segundos).
@@ -84,8 +97,8 @@ export class PdsNotificationComponent implements OnDestroy {
   private autoDismissTimer: ReturnType<typeof setTimeout> | null = null;
   private timerIntervalId: ReturnType<typeof setInterval> | null = null;
 
-  /** Progreso del timer: 0-100 (%). */
-  protected readonly timerProgress = signal<number>(100);
+  /** Progreso del timer: 0-100 (%). Crece de 0 a 100. */
+  protected readonly timerProgress = signal<number>(0);
 
   /** Ícono Material Symbols para cada estado. */
   protected readonly statusIcon = computed<string>(() => {
@@ -109,11 +122,23 @@ export class PdsNotificationComponent implements OnDestroy {
       : 'status'
   );
 
-  protected readonly hostClasses = computed(() => ({
-    'pds-notification': true,
-    [`pds-notification--${this.status()}`]: true,
-    [`pds-notification--${this.type()}`]: true,
-  }));
+  /** Posición efectiva: usa el valor explícito o el default según el tipo. */
+  protected readonly effectivePosition = computed<NotificationPosition>(() => {
+    const pos = this.position();
+    if (pos) return pos;
+    return this.type() === 'toast' ? 'top-right' : 'bottom-center';
+  });
+
+  protected readonly hostClasses = computed(() => {
+    const type = this.type();
+    const pos = this.effectivePosition();
+    return {
+      'pds-notification': true,
+      [`pds-notification--${this.status()}`]: true,
+      [`pds-notification--${type}`]: true,
+      [`pds-notification--${pos}`]: type === 'snackbar' || type === 'toast',
+    };
+  });
 
   protected readonly timerProgressRounded = computed(() =>
     Math.round(this.timerProgress())
@@ -129,8 +154,8 @@ export class PdsNotificationComponent implements OnDestroy {
       this.clearAutoDismissTimer();
       this.clearTimerInterval();
 
-      // Inicializar progreso al 100%
-      this.timerProgress.set(100);
+      // Inicializar progreso al 0% (la barra crece hacia la derecha)
+      this.timerProgress.set(0);
 
       // Iniciar progreso visual si timerDuration es válido
       if (duration !== null && duration > 0) {
@@ -165,10 +190,10 @@ export class PdsNotificationComponent implements OnDestroy {
 
     this.timerIntervalId = setInterval(() => {
       elapsed += updateInterval;
-      const progress = Math.max(0, 100 * (1 - elapsed / duration));
+      const progress = Math.min(100, 100 * (elapsed / duration));
       this.timerProgress.set(progress);
 
-      if (progress <= 0) {
+      if (progress >= 100) {
         this.clearTimerInterval();
       }
     }, updateInterval);
