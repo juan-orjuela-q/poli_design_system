@@ -87,7 +87,7 @@
 
 .pds-stepper-compact__next-value {
   font-family: var(--text-body, "Open Sans"); // Open Sans
-  font-weight: var(--font-weight-w-semibold); // 600 — Semibold
+  font-weight: 400
 }
 
 // ── Contenedor de marcadores ─────────────────────────────────────────────────
@@ -131,8 +131,8 @@
 .pds-stepper-compact__footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: var(--spacing-component-sm); // 8px
+  justify-content: space-between;
+  gap: var(--spacing-component-xl, 20px);
   padding-top: var(--spacing-component-md); // 12px
   border-top: var(--border-thin) solid var(--border-neutral-subtle); // 1px #b6c0ca
   width: 100%;
