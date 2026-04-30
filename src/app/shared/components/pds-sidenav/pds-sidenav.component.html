@@ -31,7 +31,11 @@
     @for (item of items(); track item.id) {
 
     <!-- Tooltip activo solo cuando el sidenav está colapsado -->
-    <pds-tooltip [text]="item.label" position="right" [disabled]="expanded()">
+    <pds-tooltip
+      [text]="item.label"
+      position="right"
+      [disabled]="isEffectivelyExpanded()"
+    >
       @if (hasChildren(item)) {
       <!-- ── Ítem padre (acordeón) ─────────────────────────── -->
       <button
@@ -88,7 +92,7 @@
     </pds-tooltip>
 
     <!-- Sub-ítems (solo visibles cuando el padre está abierto Y el sidenav está expandido) -->
-    @if (hasChildren(item) && isItemOpen(item.id) && expanded()) {
+    @if (hasChildren(item) && isItemOpen(item.id) && isEffectivelyExpanded()) {
     <div
       class="pds-sidenav__subitems"
       role="list"

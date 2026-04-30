@@ -50,6 +50,8 @@
     // El ícono del portal se centra en 80px
     .pds-sidenav__header {
       justify-content: center;
+      padding: var(--spacing-component-lg, 16px)
+        var(--spacing-component-md, 12px);
     }
 
     // Ocultar bloque de título con transición
@@ -65,7 +67,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-component-md); // 12px
-  padding: var(--spacing-component-md); // 12px
+  padding: var(--spacing-component-lg, 16px) var(--spacing-component-2xl, 24px)
+    var(--spacing-component-lg, 16px) var(--spacing-component-md, 12px);
   min-height: 72px;
   position: relative; // base para el toggle posicionado absolutamente
   border-bottom: var(--border-thin) solid var(--border-neutral-default, #b0bec5);
@@ -196,7 +199,7 @@
   width: 100%;
   min-height: 48px;
   padding: 0 var(--spacing-component-md); // 0 12px
-  border-radius: var(--radius-component-md); // 10px
+  border-radius: var(--radius-component-md) var(--radius-component-md) 0 0; // 10px
   background: transparent;
   border: none;
   cursor: pointer;
@@ -248,6 +251,9 @@
   &--open {
     background: var(--action-primary-solid-bg); // #0f385a
     color: var(--action-primary-solid-fg); // #ffffff
+    margin-bottom: calc(
+      -1 * var(--spacing-component-xxs, 4px)
+    ); // elimina el gap antes de subitems
 
     &:hover {
       background: var(--action-primary-solid-bg-hover, #165386);
@@ -291,19 +297,19 @@
 .pds-sidenav__subitems {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-component-xxs, 4px);
-  padding: var(--spacing-component-xxs, 4px) var(--spacing-component-sm); // 4px 8px
-  padding-left: calc(
-    var(--spacing-component-sm) + 24px + var(--spacing-component-sm)
-  ); // indentar tras ícono
+  gap: 0;
+  padding: var(--spacing-component-xs, 8px) 10px;
+  background: var(--surface-neutral-weak, #f1f3f5);
+  border-bottom: var(--border-thick, 2px) solid
+    var(--border-neutral-default, #b0bec5);
 }
 
 .pds-sidenav__subitem {
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 40px;
-  padding: var(--spacing-component-xs) var(--spacing-component-md); // 6px 12px
+  min-height: 48px;
+  padding: var(--spacing-component-md); // 12px all sides
   border-radius: var(--radius-component-2xs); // 4px
   background: transparent;
   border: none;

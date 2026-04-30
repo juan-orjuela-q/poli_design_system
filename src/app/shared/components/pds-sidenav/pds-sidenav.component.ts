@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   computed,
   input,
   output,
@@ -104,11 +105,19 @@ export class PdsSidenavComponent {
   /** Set de IDs de ítems padre con sub-menú actualmente expandido. */
   protected readonly openItems = signal<Set<string>>(new Set());
 
+  /** Verdadero mientras el cursor está sobre el sidenav y este estaba colapsado. */
+  private readonly hoverExpanded = signal(false);
+
   // ── Computed ───────────────────────────────────────────────────────────────
+
+  /** Estado efectivo: expandido por input O expandido por hover. */
+  protected readonly isEffectivelyExpanded = computed(
+    () => this.expanded() || this.hoverExpanded()
+  );
 
   protected readonly navClasses = computed(() => ({
     'pds-sidenav': true,
-    'pds-sidenav--collapsed': !this.expanded(),
+    'pds-sidenav--collapsed': !this.isEffectivelyExpanded(),
   }));
 
   protected readonly toggleAriaLabel = computed(() =>
@@ -118,10 +127,24 @@ export class PdsSidenavComponent {
   );
 
   protected readonly toggleIconName = computed(() =>
-    this.expanded() ? 'menu_open' : 'menu'
+    this.isEffectivelyExpanded() ? 'left_panel_close' : 'left_panel_open'
   );
 
   // ── Métodos ────────────────────────────────────────────────────────────────
+
+  /** Expande visualmente el sidenav al pasar el cursor (solo cuando está colapsado). */
+  @HostListener('mouseenter')
+  protected onMouseEnter(): void {
+    if (!this.expanded()) {
+      this.hoverExpanded.set(true);
+    }
+  }
+
+  /** Vuelve al estado colapsado al sacar el cursor. */
+  @HostListener('mouseleave')
+  protected onMouseLeave(): void {
+    this.hoverExpanded.set(false);
+  }
 
   /** Alterna el estado expandido/colapsado y emite el cambio. */
   protected toggleSidenav(): void {
