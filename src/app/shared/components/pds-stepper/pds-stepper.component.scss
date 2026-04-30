@@ -44,6 +44,7 @@
   &__markers {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     list-style: none;
     margin: 0;
@@ -53,7 +54,7 @@
   // Horizontal: side by side, connector fills available space
   &--horizontal &__markers {
     flex-direction: row;
-    gap: 0; // connectors are flex children themselves, no gap needed
+    gap: 20px; // connectors are flex children themselves, no gap needed
   }
 
   // ── Connector line ────────────────────────────────────────────────────────
@@ -119,7 +120,7 @@
   &__marker-desc {
     font-family: var(--text-body, "Open Sans", sans-serif);
     font-size: var(--font-size-f-sm, 14px);
-    font-weight: var(--font-weight-w-semibold, 600);
+    font-weight: 400;
     line-height: 1.5;
     color: var(--fg-neutral-secondary, #4d5b69);
   }
