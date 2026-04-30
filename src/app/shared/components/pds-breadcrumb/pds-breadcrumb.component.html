@@ -18,12 +18,33 @@
         item.label
       }}</a>
       <!-- Separador decorativo -->
-      <pds-icon
-        name="chevron_right"
-        size="xs"
-        [ariaHidden]="true"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
         class="pds-breadcrumb__separator"
-      />
+        aria-hidden="true"
+      >
+        <mask
+          id="mask0_950_2358"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_950_2358)">
+          <path
+            d="M12.2802 12.3918L8.38022 8.49177C8.19689 8.30844 8.10522 8.07511 8.10522 7.79177C8.10522 7.50844 8.19689 7.27511 8.38022 7.09177C8.56356 6.90844 8.79689 6.81677 9.08022 6.81677C9.36356 6.81677 9.59689 6.90844 9.78022 7.09177L14.3802 11.6918C14.4802 11.7918 14.5511 11.9001 14.5927 12.0168C14.6344 12.1334 14.6552 12.2584 14.6552 12.3918C14.6552 12.5251 14.6344 12.6501 14.5927 12.7668C14.5511 12.8834 14.4802 12.9918 14.3802 13.0918L9.78022 17.6918C9.59689 17.8751 9.36356 17.9668 9.08022 17.9668C8.79689 17.9668 8.56356 17.8751 8.38022 17.6918C8.19689 17.5084 8.10522 17.2751 8.10522 16.9918C8.10522 16.7084 8.19689 16.4751 8.38022 16.2918L12.2802 12.3918Z"
+            fill="#E0006E"
+          />
+        </g>
+      </svg>
       } @else {
       <!-- Ítem actual — no es enlace -->
       <span class="pds-breadcrumb__current" aria-current="page">{{

@@ -23,7 +23,6 @@
   &__item {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-component-xs, 6px);
     font-family: var(--text-body, Open Sans);
     font-size: var(--font-size-f-sm, 0.875rem);
     line-height: var(--line-height-lh-base, 1.5);
@@ -33,8 +32,8 @@
   &__link {
     color: var(--action-primary-ghost-fg, #0f385a);
     text-decoration: none;
-    padding: var(--spacing-component-xxs, 4px) var(--spacing-component-xs, 6px);
-    border-radius: var(--radius-component-sm, 8px);
+    padding: 0 var(--spacing-component-xs, 6px);
+    border-radius: var(--radius-component-2xs, 4px);
     transition: background 150ms ease;
     // Hereda font del padre
     font-family: inherit;
@@ -44,6 +43,7 @@
     // ── Estado: hover ─────────────────────────────────────────
     &:hover {
       background: var(--action-primary-ghost-bg-hover, #e6effd);
+      border: 1px solid var(--border-brand-primary-solid, #0F385A);
     }
 
     // ── Estado: active/pressed ────────────────────────────────

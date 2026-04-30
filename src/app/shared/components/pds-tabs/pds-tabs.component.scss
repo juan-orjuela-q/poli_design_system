@@ -7,12 +7,12 @@
 .pds-tabs {
   display: flex;
   align-items: flex-end; // tabs bottom-aligned so the indicator merges with the base line
-  gap: 0; // no gap between tabs — the indicator line spans the full width
+  justify-content: center;
+  gap: var(--spacing-component-sm, 8px);
   border-bottom: var(--border-thin, 1px) solid
     var(--border-neutral-default, #b0bec5);
 
   // Horizontal scroll for many tabs without clipping focus rings
-  overflow-x: auto;
   overflow-y: visible; // allow focus ring to bleed upward
   scrollbar-width: none;
 
@@ -62,7 +62,6 @@
     right: 0;
     height: calc(var(--border-thick, 2px) * 2); // 4px
     background: transparent;
-    border-radius: 2px 2px 0 0;
     transition: background 150ms ease;
   }
 
@@ -110,7 +109,7 @@
   // Focus ring via box-shadow (no outline — border-radius would conflict)
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--action-focus-inner, #fff),
-      0 0 0 6px var(--action-primary-focus-ring, #1b63e4);
+    box-shadow: 0 0 0 1px var(--action-focus-inner, #fff),
+      0 0 0 4px var(--action-primary-focus-ring, #1b63e4);
   }
 }
