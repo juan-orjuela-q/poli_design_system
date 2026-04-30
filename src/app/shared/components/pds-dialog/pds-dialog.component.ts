@@ -33,6 +33,7 @@ export class PdsDialogComponent implements OnDestroy {
   @ViewChild('dialogEl') dialogEl!: ElementRef<HTMLElement>;
 
   private readonly focusTrapFactory = inject(FocusTrapFactory);
+  private readonly hostEl = inject(ElementRef<HTMLElement>);
   private focusTrap?: FocusTrap;
   private previousFocus?: HTMLElement;
 
@@ -68,6 +69,12 @@ export class PdsDialogComponent implements OnDestroy {
 
   /** Muestra el botón de cancelación. */
   readonly showCancel = input<boolean>(true);
+
+  /**
+   * Si `true`, no bloquea el scroll del body al abrir.
+   * Úsar solo en contextos embebidos (ej. Storybook docs).
+   */
+  readonly disableScrollLock = input<boolean>(false);
 
   // ── Outputs ─────────────────────────────────────────────────────────────
 
@@ -127,9 +134,13 @@ export class PdsDialogComponent implements OnDestroy {
     effect(() => {
       if (this.open()) {
         this.previousFocus = document.activeElement as HTMLElement;
-        document.body.style.overflow = 'hidden';
-        // setTimeout porque @if del template crea el DOM de forma asíncrona
+        // setTimeout porque @if del template crea el DOM de forma asíncrona.
+        // También asegura que los inputs del padre ya estén aplicados
+        // antes de leer disableScrollLock.
         setTimeout(() => {
+          if (!this.disableScrollLock()) {
+            document.body.style.overflow = 'hidden';
+          }
           if (this.dialogEl?.nativeElement) {
             this.focusTrap = this.focusTrapFactory.create(
               this.dialogEl.nativeElement
@@ -169,5 +180,13 @@ export class PdsDialogComponent implements OnDestroy {
     this.focusTrap = undefined;
     this.previousFocus?.focus();
     this.previousFocus = undefined;
+  }
+
+  /** Detecta si el overlay está en modo embebido (absolute) — e.g. Storybook docs. */
+  private isEmbedded(): boolean {
+    const val = getComputedStyle(this.hostEl.nativeElement)
+      .getPropertyValue('--pds-overlay-position')
+      .trim();
+    return val === 'absolute';
   }
 }

@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
 import { PdsModalComponent, ModalSize } from './pds-modal.component';
 
 // ── Textos de ejemplo ─────────────────────────────────────────────────────────
@@ -140,6 +141,7 @@ y desactiva los botones built-in con \`[showActions]="false"\`:
         [showCancel]="showCancel"
         [confirmLabel]="confirmLabel"
         [cancelLabel]="cancelLabel"
+        [disableScrollLock]="true"
         (closed)="onClosed()"
         (confirmed)="onConfirmed()"
       >
@@ -154,9 +156,18 @@ y desactiva los botones built-in con \`[showActions]="false"\`:
 export default meta;
 type Story = StoryObj<PdsModalComponent>;
 
+// Wrapper para Storybook: overlay absolute dentro del canvas (no bloquea el scroll de docs)
+const storyDecorators = [
+  componentWrapperDecorator(
+    (story) =>
+      `<div style="position:relative;height:480px;overflow:hidden;--pds-overlay-position:absolute;">${story}</div>`
+  ),
+];
+
 // ── Default (SM) ──────────────────────────────────────────────────────────────
 export const Default: Story = {
   name: 'Default — SM',
+  decorators: storyDecorators,
   args: {
     size: 'sm',
     title: 'Modal title',
@@ -172,6 +183,7 @@ export const Default: Story = {
 // ── MD ────────────────────────────────────────────────────────────────────────
 export const SizeMd: Story = {
   name: 'Size — MD',
+  decorators: storyDecorators,
   args: {
     size: 'md',
     title: 'Modal title',
@@ -187,6 +199,7 @@ export const SizeMd: Story = {
 // ── LG ────────────────────────────────────────────────────────────────────────
 export const SizeLg: Story = {
   name: 'Size — LG',
+  decorators: storyDecorators,
   args: {
     size: 'lg',
     title: 'Modal title',
@@ -202,6 +215,7 @@ export const SizeLg: Story = {
 // ── XL ────────────────────────────────────────────────────────────────────────
 export const SizeXl: Story = {
   name: 'Size — XL',
+  decorators: storyDecorators,
   args: {
     size: 'xl',
     title: 'Modal title',
@@ -217,6 +231,7 @@ export const SizeXl: Story = {
 // ── 2XL ───────────────────────────────────────────────────────────────────────
 export const Size2xl: Story = {
   name: 'Size — 2XL',
+  decorators: storyDecorators,
   args: {
     size: '2xl',
     title: 'Modal title',
@@ -232,6 +247,7 @@ export const Size2xl: Story = {
 // ── Case 1: Política de privacidad (SM — contenido breve) ─────────────────────
 export const Case1PoliticaPrivacidad: Story = {
   name: 'Case 1 — Política de privacidad (SM)',
+  decorators: storyDecorators,
   parameters: {
     docs: {
       description: {
@@ -249,7 +265,7 @@ jerarquía clara; dificulta la lectura, navegación y cierre.
     template: `
       <pds-modal
         title="Política de privacidad"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="sm"
         [closeOnOverlay]="true"
         confirmLabel="Aceptar"
@@ -265,6 +281,7 @@ jerarquía clara; dificulta la lectura, navegación y cierre.
 // ── Case 2: Detalle del pedido (MD — contenido medio con estructura) ──────────
 export const Case2DetallePedido: Story = {
   name: 'Case 2 — Detalle del pedido (MD)',
+  decorators: storyDecorators,
   parameters: {
     docs: {
       description: {
@@ -279,7 +296,7 @@ como formularios, multimedia o bloques informativos complejos.
     template: `
       <pds-modal
         title="Detalle del pedido"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="md"
         [closeOnOverlay]="true"
         confirmLabel="Aceptar"
@@ -319,7 +336,7 @@ genera confusión sobre la acción principal.
     template: `
       <pds-modal
         title="Política de privacidad"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="sm"
         confirmLabel="Aceptar"
         cancelLabel="Cancelar"
@@ -360,7 +377,7 @@ siendo interactuable mientras el modal está abierto.
 
       <pds-modal
         title="Política de privacidad"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="sm"
         [closeOnOverlay]="true"
         confirmLabel="Confirmar"
@@ -388,7 +405,7 @@ export const OnlyClose: Story = {
     template: `
       <pds-modal
         title="Política de privacidad"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="md"
         [showActions]="true"
         [showCancel]="false"
@@ -421,7 +438,7 @@ contenido largo es scrollable. El header y footer permanecen fijos.
     template: `
       <pds-modal
         title="Política de privacidad"
-        [open]="true"
+        [open]="true" [disableScrollLock]="true"
         size="sm"
         [closeOnOverlay]="true"
         confirmLabel="Aceptar"
@@ -460,7 +477,7 @@ export const AllSizes: Story = {
             <pds-modal
               [size]="cfg.size"
               title="Modal title"
-              [open]="true"
+              [open]="true" [disableScrollLock]="true"
               style="--pds-modal-static: 1"
             >
               Hemos dejado el mundo atrás, flotando suavemente en la quietud de la noche.

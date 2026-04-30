@@ -5,7 +5,7 @@
 
 // ── Overlay ─────────────────────────────────────────────────────────────────
 .pds-dialog-overlay {
-  position: fixed;
+  position: var(--pds-overlay-position, fixed);
   inset: 0;
   background: var(--surface-brand-overlay, rgba(15, 56, 90, 0.9));
   z-index: var(--z-index-overlay, 1200);

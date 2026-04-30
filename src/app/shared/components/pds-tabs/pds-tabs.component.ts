@@ -50,8 +50,11 @@ export class PdsTabsComponent {
   readonly tabChange = output<string>();
 
   // ── Internal state ───────────────────────────────────────────────────────────
-  private readonly internalActiveTab = signal<string>('');
-
+  private readonly internalActiveTab =
+    signal<string>(
+      ''
+    ); /** Tracks which tab has roving keyboard focus (separate from active). */
+  private readonly focusedTabId = signal<string>('');
   constructor() {
     // Sync the controlled activeTab input → internal state
     effect(() => {
@@ -95,24 +98,28 @@ export class PdsTabsComponent {
   }
 
   /**
-   * Roving tabindex: only the active tab is reachable with Tab.
-   * Disabled tabs are excluded from keyboard navigation entirely.
+   * Roving tabindex: focused tab (during keyboard nav) gets tabindex 0.
+   * Falls back to the active tab when no keyboard navigation is in progress.
+   * Disabled tabs are always -1.
    */
   tabIndex(tab: TabItem): number {
     if (tab.disabled) return -1;
+    const focused = this.focusedTabId();
+    if (focused) return focused === tab.id ? 0 : -1;
     return this.isActive(tab.id) ? 0 : -1;
   }
-
   // ── Interaction ─────────────────────────────────────────────────────────────
   selectTab(tab: TabItem): void {
     if (tab.disabled) return;
     this.internalActiveTab.set(tab.id);
+    this.focusedTabId.set(tab.id);
     this.tabChange.emit(tab.id);
   }
 
   /**
-   * APG keyboard pattern for tabs (https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
-   * ArrowLeft / ArrowRight / Home / End navigate and auto-activate.
+   * APG keyboard pattern — MANUAL ACTIVATION.
+   * Arrow keys move focus only (no activation).
+   * Enter / Space activate the currently focused tab.
    */
   onKeydown(event: KeyboardEvent, tab: TabItem): void {
     const enabledTabs = this.tabs().filter((t) => !t.disabled);
@@ -141,14 +148,18 @@ export class PdsTabsComponent {
         event.preventDefault();
         targetTab = enabledTabs[enabledTabs.length - 1];
         break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.selectTab(tab); // activate currently focused tab
+        return;
       default:
         return;
     }
 
     if (targetTab) {
-      this.internalActiveTab.set(targetTab.id);
-      this.tabChange.emit(targetTab.id);
-      // Imperatively move focus to the newly activated tab
+      // Move focus only — do NOT activate
+      this.focusedTabId.set(targetTab.id);
       const id = this.getTabId(targetTab.id);
       setTimeout(() => {
         const el: HTMLElement | null =

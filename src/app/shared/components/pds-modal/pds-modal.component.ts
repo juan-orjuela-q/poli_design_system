@@ -33,6 +33,7 @@ export class PdsModalComponent implements OnDestroy {
   @ViewChild('modalEl') modalEl!: ElementRef<HTMLElement>;
 
   private readonly focusTrapFactory = inject(FocusTrapFactory);
+  private readonly hostEl = inject(ElementRef<HTMLElement>);
   private focusTrap?: FocusTrap;
   private previousFocus?: HTMLElement;
 
@@ -75,6 +76,12 @@ export class PdsModalComponent implements OnDestroy {
   /** Etiqueta del botón de cancelación. */
   readonly cancelLabel = input<string>('Cancelar');
 
+  /**
+   * Si `true`, no bloquea el scroll del body al abrir.
+   * Úsar solo en contextos embebidos (ej. Storybook docs).
+   */
+  readonly disableScrollLock = input<boolean>(false);
+
   // ── Outputs ─────────────────────────────────────────────────────────────
 
   /**
@@ -102,8 +109,12 @@ export class PdsModalComponent implements OnDestroy {
     effect(() => {
       if (this.open()) {
         this.previousFocus = document.activeElement as HTMLElement;
-        document.body.style.overflow = 'hidden';
         setTimeout(() => {
+          // Leemos disableScrollLock dentro del setTimeout para que Angular
+          // haya procesado los bindings del padre antes de este tick.
+          if (!this.disableScrollLock()) {
+            document.body.style.overflow = 'hidden';
+          }
           if (this.modalEl?.nativeElement) {
             this.focusTrap = this.focusTrapFactory.create(
               this.modalEl.nativeElement
@@ -143,5 +154,13 @@ export class PdsModalComponent implements OnDestroy {
     this.focusTrap = undefined;
     this.previousFocus?.focus();
     this.previousFocus = undefined;
+  }
+
+  /** Detecta si el overlay está en modo embebido (absolute) — e.g. Storybook docs. */
+  private isEmbedded(): boolean {
+    const val = getComputedStyle(this.hostEl.nativeElement)
+      .getPropertyValue('--pds-overlay-position')
+      .trim();
+    return val === 'absolute';
   }
 }

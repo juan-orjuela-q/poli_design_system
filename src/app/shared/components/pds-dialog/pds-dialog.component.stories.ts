@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
 import { PdsDialogComponent, DialogMode } from './pds-dialog.component';
 
 const BODY_TEXT =
@@ -86,6 +87,7 @@ Siempre aparece sobre un overlay que bloquea la interacción con el resto de la 
         [confirmLabel]="confirmLabel"
         [cancelLabel]="cancelLabel"
         [showCancel]="showCancel"
+        [disableScrollLock]="true"
         (closed)="onClosed()"
         (confirmed)="onConfirmed()"
       >
@@ -98,9 +100,18 @@ Siempre aparece sobre un overlay que bloquea la interacción con el resto de la 
 export default meta;
 type Story = StoryObj<PdsDialogComponent>;
 
+// Wrapper para Storybook: overlay absolute dentro del canvas (no bloquea el scroll de docs)
+const storyDecorators = [
+  componentWrapperDecorator(
+    (story) =>
+      `<div style="position:relative;height:380px;overflow:hidden;--pds-overlay-position:absolute;">${story}</div>`
+  ),
+];
+
 // ── Modo Default ─────────────────────────────────────────────────────────────
 export const Default: Story = {
   name: 'Default',
+  decorators: storyDecorators,
   args: {
     mode: 'default',
     title: 'Dialog title',
@@ -115,6 +126,7 @@ export const Default: Story = {
 // ── Modo Error ────────────────────────────────────────────────────────────────
 export const Error: Story = {
   name: 'Error',
+  decorators: storyDecorators,
   args: {
     mode: 'error',
     title: 'Dialog title',
@@ -129,6 +141,7 @@ export const Error: Story = {
 // ── Modo Warning ──────────────────────────────────────────────────────────────
 export const Warning: Story = {
   name: 'Warning',
+  decorators: storyDecorators,
   args: {
     mode: 'warning',
     title: 'Dialog title',
@@ -143,6 +156,7 @@ export const Warning: Story = {
 // ── Modo Success ──────────────────────────────────────────────────────────────
 export const Success: Story = {
   name: 'Success',
+  decorators: storyDecorators,
   args: {
     mode: 'success',
     title: 'Dialog title',
@@ -184,7 +198,7 @@ export const AllModes: Story = {
             <pds-dialog
               [mode]="mode"
               title="Dialog title"
-              [open]="true"
+              [open]="true" [disableScrollLock]="true"
               style="--pds-dialog-static: 1"
             >
               Hemos dejado el mundo atrás, flotando suavemente en la quietud de la noche.
@@ -203,6 +217,7 @@ export const AllModes: Story = {
 // ── Sin botón Cancelar ────────────────────────────────────────────────────────
 export const WithoutCancel: Story = {
   name: 'Sin cancelación',
+  decorators: storyDecorators,
   parameters: {
     docs: {
       description: {
@@ -223,6 +238,7 @@ export const WithoutCancel: Story = {
 // ── Con etiquetas personalizadas ──────────────────────────────────────────────
 export const CustomLabels: Story = {
   name: 'Etiquetas personalizadas',
+  decorators: storyDecorators,
   parameters: {
     docs: {
       description: {
@@ -243,6 +259,7 @@ export const CustomLabels: Story = {
 // ── Overlay clicable ──────────────────────────────────────────────────────────
 export const CloseOnOverlay: Story = {
   name: 'Cierre por overlay',
+  decorators: storyDecorators,
   parameters: {
     docs: {
       description: {
