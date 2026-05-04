@@ -1,0 +1,24 @@
+<!-- Tablist — renders only the tab buttons.
+     The parent is responsible for rendering [role="tabpanel"] elements
+     using getPanelId(tab.id) as their id and getTabId(tab.id) as aria-labelledby. -->
+<div class="pds-tabs" role="tablist" [attr.aria-label]="ariaLabel()">
+  @for (tab of tabs(); track tab.id) {
+  <button
+    [id]="getTabId(tab.id)"
+    role="tab"
+    [attr.aria-selected]="isActive(tab.id)"
+    [attr.aria-controls]="getPanelId(tab.id)"
+    [attr.aria-disabled]="tab.disabled ? 'true' : null"
+    [tabindex]="tabIndex(tab)"
+    [ngClass]="tabClasses(tab)"
+    (click)="selectTab(tab)"
+    (keydown)="onKeydown($event, tab)"
+  >
+    @if (tab.icon) {
+    <!-- Icon is decorative: the label provides the accessible name -->
+    <pds-icon [name]="tab.icon" [ariaHidden]="true" size="sm" />
+    }
+    <span class="pds-tab-item__label">{{ tab.label }}</span>
+  </button>
+  }
+</div>

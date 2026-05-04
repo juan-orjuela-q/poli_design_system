@@ -69,10 +69,14 @@ export class PdsIconComponent {
   /** true = decorativo (aria-hidden). false = informativo (requiere ariaLabel). */
   readonly ariaHidden = input<boolean>(true);
 
+  /** Activa variante Material Symbols FILL=1 cuando una excepción de diseño lo requiere. */
+  readonly filled = input<boolean>(false);
+
   protected readonly iconClasses = computed(() =>
     [
       `pds-icon--${this.size()}`,
       `pds-icon--${this.mode()}`,
+      this.filled() ? 'pds-icon--filled' : null,
       this.shape() !== 'none' ? `pds-icon--${this.shape()}` : null,
     ].filter(Boolean)
   );

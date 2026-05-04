@@ -1,0 +1,65 @@
+<!--
+  role="alert"  → estados urgentes (error, warning): el lector anuncia inmediatamente.
+  role="status" → estados informativos: anuncia en la próxima pausa (aria-live="polite" implícito).
+-->
+<div [ngClass]="hostClasses()" [attr.role]="ariaRole()">
+  <!-- Franja de ícono (fondo sólido a la izquierda) -->
+  <div class="pds-notification__icon-strip" aria-hidden="true">
+    <pds-icon [name]="statusIcon()" size="md" [ariaHidden]="true" />
+  </div>
+
+  <!-- Área de contenido -->
+  <div class="pds-notification__content">
+    @if (title() && type() === 'snackbar') {
+    <p class="pds-notification__title">{{ title() }}</p>
+    }
+    <div class="pds-notification__body">
+      <ng-content />
+    </div>
+
+    <!-- Acciones con línea divisora -->
+    @if (actions().length > 0) {
+    <div class="pds-notification__actions">
+      @for (btn of actions(); track btn.id) {
+      <pds-button
+        [variant]="btn.variant ?? 'outline'"
+        size="sm"
+        (click)="handleAction(btn.id)"
+      >
+        {{ btn.label }}
+      </pds-button>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Botón de cerrar -->
+  @if (dismissible()) {
+  <div class="pds-notification__close">
+    <pds-icon-button
+      iconName="close"
+      ariaLabel="Cerrar notificación"
+      variant="ghost"
+      size="sm"
+      (click)="handleDismiss()"
+    />
+  </div>
+  }
+
+  <!-- Timer visual — barra que crece de izquierda a derecha (posición absoluta inferior) -->
+  @if (timerDuration() !== null && timerDuration()! > 0) {
+  <div
+    class="pds-notification__timer"
+    role="progressbar"
+    [attr.aria-valuenow]="timerProgressRounded()"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-label]="'Tiempo transcurrido: ' + timerProgressRounded() + '%'"
+  >
+    <div
+      class="pds-notification__timer-bar"
+      [style.width.%]="timerProgress()"
+    ></div>
+  </div>
+  }
+</div>

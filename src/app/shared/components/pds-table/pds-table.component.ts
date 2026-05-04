@@ -19,10 +19,16 @@ import { PdsIconComponent } from '../pds-icon/pds-icon.component';
 import { PdsIconButtonComponent } from '../pds-icon-button/pds-icon-button.component';
 import { PdsPaginatorComponent } from '../pds-paginator/pds-paginator.component';
 import { PdsInputFieldComponent } from '../pds-input-field/pds-input-field.component';
-import { PdsSelectFieldComponent, SelectOption } from '../pds-select-field/pds-select-field.component';
+import {
+  PdsSelectFieldComponent,
+  SelectOption,
+} from '../pds-select-field/pds-select-field.component';
 import { PdsTooltipComponent } from '../pds-tooltip/pds-tooltip.component';
 import { PdsBadgeComponent } from '../pds-badge/pds-badge.component';
-import { PdsHelperTextComponent, PdsHelperTextStatus } from '../pds-helper-text/pds-helper-text.component';
+import {
+  PdsHelperTextComponent,
+  PdsHelperTextStatus,
+} from '../pds-helper-text/pds-helper-text.component';
 
 // ── Public types ───────────────────────────────────────────────────────────
 
@@ -46,9 +52,25 @@ export interface PdsTableColumn {
 
   // ── badge ────────────────────────────────────────────────────────────
   /** Mapa valor de celda → variante del badge. */
-  badgeVariantMap?: Record<string, 'brand' | 'brand-subtle' | 'brand-secondary' | 'neutral' | 'success' | 'warning' | 'error'>;
+  badgeVariantMap?: Record<
+    string,
+    | 'brand'
+    | 'brand-subtle'
+    | 'brand-secondary'
+    | 'neutral'
+    | 'success'
+    | 'warning'
+    | 'error'
+  >;
   /** Variante del badge cuando el valor no está en el mapa. Por defecto `'neutral'`. */
-  badgeDefaultVariant?: 'brand' | 'brand-subtle' | 'brand-secondary' | 'neutral' | 'success' | 'warning' | 'error';
+  badgeDefaultVariant?:
+    | 'brand'
+    | 'brand-subtle'
+    | 'brand-secondary'
+    | 'neutral'
+    | 'success'
+    | 'warning'
+    | 'error';
 
   // ── date ─────────────────────────────────────────────────────────────
   /** Locale para formatear la fecha (p. ej. `'es-CO'`, `'en-US'`). Por defecto `'es-CO'`. */
@@ -72,14 +94,34 @@ export interface PdsTableAction {
   key: string;
   icon: string;
   label: string;
-  variant?: 'ghost-neutral' | 'ghost' | 'destructive' | 'outline' | 'destructive-outline';
+  variant?:
+    | 'ghost-neutral'
+    | 'ghost'
+    | 'destructive'
+    | 'outline'
+    | 'destructive-outline';
 }
 
 /** Acciones predefinidas listas para usar */
 export const PDS_TABLE_ACTIONS = {
-  view:   { key: 'view',   icon: 'visibility', label: 'Ver detalle',  variant: 'outline'             } as PdsTableAction,
-  edit:   { key: 'edit',   icon: 'edit',       label: 'Editar',       variant: 'outline'             } as PdsTableAction,
-  delete: { key: 'delete', icon: 'delete',     label: 'Eliminar',    variant: 'destructive-outline' } as PdsTableAction,
+  view: {
+    key: 'view',
+    icon: 'visibility',
+    label: 'Ver detalle',
+    variant: 'outline',
+  } as PdsTableAction,
+  edit: {
+    key: 'edit',
+    icon: 'edit',
+    label: 'Editar',
+    variant: 'outline',
+  } as PdsTableAction,
+  delete: {
+    key: 'delete',
+    icon: 'delete',
+    label: 'Eliminar',
+    variant: 'destructive-outline',
+  } as PdsTableAction,
 } satisfies Record<string, PdsTableAction>;
 
 /** Estado de ordenamiento activo de la tabla. */
@@ -118,7 +160,10 @@ export interface PdsTableFilter {
 export class PdsTableCellDirective {
   @Input('pdsTableCell') columnKey!: string;
 
-  readonly template = inject<TemplateRef<{ $implicit: unknown; row: unknown; index: number }>>(TemplateRef);
+  readonly template =
+    inject<TemplateRef<{ $implicit: unknown; row: unknown; index: number }>>(
+      TemplateRef
+    );
 }
 
 // ── Component ─────────────────────────────────────────────────────────────
@@ -142,7 +187,9 @@ export class PdsTableCellDirective {
   styleUrl: './pds-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PdsTableComponent<T extends Record<string, unknown> = Record<string, unknown>> {
+export class PdsTableComponent<
+  T extends Record<string, unknown> = Record<string, unknown>
+> {
   @ContentChildren(PdsTableCellDirective)
   private readonly _cellTemplates!: QueryList<PdsTableCellDirective>;
 
@@ -192,20 +239,26 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
     const filters = this.filters();
     if (!filters.length) return this.data();
 
-    const activeFilters = filters.filter(f => {
+    const activeFilters = filters.filter((f) => {
       const val = filterValues[f.key];
       return val !== undefined && val.trim() !== '';
     });
     if (!activeFilters.length) return this.data();
 
-    return this.data().filter(row =>
-      activeFilters.every(f => {
+    return this.data().filter((row) =>
+      activeFilters.every((f) => {
         const val = (filterValues[f.key] ?? '').trim().toLowerCase();
         if (!val) return true;
 
         if (f.type === 'search') {
-          const keys = f.searchKeys?.length ? f.searchKeys : this.columns().map(c => c.key);
-          return keys.some(k => String(row[k] ?? '').toLowerCase().includes(val));
+          const keys = f.searchKeys?.length
+            ? f.searchKeys
+            : this.columns().map((c) => c.key);
+          return keys.some((k) =>
+            String(row[k] ?? '')
+              .toLowerCase()
+              .includes(val)
+          );
         }
 
         if (f.type === 'select') {
@@ -220,13 +273,13 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
   readonly _allSelected = computed(() => {
     const data = this._displayData();
     const selected = this._selectedRows();
-    return data.length > 0 && data.every(row => selected.has(row));
+    return data.length > 0 && data.every((row) => selected.has(row));
   });
 
   readonly _someSelected = computed(() => {
     const data = this._displayData();
     const selected = this._selectedRows();
-    return data.some(row => selected.has(row)) && !this._allSelected();
+    return data.some((row) => selected.has(row)) && !this._allSelected();
   });
 
   readonly _colSpan = computed(() => {
@@ -241,7 +294,7 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
   }
 
   onFilterChange(key: string, value: string): void {
-    this._filterValues.update(prev => ({ ...prev, [key]: value }));
+    this._filterValues.update((prev) => ({ ...prev, [key]: value }));
     this.filterChange.emit({ ...this._filterValues() });
   }
 
@@ -287,7 +340,9 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
   }
 
   getCellTemplate(key: string): TemplateRef<unknown> | null {
-    return this._cellTemplates?.find(d => d.columnKey === key)?.template ?? null;
+    return (
+      this._cellTemplates?.find((d) => d.columnKey === key)?.template ?? null
+    );
   }
 
   getCellValue(row: T, key: string): unknown {
@@ -296,16 +351,40 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
 
   // ── Cell type helpers ─────────────────────────────────────────────────
 
-  getBadgeVariant(row: T, col: PdsTableColumn): string {
+  getBadgeVariant(
+    row: T,
+    col: PdsTableColumn
+  ):
+    | 'brand'
+    | 'brand-subtle'
+    | 'brand-secondary'
+    | 'neutral'
+    | 'success'
+    | 'warning'
+    | 'error' {
     const value = String(row[col.key] ?? '');
-    return col.badgeVariantMap?.[value] ?? col.badgeDefaultVariant ?? 'neutral';
+    type BadgeStatus =
+      | 'brand'
+      | 'brand-subtle'
+      | 'brand-secondary'
+      | 'neutral'
+      | 'success'
+      | 'warning'
+      | 'error';
+    return (col.badgeVariantMap?.[value] ??
+      col.badgeDefaultVariant ??
+      'neutral') as BadgeStatus;
   }
 
   formatDate(value: unknown, locale = 'es-CO'): string {
     if (value === null || value === undefined || value === '') return '';
     const d = value instanceof Date ? value : new Date(String(value));
     if (isNaN(d.getTime())) return String(value);
-    return d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return d.toLocaleDateString(locale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   }
 
   getLinkHref(row: T, col: PdsTableColumn): string {
@@ -319,9 +398,17 @@ export class PdsTableComponent<T extends Record<string, unknown> = Record<string
   }
 
   getHelperStatus(row: T, col: PdsTableColumn): PdsHelperTextStatus {
-    const valid: PdsHelperTextStatus[] = ['default', 'error', 'warning', 'success', 'info'];
+    const valid: PdsHelperTextStatus[] = [
+      'default',
+      'error',
+      'warning',
+      'success',
+      'info',
+    ];
     const v = col.helperStatusKey ? String(row[col.helperStatusKey] ?? '') : '';
-    return valid.includes(v as PdsHelperTextStatus) ? (v as PdsHelperTextStatus) : 'default';
+    return valid.includes(v as PdsHelperTextStatus)
+      ? (v as PdsHelperTextStatus)
+      : 'default';
   }
 
   onActionClick(actionKey: string, row: T, index: number): void {

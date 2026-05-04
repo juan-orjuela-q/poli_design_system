@@ -1,0 +1,147 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// pds-stepper-compact
+// Indicador de progreso compacto para flujos secuenciales.
+// Tokens: typescale-desktop.css, tokens.css, layout-desktop.css, component.css
+//
+// Diseño: marker current = teal 8px · marker default = gris 4px
+// Superficies recomendadas: Canvas / Subtle / Sunken (contraste ≥ 4.5:1)
+// ─────────────────────────────────────────────────────────────────────────────
+
+:host {
+  display: block;
+}
+
+// ── Contenedor raíz ─────────────────────────────────────────────────────────
+
+.pds-stepper-compact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xl, 20px);
+  width: 100%;
+}
+
+// ── Encabezado (info + marcadores) ──────────────────────────────────────────
+
+.pds-stepper-compact__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xl); // 20px — distancia entre info y markers
+}
+
+// ── Bloque de información ────────────────────────────────────────────────────
+
+.pds-stepper-compact__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-md); // 12px
+}
+
+// ── Texto "Paso X de Y" ──────────────────────────────────────────────────────
+
+.pds-stepper-compact__count {
+  font-family: var(--input-font-label, Poppins); // Poppins
+  font-size: var(--font-size-f-base); // 1rem (16px)
+  font-weight: var(--font-weight-w-medium); // 500 — Medium
+  line-height: 1;
+  color: var(--fg-brand-primary); // #0f385a
+  margin: 0;
+}
+
+// ── Bloque de título y siguiente paso ────────────────────────────────────────
+
+.pds-stepper-compact__step-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+// ── Título del paso activo ───────────────────────────────────────────────────
+
+.pds-stepper-compact__title {
+  font-family: var(--text-headings, Poppins); // Poppins
+  font-size: var(--font-size-f-xl); // 1.5rem (24px) — Heading/H4
+  font-weight: var(--font-weight-w-semibold); // 600 — SemiBold
+  line-height: var(--line-height-lh-tight); // 1.2
+  color: var(--fg-brand-primary); // #0f385a
+  margin: 0;
+}
+
+// ── Línea "Siguiente paso: Nombre del siguiente" ─────────────────────────────
+
+.pds-stepper-compact__next-step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-component-xxs); // 4px
+  align-items: baseline;
+  line-height: 1.5;
+  font-size: var(--font-size-f-sm); // 0.875rem (14px)
+  color: var(--fg-neutral-secondary); // #4d5b69
+}
+
+.pds-stepper-compact__next-label {
+  font-family: var(--text-body, "Open Sans"); // Open Sans
+  font-weight: var(--font-weight-w-bold); // 700 — Bold
+  letter-spacing: 0.28px;
+  white-space: nowrap;
+}
+
+.pds-stepper-compact__next-value {
+  font-family: var(--text-body, "Open Sans"); // Open Sans
+  font-weight: 400
+}
+
+// ── Contenedor de marcadores ─────────────────────────────────────────────────
+
+.pds-stepper-compact__markers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-component-sm); // 8px
+  min-height: 8px; // alto mínimo = alto del marcador current
+  width: 100%;
+}
+
+// ── Marcador individual ───────────────────────────────────────────────────────
+
+.pds-stepper-compact__marker {
+  flex: 1 0 0; // igual ancho para todos
+  min-width: 1px; // evita colapso en pantallas muy estrechas
+
+  // ── Estado default (gris, 4px) ────────────────────────────────────────
+  height: 4px;
+  border-radius: var(--radius-pill); // 99999px
+  background: var(--action-neutral-solid-bg); // #627380
+  transition: height 200ms ease, background 200ms ease;
+
+  // ── Estado actual (teal, 8px) ─────────────────────────────────────────
+  &--current {
+    height: 8px;
+    background: var(--surface-brand-secondary-solid); // #007ba4
+  }
+}
+
+// ── Zona de contenido ────────────────────────────────────────────────────────
+
+.pds-stepper-compact__content {
+  width: 100%;
+}
+
+// ── Pie de navegación ────────────────────────────────────────────────────────
+
+.pds-stepper-compact__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-component-xl, 20px);
+  padding-top: var(--spacing-component-md); // 12px
+  border-top: var(--border-thin) solid var(--border-neutral-subtle); // 1px #b6c0ca
+  width: 100%;
+}
+
+// ── Accesibilidad: reducción de movimiento ───────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .pds-stepper-compact__marker {
+    transition: none;
+  }
+}

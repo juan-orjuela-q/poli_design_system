@@ -3,45 +3,57 @@
     <label class="pds-textarea-field__label" [for]="textareaId">
       {{ label() }}
       @if (required()) {
-        <span class="pds-textarea-field__required" aria-hidden="true"> *</span>
+      <span class="pds-textarea-field__required" aria-hidden="true"> *</span>
       }
     </label>
     @if (helpText()) {
-      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
-        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
-          <pds-icon name="help" size="xs" [ariaHidden]="true" />
-        </button>
-      </pds-tooltip>
+    <pds-tooltip
+      [text]="helpText()!"
+      position="top"
+      style="--pds-tooltip-hover-delay: 300ms"
+    >
+      <button
+        type="button"
+        class="pds-field-help"
+        [attr.aria-label]="helpText()"
+      >
+        <pds-icon name="help" size="xs" [ariaHidden]="true" />
+      </button>
+    </pds-tooltip>
     }
   </div>
 
-  <div [ngClass]="wrapperClasses()" [attr.aria-busy]="status() === 'loading' ? 'true' : null">
+  <div [ngClass]="wrapperClasses()">
     <textarea
       class="pds-textarea-field__input"
       [id]="textareaId"
       [placeholder]="placeholder()"
       [rows]="rows()"
-      [maxlength]="maxLength() ?? ''"
+      [attr.maxlength]="maxLength() ?? null"
       [attr.aria-required]="required() ? 'true' : null"
       [attr.aria-invalid]="status() === 'error' ? 'true' : null"
-      [attr.aria-describedby]="feedbackText() || showCounter() ? helperId : null"
+      [attr.aria-describedby]="
+        feedbackText() || showCounter() ? helperId : null
+      "
       [attr.readonly]="readonly() ? '' : null"
       [attr.disabled]="internalDisabled() ? '' : null"
       (input)="handleInput($event)"
       (blur)="handleBlur()"
-    >{{ internalValue() }}</textarea>
+      >{{ internalValue() }}</textarea
+    >
   </div>
 
   @if (feedbackText() || showCounter()) {
-    <div class="pds-textarea-field__footer" [id]="helperId">
-      @if (feedbackText()) {
-        <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{ feedbackText() }}</pds-helper-text>
-      }
-      @if (showCounter() && maxLength()) {
-        <span class="pds-textarea-field__counter" aria-live="polite">
-          {{ charCount() }}/{{ maxLength() }}
-        </span>
-      }
-    </div>
+  <div class="pds-textarea-field__footer" [id]="helperId">
+    @if (feedbackText()) {
+    <pds-helper-text [status]="status() === 'default' ? 'default' : status()">{{
+      feedbackText()
+    }}</pds-helper-text>
+    } @if (showCounter() && maxLength()) {
+    <span class="pds-textarea-field__counter" aria-live="polite">
+      {{ charCount() }}/{{ maxLength() }}
+    </span>
+    }
+  </div>
   }
 </div>

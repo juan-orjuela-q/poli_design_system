@@ -2,6 +2,7 @@
   fontSet="material-symbols-rounded"
   class="pds-icon"
   [ngClass]="iconClasses()"
+  [style.--pds-icon-fill]="filled() ? 1 : 0"
   [attr.aria-label]="ariaLabel()"
   [attr.aria-hidden]="ariaHidden() ? 'true' : null">
   {{ name() }}

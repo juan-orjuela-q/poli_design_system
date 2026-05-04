@@ -1,0 +1,97 @@
+// ============================================================
+// pds-breadcrumb — Design System v2
+// Reglas: 100% CSS custom properties · BEM · sin valores hardcoded
+// Estados: default · hover · focus · current (selected)
+// ============================================================
+
+// Resetea el <nav> contenedor
+.pds-breadcrumb-nav {
+  display: inline-block;
+}
+
+// Lista breadcrumb — <ol>
+.pds-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0; // el gap lo maneja el item con su separador inline
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  // ── Ítem ────────────────────────────────────────────────────
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--text-body, Open Sans);
+    font-size: var(--font-size-f-sm, 0.875rem);
+    line-height: var(--line-height-lh-base, 1.5);
+  }
+
+  // ── Enlace (ítems anteriores) ────────────────────────────────
+  &__link {
+    color: var(--action-primary-ghost-fg, #0f385a);
+    text-decoration: none;
+    padding: 0 var(--spacing-component-xs, 6px);
+    border-radius: var(--radius-component-2xs, 4px);
+    border: 1px solid transparent;
+    transition: background 150ms ease, border-color 150ms ease;
+    // Hereda font del padre
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    // ── Estado: hover ─────────────────────────────────────────
+    &:hover {
+      background: var(--action-primary-ghost-bg-hover, #e6effd);
+      border-color: var(--border-brand-primary-solid, #0F385A);
+    }
+
+    // ── Estado: active/pressed ────────────────────────────────
+    &:active {
+      background: var(--action-primary-ghost-bg-pressed, #b4d8fd);
+    }
+
+    // ── Estado: focus visible ─────────────────────────────────
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 var(--border-thin, 1px)
+          var(--action-focus-inner, #ffffff),
+        0 0 0 calc(var(--border-thin, 1px) + var(--border-thick, 2px))
+          var(--action-primary-focus-ring, #007ba4);
+    }
+  }
+
+  // ── Separador (pds-icon chevron_right) ───────────────────────
+  &__separator {
+    display: inline-flex;
+    align-items: center;
+    // El color del ícono lo heredamos del parent, pero lo suavizamos
+    --pds-icon-color: var(--fg-neutral-secondary, #546e7a);
+    flex-shrink: 0;
+    // Compensar el gap interno del ítem para que quede entre ítems
+    margin-right: calc(-1 * var(--spacing-component-xs, 6px));
+    margin-left: -2px;
+  }
+
+  // ── Ítem actual (último — no es enlace) ─────────────────────
+  &__current {
+    color: var(--fg-brand-primary, #0f385a);
+    font-weight: var(--font-weight-w-semibold, 600);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    cursor: default;
+    // Para igualar el espaciado visual del separador
+    padding: var(--spacing-component-xxs, 4px) var(--spacing-component-xs, 6px);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// ACCESIBILIDAD — reduced motion
+// ══════════════════════════════════════════════════════════════
+@media (prefers-reduced-motion: reduce) {
+  .pds-breadcrumb__link {
+    transition: none;
+  }
+}

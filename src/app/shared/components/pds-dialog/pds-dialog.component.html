@@ -1,0 +1,65 @@
+<!--
+  pds-dialog — Design System v2
+  ─────────────────────────────────────────────────────────────
+  ARIA:
+  • role="dialog" + aria-modal="true" → anuncia como ventana modal.
+  • aria-labelledby → apunta al h2#titleId del dialog.
+  • El overlay tiene aria-hidden="true" — no es un elemento interactivo
+    semántico; el dialog interior ya comunica toda la info al AT.
+  • Focus trap (CDK): mantiene el foco dentro mientras está abierto.
+  • Escape → cierra (HostListener en el TS).
+  ─────────────────────────────────────────────────────────────
+-->
+
+@if (open()) {
+<!-- Overlay: clic delega a onOverlayClick(); stopPropagation en el card -->
+<div class="pds-dialog-overlay" aria-hidden="true" (click)="onOverlayClick()">
+  <!-- Card del dialog -->
+  <div
+    #dialogEl
+    [ngClass]="dialogClasses()"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="titleId"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- ── Encabezado: ícono + título ── -->
+    <div class="pds-dialog__heading">
+      <!--
+          Contenedor del ícono — diseño: círculo con fondo semántico por modo.
+          El ícono tiene --pds-icon-fill:1 (filled) y color heredado del contenedor.
+        -->
+      <div class="pds-dialog__icon-wrap" aria-hidden="true">
+        <pds-icon [name]="iconName()" size="lg" [ariaHidden]="true" />
+      </div>
+
+      <h2 [id]="titleId" class="pds-dialog__title">{{ title() }}</h2>
+    </div>
+
+    <!-- ── Cuerpo: contenido libre vía ng-content ── -->
+    <div class="pds-dialog__body">
+      <ng-content />
+    </div>
+
+    <!-- ── Divisor horizontal ── -->
+    <div class="pds-dialog__divider" aria-hidden="true"></div>
+
+    <!-- ── Acciones: Cancelar + Confirmar ── -->
+    <div class="pds-dialog__actions">
+      @if (showCancel()) {
+      <pds-button [variant]="cancelVariant()" size="sm" (click)="closed.emit()">
+        {{ cancelLabel() }}
+      </pds-button>
+      }
+
+      <pds-button
+        [variant]="confirmVariant()"
+        size="sm"
+        (click)="confirmed.emit()"
+      >
+        {{ resolvedConfirmLabel() }}
+      </pds-button>
+    </div>
+  </div>
+</div>
+}

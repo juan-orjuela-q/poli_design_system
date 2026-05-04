@@ -1,19 +1,26 @@
 <div [ngClass]="hostClasses()">
-
   <!-- Label row -->
   <div class="pds-time-picker__label-row">
     <label class="pds-time-picker__label" [for]="id">
       {{ label() }}
       @if (required()) {
-        <span class="pds-time-picker__required" aria-hidden="true"> *</span>
+      <span class="pds-time-picker__required" aria-hidden="true"> *</span>
       }
     </label>
     @if (helpText()) {
-      <pds-tooltip [text]="helpText()!" position="top" style="--pds-tooltip-hover-delay: 300ms">
-        <button type="button" class="pds-field-help" [attr.aria-label]="helpText()">
-          <pds-icon name="help" size="xs" [ariaHidden]="true" />
-        </button>
-      </pds-tooltip>
+    <pds-tooltip
+      [text]="helpText()!"
+      position="top"
+      style="--pds-tooltip-hover-delay: 300ms"
+    >
+      <button
+        type="button"
+        class="pds-field-help"
+        [attr.aria-label]="helpText()"
+      >
+        <pds-icon name="help" size="xs" [ariaHidden]="true" />
+      </button>
+    </pds-tooltip>
     }
   </div>
 
@@ -49,11 +56,8 @@
 
   <!-- Helper / feedback text -->
   @if (feedbackText()) {
-    <pds-helper-text
-      [id]="helperId"
-      [status]="status()"
-      [text]="feedbackText()!"
-    />
+  <pds-helper-text [id]="helperId" [status]="status()">{{
+    feedbackText()
+  }}</pds-helper-text>
   }
-
 </div>

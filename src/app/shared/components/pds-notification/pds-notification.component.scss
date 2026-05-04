@@ -1,0 +1,327 @@
+// ============================================================
+// pds-notification — Design System v2
+// Reglas:  100 % CSS custom properties · BEM · sin valores hardcoded
+// Estructura: franja de ícono sólida + contenido + botón cerrar + timer absoluto
+// ============================================================
+
+.pds-notification {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: visible;
+  position: relative;
+  border: var(--border-thin, 1px) solid transparent;
+  width: var(--container-width-sm, 420px);
+  max-width: 100%;
+  gap: var(--spacing-component-md, 12px);
+
+  // ── Franja de ícono (columna izquierda con fondo sólido) ──
+  &__icon-strip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+  }
+
+  // ── Área de contenido ──────────────────────────────────────
+  &__content {
+    flex: 1 0 0;
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--text-component, Poppins);
+    font-size: var(--font-size-component-notification-title, 1.25rem);
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: 1.2;
+    letter-spacing: 0.4px;
+    color: var(--fg-brand-primary, #0f385a);
+    width: 100%;
+    
+  }
+
+  &__body {
+    font-family: var(--text-body, Open Sans);
+    font-weight: 400;
+    font-size: var(--font-size-f-sm, 14px);
+    line-height: var(--line-height-lh-base, 1.5);
+    color: var(--fg-brand-primary, #0f385a);
+    margin: 0;
+    width: 100%;
+    padding-bottom: var(--spacing-component-sm, 8px);
+  }
+
+  // ── Acciones (botones modales con divisor) ─────────────────
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-component-sm, 8px);
+    margin-top: var(--spacing-component-sm, 8px );
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    border-top: var(--border-thin, 1px) solid
+      var(--pds-notification-divider, var(--border-neutral-subtle, #b6c0ca));
+    padding-top: var(--spacing-component-md, 12px);
+    width: 100%;
+
+    pds-button {
+      min-width: auto;
+    }
+  }
+
+  // ── Botón cerrar ──────────────────────────────────────────
+  &__close {
+    flex-shrink: 0;
+  }
+
+  // ── Timer visual (crece de izquierda a derecha) ────────────
+  &__timer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    overflow: hidden;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    pointer-events: none;
+  }
+
+  &__timer-bar {
+    height: 100%;
+    width: 0; // crece hasta 100%
+    transition: width 0.1s linear;
+    background-color: var(
+      --pds-notification-timer-color,
+      var(--surface-brand-primary-base, #0f385a)
+    );
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // ESTADOS — fondos, bordes, colores de franja e ícono
+  // ══════════════════════════════════════════════════════════
+
+  &--default {
+    background-color: var(--surface-neutral-modal, #ffffff);
+    border-color: var(--border-brand-primary-solid, #0f385a);
+    --pds-notification-divider: var(--border-neutral-subtle, #b6c0ca);
+    --pds-notification-timer-color: var(--surface-brand-primary-base, #0f385a);
+
+    .pds-notification__icon-strip {
+      background-color: var(--surface-brand-primary-soft, #e6effd);
+      pds-icon {
+        --pds-icon-color: var(--fg-brand-primary, #0f385a);
+      }
+    }
+  }
+
+  &--success {
+    background-color: var(--surface-status-success-subtle, #f7fbec);
+    border-color: var(--border-status-success-solid, #6f921e);
+    --pds-notification-divider: var(--border-status-success-subtle, #b5d659);
+    --pds-notification-timer-color: var(--surface-status-success-dark, #6f921e);
+
+    .pds-notification__icon-strip {
+      background-color: var(--surface-status-success-solid, #a6ce38);
+      pds-icon {
+        --pds-icon-color: var(--fg-neutral-primary, #0f385a);
+      }
+    }
+  }
+
+  &--warning {
+    background-color: var(--surface-status-warning-subtle, #fff7e8);
+    border-color: var(--border-status-warning-solid, #d96c06);
+    --pds-notification-divider: var(--border-status-warning-subtle, #fcbd3f);
+    --pds-notification-timer-color: var(--surface-status-warning-dark, #d96c06);
+
+    .pds-notification__icon-strip {
+      background-color: var(--surface-status-warning-solid, #fbaf17);
+      pds-icon {
+        --pds-icon-color: var(--fg-neutral-primary, #0f385a);
+      }
+    }
+  }
+
+  &--error {
+    background-color: var(--surface-status-error-subtle, #fff6f9);
+    border-color: var(--border-status-error-solid, #e0006e);
+    --pds-notification-divider: var(--border-status-error-subtle, #f9218c);
+    --pds-notification-timer-color: var(--surface-status-error-dark, #b5055b);
+
+    .pds-notification__icon-strip {
+      background-color: var(--surface-status-error-solid, #e0006e);
+      pds-icon {
+        --pds-icon-color: #ffffff;
+      }
+    }
+  }
+
+  &--info {
+    background-color: var(--surface-status-info-subtle, #e8f9fb);
+    border-color: var(--border-status-info-solid, #1492a6);
+    --pds-notification-divider: var(--border-status-info-subtle, #23d8e9);
+    --pds-notification-timer-color: var(--surface-status-info-dark, #1492a6);
+
+    .pds-notification__icon-strip {
+      background-color: var(--surface-status-info-solid, #15bece);
+      pds-icon {
+        --pds-icon-color: var(--fg-neutral-primary, #0f385a);
+      }
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // TIPOS — layout y posicionamiento
+  // ══════════════════════════════════════════════════════════
+
+  // ── Snackbar ───────────────────────────────────────────────
+  // Bordes más redondeados, franja más ancha, título + cuerpo,
+  // botón cerrar absolutamente posicionado, sombra.
+  &--snackbar {
+    border-radius: var(--radius-component-xs, 6px);
+    box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
+      0 10px 48px -4px rgba(24, 39, 75, 0.25);
+    position: fixed;
+    z-index: 1100;
+
+    .pds-notification__icon-strip {
+      padding: 0 var(--spacing-component-sm, 8px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
+    }
+
+    .pds-notification__content {
+      gap: var(--spacing-component-sm, 8px);
+      padding-top: var(--spacing-component-xl, 20px);
+      padding-bottom: var(--spacing-component-md, 12px);
+      padding-right: var(--spacing-component-md, 12px);
+    }
+
+    .pds-notification__body {
+      font-family: var(--text-body, Open Sans);
+      font-weight: var(--font-weight-w-regular, 400);
+      font-size: var(--font-size-f-base, 1rem);
+    }
+
+    .pds-notification__close {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      width: var(--size-md, 48px);
+      padding: var(--spacing-component-xs, 6px);
+      justify-content: center;
+      align-items: center;
+      gap: var(--spacing-component-sm, 8px);
+    }
+  }
+
+  // ── Toast ──────────────────────────────────────────────────
+  // Bordes menos redondeados, franja más estrecha, sombra.
+  &--toast {
+    border-radius: var(--radius-component-xs, 6px);
+    box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
+      0 10px 48px -4px rgba(24, 39, 75, 0.25);
+    position: fixed;
+    z-index: 1100;
+
+    .pds-notification__icon-strip {
+      padding: 0 var(--spacing-component-xxs, 4px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
+    }
+
+    .pds-notification__content {
+      padding: var(--spacing-component-xl, 20px)
+        var(--spacing-component-xxs, 4px) var(--spacing-component-xl, 20px) 0;
+    }
+
+    .pds-notification__body {
+      padding-bottom: 0;
+    }
+    .pds-notification__close {
+      position: relative;
+      align-self: center;
+      margin-right: 4px;
+    }
+  }
+
+  // ── Inline ─────────────────────────────────────────────────
+  // Sin posicionamiento fijo, bordes pequeños, sin sombra.
+  &--inline {
+    border-radius: var(--radius-component-xs, 6px);
+
+    .pds-notification__icon-strip {
+      padding: 0 var(--spacing-component-xxs, 4px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
+    }
+
+    .pds-notification__content {
+      padding: var(--spacing-component-xl, 20px)
+        var(--spacing-component-xxs, 4px) var(--spacing-component-xl, 20px) 0;
+    }
+
+    .pds-notification__body {
+      padding-bottom: 0;
+    }
+    .pds-notification__close {
+      position: relative;
+      align-self: center;
+      margin-right: 4px;
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // POSICIONES — para snackbar y toast
+  // ══════════════════════════════════════════════════════════
+
+  &--top-left {
+    top: var(--spacing-component-2xl, 24px);
+    left: var(--spacing-component-2xl, 24px);
+  }
+
+  &--top-center {
+    top: var(--spacing-component-2xl, 24px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--top-right {
+    top: var(--spacing-component-2xl, 24px);
+    right: var(--spacing-component-2xl, 24px);
+  }
+
+  &--bottom-left {
+    bottom: var(--spacing-component-2xl, 24px);
+    left: var(--spacing-component-2xl, 24px);
+  }
+
+  &--bottom-center {
+    bottom: var(--spacing-component-2xl, 24px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--bottom-right {
+    bottom: var(--spacing-component-2xl, 24px);
+    right: var(--spacing-component-2xl, 24px);
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // ACCESIBILIDAD
+  // ══════════════════════════════════════════════════════════
+
+  @media (prefers-reduced-motion: reduce) {
+    .pds-notification__timer-bar {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,254 @@
+// ============================================================
+// pds-avatar-button — DS v2
+// ============================================================
+// Tokens de referencia:
+//   --action-primary-subtle-bg          #f0f8ff  fondo reposo
+//   --action-primary-subtle-bg-hover    #e6effd  fondo hover
+//   --action-primary-subtle-bg-pressed  #f0f8ff  fondo pressed
+//   --surface-brand-primary-base        #0f385a  fondo del círculo
+//   --fg-brand-primary-strong           #002b49  nombre (text)
+//   --action-primary-subtle-fg-light    #11637c  rol (text)
+//   --fg-on-color-brand-primary         #ffffff  letra en círculo
+//   --portal-blue-bg                    #1fb2de  indicador activo
+//   --action-focus-inner                #ffffff  anillo foco interior
+//   --action-primary-focus-ring         #007ba4  anillo foco exterior
+//   --surface-neutral-canvas            #ffffff  fondo hover (blanco)
+//   --radius-pill                       99999px  borde pill
+//   --size-xs                           24px     avatar sm
+//   --size-sm                           32px     avatar (no usado como default)
+//   --size-md                           48px     avatar md (Figma usa 40px; aproximamos)
+//   --size-lg                           64px     avatar lg
+// ============================================================
+
+:host {
+  display: contents; // el botón no genera caja extra
+}
+
+.pds-avatar-button {
+  // Layout
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-component-sm); // 8px entre bloque de texto y avatar
+  padding: var(--spacing-component-xxs) var(--spacing-component-xxs); // 4px
+  border-radius: var(--radius-pill);
+
+  // Reset de botón nativo
+  border: none;
+  background: var(--action-primary-subtle-bg); // default: #f0f8ff
+  cursor: pointer;
+
+  // Posicionamiento del indicador inferior
+  position: relative;
+
+  // Transición suave entre estados
+  transition: background 150ms ease, box-shadow 150ms ease;
+
+  // ── Estado: Hover ──────────────────────────────────────────────
+  &:hover {
+    background: var(--surface-neutral-canvas); // blanco
+    box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12),
+      0 10px 32px -4px rgba(24, 39, 75, 0.1);
+
+    .pds-avatar-button__indicator {
+      opacity: 1;
+    }
+  }
+
+  // ── Estado: Focus visible ─────────────────────────────────────
+  &:focus-visible {
+    outline: none;
+    background: var(--action-primary-subtle-bg);
+    box-shadow: 0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+
+  // ── Estado: Pressed (active) ──────────────────────────────────
+  &:active {
+    background: var(--action-primary-subtle-bg-pressed);
+
+    .pds-avatar-button__overlay {
+      opacity: 1;
+    }
+
+    .pds-avatar-button__indicator {
+      opacity: 1;
+    }
+  }
+
+  // ── Bloque texto ──────────────────────────────────────────────
+  &__name-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--spacing-component-xxs); // 4px
+    padding-left: var(--spacing-component-md); // 12px margen izq
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  &__name {
+    font-family: var(--text-component, "Poppins", sans-serif);
+    font-size: var(--font-size-component-tag, 14px);
+    font-weight: var(--font-weight-w-semibold, 600);
+    color: var(--fg-brand-primary-strong); // #002b49
+    text-transform: uppercase;
+    letter-spacing: 0.28px;
+  }
+
+  &__role {
+    font-family: var(--text-body, "Open Sans", sans-serif);
+    font-size: var(--font-size-f-sm, 14px);
+    font-weight: var(--font-weight-w-semibold, 600);
+    color: var(--action-primary-subtle-fg-light); // #11637c
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  // ── Wrapper del avatar: contiene el círculo y el badge ──────
+  // NO tiene overflow:hidden para que el badge no sea recortado
+  &__pic-wrap {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // ── Círculo del avatar ────────────────────────────────────────
+  &__pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--surface-brand-primary-base); // #0f385a
+    overflow: hidden; // recorta imagen — está aquí y no en el wrapper
+
+    // Tamaños del avatar circle (Figma: md=40px, lg=64px)
+    &--md {
+      width: 40px;
+      height: 40px;
+    }
+    &--lg {
+      width: var(--size-lg, 64px);
+      height: var(--size-lg, 64px);
+    }
+
+    &--image {
+      background: none; // la imagen ocupa todo
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-pill);
+  }
+
+  &__letter {
+    font-family: var(--text-component, "Poppins", sans-serif);
+    font-size: 18px; // escala según tamaño del avatar
+    font-weight: var(--font-weight-w-bold, 700);
+    color: var(--fg-on-color-brand-primary); // blanco
+    line-height: 1;
+    text-align: center;
+    user-select: none;
+  }
+
+  &__icon {
+    --pds-icon-color: var(--fg-on-color-brand-primary); // blanco
+  }
+
+  // ── Badge de notificación ─────────────────────────────────────
+  // Círculo magenta en la esquina inferior-derecha del avatar
+  &__badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-neutral-canvas, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 2px;
+  }
+
+  &__badge-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  // ── Overlay de pressed (inset shadow) ────────────────────────
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow: inset 0 6px 14px -6px rgba(0, 0, 0, 0.12),
+      inset 0 10px 32px -4px rgba(0, 0, 0, 0.1);
+    transition: opacity 150ms ease;
+  }
+
+  // ── Indicador activo (línea azul inferior) ────────────────────
+  // Aparece en hover y pressed; posicionado fuera del botón (overflow visible)
+  &__indicator {
+    position: absolute;
+    bottom: -12px; // 8px de separación (barra de 4px de alto)
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 4px;
+    border-radius: 0;
+    background: var(--portal-blue-bg); // #1fb2de
+    opacity: 0;
+    transition: opacity 150ms ease;
+    pointer-events: none;
+  }
+
+  // ── Tamaños del componente (ajusta letra y badge por escala) ─
+  &--sm {
+    .pds-avatar-button__letter {
+      font-size: 12px;
+    }
+
+    .pds-avatar-button__badge {
+      width: 14px;
+      height: 14px;
+      bottom: -4px;
+      right: -4px;
+    }
+  }
+
+  &--lg {
+    .pds-avatar-button__letter {
+      font-size: 28px;
+    }
+
+    .pds-avatar-button__badge {
+      width: 26px;
+      height: 26px;
+      bottom: 0px;
+      right: 0px;
+    }
+  }
+
+  // ── Variante sin nombre (solo avatar) ────────────────────────
+  &--no-name {
+    padding: var(--spacing-component-xxs);
+  }
+}
+
+// ── Reducción de movimiento ───────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .pds-avatar-button,
+  .pds-avatar-button__indicator,
+  .pds-avatar-button__overlay {
+    transition: none;
+  }
+}
