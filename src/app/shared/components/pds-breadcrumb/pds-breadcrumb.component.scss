@@ -34,7 +34,8 @@
     text-decoration: none;
     padding: 0 var(--spacing-component-xs, 6px);
     border-radius: var(--radius-component-2xs, 4px);
-    transition: background 150ms ease;
+    border: 1px solid transparent;
+    transition: background 150ms ease, border-color 150ms ease;
     // Hereda font del padre
     font-family: inherit;
     font-size: inherit;
@@ -43,7 +44,7 @@
     // ── Estado: hover ─────────────────────────────────────────
     &:hover {
       background: var(--action-primary-ghost-bg-hover, #e6effd);
-      border: 1px solid var(--border-brand-primary-solid, #0F385A);
+      border-color: var(--border-brand-primary-solid, #0F385A);
     }
 
     // ── Estado: active/pressed ────────────────────────────────
@@ -70,6 +71,7 @@
     flex-shrink: 0;
     // Compensar el gap interno del ítem para que quede entre ítems
     margin-right: calc(-1 * var(--spacing-component-xs, 6px));
+    margin-left: -2px;
   }
 
   // ── Ítem actual (último — no es enlace) ─────────────────────

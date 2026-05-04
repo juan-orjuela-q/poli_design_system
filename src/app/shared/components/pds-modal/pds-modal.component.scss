@@ -89,7 +89,7 @@
   &__body {
     flex: 1 1 auto;
     overflow-y: auto;
-    padding: var(--spacing-component-xl, 20px);
+    padding: 0 var(--spacing-component-xl, 20px);
     font-family: var(--text-body, Open Sans);
     font-size: var(--font-size-f-base, 1rem);
     font-weight: 400;

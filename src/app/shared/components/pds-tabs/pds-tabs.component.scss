@@ -1,6 +1,9 @@
 // ── Host ──────────────────────────────────────────────────────────────────────
 :host {
   display: block;
+  // La línea base va aquí para que siempre abarque el ancho completo,
+  // incluso cuando .pds-tabs tiene scroll horizontal.
+  border-bottom: var(--border-thin, 1px) solid var(--border-neutral-default, #b0bec5);
 }
 
 // ── Tablist container ─────────────────────────────────────────────────────────
@@ -8,11 +11,20 @@
   display: flex;
   align-items: flex-end; // tabs bottom-aligned so the indicator merges with the base line
   justify-content: center;
+  padding-inline: var(--spacing-component-md, 12px);
+  padding-top: var(--spacing-component-sm, 8px);
+  padding-bottom: 0; // el indicador activo se superpone al border-bottom del contenedor
+  position: relative;
+
+  // En móvil los ítems se alinean desde la izquierda para que el scroll funcione
+  // (justify-content: center bloquea el scroll hacia el lado izquierdo)
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+  }
   gap: var(--spacing-component-sm, 8px);
-  border-bottom: var(--border-thin, 1px) solid
-    var(--border-neutral-default, #b0bec5);
 
   // Horizontal scroll for many tabs without clipping focus rings
+  overflow-x: auto;
   overflow-y: visible; // allow focus ring to bleed upward
   scrollbar-width: none;
 
@@ -53,16 +65,17 @@
   transition: background 150ms ease, color 150ms ease;
 
   // ── Active indicator via ::after ────────────────────────────────────────────
-  // Sits on the tablist border-bottom line (-1px) at 4px height = 2× --border-thick
+  // Cubre el border-bottom de :host (2px) más 2px propios = 4px total
   &::after {
     content: "";
     position: absolute;
-    bottom: -1px; // overlap the container border so there's no gap
+    bottom: -1px; // cubre los 2px del border-bottom de :host
     left: 0;
     right: 0;
     height: calc(var(--border-thick, 2px) * 2); // 4px
     background: transparent;
     transition: background 150ms ease;
+    z-index: 1;
   }
 
   // ── Icon: inherit color from button ─────────────────────────────────────────

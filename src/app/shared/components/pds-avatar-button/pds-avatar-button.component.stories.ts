@@ -13,10 +13,10 @@ const meta: Meta<PdsAvatarButtonComponent> = {
   parameters: {
     layout: 'centered',
     backgrounds: {
-      default: 'light',
+      default: 'surface-brand-primary',
       values: [
+        { name: 'surface-brand-primary', value: '#0f385a' },
         { name: 'light', value: '#f0f8ff' },
-        { name: 'dark-brand', value: '#0f385a' },
         { name: 'white', value: '#ffffff' },
       ],
     },
@@ -200,7 +200,7 @@ export const ConYSinBadge: Story = {
 export const SobreFondoOscuro: Story = {
   name: 'Sobre Brand Primary (fondo oscuro)',
   parameters: {
-    backgrounds: { default: 'dark-brand' },
+    backgrounds: { default: 'surface-brand-primary' },
   },
   args: {
     name: 'Andrea Zamora',

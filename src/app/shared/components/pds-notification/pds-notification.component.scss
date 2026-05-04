@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   border: var(--border-thin, 1px) solid transparent;
   width: var(--container-width-sm, 420px);
@@ -43,7 +43,7 @@
     letter-spacing: 0.4px;
     color: var(--fg-brand-primary, #0f385a);
     width: 100%;
-    margin-bottom: 8px;
+    
   }
 
   &__body {
@@ -62,7 +62,7 @@
     display: flex;
     flex-direction: row;
     gap: var(--spacing-component-sm, 8px);
-    margin-top: var(--spacing-component-sm, 8px);
+    margin-top: var(--spacing-component-sm, 8px );
     flex-wrap: wrap;
     justify-content: flex-end;
     border-top: var(--border-thin, 1px) solid
@@ -87,7 +87,9 @@
     left: 0;
     right: 0;
     height: 4px;
-    background-color: rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
     pointer-events: none;
   }
 
@@ -183,7 +185,7 @@
   // Bordes más redondeados, franja más ancha, título + cuerpo,
   // botón cerrar absolutamente posicionado, sombra.
   &--snackbar {
-    border-radius: var(--radius-container-md, 16px);
+    border-radius: var(--radius-component-xs, 6px);
     box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
       0 10px 48px -4px rgba(24, 39, 75, 0.25);
     position: fixed;
@@ -191,8 +193,8 @@
 
     .pds-notification__icon-strip {
       padding: 0 var(--spacing-component-sm, 8px);
-      border-radius: var(--radius-container-md, 16px) 0 0
-        var(--radius-container-md, 16px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
     }
 
     .pds-notification__content {
@@ -224,7 +226,7 @@
   // ── Toast ──────────────────────────────────────────────────
   // Bordes menos redondeados, franja más estrecha, sombra.
   &--toast {
-    border-radius: var(--radius-container-sm, 10px);
+    border-radius: var(--radius-component-xs, 6px);
     box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
       0 10px 48px -4px rgba(24, 39, 75, 0.25);
     position: fixed;
@@ -232,8 +234,8 @@
 
     .pds-notification__icon-strip {
       padding: 0 var(--spacing-component-xxs, 4px);
-      border-radius: var(--radius-container-sm, 10px) 0 0
-        var(--radius-container-sm, 10px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
     }
 
     .pds-notification__content {
@@ -247,18 +249,19 @@
     .pds-notification__close {
       position: relative;
       align-self: center;
+      margin-right: 4px;
     }
   }
 
   // ── Inline ─────────────────────────────────────────────────
   // Sin posicionamiento fijo, bordes pequeños, sin sombra.
   &--inline {
-    border-radius: var(--radius-container-sm, 10px);
+    border-radius: var(--radius-component-xs, 6px);
 
     .pds-notification__icon-strip {
       padding: 0 var(--spacing-component-xxs, 4px);
-      border-radius: var(--radius-container-sm, 10px) 0 0
-        var(--radius-container-sm, 10px);
+      border-radius: var(--radius-component-2xs, 4px) 0 0
+        var(--radius-component-2xs, 4px);
     }
 
     .pds-notification__content {
@@ -272,6 +275,7 @@
     .pds-notification__close {
       position: relative;
       align-self: center;
+      margin-right: 4px;
     }
   }
 

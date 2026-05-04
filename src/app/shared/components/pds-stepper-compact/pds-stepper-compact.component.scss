@@ -16,7 +16,7 @@
 .pds-stepper-compact {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-component-md); // 12px
+  gap: var(--spacing-component-xl, 20px);
   width: 100%;
 }
 

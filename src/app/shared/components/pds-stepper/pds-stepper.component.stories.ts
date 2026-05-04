@@ -53,7 +53,7 @@ const SAMPLE_STEPS_3: StepperStep[] = [
   },
 ];
 
-// ── Estilos compartidos para contenido de demo ────────────────────────────────
+// ── Estilos compartidos para contenido de demo (neutro) ─────────────────────
 
 const DEMO_STYLES = `
   <style>
@@ -62,97 +62,37 @@ const DEMO_STYLES = `
       color: var(--fg-neutral-primary, #0f385a);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: var(--spacing-component-md, 12px);
     }
-    .demo-body h4 {
-      margin: 0 0 4px;
-      font-family: var(--text-component, Poppins);
-      font-size: var(--font-size-f-md, 1rem);
-      font-weight: 600;
+    .demo-title {
+      margin: 0;
+      font-family: var(--text-headings, Poppins);
+      font-size: var(--font-size-f-lg, 18px);
+      font-weight: var(--font-weight-w-semibold, 600);
+      line-height: 1.2;
       color: var(--fg-brand-primary, #0f385a);
     }
-    .demo-body p {
+    .demo-text {
       margin: 0;
       font-size: var(--font-size-f-sm, 0.875rem);
-      color: var(--fg-neutral-secondary, #4d5b69);
       line-height: 1.5;
+      color: var(--fg-neutral-secondary, #4d5b69);
     }
-    .demo-grid {
+    .demo-list {
+      margin: 0;
+      padding-left: var(--spacing-component-lg, 16px);
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .demo-field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .demo-field label {
-      font-family: var(--input-font-label, Poppins);
-      font-size: var(--font-size-f-sm, 0.875rem);
-      font-weight: 600;
-      color: var(--fg-brand-primary, #0f385a);
-    }
-    .demo-field .demo-input {
-      background: var(--surface-neutral-canvas, #fff);
-      border: 1px solid var(--border-neutral-default, #b0bec5);
-      border-radius: var(--input-radius-base, 10px);
-      padding: 10px 12px;
-      font-family: var(--input-font-main, 'Open Sans');
-      font-size: var(--font-size-f-sm, 0.875rem);
-      color: var(--fg-neutral-primary, #0f385a);
-      min-height: 44px;
-    }
-    .demo-field .demo-input--placeholder {
-      color: var(--fg-neutral-disabled, #b0bec5);
-    }
-    .demo-upload {
-      border: 2px dashed var(--border-neutral-default, #b0bec5);
-      border-radius: var(--radius-container-sm, 10px);
-      padding: 24px;
-      text-align: center;
+      gap: var(--spacing-component-xs, 6px);
       color: var(--fg-neutral-secondary, #4d5b69);
       font-size: var(--font-size-f-sm, 0.875rem);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
     }
-    .demo-upload .demo-upload-icon {
-      font-family: 'Material Symbols Outlined';
-      font-size: 32px;
-      color: var(--fg-neutral-tertiary, #b0bec5);
-    }
-    .demo-summary {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .demo-summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
+    .demo-note {
+      padding: var(--spacing-component-sm, 8px) var(--spacing-component-md, 12px);
+      border-left: var(--border-thick, 2px) solid var(--border-brand-primary-solid, #0f385a);
       background: var(--surface-neutral-subtle, #e5e9ec);
-      border-radius: 8px;
-    }
-    .demo-summary-row .demo-summary-label {
+      border-radius: var(--radius-component-2xs, 4px);
       font-size: var(--font-size-f-sm, 0.875rem);
-      color: var(--fg-neutral-secondary, #4d5b69);
-    }
-    .demo-summary-row .demo-summary-value {
-      font-size: var(--font-size-f-sm, 0.875rem);
-      font-weight: 600;
       color: var(--fg-brand-primary, #0f385a);
-    }
-    .demo-badge-ok {
-      background: var(--surface-status-success-subtle, #f7fbec);
-      color: var(--fg-status-success, #6f921e);
-      border: 1px solid var(--border-status-success-solid, #6f921e);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
     }
   </style>
 `;
@@ -190,125 +130,53 @@ const STEP_CONTENT_BLOCKS = [
   // Paso 0 — Datos personales
   `${DEMO_STYLES}
   <div class="demo-body">
-    <div>
-      <h4>Datos personales</h4>
-      <p>Completa tu información básica para crear tu cuenta en el Politécnico Grancolombiano.</p>
-    </div>
-    <div class="demo-grid">
-      <div class="demo-field">
-        <label>Nombres</label>
-        <div class="demo-input">Laura Marcela</div>
-      </div>
-      <div class="demo-field">
-        <label>Apellidos</label>
-        <div class="demo-input">Ramírez Torres</div>
-      </div>
-      <div class="demo-field">
-        <label>Tipo de documento</label>
-        <div class="demo-input">Cédula de ciudadanía</div>
-      </div>
-      <div class="demo-field">
-        <label>Número de documento</label>
-        <div class="demo-input">1.020.456.789</div>
-      </div>
-      <div class="demo-field">
-        <label>Correo electrónico</label>
-        <div class="demo-input">laura.ramirez</div>
-      </div>
-      <div class="demo-field">
-        <label>Teléfono celular</label>
-        <div class="demo-input">+57 310 234 5678</div>
-      </div>
-    </div>
+    <h4 class="demo-title">Datos personales</h4>
+    <p class="demo-text">Este bloque es solo informativo para demostrar el slot de contenido del stepper.</p>
+    <ul class="demo-list">
+      <li>Campos sugeridos: nombres, apellidos, tipo y número de documento.</li>
+      <li>Validar formato de correo y teléfono en el formulario real.</li>
+      <li>Persistir progreso al cambiar de paso.</li>
+    </ul>
+    <p class="demo-note">Nota: Los controles de formulario reales deben implementarse con componentes DS v2.</p>
   </div>`,
 
   // Paso 1 — Domicilio
   `${DEMO_STYLES}
   <div class="demo-body">
-    <div>
-      <h4>Dirección de residencia</h4>
-      <p>Ingresa tu dirección actual. Esta información es necesaria para el envío de comunicados oficiales.</p>
-    </div>
-    <div class="demo-grid">
-      <div class="demo-field">
-        <label>Departamento</label>
-        <div class="demo-input">Cundinamarca</div>
-      </div>
-      <div class="demo-field">
-        <label>Ciudad / Municipio</label>
-        <div class="demo-input">Bogotá D.C.</div>
-      </div>
-      <div class="demo-field" style="grid-column: span 2;">
-        <label>Dirección</label>
-        <div class="demo-input">Calle 57 # 28-14, Apto 302</div>
-      </div>
-      <div class="demo-field">
-        <label>Barrio</label>
-        <div class="demo-input">Chapinero Alto</div>
-      </div>
-      <div class="demo-field">
-        <label>Código postal</label>
-        <div class="demo-input">110231</div>
-      </div>
-    </div>
+    <h4 class="demo-title">Dirección de residencia</h4>
+    <p class="demo-text">Ejemplo de contenido descriptivo para este paso sin simular inputs visuales.</p>
+    <ul class="demo-list">
+      <li>Departamento y ciudad.</li>
+      <li>Dirección principal y barrio.</li>
+      <li>Código postal y referencias opcionales.</li>
+    </ul>
+    <p class="demo-note">Este contenido se proyecta con ng-content y puede reemplazarse por layout real del producto.</p>
   </div>`,
 
   // Paso 2 — Documentos
   `${DEMO_STYLES}
   <div class="demo-body">
-    <div>
-      <h4>Documentos requeridos</h4>
-      <p>Adjunta los documentos en formato PDF o imagen (máx. 5 MB por archivo).</p>
-    </div>
-    <div class="demo-field">
-      <label>Copia del documento de identidad</label>
-      <div class="demo-upload">
-        <span class="demo-upload-icon">upload_file</span>
-        <strong>Subir archivo</strong>
-        <span>Arrastra y suelta o haz clic para seleccionar</span>
-        <span style="color:var(--fg-neutral-tertiary,#b0bec5);">PDF, JPG, PNG — máx. 5 MB</span>
-      </div>
-    </div>
-    <div class="demo-field">
-      <label>Certificado de bachillerato</label>
-      <div class="demo-upload">
-        <span class="demo-upload-icon">upload_file</span>
-        <strong>Subir archivo</strong>
-        <span>Arrastra y suelta o haz clic para seleccionar</span>
-        <span style="color:var(--fg-neutral-tertiary,#b0bec5);">PDF, JPG, PNG — máx. 5 MB</span>
-      </div>
-    </div>
+    <h4 class="demo-title">Documentos requeridos</h4>
+    <p class="demo-text">Resumen de reglas para carga documental en el paso correspondiente.</p>
+    <ul class="demo-list">
+      <li>Formatos permitidos: PDF, JPG, PNG.</li>
+      <li>Tamaño máximo por archivo: 5 MB.</li>
+      <li>Mostrar progreso y estado de validación por archivo.</li>
+    </ul>
+    <p class="demo-note">Para subida de archivos, usar el componente DS de file uploader cuando esté integrado.</p>
   </div>`,
 
   // Paso 3 — Confirmación
   `${DEMO_STYLES}
   <div class="demo-body">
-    <div>
-      <h4>Resumen de tu inscripción</h4>
-      <p>Revisa los datos antes de enviar. Una vez confirmado, recibirás un correo con tu número de radicado.</p>
-    </div>
-    <div class="demo-summary">
-      <div class="demo-summary-row">
-        <span class="demo-summary-label">Nombre completo</span>
-        <span class="demo-summary-value">Laura Marcela Ramírez Torres</span>
-      </div>
-      <div class="demo-summary-row">
-        <span class="demo-summary-label">Documento</span>
-        <span class="demo-summary-value">C.C. 1.020.456.789</span>
-      </div>
-      <div class="demo-summary-row">
-        <span class="demo-summary-label">Correo electrónico</span>
-        <span class="demo-summary-value">laura.ramirez</span>
-      </div>
-      <div class="demo-summary-row">
-        <span class="demo-summary-label">Ciudad</span>
-        <span class="demo-summary-value">Bogotá D.C.</span>
-      </div>
-      <div class="demo-summary-row">
-        <span class="demo-summary-label">Documentos adjuntos</span>
-        <span class="demo-badge-ok">2 archivos listos</span>
-      </div>
-    </div>
+    <h4 class="demo-title">Confirmación</h4>
+    <p class="demo-text">Vista final para revisión antes de enviar la información.</p>
+    <ul class="demo-list">
+      <li>Revisar datos personales capturados.</li>
+      <li>Verificar dirección y documentos asociados.</li>
+      <li>Confirmar envío y mostrar número de radicado.</li>
+    </ul>
+    <p class="demo-note">Este ejemplo evita UI simulada para no confundir con componentes productivos del sistema.</p>
   </div>`,
 ];
 
@@ -465,97 +333,37 @@ export const VerticalOrientation: Story = {
         color: var(--fg-neutral-primary, #0f385a);
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: var(--spacing-component-md, 12px);
       }
-      .demo-body h4 {
-        margin: 0 0 4px;
-        font-family: var(--text-component, Poppins);
-        font-size: var(--font-size-f-md, 1rem);
-        font-weight: 600;
+      .demo-title {
+        margin: 0;
+        font-family: var(--text-headings, Poppins);
+        font-size: var(--font-size-f-lg, 18px);
+        font-weight: var(--font-weight-w-semibold, 600);
+        line-height: 1.2;
         color: var(--fg-brand-primary, #0f385a);
       }
-      .demo-body p {
+      .demo-text {
         margin: 0;
         font-size: var(--font-size-f-sm, 0.875rem);
         color: var(--fg-neutral-secondary, #4d5b69);
         line-height: 1.5;
       }
-      .demo-grid {
+      .demo-list {
+        margin: 0;
+        padding-left: var(--spacing-component-lg, 16px);
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      .demo-field {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .demo-field label {
-        font-family: var(--input-font-label, Poppins);
-        font-size: var(--font-size-f-sm, 0.875rem);
-        font-weight: 600;
-        color: var(--fg-brand-primary, #0f385a);
-      }
-      .demo-input {
-        background: var(--surface-neutral-canvas, #fff);
-        border: 1px solid var(--border-neutral-default, #b0bec5);
-        border-radius: var(--input-radius-base, 10px);
-        padding: 10px 12px;
-        font-family: var(--input-font-main, 'Open Sans');
-        font-size: var(--font-size-f-sm, 0.875rem);
-        color: var(--fg-neutral-primary, #0f385a);
-        min-height: 44px;
-      }
-      .demo-upload {
-        border: 2px dashed var(--border-neutral-default, #b0bec5);
-        border-radius: var(--radius-container-sm, 10px);
-        padding: 24px;
-        text-align: center;
+        gap: var(--spacing-component-xs, 6px);
         color: var(--fg-neutral-secondary, #4d5b69);
         font-size: var(--font-size-f-sm, 0.875rem);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
       }
-      .demo-upload .ico {
-        font-family: 'Material Symbols Outlined';
-        font-size: 32px;
-        color: var(--fg-neutral-tertiary, #b0bec5);
-      }
-      .demo-summary {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .demo-summary-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 14px;
+      .demo-note {
+        padding: var(--spacing-component-sm, 8px) var(--spacing-component-md, 12px);
+        border-left: var(--border-thick, 2px) solid var(--border-brand-primary-solid, #0f385a);
         background: var(--surface-neutral-subtle, #e5e9ec);
-        border-radius: 8px;
-      }
-      .demo-summary-label {
+        border-radius: var(--radius-component-2xs, 4px);
         font-size: var(--font-size-f-sm, 0.875rem);
-        color: var(--fg-neutral-secondary, #4d5b69);
-      }
-      .demo-summary-value {
-        font-size: var(--font-size-f-sm, 0.875rem);
-        font-weight: 600;
         color: var(--fg-brand-primary, #0f385a);
-      }
-      .demo-badge-ok {
-        background: var(--surface-status-success-subtle, #f7fbec);
-        color: var(--fg-status-success, #6f921e);
-        border: 1px solid var(--border-status-success-solid, #6f921e);
-        border-radius: 20px;
-        padding: 4px 12px;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
-      .span2 {
-        grid-column: span 2;
       }
     `,
   ],
@@ -574,148 +382,56 @@ export const VerticalOrientation: Story = {
       <!-- Paso 0 — Datos personales -->
       @if (currentIndex === 0) {
       <div class="demo-body">
-        <div>
-          <h4>Datos personales</h4>
-          <p>
-            Completa tu información básica para crear tu cuenta en el
-            Politécnico Grancolombiano.
-          </p>
-        </div>
-        <div class="demo-grid">
-          <div class="demo-field">
-            <label>Nombres</label>
-            <div class="demo-input">Laura Marcela</div>
-          </div>
-          <div class="demo-field">
-            <label>Apellidos</label>
-            <div class="demo-input">Ramírez Torres</div>
-          </div>
-          <div class="demo-field">
-            <label>Tipo de documento</label>
-            <div class="demo-input">Cédula de ciudadanía</div>
-          </div>
-          <div class="demo-field">
-            <label>Número de documento</label>
-            <div class="demo-input">1.020.456.789</div>
-          </div>
-          <div class="demo-field">
-            <label>Correo electrónico</label>
-            <div class="demo-input">laura.ramirez</div>
-          </div>
-          <div class="demo-field">
-            <label>Teléfono celular</label>
-            <div class="demo-input">+57 310 234 5678</div>
-          </div>
-        </div>
+        <h4 class="demo-title">Datos personales</h4>
+        <p class="demo-text">Este paso muestra solo contenido descriptivo de ejemplo.</p>
+        <ul class="demo-list">
+          <li>Capturar datos básicos del aspirante.</li>
+          <li>Aplicar validaciones en tiempo real.</li>
+          <li>Guardar borrador antes de avanzar.</li>
+        </ul>
+        <p class="demo-note">Implementa campos reales con componentes DS v2 de formulario.</p>
       </div>
       }
 
       <!-- Paso 1 — Domicilio -->
       @if (currentIndex === 1) {
       <div class="demo-body">
-        <div>
-          <h4>Dirección de residencia</h4>
-          <p>
-            Ingresa tu dirección actual. Esta información es necesaria para el
-            envío de comunicados oficiales.
-          </p>
-        </div>
-        <div class="demo-grid">
-          <div class="demo-field">
-            <label>Departamento</label>
-            <div class="demo-input">Cundinamarca</div>
-          </div>
-          <div class="demo-field">
-            <label>Ciudad / Municipio</label>
-            <div class="demo-input">Bogotá D.C.</div>
-          </div>
-          <div class="demo-field span2">
-            <label>Dirección</label>
-            <div class="demo-input">Calle 57 # 28-14, Apto 302</div>
-          </div>
-          <div class="demo-field">
-            <label>Barrio</label>
-            <div class="demo-input">Chapinero Alto</div>
-          </div>
-          <div class="demo-field">
-            <label>Código postal</label>
-            <div class="demo-input">110231</div>
-          </div>
-        </div>
+        <h4 class="demo-title">Dirección de residencia</h4>
+        <p class="demo-text">Contenido de apoyo del flujo para este paso.</p>
+        <ul class="demo-list">
+          <li>Seleccionar departamento y municipio.</li>
+          <li>Registrar dirección de residencia completa.</li>
+          <li>Agregar datos complementarios opcionales.</li>
+        </ul>
+        <p class="demo-note">Este story evita maquetar controles visuales que no sean del DS.</p>
       </div>
       }
 
       <!-- Paso 2 — Documentos -->
       @if (currentIndex === 2) {
       <div class="demo-body">
-        <div>
-          <h4>Documentos requeridos</h4>
-          <p>
-            Adjunta los documentos en formato PDF o imagen (máx. 5 MB por
-            archivo).
-          </p>
-        </div>
-        <div class="demo-field">
-          <label>Copia del documento de identidad</label>
-          <div class="demo-upload">
-            <span class="ico">upload_file</span>
-            <strong>Subir archivo</strong>
-            <span>Arrastra y suelta o haz clic para seleccionar</span>
-            <span style="color:var(--fg-neutral-tertiary,#b0bec5)"
-              >PDF, JPG, PNG — máx. 5 MB</span
-            >
-          </div>
-        </div>
-        <div class="demo-field">
-          <label>Certificado de bachillerato</label>
-          <div class="demo-upload">
-            <span class="ico">upload_file</span>
-            <strong>Subir archivo</strong>
-            <span>Arrastra y suelta o haz clic para seleccionar</span>
-            <span style="color:var(--fg-neutral-tertiary,#b0bec5)"
-              >PDF, JPG, PNG — máx. 5 MB</span
-            >
-          </div>
-        </div>
+        <h4 class="demo-title">Documentos requeridos</h4>
+        <p class="demo-text">Reglas de carga documental para el proceso.</p>
+        <ul class="demo-list">
+          <li>Formatos permitidos: PDF, JPG y PNG.</li>
+          <li>Tamaño máximo: 5 MB por archivo.</li>
+          <li>Mostrar estado de carga y validación.</li>
+        </ul>
+        <p class="demo-note">Usar file-uploader DS v2 cuando el componente esté disponible.</p>
       </div>
       }
 
       <!-- Paso 3 — Confirmación -->
       @if (currentIndex === 3) {
       <div class="demo-body">
-        <div>
-          <h4>Resumen de tu inscripción</h4>
-          <p>
-            Revisa los datos antes de enviar. Una vez confirmado, recibirás un
-            correo con tu número de radicado.
-          </p>
-        </div>
-        <div class="demo-summary">
-          <div class="demo-summary-row">
-            <span class="demo-summary-label">Nombre completo</span
-            ><span class="demo-summary-value"
-              >Laura Marcela Ramírez Torres</span
-            >
-          </div>
-          <div class="demo-summary-row">
-            <span class="demo-summary-label">Documento</span
-            ><span class="demo-summary-value">C.C. 1.020.456.789</span>
-          </div>
-          <div class="demo-summary-row">
-            <span class="demo-summary-label">Correo electrónico</span
-            ><span class="demo-summary-value"
-              >laura.ramirez</span
-            >
-          </div>
-          <div class="demo-summary-row">
-            <span class="demo-summary-label">Ciudad</span
-            ><span class="demo-summary-value">Bogotá D.C.</span>
-          </div>
-          <div class="demo-summary-row">
-            <span class="demo-summary-label">Documentos adjuntos</span
-            ><span class="demo-badge-ok">2 archivos listos</span>
-          </div>
-        </div>
+        <h4 class="demo-title">Confirmación</h4>
+        <p class="demo-text">Resumen final del flujo antes del envío.</p>
+        <ul class="demo-list">
+          <li>Revisión de datos personales.</li>
+          <li>Revisión de dirección y anexos.</li>
+          <li>Confirmación y generación de radicado.</li>
+        </ul>
+        <p class="demo-note">Mantener este bloque como guía funcional, no como UI definitiva.</p>
       </div>
       }
     </pds-stepper>

@@ -84,7 +84,7 @@ export class PdsStepperComponent {
   );
 
   protected readonly stepCountLabel = computed(
-    () => `Step ${this.currentStepIndex() + 1} of ${this.steps().length}`
+    () => `Paso ${this.currentStepIndex() + 1} de ${this.steps().length}`
   );
 
   /**

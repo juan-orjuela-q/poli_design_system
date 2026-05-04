@@ -103,11 +103,11 @@ export class PdsNotificationComponent implements OnDestroy {
   /** Ícono Material Symbols para cada estado. */
   protected readonly statusIcon = computed<string>(() => {
     const icons: Record<NotificationStatus, string> = {
-      default: 'info',
+      default: 'feedback',
       success: 'check_circle',
       warning: 'warning',
       error: 'error',
-      info: 'info',
+      info: 'feedback',
     };
     return icons[this.status()];
   });

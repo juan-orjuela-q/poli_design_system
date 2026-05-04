@@ -89,8 +89,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: var(--size-md, 48px);
+    height: var(--size-md, 48px);
     border-radius: var(--radius-pill, 99999px);
-    padding: var(--spacing-component-lg, 16px);
+    padding: var(--spacing-component-md, 12px);
     overflow: hidden;
     // Icon inherits color via currentColor
     pds-icon {
@@ -108,7 +110,7 @@
 
   &__marker-label {
     font-family: var(--text-headings, "Poppins", sans-serif);
-    font-size: var(--font-size-f-xl, 20px);
+    font-size: var(--font-size-f-lg, 18px);
     font-weight: var(--font-weight-w-semibold, 600);
     line-height: 1.2;
     color: var(
@@ -129,7 +131,7 @@
 
   &__marker--current {
     .pds-stepper__marker-circle {
-      background: var(--surface-brand-secondary-muted, #1fb2de);
+      background: var(--surface-brand-primary-muted, #b4d8fd);
       border: var(--border-thick, 2px) solid
         var(--border-brand-primary-solid, #0f385a);
       color: var(--fg-brand-primary, #0f385a);
@@ -144,8 +146,10 @@
 
   &__marker--completed {
     .pds-stepper__marker-circle {
-      background: var(--surface-brand-primary-base, #0f385a);
-      color: white; // check_circle icon appears white on dark navy
+      border: var(--border-thick, 2px) solid
+        var(--border-status-success-solid, #6f921e);
+      background: var(--surface-status-success-solid, #a6ce38);
+      color: var(--fg-brand-primary, #0f385a);
     }
   }
 
@@ -184,15 +188,22 @@
   // ── Vertical orientation ──────────────────────────────────────────────────
 
   &--vertical &__markers {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+    // Keep step distribution horizontal; only marker content stacks vertically.
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
   }
 
   &--vertical &__marker {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     min-height: unset;
+    text-align: center;
+  }
+
+  &--vertical &__marker-info {
+    align-items: center;
+    text-align: center;
   }
 
   &--vertical &__marker-circle {
@@ -200,8 +211,7 @@
   }
 
   &--vertical &__connector {
-    width: var(--border-thin, 1px);
-    height: var(--spacing-component-xl, 24px);
+    height: var(--border-thin, 1px);
     align-self: center;
   }
 }
