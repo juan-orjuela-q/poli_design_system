@@ -364,6 +364,6 @@
   }
 
   &__cell-primary {
-    line-height: 1.4;
+    line-height: var(--line-height-lh-base, 1.5);
   }
 }

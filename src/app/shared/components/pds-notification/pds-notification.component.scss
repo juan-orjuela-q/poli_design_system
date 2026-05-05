@@ -39,7 +39,7 @@
     font-family: var(--text-component, Poppins);
     font-size: var(--font-size-component-notification-title, 1.25rem);
     font-weight: var(--font-weight-w-semibold, 600);
-    line-height: 1.2;
+    line-height: var(--line-height-lh-tight, 1.2);
     letter-spacing: 0.4px;
     color: var(--fg-brand-primary, #0f385a);
     width: 100%;
@@ -48,7 +48,7 @@
 
   &__body {
     font-family: var(--text-body, Open Sans);
-    font-weight: 400;
+    font-weight: var(--font-weight-w-regular, 400);
     font-size: var(--font-size-f-sm, 14px);
     line-height: var(--line-height-lh-base, 1.5);
     color: var(--fg-brand-primary, #0f385a);
@@ -186,8 +186,7 @@
   // botón cerrar absolutamente posicionado, sombra.
   &--snackbar {
     border-radius: var(--radius-component-xs, 6px);
-    box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
-      0 10px 48px -4px rgba(24, 39, 75, 0.25);
+    box-shadow: var(--shadow-component-notification);
     position: fixed;
     z-index: 1100;
 
@@ -227,8 +226,7 @@
   // Bordes menos redondeados, franja más estrecha, sombra.
   &--toast {
     border-radius: var(--radius-component-xs, 6px);
-    box-shadow: 0 0 12px -4px rgba(24, 39, 75, 0.6),
-      0 10px 48px -4px rgba(24, 39, 75, 0.25);
+    box-shadow: var(--shadow-component-notification);
     position: fixed;
     z-index: 1100;
 

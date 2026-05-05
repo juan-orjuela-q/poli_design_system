@@ -23,9 +23,7 @@
   background: var(--surface-neutral-modal, #fff);
   border-radius: var(--radius-container-md, 16px);
   width: 100%;
-  // Shadow/500 del Design System
-  box-shadow: 0 6px 14px rgba(24, 39, 75, 0.12),
-    0 10px 32px rgba(24, 39, 75, 0.1);
+  box-shadow: var(--shadow-500);
 
   display: flex;
   flex-direction: column;
@@ -71,7 +69,7 @@
     font-family: var(--text-headings, Poppins);
     font-size: var(--font-size-f-2xl, 1.5rem);
     font-weight: var(--font-weight-w-semibold, 600);
-    line-height: 1.2;
+    line-height: var(--line-height-lh-tight, 1.2);
     color: var(--fg-brand-primary, #0f385a);
     // Evita que un título largo empuje el botón X fuera de pantalla
     overflow: hidden;
@@ -92,8 +90,8 @@
     padding: 0 var(--spacing-component-xl, 20px);
     font-family: var(--text-body, Open Sans);
     font-size: var(--font-size-f-base, 1rem);
-    font-weight: 400;
-    line-height: 1.5;
+    font-weight: var(--font-weight-w-regular, 400);
+    line-height: var(--line-height-lh-base, 1.5);
     color: var(--fg-brand-primary, #0f385a);
     // scrollbar solo cuando hay desbordamiento
     overscroll-behavior: contain;

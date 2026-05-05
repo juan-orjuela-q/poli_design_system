@@ -108,8 +108,8 @@
   white-space: nowrap;
   font-family: var(--text-body, 'Open Sans');
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 700;
-  line-height: 1.5;
+  font-weight: var(--font-weight-w-bold, 700);
+  line-height: var(--line-height-lh-base, 1.5);
   letter-spacing: 0.28px;
   color: var(--fg-brand-primary);
 
@@ -137,8 +137,8 @@
   padding: 0 var(--spacing-component-sm);
   font-family: var(--text-body, 'Open Sans');
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 600;
-  line-height: 1.5;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-base, 1.5);
   white-space: nowrap;
 
   .pds-file-uploader-item__badge--loading & {
@@ -169,8 +169,8 @@
   border-radius: var(--radius-component-2xs, 4px);
   font-family: var(--input-font-label, Poppins);
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-tight, 1.2);
   white-space: nowrap;
 
   .pds-file-uploader-item__badge--loading & {
@@ -204,8 +204,8 @@
 .pds-file-uploader-item__size {
   font-family: var(--text-body, 'Open Sans');
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 600;
-  line-height: 1.5;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-base, 1.5);
   color: var(--fg-neutral-secondary);
   white-space: nowrap;
   flex-shrink: 0;
@@ -276,8 +276,8 @@
   span {
     font-family: var(--input-font-label, Poppins);
     font-size: var(--font-size-f-sm, 14px);
-    font-weight: 600;
-    line-height: 1.5;
+    font-weight: var(--font-weight-w-semibold, 600);
+    line-height: var(--line-height-lh-base, 1.5);
     color: var(--fg-status-error, #e0006e);
     white-space: nowrap;
   }

@@ -208,7 +208,7 @@
   font-family: var(--text-component, Poppins);
   font-size: var(--font-size-f-sm); // 0.875rem (14px)
   font-weight: var(--font-weight-w-semibold); // 600
-  line-height: 1;
+  line-height: var(--line-height-lh-none, 1);
   letter-spacing: 0.01em;
   transition: background 150ms ease, box-shadow 150ms ease,
     padding-left 150ms ease, color 150ms ease;
@@ -223,8 +223,7 @@
       [aria-disabled="true"]
     ) {
     background: var(--surface-neutral-canvas); // #ffffff
-    box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12),
-      0 4px 4px -2px rgba(24, 39, 75, 0.08);
+    box-shadow: var(--shadow-100);
     padding-left: var(--spacing-component-xl); // 20px
     color: var(--fg-brand-primary-strong); // #002b49
   }
@@ -319,15 +318,14 @@
   font-family: var(--text-component, Poppins);
   font-size: var(--font-size-f-sm); // 14px
   font-weight: var(--font-weight-w-medium); // 500
-  line-height: 1;
+  line-height: var(--line-height-lh-none, 1);
   transition: background 150ms ease, box-shadow 150ms ease,
     padding-left 150ms ease, color 150ms ease;
 
   // ── Hover ─────────────────────────────────────────────────────────────
   &:hover:not(.pds-sidenav__subitem--active):not([aria-disabled="true"]) {
     background: var(--surface-neutral-canvas);
-    box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12),
-      0 4px 4px -2px rgba(24, 39, 75, 0.08);
+    box-shadow: var(--shadow-100);
     padding-left: var(--spacing-component-xl); // 20px
     color: var(--fg-brand-primary-strong);
   }

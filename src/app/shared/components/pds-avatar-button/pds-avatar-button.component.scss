@@ -46,8 +46,7 @@
   // ── Estado: Hover ──────────────────────────────────────────────
   &:hover {
     background: var(--surface-neutral-canvas); // blanco
-    box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12),
-      0 10px 32px -4px rgba(24, 39, 75, 0.1);
+    box-shadow: var(--shadow-component-hover);
 
     .pds-avatar-button__indicator {
       opacity: 1;
@@ -82,7 +81,7 @@
     align-items: flex-end;
     gap: var(--spacing-component-xxs); // 4px
     padding-left: var(--spacing-component-md); // 12px margen izq
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
     white-space: nowrap;
   }
 
@@ -101,7 +100,7 @@
     font-weight: var(--font-weight-w-semibold, 600);
     color: var(--action-primary-subtle-fg-light); // #11637c
     letter-spacing: 0;
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
   }
 
   // ── Wrapper del avatar: contiene el círculo y el badge ──────
@@ -151,7 +150,7 @@
     font-size: 18px; // escala según tamaño del avatar
     font-weight: var(--font-weight-w-bold, 700);
     color: var(--fg-on-color-brand-primary); // blanco
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
     text-align: center;
     user-select: none;
   }
@@ -190,8 +189,7 @@
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    box-shadow: inset 0 6px 14px -6px rgba(0, 0, 0, 0.12),
-      inset 0 10px 32px -4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-component-pressed);
     transition: opacity 150ms ease;
   }
 

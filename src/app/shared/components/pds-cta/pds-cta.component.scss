@@ -62,7 +62,7 @@
     font-family: var(--text-component);
     font-size: var(--font-size-component-cta);
     font-weight: var(--font-weight-w-semibold); // 600 — spec Figma
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
     white-space: nowrap;
     flex: 2;
   }

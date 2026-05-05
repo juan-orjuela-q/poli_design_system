@@ -18,7 +18,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
     font-size: var(--font-size-f-base, 16px);
     font-weight: var(--font-weight-w-medium, 500);
     color: var(--fg-brand-primary, #0F385A);
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
   }
 
   // ── Row: input + slider (+ input for double) ──────────────────────────────
@@ -48,7 +48,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
     font-size: var(--font-size-f-sm, 14px);
     font-weight: var(--font-weight-w-medium, 500);
     color: var(--fg-brand-primary, #0F385A);
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
     text-align: center;
   }
 
@@ -57,7 +57,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
     height: 36px;
     padding: 0 var(--spacing-component-xs, 8px);
     border: none;
-    box-shadow: inset 0 0 0 var(--border-thin) var(--border-brand-secondary-solid, #007BA4);
+    box-shadow: inset 0 0 0 var(--border-thin) var(--border-brand-secondary-solid);
     border-radius: var(--radius-component-sm, 6px);
     background: var(--action-primary-subtle-bg, #F0F8FF);
     font-family: var(--input-font-main, 'Open Sans');
@@ -75,14 +75,14 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
 
     &:focus-visible {
       box-shadow:
-        inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid, #007BA4),
-        0 0 0 var(--border-thin) var(--action-focus-inner, #fff),
-        0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring, #007BA4);
+        inset 0 0 0 var(--border-thick) var(--border-brand-secondary-solid),
+        0 0 0 var(--border-thin) var(--action-focus-inner),
+        0 0 0 calc(var(--border-thin) + var(--border-thick)) var(--action-primary-focus-ring);
     }
 
     &:disabled {
       background: var(--action-neutral-subtle-bg, #E5E9EC);
-      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default);
       color: var(--action-neutral-ghost-fg, #627380);
       cursor: not-allowed;
     }
@@ -202,28 +202,28 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
       border-radius: 50%;
       background: var(--surface-neutral-card, #fff);
       border: 2px solid var(--border-brand-primary-solid, #0F385A);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+      box-shadow: var(--shadow-range-thumb);
       cursor: grab;
       transition: box-shadow 100ms ease, border-width 100ms ease;
     }
 
     // Hover — solid ring 4px, no blur
     &:hover:not(:disabled)::-webkit-slider-thumb {
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 4px rgba(30, 101, 236, 0.25);
+      box-shadow: var(--shadow-range-thumb-hover);
     }
 
     // Active — solid ring 8px, no blur
     &:active:not(:disabled)::-webkit-slider-thumb {
       border-width: 4px;
       cursor: grabbing;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 8px rgba(30, 101, 236, 0.25);
+      box-shadow: var(--shadow-range-thumb-active);
     }
 
     // Focus — double ring per DS v2 convention
     &:focus-visible:not(:disabled)::-webkit-slider-thumb {
       box-shadow:
-        0 0 0 2px var(--action-focus-inner, #fff),
-        0 0 0 5px var(--action-primary-focus-ring, #007BA4);
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 5px var(--action-primary-focus-ring);
     }
 
     // ── Firefox ───────────────────────────────────────────────────────────
@@ -239,25 +239,25 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
       border-radius: 50%;
       border: 2px solid var(--border-brand-primary-solid, #0F385A);
       background: var(--surface-neutral-card, #fff);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+      box-shadow: var(--shadow-range-thumb);
       cursor: grab;
       transition: box-shadow 100ms ease, border-width 100ms ease;
     }
 
     &:hover:not(:disabled)::-moz-range-thumb {
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 4px rgba(30, 101, 236, 0.25);
+      box-shadow: var(--shadow-range-thumb-hover);
     }
 
     &:active:not(:disabled)::-moz-range-thumb {
       border-width: 4px;
       cursor: grabbing;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16), 0 0 0 8px rgba(30, 101, 236, 0.25);
+      box-shadow: var(--shadow-range-thumb-active);
     }
 
     &:focus-visible:not(:disabled)::-moz-range-thumb {
       box-shadow:
-        0 0 0 2px var(--action-focus-inner, #fff),
-        0 0 0 5px var(--action-primary-focus-ring, #007BA4);
+        0 0 0 2px var(--action-focus-inner),
+        0 0 0 5px var(--action-primary-focus-ring);
     }
 
     // ── Disabled thumb ────────────────────────────────────────────────────
@@ -266,7 +266,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
 
       &::-webkit-slider-thumb {
         background: var(--action-neutral-subtle-bg, #E5E9EC);
-        border-color: var(--border-neutral-default, #627380);
+        border-color: var(--border-neutral-default);
         border-width: 2px;
         cursor: not-allowed;
         box-shadow: none;
@@ -275,7 +275,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
 
       &::-moz-range-thumb {
         background: var(--action-neutral-subtle-bg, #E5E9EC);
-        border-color: var(--border-neutral-default, #627380);
+        border-color: var(--border-neutral-default);
         border-width: 2px;
         cursor: not-allowed;
         box-shadow: none;
@@ -306,7 +306,7 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
     }
 
     .pds-range__track-bg {
-      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default, #627380);
+      box-shadow: inset 0 0 0 var(--border-thin) var(--border-neutral-default);
     }
 
     .pds-range__tooltip {

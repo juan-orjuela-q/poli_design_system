@@ -16,7 +16,7 @@
     font-size: var(--font-size-f-base, 16px);
     font-weight: var(--font-weight-w-medium, 500);
     color: var(--fg-brand-primary, #0F385A);
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
   }
 
   &__required { color: var(--fg-status-error, #e0006e); }
@@ -112,7 +112,7 @@
     border-radius: var(--radius-component-md, 10px);
     border: 1px solid var(--border-brand-secondary-solid, #007BA4);
     background: var(--surface-brand-primary-subtle, #F0F8FF);
-    box-shadow: 0 2px 4px -2px rgba(24, 39, 75, 0.12), 0 4px 4px -2px rgba(24, 39, 75, 0.08);
+    box-shadow: var(--shadow-100);
     padding: var(--spacing-component-sm, 8px);
 
     // Scrollbar

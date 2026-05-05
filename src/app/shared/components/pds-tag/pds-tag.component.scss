@@ -14,7 +14,7 @@ $remove-color: #002b49;
   font-size: var(--font-size-component-tag, 14px);
   font-style: normal;
   font-weight: var(--font-weight-w-semibold, 600);
-  line-height: 1;           // 100%
+  line-height: var(--line-height-lh-none, 1);
   letter-spacing: 0.28px;
   cursor: pointer;
   transition: background 150ms ease, box-shadow 150ms ease;

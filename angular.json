@@ -43,6 +43,7 @@
               "src/assets/poligran/typescale-desktop.css",
               "src/assets/poligran/layout-desktop.css",
               "src/assets/poligran/component.css",
+              "src/assets/poligran/component-overrides.css",
               "src/assets/scss/style.scss",
               "src/styles.scss"
             ],

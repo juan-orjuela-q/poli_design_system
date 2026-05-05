@@ -42,7 +42,7 @@
   font-family: var(--input-font-label, Poppins); // Poppins
   font-size: var(--font-size-f-base); // 1rem (16px)
   font-weight: var(--font-weight-w-medium); // 500 — Medium
-  line-height: 1;
+  line-height: var(--line-height-lh-none, 1);
   color: var(--fg-brand-primary); // #0f385a
   margin: 0;
 }
@@ -73,7 +73,7 @@
   flex-wrap: wrap;
   gap: var(--spacing-component-xxs); // 4px
   align-items: baseline;
-  line-height: 1.5;
+  line-height: var(--line-height-lh-base, 1.5);
   font-size: var(--font-size-f-sm); // 0.875rem (14px)
   color: var(--fg-neutral-secondary); // #4d5b69
 }
@@ -87,7 +87,7 @@
 
 .pds-stepper-compact__next-value {
   font-family: var(--text-body, "Open Sans"); // Open Sans
-  font-weight: 400
+  font-weight: var(--font-weight-w-regular, 400);
 }
 
 // ── Contenedor de marcadores ─────────────────────────────────────────────────

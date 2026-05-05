@@ -16,7 +16,7 @@
     font-style: normal;
     font-weight: var(--font-weight-w-medium, 500);
     color: var(--fg-brand-primary, #0F385A);
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
   }
 
   &__required {

@@ -3,11 +3,6 @@
 // Nodo Figma: Info Card 766:3395 · Nav Card 766:3925 · Selectable 766:5587
 // ============================================================
 
-// Sombra Shadow/200 (info card no la tiene; nav/selectable sí)
-$shadow-200:
-  0 4px 6px -4px rgba(24, 39, 75, 0.12),
-  0 8px 8px -4px rgba(24, 39, 75, 0.08);
-
 // Accent inferior del estado selected simulado con box-shadow inset (no afecta layout)
 // Figma: 6px bottom — `inset 0 -6px 0 0` pinta 6px desde el borde inferior hacia adentro
 $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
@@ -28,7 +23,7 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
 :host(.pds-card--nav),
 :host(.pds-card--selectable) {
   cursor: pointer;
-  box-shadow: $shadow-200;
+  box-shadow: var(--shadow-200);
   transition:
     background 200ms ease,
     border-color 200ms ease,
@@ -73,7 +68,7 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   // border-radius inferior = 0 para que el accent quede recto
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  box-shadow: $card-accent-shadow, $shadow-200;
+  box-shadow: $card-accent-shadow, var(--shadow-200);
 
   &:hover {
     background: var(--action-primary-subtle-bg-hover);
@@ -191,7 +186,7 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   font-family: var(--text-headings, Poppins);
   font-size: var(--font-size-f-xl);
   font-weight: var(--font-weight-w-semibold);
-  line-height: 1.2;
+  line-height: var(--line-height-lh-tight, 1.2);
   color: var(--fg-brand-primary);
   margin: 0;
   padding: 0;
@@ -202,7 +197,7 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   font-family: var(--text-headings, Poppins);
   font-size: var(--font-size-f-base);
   font-weight: var(--font-weight-w-semibold);
-  line-height: 1.5;
+  line-height: var(--line-height-lh-base, 1.5);
   color: var(--fg-neutral-secondary);
   margin: 0;
   padding: 0;
@@ -213,8 +208,8 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   font-family: var(--text-body, 'Open Sans');
   font-size: var(--font-size-f-sm, 14px);
   font-style: normal;
-  font-weight: 400;
-  line-height: 1.5; // 150% = 21px
+  font-weight: var(--font-weight-w-regular, 400);
+  line-height: var(--line-height-lh-base, 1.5);
   color: var(--fg-brand-primary, #0f385a);
   margin: 0;
   width: 100%;
@@ -291,7 +286,7 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   font-family: var(--text-component, Poppins);
   font-size: var(--font-size-f-sm);
   font-weight: var(--font-weight-w-semibold);
-  line-height: 1;
+  line-height: var(--line-height-lh-none, 1);
   color: var(--action-primary-ghost-fg);
   white-space: nowrap;
   position: relative; // para touch target

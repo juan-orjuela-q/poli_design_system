@@ -27,8 +27,8 @@
 .pds-paginator__page-size-label {
   font-family: var(--input-font-label, Poppins);
   font-size: var(--font-size-f-base, 16px);
-  font-weight: 500;
-  line-height: 1;
+  font-weight: var(--font-weight-w-medium, 500);
+  line-height: var(--line-height-lh-none, 1);
   color: var(--fg-brand-primary, #0f385a);
   white-space: nowrap;
 }
@@ -52,8 +52,8 @@
   cursor: pointer;
   font-family: var(--text-component, Poppins);
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 600;
-  line-height: 1;
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-none, 1);
   color: var(--action-primary-ghost-fg, #0f385a);
   transition: background 150ms ease, box-shadow 150ms ease;
 
@@ -96,9 +96,7 @@
   background: var(--surface-brand-primary-subtle, #f0f8ff);
   border: 1px solid var(--border-brand-secondary-solid, #007ba4);
   border-radius: var(--radius-component-md, 10px);
-  box-shadow:
-    0 2px 4px -2px rgba(24, 39, 75, 0.12),
-    0 4px 4px -2px rgba(24, 39, 75, 0.08);
+  box-shadow: var(--shadow-100);
   max-height: 240px;
   overflow-y: auto;
 
@@ -161,8 +159,8 @@
 .pds-paginator__state-text {
   font-family: var(--text-body, 'Open Sans');
   font-size: var(--font-size-f-sm, 14px);
-  font-weight: 400;
-  line-height: 1.5;
+  font-weight: var(--font-weight-w-regular, 400);
+  line-height: var(--line-height-lh-base, 1.5);
   color: var(--fg-brand-primary, #0f385a);
   white-space: nowrap;
 }

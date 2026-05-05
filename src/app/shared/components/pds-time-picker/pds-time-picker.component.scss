@@ -16,7 +16,7 @@
     font-size: var(--font-size-f-base, 16px);
     font-weight: var(--font-weight-w-medium, 500);
     color: var(--fg-brand-primary, #0F385A);
-    line-height: 1;
+    line-height: var(--line-height-lh-none, 1);
   }
 
   &__required { color: var(--fg-status-error, #e0006e); }
