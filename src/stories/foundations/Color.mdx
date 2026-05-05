@@ -1,0 +1,215 @@
+import { Meta } from '@storybook/blocks';
+import { useState, useEffect } from 'react';
+
+<Meta title="Poli Design System / 01. Foundation / Color" />
+
+export function getVar(token) {
+  if (typeof document === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+}
+
+export function hexToRgb(hex) {
+  const clean = hex.replace(/^#/, '');
+  if (clean.length !== 6) return null;
+  return {
+    r: parseInt(clean.slice(0, 2), 16),
+    g: parseInt(clean.slice(2, 4), 16),
+    b: parseInt(clean.slice(4, 6), 16),
+  };
+}
+
+export function relativeLuminance({ r, g, b }) {
+  return [r, g, b]
+    .map(c => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); })
+    .reduce((acc, c, i) => acc + c * [0.2126, 0.7152, 0.0722][i], 0);
+}
+
+export function contrastVsWhite(hex) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  const l = relativeLuminance(rgb);
+  return (1.05) / (l + 0.05);
+}
+
+export const ColorSwatch = ({ token, description, showContrast }) => {
+  const [value, setValue] = useState('');
+  const [ratio, setRatio] = useState(null);
+
+  useEffect(() => {
+    const val = getVar(token);
+    setValue(val);
+    if (showContrast && val.startsWith('#')) {
+      setRatio(contrastVsWhite(val));
+    }
+  }, [token, showContrast]);
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <div style={{
+        width: 48, height: 48, borderRadius: 8, flexShrink: 0,
+        background: value || `var(${token})`,
+        border: '1px solid rgba(0,0,0,0.1)',
+      }} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <code style={{ fontSize: 12, color: '#0f385a', display: 'block', marginBottom: 2 }}>{token}</code>
+        {description && (
+          <div style={{ fontSize: 11, color: '#627380', marginBottom: 3, lineHeight: 1.4 }}>{description}</div>
+        )}
+        <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3 }}>
+          {value || '—'}
+        </span>
+      </div>
+      {showContrast && ratio !== null && (
+        <div style={{
+          fontSize: 11, padding: '3px 8px', borderRadius: 4, whiteSpace: 'nowrap', flexShrink: 0,
+          background: ratio >= 4.5 ? '#f7fbec' : ratio >= 3 ? '#fff7e8' : '#fff6f9',
+          color: ratio >= 4.5 ? '#55701b' : ratio >= 3 ? '#b44a09' : '#e0006e',
+          border: `1px solid ${ratio >= 4.5 ? '#6f921e' : ratio >= 3 ? '#d96c06' : '#e0006e'}`,
+        }}>
+          {ratio.toFixed(2)}:1 {ratio >= 4.5 ? 'AA ✓' : ratio >= 3 ? 'AA Large' : '✗ Falla'}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const ColorGroup = ({ title, tokens, showContrast = false }) => (
+  <div style={{ marginBottom: 40 }}>
+    <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: 13, fontWeight: 600, color: '#627380', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4, paddingBottom: 8, borderBottom: '2px solid #e5e9ec' }}>
+      {title}
+    </h3>
+    {tokens.map(([name, desc]) => (
+      <ColorSwatch key={name} token={name} description={desc} showContrast={showContrast} />
+    ))}
+  </div>
+);
+
+# Color
+
+Los tokens de color del Poli Design System están organizados por **rol semántico**, no por valor. Los valores se resuelven en **tiempo de ejecución** directamente desde las CSS custom properties, por lo que siempre reflejan la paleta compilada por Style Dictionary.
+
+---
+
+## Surface
+
+Fondos de áreas, contenedores y superficies de la interfaz.
+
+<ColorGroup title="Neutral" tokens={[
+  ['--surface-neutral-canvas', 'Fondo base de la aplicación'],
+  ['--surface-neutral-card', 'Fondo de tarjetas y contenedores elevados sobre el canvas'],
+  ['--surface-neutral-modal', 'Fondo de modales, drawers y overlays flotantes'],
+  ['--surface-neutral-weak', 'Superficie de contraste mínimo (fondos de hover muy sutiles)'],
+  ['--surface-neutral-subtle', 'Superficie neutra de bajo contraste (sidebars, secciones sin énfasis)'],
+  ['--surface-neutral-sunken', 'Superficie hundida (fondos de inputs, áreas de código)'],
+  ['--surface-neutral-inverse', 'Superficie oscura para contextos invertidos (tooltips oscuros)'],
+]} />
+
+<ColorGroup title="Brand — Primario" tokens={[
+  ['--surface-brand-overlay', 'Superposición semitransparente con el color primario de marca'],
+  ['--surface-brand-primary-base', 'Superficie con el color primario de marca (encabezados, banners)'],
+  ['--surface-brand-primary-strong', 'Superficie primaria oscura (mayor peso visual que base)'],
+  ['--surface-brand-primary-muted', 'Superficie primaria atenuada (fondos pressed)'],
+  ['--surface-brand-primary-soft', 'Superficie suave del primario (hover de elementos brand subtle)'],
+  ['--surface-brand-primary-subtle', 'Superficie muy suave del primario (chips, secciones con tinte de marca)'],
+]} />
+
+<ColorGroup title="Brand — Secundario" tokens={[
+  ['--surface-brand-secondary-solid', 'Superficie secundaria sólida de alto contraste'],
+  ['--surface-brand-secondary-muted', 'Superficie del secundario en tono base'],
+  ['--surface-brand-secondary-soft', 'Superficie suave del secundario (fondos hover)'],
+]} />
+
+<ColorGroup title="Status — Error" tokens={[
+  ['--surface-status-error-solid', 'Fondo sólido de error (alto énfasis)'],
+  ['--surface-status-error-subtle', 'Fondo de bajo contraste para error (alertas inline)'],
+  ['--surface-status-error-dark', 'Fondo de error oscuro (hover, mayor contraste)'],
+]} />
+
+<ColorGroup title="Status — Warning" tokens={[
+  ['--surface-status-warning-solid', 'Fondo sólido de advertencia (verificar contraste del texto)'],
+  ['--surface-status-warning-subtle', 'Fondo de bajo contraste para advertencia'],
+  ['--surface-status-warning-dark', 'Fondo de advertencia oscuro (hover)'],
+]} />
+
+<ColorGroup title="Status — Success" tokens={[
+  ['--surface-status-success-solid', 'Fondo sólido de éxito (verificar contraste del texto)'],
+  ['--surface-status-success-subtle', 'Fondo de bajo contraste para éxito'],
+  ['--surface-status-success-dark', 'Fondo de éxito oscuro (hover)'],
+]} />
+
+<ColorGroup title="Status — Info" tokens={[
+  ['--surface-status-info-solid', 'Fondo sólido informativo (verificar contraste del texto)'],
+  ['--surface-status-info-subtle', 'Fondo de bajo contraste informativo'],
+  ['--surface-status-info-dark', 'Fondo informativo oscuro (hover)'],
+]} />
+
+---
+
+## Foreground (fg)
+
+Colores para texto, íconos y elementos de primer plano. El indicador **AA** calcula el contraste de cada token contra fondo blanco (`#ffffff`).
+
+<ColorGroup title="Neutral" showContrast tokens={[
+  ['--fg-neutral-primary', 'Texto principal sobre fondos claros'],
+  ['--fg-neutral-secondary', 'Texto secundario (metadatos, etiquetas de apoyo)'],
+  ['--fg-neutral-placeholder', 'Texto placeholder en campos de formulario'],
+  ['--fg-neutral-disabled', 'Texto en estado deshabilitado'],
+  ['--fg-neutral-inverse', 'Texto sobre superficies oscuras o inversas'],
+]} />
+
+<ColorGroup title="Brand" showContrast tokens={[
+  ['--fg-brand-primary', 'Texto/íconos con el color primario de marca'],
+  ['--fg-brand-primary-strong', 'Variante oscura del primario (texto < 14px, ratio AA más exigente)'],
+  ['--fg-brand-secondary', 'Texto/íconos con el color secundario de marca'],
+  ['--fg-brand-secondary-strong', 'Variante oscura del secundario (mayor exigencia de contraste)'],
+  ['--fg-brand-link', 'Color para texto de enlace (solo en elementos <a> o Link)'],
+]} />
+
+<ColorGroup title="On Color" showContrast tokens={[
+  ['--fg-on-color-brand-primary', 'Texto sobre surface/brand/primary/* (garantiza legibilidad sobre azul primario)'],
+  ['--fg-on-color-brand-secondary', 'Texto sobre surface/brand/secondary/*'],
+  ['--fg-on-color-inverse', 'Texto sobre superficies inversas (surface/neutral/inverse)'],
+  ['--fg-on-color-error', 'Texto sobre fondos sólidos de error (surface/status/error/solid)'],
+  ['--fg-on-color-disabled', 'Texto sobre elementos deshabilitados con fondo de color'],
+]} />
+
+<ColorGroup title="Status" showContrast tokens={[
+  ['--fg-status-error', 'Texto e íconos de error (sobre surface/status/error/subtle)'],
+  ['--fg-status-warning', 'Texto e íconos de advertencia (sobre surface/status/warning/subtle)'],
+  ['--fg-status-success', 'Texto e íconos de éxito (sobre surface/status/success/subtle)'],
+  ['--fg-status-info', 'Texto e íconos informativos (sobre surface/status/info/subtle)'],
+  ['--fg-status-visited', 'Color para enlaces visitados'],
+]} />
+
+---
+
+## Border
+
+Colores para bordes, separadores y contornos.
+
+<ColorGroup title="Neutral" tokens={[
+  ['--border-neutral-transparent', 'Borde transparente (reserva espacio sin mostrarlo, evita saltos de layout)'],
+  ['--border-neutral-subtle', 'Borde de bajo contraste (divisores, separadores de baja jerarquía)'],
+  ['--border-neutral-default', 'Borde estándar (inputs, tablas, contenedores en reposo)'],
+  ['--border-neutral-strong', 'Borde de alto contraste (mayor definición o separación visual)'],
+]} />
+
+<ColorGroup title="Brand — Primario" tokens={[
+  ['--border-brand-primary-subtle', 'Borde muy suave del primario (contenedores con tinte brand)'],
+  ['--border-brand-primary-soft', 'Borde intermedio del primario (estados activos suaves)'],
+  ['--border-brand-primary-light', 'Borde claro del primario (hover de elementos brand)'],
+  ['--border-brand-primary-solid', 'Borde sólido del primario (focus, selección)'],
+  ['--border-brand-secondary-solid', 'Borde sólido del secundario (elementos secundarios en focus)'],
+  ['--border-brand-secondary-dark', 'Borde oscuro del secundario (estados activos)'],
+]} />
+
+<ColorGroup title="Status" tokens={[
+  ['--border-status-error-subtle', 'Borde de bajo contraste para error'],
+  ['--border-status-error-solid', 'Borde sólido para componentes de error'],
+  ['--border-status-warning-subtle', 'Borde de bajo contraste para advertencia'],
+  ['--border-status-warning-solid', 'Borde sólido para componentes de advertencia'],
+  ['--border-status-success-subtle', 'Borde de bajo contraste para éxito'],
+  ['--border-status-success-solid', 'Borde sólido para componentes de éxito'],
+  ['--border-status-info-subtle', 'Borde de bajo contraste informativo'],
+  ['--border-status-info-solid', 'Borde sólido para componentes informativos'],
+]} />

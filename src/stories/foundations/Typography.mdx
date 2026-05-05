@@ -1,0 +1,257 @@
+import { Meta } from '@storybook/blocks';
+import { useState, useEffect } from 'react';
+
+<Meta title="Poli Design System / 01. Foundation / Typography" />
+
+export function getVar(token) {
+  if (typeof document === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+}
+
+export const FontFamilyRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <div style={{ width: 220, flexShrink: 0 }}>
+        <code style={{ fontSize: 12, color: '#0f385a' }}>{token}</code>
+        <div style={{ fontSize: 11, color: '#627380', marginTop: 2 }}>{label}</div>
+      </div>
+      <div style={{ fontFamily: `var(${token}), sans-serif`, fontSize: 22, color: '#0c0f12' }}>
+        La luz plateada de las estrellas rompe la noche
+      </div>
+      <code style={{ fontSize: 11, color: '#627380', marginLeft: 'auto' }}>{value}</code>
+    </div>
+  );
+};
+
+export const TypeScaleRow = ({ sizeToken, label, fontFamily = '--text-headings' }) => {
+  const [size, setSize] = useState('');
+  const [family, setFamily] = useState('Poppins');
+  useEffect(() => {
+    setSize(getVar(sizeToken));
+    setFamily(getVar(fontFamily) || 'Poppins');
+  }, [sizeToken, fontFamily]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, padding: '10px 0', borderBottom: '1px solid #f0f0f0', flexWrap: 'wrap' }}>
+      <div style={{ width: 200, flexShrink: 0 }}>
+        <code style={{ fontSize: 11, color: '#0f385a', display: 'block' }}>{sizeToken}</code>
+        <span style={{ fontSize: 11, color: '#627380' }}>{label}</span>
+      </div>
+      <div style={{ flex: 1, fontFamily: `${family}, sans-serif`, fontSize: `var(${sizeToken})`, lineHeight: 1.2, color: '#0c0f12', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        El veloz zorro marrón salta sobre el perro perezoso
+      </div>
+      <code style={{ fontSize: 11, color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3, flexShrink: 0 }}>{size}</code>
+    </div>
+  );
+};
+
+export const WeightRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 24, padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <code style={{ fontSize: 12, color: '#0f385a', width: 220, flexShrink: 0 }}>{token}</code>
+      <div style={{ fontFamily: 'Poppins, sans-serif', fontSize: 20, fontWeight: `var(${token})`, color: '#0c0f12' }}>
+        {label}
+      </div>
+      <code style={{ fontSize: 11, color: '#627380', marginLeft: 'auto' }}>{value}</code>
+    </div>
+  );
+};
+
+export const LineHeightRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 24, padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <div style={{ width: 220, flexShrink: 0 }}>
+        <code style={{ fontSize: 12, color: '#0f385a', display: 'block' }}>{token}</code>
+        <span style={{ fontSize: 11, color: '#627380' }}>{label}</span>
+      </div>
+      <div style={{ flex: 1, fontFamily: 'Open Sans, sans-serif', fontSize: 14, lineHeight: `var(${token})`, color: '#0c0f12', background: '#f0f8ff', padding: '8px 12px', borderRadius: 6 }}>
+        Primera línea de texto de ejemplo.<br />
+        Segunda línea para visualizar el espacio entre líneas.<br />
+        Tercera línea del texto de demostración.
+      </div>
+      <code style={{ fontSize: 11, color: '#627380', flexShrink: 0 }}>{value}</code>
+    </div>
+  );
+};
+
+// ─── COMPOUND TOKENS — GESTIÓN CENTRALIZADA ────────────────────────────────
+// Los estilos tipográficos combinan múltiples tokens simples (familia, tamaño,
+// peso, interlineado). Style Dictionary no puede exportar estas combinaciones
+// automáticamente. Los valores resueltos se mantienen en los arrays de datos
+// debajo (displayStyles, headingStyles, bodyStyles). Al actualizar Figma,
+// actualizar también esos arrays y el SCSS/CSS que los use.
+// ────────────────────────────────────────────────────────────────────────────
+
+export const TextStyleCard = ({ name, family, familyToken, size, sizeToken, weight, weightToken, lineHeight, lineHeightToken, letterSpacing = 0, sampleText = 'La luz plateada de las estrellas rompe la noche' }) => (
+  <div style={{ borderBottom: '1px solid #eef0f2', padding: '20px 0' }}>
+    <div style={{
+      fontFamily: `${family}, sans-serif`,
+      fontSize: size,
+      fontWeight: weight,
+      lineHeight: lineHeight,
+      letterSpacing: letterSpacing ? `${letterSpacing}em` : 0,
+      color: '#0c0f12',
+      marginBottom: 12,
+      overflow: 'hidden',
+      display: '-webkit-box',
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: 'vertical',
+    }}>
+      {sampleText}
+    </div>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
+      <strong style={{ fontSize: 12, color: '#0f385a', minWidth: 180, marginRight: 4 }}>{name}</strong>
+      {[
+        { label: 'Familia',     token: familyToken,     value: family },
+        { label: 'Tamaño',      token: sizeToken,       value: size },
+        { label: 'Peso',        token: weightToken,     value: String(weight) },
+        { label: 'Line-height', token: lineHeightToken, value: String(lineHeight) },
+        ...(letterSpacing > 0 ? [{ label: 'Tracking', token: `${letterSpacing}em`, value: '' }] : []),
+      ].map(({ label, token, value }) => (
+        <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 1, padding: '4px 8px', background: '#f5f7fa', borderRadius: 6 }}>
+          <span style={{ fontSize: 9, color: '#627380', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</span>
+          <code style={{ fontSize: 10, color: '#0f385a', whiteSpace: 'nowrap' }}>{token}</code>
+          {value && <span style={{ fontSize: 10, color: '#3b4651' }}>{value}</span>}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// ─── FUENTE DE VERDAD DE ESTILOS TIPOGRÁFICOS COMPUESTOS ───────────────────
+// Actualizar estos arrays cuando cambien los valores en Figma.
+// Cada entrada incluye: token CSS de referencia + valor resuelto literal.
+// ────────────────────────────────────────────────────────────────────────────
+
+export const displayStyles = [
+  { name: 'Display / XL',   familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-8xl', size: '5.25rem', weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-none',  lineHeight: 1 },
+  { name: 'Display / LG',   familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-7xl', size: '4.5rem',  weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Display / Base', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-6xl', size: '3.75rem', weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+];
+
+export const headingStyles = [
+  { name: 'Heading / H1', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-4xl', size: '2.5rem',  weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Heading / H2', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-3xl', size: '2rem',    weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Heading / H3', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-2xl', size: '1.75rem', weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Heading / H4', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-xl',  size: '1.5rem',  weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Heading / H5', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-lg',  size: '1.25rem', weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-tight', lineHeight: 1.2 },
+  { name: 'Heading / H6', familyToken: '--text-headings', family: 'Poppins', sizeToken: '--font-size-f-base', size: '1rem',   weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-base',  lineHeight: 1.5 },
+];
+
+export const bodyStyles = [
+  { name: 'Body / Large',      familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-xl',   size: '1.5rem',   weightToken: '--font-weight-w-regular',  weight: 400, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5 },
+  { name: 'Body / Large Bold', familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-xl',   size: '1.5rem',   weightToken: '--font-weight-w-bold',     weight: 700, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5, letterSpacing: 0.02 },
+  { name: 'Body / Base',       familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-base', size: '1rem',     weightToken: '--font-weight-w-regular',  weight: 400, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5 },
+  { name: 'Body / Base Bold',  familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-base', size: '1rem',     weightToken: '--font-weight-w-bold',     weight: 700, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5, letterSpacing: 0.02 },
+  { name: 'Body / Small',      familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-sm',   size: '0.875rem', weightToken: '--font-weight-w-semibold', weight: 600, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5 },
+  { name: 'Body / Small Bold', familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-sm',   size: '0.875rem', weightToken: '--font-weight-w-bold',     weight: 700, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5, letterSpacing: 0.02 },
+  { name: 'Body / Link',       familyToken: '--text-body', family: 'Open Sans', sizeToken: '--font-size-f-base', size: '1rem',     weightToken: '--font-weight-w-regular',  weight: 400, lineHeightToken: '--line-height-lh-base', lineHeight: 1.5, sampleText: 'Enlace en el texto' },
+];
+
+# Typography
+
+El sistema tipográfico del Poli Design System usa **Poppins** para títulos y componentes interactivos, y **Open Sans** para cuerpos de texto. Los valores se resuelven en tiempo de ejecución desde las CSS custom properties.
+
+---
+
+## Familias tipográficas
+
+<FontFamilyRow token="--text-headings" label="Títulos H1–H6, Display" />
+<FontFamilyRow token="--text-body" label="Cuerpo de texto, párrafos, contenido editorial" />
+<FontFamilyRow token="--text-component" label="Etiquetas de componentes interactivos (botones, tabs, badges)" />
+<FontFamilyRow token="--text-code" label="Bloques de código y snippets" />
+
+---
+
+## Display
+
+Estilos para textos de máximo impacto visual: heroes, portadas y landings. Poppins SemiBold con interlineado muy ajustado.
+
+> **Tokens compuestos** — Los estilos tipográficos combinan múltiples tokens. Úsalos siempre con sus tokens individuales, no con valores sueltos:
+> ```scss
+> h1 {
+>   font-family: var(--text-headings);
+>   font-size: var(--font-size-f-4xl);
+>   font-weight: var(--font-weight-w-semibold);
+>   line-height: var(--line-height-lh-tight);
+> }
+> ```
+
+{displayStyles.map(s => <TextStyleCard key={s.name} {...s} />)}
+
+---
+
+## Headings
+
+Jerarquía editorial H1–H6. Poppins SemiBold. Los tokens de tamaño corresponden a la escala `f-*`. El interlineado se ajusta según el nivel: **tight (1.2)** para H1–H5 y **base (1.5)** para H6.
+
+{headingStyles.map(s => <TextStyleCard key={s.name} {...s} />)}
+
+---
+
+## Body
+
+Estilos de cuerpo de texto. Open Sans. Tres tamaños × variante Regular / Bold. El tracking (letter-spacing) de `0.02em` aparece solo en las variantes Bold.
+
+{bodyStyles.map(s => <TextStyleCard key={s.name} {...s} />)}
+
+---
+
+## Escala tipográfica
+
+Tamaños de la escala fluid disponibles como CSS custom properties. Los specimens usan la fuente de títulos (`--text-headings`).
+
+<TypeScaleRow sizeToken="--font-size-f-xs" label="xs · 12px" />
+<TypeScaleRow sizeToken="--font-size-f-sm" label="sm · 14px" />
+<TypeScaleRow sizeToken="--font-size-f-base" label="base · 16px" />
+<TypeScaleRow sizeToken="--font-size-f-lg" label="lg · 20px" />
+<TypeScaleRow sizeToken="--font-size-f-xl" label="xl · 24px" />
+<TypeScaleRow sizeToken="--font-size-f-2xl" label="2xl · 28px" />
+<TypeScaleRow sizeToken="--font-size-f-3xl" label="3xl · 32px" />
+<TypeScaleRow sizeToken="--font-size-f-4xl" label="4xl · 40px" />
+<TypeScaleRow sizeToken="--font-size-f-5xl" label="5xl · 48px" />
+<TypeScaleRow sizeToken="--font-size-f-6xl" label="6xl · 60px" />
+<TypeScaleRow sizeToken="--font-size-f-7xl" label="7xl · 72px" />
+<TypeScaleRow sizeToken="--font-size-f-8xl" label="8xl · 84px" />
+<TypeScaleRow sizeToken="--font-size-f-9xl" label="9xl · 96px" />
+<TypeScaleRow sizeToken="--font-size-f-10xl" label="10xl · 112px" />
+
+---
+
+## Tamaños de componentes
+
+Tamaños tipográficos específicos para componentes del Design System.
+
+<TypeScaleRow sizeToken="--font-size-component-tag" label="Tag / Badge" />
+<TypeScaleRow sizeToken="--font-size-component-tab" label="Tab" />
+<TypeScaleRow sizeToken="--font-size-component-button-lg" label="Botón grande" />
+<TypeScaleRow sizeToken="--font-size-component-badge-lg" label="Badge grande" />
+<TypeScaleRow sizeToken="--font-size-component-notification-title" label="Título de notificación" />
+<TypeScaleRow sizeToken="--font-size-component-sidenav-title" label="Título del Sidenav" />
+<TypeScaleRow sizeToken="--font-size-component-sidenav-subtitle" label="Subtítulo del Sidenav" />
+<TypeScaleRow sizeToken="--font-size-component-cta" label="CTA (call to action)" />
+
+---
+
+## Pesos tipográficos
+
+<WeightRow token="--font-weight-w-light" label="Light — Uso decorativo en displays de gran tamaño" />
+<WeightRow token="--font-weight-w-regular" label="Regular — Cuerpo de texto editorial (Open Sans)" />
+<WeightRow token="--font-weight-w-medium" label="Medium — Énfasis moderado en texto de cuerpo" />
+<WeightRow token="--font-weight-w-semibold" label="Semibold — Etiquetas de componentes, labels de formulario" />
+<WeightRow token="--font-weight-w-bold" label="Bold — Títulos de sección, jerarquía secundaria" />
+<WeightRow token="--font-weight-w-black" label="Black — Títulos display de máximo énfasis" />
+
+---
+
+## Interlineado (line-height)
+
+<LineHeightRow token="--line-height-lh-none" label="None · 1 — Para texto de una sola línea (etiquetas, badges)" />
+<LineHeightRow token="--line-height-lh-tight" label="Tight · 1.2 — Títulos y displays" />
+<LineHeightRow token="--line-height-lh-base" label="Base · 1.5 — Texto de cuerpo estándar (recomendado para párrafos)" />
+<LineHeightRow token="--line-height-lh-loose" label="Loose · 2 — Texto con mucho espaciado (uso editorial)" />

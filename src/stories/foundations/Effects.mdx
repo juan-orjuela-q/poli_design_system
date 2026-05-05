@@ -1,0 +1,224 @@
+import { Meta } from '@storybook/blocks';
+import { useState, useEffect } from 'react';
+
+<Meta title="Poli Design System / 01. Foundation / Effects" />
+
+export function getVar(token) {
+  if (typeof document === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+}
+
+export const RadiusCard = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: 16 }}>
+      <div style={{
+        width: 64, height: 64,
+        background: '#e6effd',
+        border: '2px solid #0f385a',
+        borderRadius: `var(${token})`,
+      }} />
+      <code style={{ fontSize: 11, color: '#0f385a', textAlign: 'center' }}>{token}</code>
+      <div style={{ fontSize: 11, color: '#627380', textAlign: 'center' }}>{label}</div>
+      <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3 }}>{value}</span>
+    </div>
+  );
+};
+
+export const SpacingRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <code style={{ fontSize: 12, color: '#0f385a', width: 240, flexShrink: 0 }}>{token}</code>
+      <div style={{ width: `var(${token})`, minWidth: 2, height: 24, background: '#0f385a', borderRadius: 2, flexShrink: 0 }} />
+      <div style={{ fontSize: 11, color: '#627380', flex: 1 }}>{label}</div>
+      <code style={{ fontSize: 11, color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3, flexShrink: 0 }}>{value}</code>
+    </div>
+  );
+};
+
+export const BorderRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <code style={{ fontSize: 12, color: '#0f385a', width: 180, flexShrink: 0 }}>{token}</code>
+      <div style={{ width: 80, height: 0, borderTop: `var(${token}) solid #0f385a`, flexShrink: 0 }} />
+      <div style={{ fontSize: 11, color: '#627380', flex: 1 }}>{label}</div>
+      <code style={{ fontSize: 11, color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3 }}>{value}</code>
+    </div>
+  );
+};
+
+export const OpacityRow = ({ token, label }) => {
+  const [value, setValue] = useState('');
+  useEffect(() => { setValue(getVar(token)); }, [token]);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <code style={{ fontSize: 12, color: '#0f385a', width: 200, flexShrink: 0 }}>{token}</code>
+      <div style={{ position: 'relative', width: 64, height: 32, flexShrink: 0 }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'repeating-linear-gradient(45deg, #ccc 0px, #ccc 4px, #fff 4px, #fff 8px)', borderRadius: 4 }} />
+        <div style={{ position: 'absolute', inset: 0, background: '#0f385a', borderRadius: 4, opacity: `var(${token})` }} />
+      </div>
+      <div style={{ fontSize: 11, color: '#627380', flex: 1 }}>{label}</div>
+      <code style={{ fontSize: 11, color: '#3b4651', background: '#f5f5f5', padding: '1px 6px', borderRadius: 3 }}>{value}</code>
+    </div>
+  );
+};
+
+export const ShadowCard = ({ token, value, level, description }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '16px 0', borderBottom: '1px solid #f0f0f0' }}>
+    <div style={{ width: 80, height: 64, background: '#ffffff', borderRadius: 8, boxShadow: value, flexShrink: 0 }} />
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+        <strong style={{ fontSize: 13, color: '#0c0f12' }}>{level}</strong>
+        <code style={{ fontSize: 11, color: '#0f385a', background: '#eef4ff', padding: '1px 6px', borderRadius: 4 }}>{token}</code>
+      </div>
+      <div style={{ fontSize: 12, color: '#627380', marginBottom: 6 }}>{description}</div>
+      <code style={{ fontSize: 10, color: '#3b4651', background: '#f5f5f5', padding: '3px 8px', borderRadius: 4, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</code>
+    </div>
+  </div>
+);
+
+export const elevationShadows = [
+  { token: '--shadow-100', level: 'Shadow 100', value: '0 4px 4px -2px rgba(24,39,75,.08), 0 2px 4px -2px rgba(24,39,75,.12)',     description: 'Mínima. Cards en reposo, superficies planas.' },
+  { token: '--shadow-200', level: 'Shadow 200', value: '0 8px 8px -4px rgba(24,39,75,.08), 0 4px 6px -4px rgba(24,39,75,.12)',     description: 'Baja. Dropdowns, popovers pequeños.' },
+  { token: '--shadow-300', level: 'Shadow 300', value: '0 8px 16px -6px rgba(24,39,75,.08), 0 6px 8px -6px rgba(24,39,75,.12)',    description: 'Media-baja. Cards en hover, chips seleccionados.' },
+  { token: '--shadow-400', level: 'Shadow 400', value: '0 8px 24px -4px rgba(24,39,75,.08), 0 6px 12px -6px rgba(24,39,75,.12)',   description: 'Media. Menús desplegables, selects, date pickers.' },
+  { token: '--shadow-500', level: 'Shadow 500', value: '0 10px 32px -4px rgba(24,39,75,.10), 0 6px 14px -6px rgba(24,39,75,.12)', description: 'Media-alta. Panels flotantes, side sheets.' },
+  { token: '--shadow-600', level: 'Shadow 600', value: '0 12px 42px -4px rgba(24,39,75,.12), 0 8px 18px -6px rgba(24,39,75,.12)', description: 'Alta. Modales y dialogs secundarios.' },
+  { token: '--shadow-700', level: 'Shadow 700', value: '0 14px 64px -4px rgba(24,39,75,.12), 0 8px 22px -6px rgba(24,39,75,.12)', description: 'Muy alta. Modales principales, drawers.' },
+  { token: '--shadow-800', level: 'Shadow 800', value: '0 18px 88px -4px rgba(24,39,75,.14), 0 8px 28px -6px rgba(24,39,75,.12)', description: 'Máxima. Overlays de máxima jerarquía visual.' },
+];
+
+export const componentShadows = [
+  { token: '--shadow-component-hover',        level: 'Component / Hover',        value: '0 6px 14px -6px rgba(24,39,75,.12), 0 10px 32px -4px rgba(24,39,75,.10)',            description: 'Elevación en hover de botones, cards y elementos interactivos.' },
+  { token: '--shadow-component-pressed',      level: 'Component / Pressed',      value: '0 6px 14px -6px rgba(0,0,0,.12) inset, 0 10px 32px -4px rgba(0,0,0,.10) inset',     description: 'Sombra inset en estado pressed/active. Efecto táctil de presión.' },
+  { token: '--shadow-component-notification', level: 'Component / Notification', value: '0 10px 48px -4px rgba(24,39,75,.25), 0 0px 12px -4px rgba(24,39,75,.60)',            description: 'Alta prominencia para notificaciones, toasts y snackbars flotantes.' },
+];
+
+// ─── COMPOUND TOKENS — GESTIÓN CENTRALIZADA ────────────────────────────────
+// Los anillos de foco son valores compuestos (doble box-shadow).
+// Sus colores son tokens simples exportados por Style Dictionary, pero el
+// patrón CSS completo se documenta aquí. Al actualizar los colores en Figma,
+// actualizar también el array focusRings debajo.
+// ────────────────────────────────────────────────────────────────────────────
+
+export const FocusRingRow = ({ outerToken, outerColor, label }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 0', borderBottom: '1px solid #f0f0f0', flexWrap: 'wrap' }}>
+    <div style={{ width: 44, height: 44, borderRadius: 8, background: '#e6effd', flexShrink: 0, outline: 'none',
+      boxShadow: `0 0 0 2px #ffffff, 0 0 0 6px ${outerColor}` }} />
+    <div style={{ flex: 1, minWidth: 200 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+        <code style={{ fontSize: 11, color: '#0f385a', background: '#eef4ff', padding: '1px 6px', borderRadius: 4 }}>{outerToken}</code>
+        <span style={{ fontSize: 11, color: '#627380' }}>{label}</span>
+      </div>
+      <code style={{ fontSize: 10, color: '#3b4651', background: '#f5f5f5', padding: '2px 8px', borderRadius: 4, display: 'inline-block' }}>
+        {`box-shadow: 0 0 0 2px #ffffff, 0 0 0 6px ${outerColor};`}
+      </code>
+    </div>
+  </div>
+);
+
+export const focusRings = [
+  { outerToken: '--action-primary-focus-ring',        outerColor: '#007ba4', label: 'Primary y Secondary' },
+  { outerToken: '--action-neutral-focus-ring',        outerColor: '#627380', label: 'Neutral' },
+  { outerToken: '--action-status-error-focus-ring',   outerColor: '#e0006e', label: 'Estado Error' },
+  { outerToken: '--action-status-success-focus-ring', outerColor: '#6f921e', label: 'Estado Success' },
+  { outerToken: '--action-status-warning-focus-ring', outerColor: '#d96c06', label: 'Estado Warning' },
+  { outerToken: '--action-status-info-focus-ring',    outerColor: '#1492a6', label: 'Estado Info' },
+];
+
+# Effects
+
+Tokens de efectos visuales del Poli Design System: radios de esquinas, espaciado de componentes, grosores de borde, anillos de foco y opacidad.
+
+---
+
+## Border Radius
+
+Radios de esquinas disponibles en el sistema.
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 40 }}>
+  <RadiusCard token="--radius-component-2xs" label="Componente 2xs" />
+  <RadiusCard token="--radius-component-xs" label="Componente xs" />
+  <RadiusCard token="--radius-component-sm" label="Componente sm" />
+  <RadiusCard token="--radius-component-md" label="Componente md" />
+  <RadiusCard token="--radius-component-lg" label="Componente lg" />
+  <RadiusCard token="--radius-component-xl" label="Componente xl" />
+  <RadiusCard token="--radius-checkbox" label="Checkbox" />
+  <RadiusCard token="--radius-container-sm" label="Contenedor sm" />
+  <RadiusCard token="--radius-container-md" label="Contenedor md" />
+  <RadiusCard token="--radius-container-lg" label="Contenedor lg" />
+</div>
+
+> **`--radius-pill`**: Radio máximo (`99999px`) para la forma completamente redondeada. Usado en botones, tags, badges pill, toggles y avatares.
+
+---
+
+## Espaciado de componentes
+
+Escala de espaciado interno para componentes (padding, gap).
+
+<SpacingRow token="--spacing-component-xxs" label="Mínimo entre elementos internos" />
+<SpacingRow token="--spacing-component-xs" label="Extra pequeño" />
+<SpacingRow token="--spacing-component-sm" label="Pequeño" />
+<SpacingRow token="--spacing-component-md" label="Mediano" />
+<SpacingRow token="--spacing-component-lg" label="Estándar (padding de la mayoría de componentes)" />
+<SpacingRow token="--spacing-component-xl" label="Amplio" />
+<SpacingRow token="--spacing-component-2xl" label="Extra amplio" />
+<SpacingRow token="--spacing-component-3xl" label="Grande" />
+<SpacingRow token="--spacing-component-4xl" label="Máximo de componentes" />
+
+---
+
+## Grosor de borde
+
+<BorderRow token="--border-thin" label="Borde estándar. Inputs, tablas, cards, checkboxes, botones outline." />
+<BorderRow token="--border-thick" label="Borde de énfasis. Selección activa, hover destacado, estado current en Stepper." />
+<BorderRow token="--border-bold" label="Borde máximo. Indicadores de énfasis fuerte o separadores de alto peso visual." />
+
+---
+
+## Anillos de foco
+
+El DS v2 usa un patrón de **doble anillo**: anillo interior blanco fijo (`--action-focus-inner: #ffffff`) + anillo exterior de color según contexto.
+
+**Patrón de uso en SCSS:**
+```scss
+&:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--action-focus-inner),          // anillo interior blanco
+    0 0 0 6px var(--action-primary-focus-ring);   // anillo exterior — cambia según contexto
+}
+```
+
+> Los colores del anillo exterior son tokens simples exportados por Style Dictionary. El patrón `box-shadow` completo es el compuesto — su estructura no cambia, solo el color exterior.
+
+{focusRings.map(r => <FocusRingRow key={r.outerToken} {...r} />)}
+
+---
+
+## Opacidad
+
+<OpacityRow token="--opacity-overlay" label="Capa de overlay sobre contenido (modales, drawers). Cubre casi completamente." />
+<OpacityRow token="--opacity-scrim" label="Scrim o capa de oscurecimiento de fondo. Permite percibir el contenido detrás." />
+
+---
+
+## Sombras
+
+El sistema de sombras usa **doble capa** (soft + hard) sobre una base de color `#18274B` (azul oscuro). La escala va de 100 (mínima elevación) a 800 (máxima).
+
+> Los tokens de sombra son valores compuestos (múltiples `drop-shadow` combinados). Figma Style Dictionary no los exporta automáticamente como custom properties — se definen manualmente en `component.css` con los valores tomados directamente de Figma.
+
+### Escala de elevación
+
+{elevationShadows.map(s => <ShadowCard key={s.token} {...s} />)}
+
+### Sombras de componente
+
+{componentShadows.map(s => <ShadowCard key={s.token} {...s} />)}
