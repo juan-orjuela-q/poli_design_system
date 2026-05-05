@@ -1,8 +1,8 @@
-﻿import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular';
 import { PdsTagComponent } from './pds-tag.component';
 
 const meta: Meta<PdsTagComponent & { text: string }> = {
-  title: 'DS v2/Tag',
+  title: 'Poli Design System / 07. Content / Tags',
   component: PdsTagComponent,
   tags: ['autodocs'],
   argTypes: {

@@ -148,7 +148,7 @@ const STEP_CONTENT_5 = [
 // ── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<PdsStepperCompactComponent> = {
-  title: 'DS v2/Stepper Compact',
+  title: 'Poli Design System / 08. Navigation / Stepper Compact',
   component: PdsStepperCompactComponent,
   tags: ['autodocs'],
   decorators: [

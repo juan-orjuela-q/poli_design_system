@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PdsCheckboxComponent } from './pds-checkbox.component';
 
 const meta: Meta<PdsCheckboxComponent> = {
-  title: 'DS v2/Checkbox',
+  title: 'Poli Design System / 05. Forms / Form (Checkbox)',
   component: PdsCheckboxComponent,
   tags: ['autodocs'],
   argTypes: {

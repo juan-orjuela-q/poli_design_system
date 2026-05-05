@@ -5,7 +5,7 @@ import {
 } from './pds-breadcrumb.component';
 
 const meta: Meta<PdsBreadcrumbComponent> = {
-  title: 'DS v2/Breadcrumb',
+  title: 'Poli Design System / 08. Navigation / Breadcrumb',
   component: PdsBreadcrumbComponent,
   tags: ['autodocs'],
   parameters: {

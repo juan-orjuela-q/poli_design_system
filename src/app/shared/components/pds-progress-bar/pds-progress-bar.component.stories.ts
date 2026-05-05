@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsProgressBarComponent } from './pds-progress-bar.component';
 
 const meta: Meta<PdsProgressBarComponent> = {
-  title: 'DS v2/Progress Bar',
+  title: 'Poli Design System / 06. Feedback & Overlays / Progress Bar',
   component: PdsProgressBarComponent,
   tags: ['autodocs'],
   argTypes: {

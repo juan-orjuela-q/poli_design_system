@@ -22,7 +22,7 @@ const SHORT_CODE = `const greet = (name: string) =>
 console.log(greet('Politécnico'));`;
 
 const meta: Meta<PdsCodeBlockComponent> = {
-  title: 'DS v2/Code Block',
+  title: 'Poli Design System / 07. Content / Code Block',
   component: PdsCodeBlockComponent,
   tags: ['autodocs'],
   argTypes: {

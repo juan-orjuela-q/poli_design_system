@@ -6,7 +6,7 @@ const BODY_TEXT =
   'Hemos dejado el mundo atrás, flotando suavemente en la quietud de la noche. A medida que la luz carmesí de Marte se desvanece en la distancia, las estrellas brillan como ojos plateados contra el terciopelo negro del vacío.';
 
 const meta: Meta<PdsDialogComponent> = {
-  title: 'DS v2/Dialog',
+  title: 'Poli Design System / 06. Feedback & Overlays / Dialog',
   component: PdsDialogComponent,
   tags: ['autodocs'],
   parameters: {

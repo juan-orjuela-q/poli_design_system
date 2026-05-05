@@ -10,7 +10,7 @@ const OPTIONS: RadioOption[] = [
 ];
 
 const meta: Meta<PdsRadioGroupComponent> = {
-  title: 'DS v2/Radio Group',
+  title: 'Poli Design System / 05. Forms / Form (Radio Group)',
   component: PdsRadioGroupComponent,
   tags: ['autodocs'],
   argTypes: {

@@ -3,7 +3,7 @@ import { PdsAccordionComponent } from './pds-accordion.component';
 import { PdsAccordionGroupComponent } from './pds-accordion-group.component';
 
 const meta: Meta<PdsAccordionComponent> = {
-  title: 'DS v2/Accordion',
+  title: 'Poli Design System / 07. Content / Accordion',
   component: PdsAccordionComponent,
   tags: ['autodocs'],
   argTypes: {

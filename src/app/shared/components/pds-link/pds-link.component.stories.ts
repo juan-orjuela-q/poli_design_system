@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsLinkComponent } from './pds-link.component';
 
 const meta: Meta<PdsLinkComponent> = {
-  title: 'DS v2/Link',
+  title: 'Poli Design System / 04. Actions / Link',
   component: PdsLinkComponent,
   tags: ['autodocs'],
   argTypes: {

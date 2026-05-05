@@ -10,7 +10,7 @@ const OPTIONS: CheckboxOption[] = [
 ];
 
 const meta: Meta<PdsCheckboxGroupComponent> = {
-  title: 'DS v2/Checkbox Group',
+  title: 'Poli Design System / 05. Forms / Form (Checkbox Group)',
   component: PdsCheckboxGroupComponent,
   tags: ['autodocs'],
   argTypes: {

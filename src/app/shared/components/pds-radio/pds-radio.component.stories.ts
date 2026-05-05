@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsRadioComponent } from './pds-radio.component';
 
 const meta: Meta<PdsRadioComponent> = {
-  title: 'DS v2/Radio',
+  title: 'Poli Design System / 05. Forms / Form (Radio)',
   component: PdsRadioComponent,
   tags: ['autodocs'],
   argTypes: {

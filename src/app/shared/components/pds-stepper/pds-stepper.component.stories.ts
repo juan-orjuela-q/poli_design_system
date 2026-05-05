@@ -100,7 +100,7 @@ const DEMO_STYLES = `
 // ── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<PdsStepperComponent> = {
-  title: 'DS v2/Stepper',
+  title: 'Poli Design System / 08. Navigation / Stepper',
   component: PdsStepperComponent,
   tags: ['autodocs'],
   decorators: [applicationConfig({ providers: [provideAnimations()] })],

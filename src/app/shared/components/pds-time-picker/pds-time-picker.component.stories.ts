@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { PdsTimePickerComponent } from './pds-time-picker.component';
 
 const meta: Meta<PdsTimePickerComponent> = {
-  title: 'DS v2/TimePicker',
+  title: 'Poli Design System / 05. Forms / Time Picker',
   component: PdsTimePickerComponent,
   tags: ['autodocs'],
   decorators: [

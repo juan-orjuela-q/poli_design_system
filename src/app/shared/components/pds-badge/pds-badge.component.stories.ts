@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsBadgeComponent } from './pds-badge.component';
 
 const meta: Meta<PdsBadgeComponent & { label: string }> = {
-  title: 'DS v2/Badge',
+  title: 'Poli Design System / 07. Content / Badge',
   component: PdsBadgeComponent,
   tags: ['autodocs'],
   argTypes: {

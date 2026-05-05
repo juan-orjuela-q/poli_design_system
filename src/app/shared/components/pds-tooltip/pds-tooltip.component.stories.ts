@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsTooltipComponent } from './pds-tooltip.component';
 
 const meta: Meta<PdsTooltipComponent> = {
-  title: 'DS v2/Tooltip',
+  title: 'Poli Design System / 06. Feedback & Overlays / Tooltip',
   component: PdsTooltipComponent,
   tags: ['autodocs'],
   argTypes: {

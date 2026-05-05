@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { PdsStatCardComponent } from './pds-stat-card.component';
 
 const meta: Meta<PdsStatCardComponent> = {
-  title: 'DS v2/Stat Card',
+  title: 'Poli Design System / 07. Content / Cards',
   component: PdsStatCardComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [PdsStatCardComponent] })],

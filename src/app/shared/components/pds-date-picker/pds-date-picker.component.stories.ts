@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PdsDatePickerComponent } from './pds-date-picker.component';
 
 const meta: Meta<PdsDatePickerComponent> = {
-  title: 'DS v2/Date Picker',
+  title: 'Poli Design System / 05. Forms / Date Picker',
   component: PdsDatePickerComponent,
   tags: ['autodocs'],
   argTypes: {

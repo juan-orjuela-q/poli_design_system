@@ -5,7 +5,7 @@ import { PdsFileUploaderItemComponent } from './pds-file-uploader-item/pds-file-
 import type { PdsFileItem } from './pds-file-uploader.types';
 
 const meta: Meta<PdsFileUploaderComponent> = {
-  title: 'DS v2/File Uploader',
+  title: 'Poli Design System / 05. Forms / File Uploader',
   component: PdsFileUploaderComponent,
   tags: ['autodocs'],
   decorators: [

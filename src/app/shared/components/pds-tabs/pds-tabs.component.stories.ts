@@ -27,7 +27,7 @@ const TABS_ICON_ONLY_TEXT: TabItem[] = [
 ];
 
 const meta: Meta<PdsTabsComponent> = {
-  title: 'DS v2/Tabs',
+  title: 'Poli Design System / 08. Navigation / Tabs',
   component: PdsTabsComponent,
   tags: ['autodocs'],
   parameters: {

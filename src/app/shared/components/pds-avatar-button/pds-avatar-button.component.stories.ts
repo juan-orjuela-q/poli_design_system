@@ -2,7 +2,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { PdsAvatarButtonComponent } from './pds-avatar-button.component';
 
 const meta: Meta<PdsAvatarButtonComponent> = {
-  title: 'DS v2/Avatar Button',
+  title: 'Poli Design System / 04. Actions / Avatar Button',
   component: PdsAvatarButtonComponent,
   tags: ['autodocs'],
   decorators: [

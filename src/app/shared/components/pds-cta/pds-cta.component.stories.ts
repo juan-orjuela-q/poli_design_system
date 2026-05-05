@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsCtaComponent } from './pds-cta.component';
 
 const meta: Meta<PdsCtaComponent & { label: string }> = {
-  title: 'DS v2/CTA',
+  title: 'Poli Design System / 04. Actions / CTA',
   component: PdsCtaComponent,
   tags: ['autodocs'],
   argTypes: {

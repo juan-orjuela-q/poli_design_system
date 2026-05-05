@@ -32,7 +32,7 @@ Datos de uso y actividad dentro de la plataforma
 Información técnica (dirección IP, tipo de navegador, dispositivo)`;
 
 const meta: Meta<PdsModalComponent> = {
-  title: 'DS v2/Modal',
+  title: 'Poli Design System / 06. Feedback & Overlays / Modal',
   component: PdsModalComponent,
   tags: ['autodocs'],
   parameters: {

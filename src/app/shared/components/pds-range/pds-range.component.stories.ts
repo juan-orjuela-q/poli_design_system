@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { PdsRangeComponent } from './pds-range.component';
 
 const meta: Meta<PdsRangeComponent> = {
-  title: 'DS v2/Range',
+  title: 'Poli Design System / 05. Forms / Range',
   component: PdsRangeComponent,
   tags: ['autodocs'],
   decorators: [

@@ -11,7 +11,7 @@ const FACULTIES: SelectOption[] = [
 ];
 
 const meta: Meta<PdsSelectFieldComponent> = {
-  title: 'DS v2/Select Field',
+  title: 'Poli Design System / 05. Forms / Form (Select)',
   component: PdsSelectFieldComponent,
   tags: ['autodocs'],
   argTypes: {

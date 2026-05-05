@@ -8,7 +8,7 @@ import {
 } from './pds-notification.component';
 
 const meta: Meta<PdsNotificationComponent> = {
-  title: 'DS v2/Notification',
+  title: 'Poli Design System / 06. Feedback & Overlays / Notification',
   component: PdsNotificationComponent,
   tags: ['autodocs'],
   parameters: {

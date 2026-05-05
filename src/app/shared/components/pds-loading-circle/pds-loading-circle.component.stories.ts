@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsLoadingCircleComponent } from './pds-loading-circle.component';
 
 const meta: Meta<PdsLoadingCircleComponent> = {
-  title: 'DS v2/Loading Circle',
+  title: 'Poli Design System / 06. Feedback & Overlays / Loading Indicator',
   component: PdsLoadingCircleComponent,
   tags: ['autodocs'],
   argTypes: {

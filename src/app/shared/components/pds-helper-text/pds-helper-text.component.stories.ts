@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { PdsHelperTextComponent } from './pds-helper-text.component';
 
 const meta: Meta<PdsHelperTextComponent & { text: string }> = {
-  title: 'DS v2/Helper Text',
+  title: 'Poli Design System / 05. Forms / Form (Helper Text)',
   component: PdsHelperTextComponent,
   tags: ['autodocs'],
   argTypes: {

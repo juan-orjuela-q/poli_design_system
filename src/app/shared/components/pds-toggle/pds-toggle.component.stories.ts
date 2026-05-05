@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PdsToggleComponent } from './pds-toggle.component';
 
 const meta: Meta<PdsToggleComponent> = {
-  title: 'DS v2/Toggle',
+  title: 'Poli Design System / 05. Forms / Form (Toggle)',
   component: PdsToggleComponent,
   tags: ['autodocs'],
   argTypes: {

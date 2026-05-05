@@ -3,7 +3,7 @@ import { PdsTextareaFieldComponent } from './pds-textarea-field.component';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 const meta: Meta<PdsTextareaFieldComponent> = {
-  title: 'DS v2/Textarea Field',
+  title: 'Poli Design System / 05. Forms / Textarea',
   component: PdsTextareaFieldComponent,
   tags: ['autodocs'],
   argTypes: {

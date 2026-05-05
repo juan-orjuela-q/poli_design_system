@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PdsInputFieldComponent } from './pds-input-field.component';
 
 const meta: Meta<PdsInputFieldComponent> = {
-  title: 'DS v2/Input Field',
+  title: 'Poli Design System / 05. Forms / Form (Input Field)',
   component: PdsInputFieldComponent,
   tags: ['autodocs'],
   argTypes: {

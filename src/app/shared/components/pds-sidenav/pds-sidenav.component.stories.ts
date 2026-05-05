@@ -48,7 +48,7 @@ const ITEMS_CON_ACTIVO: SidenavItem[] = [
 // ── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<PdsSidenavComponent> = {
-  title: 'DS v2/Sidenav',
+  title: 'Poli Design System / 08. Navigation / Side Nav',
   component: PdsSidenavComponent,
   tags: ['autodocs'],
   decorators: [

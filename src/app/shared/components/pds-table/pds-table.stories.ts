@@ -236,7 +236,7 @@ class FiltroExternoStoryComponent {
 // ── Meta ────────────────────────────────────────────────────────────────
 
 const meta: Meta<PdsTableComponent> = {
-  title: 'DS v2/Table',
+  title: 'Poli Design System / 07. Content / Table',
   component: PdsTableComponent,
   tags: ['autodocs'],
   decorators: [
