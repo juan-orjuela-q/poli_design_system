@@ -18,6 +18,15 @@ import { PdsAccordionGroupService } from './pds-accordion-group.service';
   selector: 'pds-accordion-group',
   standalone: true,
   template: `<ng-content />`,
+  styles: [
+    `
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-component-sm, 8px);
+      }
+    `,
+  ],
   providers: [PdsAccordionGroupService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

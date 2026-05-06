@@ -61,12 +61,15 @@ $thumb-margin-top: -(($thumb-size - $track-height) * 0.5); // -6px: centers thum
     border-radius: var(--radius-component-sm, 6px);
     background: var(--action-primary-subtle-bg, #F0F8FF);
     font-family: var(--input-font-main, 'Open Sans');
-    font-size: var(--font-size-f-sm, 14px);
+    
+    font-size: var(--font-size-f-base, 16px);
     color: var(--fg-brand-primary, #0F385A);
-    font-weight: var(--font-weight-w-semibold, 600);
+    font-weight: var(--font-weight-w-regular, 400);
     text-align: center;
     outline: none;
     transition: box-shadow 150ms ease;
+
+    color: var(--action-primary-subtle-fg, #0F385A);
 
     // Hide browser spinners
     appearance: textfield;

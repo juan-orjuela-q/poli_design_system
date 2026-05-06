@@ -11,6 +11,11 @@
 @use './assets/poligran/layouts_poli.scss';
 @use "tailwindcss";
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 // DS v2 — tokens mobile (overrides sobre typescale-desktop.css y layout-desktop.css)
 @media (max-width: 768px) {
   :root {

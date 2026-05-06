@@ -64,7 +64,7 @@ const FILTERS: PdsTableFilter[] = [
 ];
 
 const meta: Meta<PdsTableComponent> = {
-  title: 'Poli Design System / 07. Data Display / Table',
+  title: 'Poli Design System / 07. Content / Table',
   component: PdsTableComponent,
   decorators: [moduleMetadata({ imports: [PdsTableComponent, PdsTableCellDirective] })],
   tags: ['autodocs'],

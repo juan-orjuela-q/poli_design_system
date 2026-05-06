@@ -117,7 +117,7 @@ export const AllStatuses: Story = {
       <div style="display:flex;flex-direction:column;gap:8px">
         <pds-helper-text status="default">Escribe al menos 8 caracteres</pds-helper-text>
         <pds-helper-text status="info">El campo es opcional pero recomendado</pds-helper-text>
-        <pds-helper-text status="error">El correo electrónico no es válido — ejemplo: nombre@dominio.com</pds-helper-text>
+        <pds-helper-text status="error">El correo electrónico no es válido — ejemplo: nombre&#64;dominio.com</pds-helper-text>
         <pds-helper-text status="warning">Este valor ya existe — considera usar uno diferente</pds-helper-text>
         <pds-helper-text status="success">¡Contraseña segura! Cumple todos los requisitos</pds-helper-text>
       </div>
@@ -152,11 +152,11 @@ lean el mensaje al enfocar el campo.
           aria-describedby="email-helper"
           aria-invalid="true"
           style="border:2px solid #EC0677;border-radius:10px;padding:8px 12px;font-size:16px;font-family:'Open Sans';outline:none"
-          value="usuario@"
+          value="usuario&#64;"
         />
         <div id="email-helper">
           <pds-helper-text status="error">
-            El correo no es válido — ejemplo: nombre@dominio.com
+            El correo no es válido — ejemplo: nombre&#64;dominio.com
           </pds-helper-text>
         </div>
       </div>

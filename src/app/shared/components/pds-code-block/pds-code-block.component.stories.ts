@@ -70,7 +70,7 @@ const SAMPLE_HTML = `<pds-date-picker
 />`;
 
 const meta: Meta<PdsCodeBlockComponent> = {
-  title: 'Poli Design System / 07. Data Display / Code Block',
+  title: 'Poli Design System / 07. Content / Code Block',
   component: PdsCodeBlockComponent,
   tags: ['autodocs'],
   argTypes: {

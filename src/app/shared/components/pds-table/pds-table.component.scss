@@ -99,7 +99,7 @@
 .pds-table-scroll {
   overflow-x: auto;
   border-radius: var(--radius-component-sm);
-  border: var(--border-thin) solid var(--border-brand-secondary-solid);
+  border: var(--border-thick, 2px) solid var(--border-brand-primary-subtle, #E6EFFD);
   background: var(--surface-neutral-canvas);
 }
 
@@ -128,7 +128,7 @@
     font-size: var(--font-size-f-sm);
     font-weight: var(--font-weight-w-semibold);
     color: var(--fg-brand-primary);
-    border-bottom: var(--border-thick) solid var(--border-brand-secondary-solid);
+    border-bottom: var(--border-thick) solid var(--border-brand-primary-subtle, #E6EFFD);
     border-right: var(--border-thin) solid var(--action-primary-subtle-bg-hover, #E6EFFD);
 
     &:last-child {

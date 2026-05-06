@@ -292,6 +292,8 @@ Estos tokens se usan con fallback y deben formalizarse en la próxima iteración
 | `--fg-status-success`        | `#6f921e`   | `pds-input-field` (color icono success)                                                                            |
 | `--fg-status-warning`        | `#d96c06`   | `pds-input-field` (color icono warning)                                                                            |
 | `--action-tag-remove-bg`     | `#002b49`   | `pds-tag` (base para `rgba()` del botón remove en variante primary; actualmente hardcodeado como `$remove-color`)  |
+| `accordionTitle`             | `20px`      | `pds-accordion` (puntaje/tamaño del título del acordeón en Figma; pendiente migrar a `rem`)                      |
+| `cardTitle`                  | `20px`      | `pds-card` (puntaje/tamaño del título de card en Figma; pendiente migrar a `rem`)                                 |
 
 ### Tokens ya disponibles (no pendientes)
 
