@@ -19,6 +19,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    viewMode: 'docs',
     docs: {
       autodocs: true,
     },

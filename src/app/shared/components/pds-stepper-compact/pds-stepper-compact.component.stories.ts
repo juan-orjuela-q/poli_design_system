@@ -1,172 +1,155 @@
 import { signal } from '@angular/core';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { componentWrapperDecorator } from '@storybook/angular';
+import { PdsStepperCompactComponent, CompactStep } from './pds-stepper-compact.component';
 
-import {
-  PdsStepperCompactComponent,
-  type CompactStep,
-} from './pds-stepper-compact.component';
-
-// ── Datos de ejemplo ─────────────────────────────────────────────────────────
-
-const STEPS_5: CompactStep[] = [
-  { id: 'cuenta', label: 'Crear cuenta' },
-  { id: 'verificar', label: 'Verificar información' },
-  { id: 'plan', label: 'Seleccionar plan' },
-  { id: 'pago', label: 'Configurar pago' },
-  { id: 'confirmar', label: 'Confirmar y activar' },
+const STEPS_ENROLLMENT: CompactStep[] = [
+  { id: 'personal', label: 'Datos personales' },
+  { id: 'academic', label: 'Información académica' },
+  { id: 'documents', label: 'Documentos adjuntos' },
+  { id: 'payment', label: 'Pago de matrícula' },
+  { id: 'confirm', label: 'Confirmación' },
 ];
 
-const STEPS_3: CompactStep[] = [
-  { id: 'datos', label: 'Datos personales' },
-  { id: 'documentos', label: 'Subir documentos' },
-  { id: 'revision', label: 'Revisión final' },
+const STEPS_SHORT: CompactStep[] = [
+  { id: 'form', label: 'Formulario' },
+  { id: 'review', label: 'Revisión' },
+  { id: 'submit', label: 'Envío' },
 ];
-
-const STEPS_7: CompactStep[] = [
-  { id: 'inicio', label: 'Inicio' },
-  { id: 'perfil', label: 'Perfil' },
-  { id: 'documentos', label: 'Documentos' },
-  { id: 'referencias', label: 'Referencias' },
-  { id: 'pago', label: 'Pago' },
-  { id: 'revision', label: 'Revisión' },
-  { id: 'confirmar', label: 'Confirmación' },
-];
-
-// ── Contenido por paso para flujo de 5 pasos ────────────────────────────────
-
-const COMPACT_DEMO_STYLES = `
-  <style>
-    .compact-demo {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-component-md, 12px);
-      font-family: var(--text-body, 'Open Sans', sans-serif);
-      color: var(--fg-neutral-primary, #0f385a);
-    }
-    .compact-demo__title {
-      margin: 0;
-      font-family: var(--text-headings, Poppins);
-      font-size: var(--font-size-f-lg, 18px);
-      font-weight: var(--font-weight-w-semibold, 600);
-      line-height: 1.2;
-      color: var(--fg-brand-primary, #0f385a);
-    }
-    .compact-demo__text {
-      margin: 0;
-      font-size: var(--font-size-f-sm, 0.875rem);
-      line-height: 1.5;
-      color: var(--fg-neutral-secondary, #4d5b69);
-    }
-    .compact-demo__list {
-      margin: 0;
-      padding-left: var(--spacing-component-lg, 16px);
-      display: grid;
-      gap: var(--spacing-component-xs, 6px);
-      font-size: var(--font-size-f-sm, 0.875rem);
-      color: var(--fg-neutral-secondary, #4d5b69);
-    }
-    .compact-demo__note {
-      margin: 0;
-      padding: var(--spacing-component-sm, 8px) var(--spacing-component-md, 12px);
-      border-left: var(--border-thick, 2px) solid var(--border-brand-primary-solid, #0f385a);
-      border-radius: var(--radius-component-2xs, 4px);
-      background: var(--surface-neutral-subtle, #e5e9ec);
-      color: var(--fg-brand-primary, #0f385a);
-      font-size: var(--font-size-f-sm, 0.875rem);
-    }
-  </style>
-`;
-
-const STEP_CONTENT_5 = [
-  // Paso 0 — Crear cuenta
-  `${COMPACT_DEMO_STYLES}
-  <div class="compact-demo">
-    <h4 class="compact-demo__title">Crear cuenta</h4>
-    <p class="compact-demo__text">Contenido demostrativo del paso inicial, sin simular componentes visuales de formulario.</p>
-    <ul class="compact-demo__list">
-      <li>Capturar datos mínimos de registro.</li>
-      <li>Validar formato de información.</li>
-      <li>Guardar progreso para continuar.</li>
-    </ul>
-    <p class="compact-demo__note">Este bloque es informativo para Storybook y evita UI no perteneciente al DS.</p>
-  </div>`,
-
-  // Paso 1 — Verificar información
-  `${COMPACT_DEMO_STYLES}
-  <div class="compact-demo">
-    <h4 class="compact-demo__title">Verificar información</h4>
-    <p class="compact-demo__text">Ejemplo de contenido de verificación para el flujo compact.</p>
-    <ul class="compact-demo__list">
-      <li>Confirmar correo o medio de contacto.</li>
-      <li>Mostrar estado de validación del paso.</li>
-      <li>Permitir reintento cuando aplique.</li>
-    </ul>
-    <p class="compact-demo__note">Para OTP o validaciones visuales, usar componentes DS reales del módulo correspondiente.</p>
-  </div>`,
-
-  // Paso 2 — Seleccionar plan
-  `${COMPACT_DEMO_STYLES}
-  <div class="compact-demo">
-    <h4 class="compact-demo__title">Seleccionar plan</h4>
-    <p class="compact-demo__text">Contenido de referencia del paso de selección.</p>
-    <ul class="compact-demo__list">
-      <li>Presentar opciones disponibles.</li>
-      <li>Resaltar la opción seleccionada.</li>
-      <li>Mostrar impacto en costo o beneficios.</li>
-    </ul>
-    <p class="compact-demo__note">La UI de selección debe componerse con controles DS en la implementación real.</p>
-  </div>`,
-
-  // Paso 3 — Configurar pago
-  `${COMPACT_DEMO_STYLES}
-  <div class="compact-demo">
-    <h4 class="compact-demo__title">Configurar pago</h4>
-    <p class="compact-demo__text">Bloque de guía para el paso de método de pago.</p>
-    <ul class="compact-demo__list">
-      <li>Elegir método disponible.</li>
-      <li>Validar datos requeridos por método.</li>
-      <li>Confirmar autorización antes de continuar.</li>
-    </ul>
-    <p class="compact-demo__note">No se incluyen controles mock para evitar confusión con componentes del sistema.</p>
-  </div>`,
-
-  // Paso 4 — Confirmar y activar
-  `${COMPACT_DEMO_STYLES}
-  <div class="compact-demo">
-    <h4 class="compact-demo__title">Confirmar y activar</h4>
-    <p class="compact-demo__text">Resumen funcional del cierre del flujo.</p>
-    <ul class="compact-demo__list">
-      <li>Revisar la información consolidada.</li>
-      <li>Confirmar aceptación de términos.</li>
-      <li>Completar activación de cuenta.</li>
-    </ul>
-    <p class="compact-demo__note">El resumen visual definitivo debe construirse con componentes DS del producto.</p>
-  </div>`,
-];
-
-// ── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<PdsStepperCompactComponent> = {
-  title: 'Poli Design System / 08. Navigation / Stepper Compact',
+  title: 'Poli Design System / 06. Navigation / Stepper Compact',
   component: PdsStepperCompactComponent,
-  tags: ['autodocs'],
   decorators: [
     componentWrapperDecorator(
       (story) =>
-        `<div style="max-width:480px;padding:24px;background:var(--surface-neutral-canvas,#fff);">${story}</div>`
+        `<div style="max-width:560px;background:var(--surface-canvas,#f5f7f9);padding:24px;border-radius:12px">${story}</div>`,
     ),
   ],
+  tags: ['autodocs'],
   argTypes: {
-    currentIndex: { control: { type: 'number', min: 0, max: 6, step: 1 } },
-    showFooter: { control: 'boolean' },
-    nextLabel: { control: 'text' },
-    prevLabel: { control: 'text' },
-    finishLabel: { control: 'text' },
+    currentIndex: {
+      control: { type: 'number', min: 0 },
+      description: 'Índice del paso activo (0-based). El padre actualiza este valor.',
+    },
+    showFooter: { control: 'boolean', description: 'Muestra el pie con botones de navegación' },
+    nextLabel: { control: 'text', description: 'Etiqueta del botón Siguiente' },
+    prevLabel: { control: 'text', description: 'Etiqueta del botón Anterior' },
+    finishLabel: { control: 'text', description: 'Etiqueta del botón Finalizar' },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Variante compacta del stepper para flujos secuenciales con espacio vertical reducido.
+Muestra marcadores de segmento (barra teal gruesa = activo, barra gris delgada = resto),
+un encabezado con el contador de pasos y el título del paso actual, y la línea "Siguiente paso: …".
+El pie de página opcional incluye los botones de navegación.
+
+**Usar sobre fondos Canvas, Subtle o Sunken** — el componente no tiene contraste suficiente sobre fondos Primary Solid.
+
+### Cuándo usarlo
+- En modales o paneles laterales donde el stepper completo no cabe.
+- Para flujos de más de 3 pasos en contextos de espacio reducido.
+- Como alternativa al stepper horizontal en vistas de formulario de página completa en móvil.
+
+### Cuándo NO usarlo
+- No usar sobre fondos de color primary solid — el contraste del texto es insuficiente.
+- Si el usuario necesita ver todos los pasos simultáneamente — usar \`pds-stepper\` horizontal.
+
+### API
+\`\`\`html
+<pds-stepper-compact
+  [steps]="steps"
+  [currentIndex]="currentIndex"
+  (next)="goNext()"
+  (prev)="goPrev()"
+>
+  <!-- Contenido del paso activo (ng-content) -->
+  <form [formGroup]="form">...</form>
+</pds-stepper-compact>
+\`\`\`
+
+| Input         | Tipo              | Default        | Descripción |
+|---------------|-------------------|----------------|-------------|
+| \`steps\`       | \`CompactStep[]\` (requerido) | — | Lista de pasos del flujo |
+| \`currentIndex\` | \`number\`       | \`0\`          | Índice del paso activo (0-based) |
+| \`showFooter\`  | \`boolean\`      | \`true\`       | Muestra botones de navegación |
+| \`nextLabel\`   | \`string\`       | \`'Siguiente'\` | Etiqueta botón siguiente |
+| \`prevLabel\`   | \`string\`       | \`'Anterior'\`  | Etiqueta botón anterior |
+| \`finishLabel\` | \`string\`       | \`'Finalizar'\` | Etiqueta botón finalizar |
+
+| Output  | Tipo   | Descripción |
+|---------|--------|-------------|
+| \`next\`  | \`void\` | Emite al hacer clic en Siguiente o Finalizar |
+| \`prev\`  | \`void\` | Emite al hacer clic en Anterior |
+
+**CompactStep:**
+\`\`\`ts
+interface CompactStep {
+  id: string;
+  label: string;
+}
+\`\`\`
+
+---
+
+### Accesibilidad — WCAG 2.2
+
+#### Criterios aplicables
+| Criterio | Nivel | Aplicación |
+|----------|-------|------------|
+| **1.4.1 Uso del color** | A | El paso activo se anuncia con \`aria-live="polite"\` — no solo con el color del marcador |
+| **1.4.3 Contraste mínimo** | AA | Contador y etiquetas ≥ 4.5:1 sobre fondos Canvas/Subtle/Sunken |
+| **1.4.11 Contraste no textual** | AA | Marcador activo (barra teal) ≥ 3:1 sobre el fondo |
+| **2.1.1 Teclado** | A | Botones Anterior/Siguiente/Finalizar son \`<button>\` nativos — Tab+Enter |
+| **2.4.7 Foco visible** | AA | Focus ring visible en los botones de navegación |
+| **4.1.3 Mensajes de estado** | A | El contador tiene \`aria-live="polite"\` — anuncia el cambio de paso automáticamente |
+
+#### Navegación por teclado
+| Tecla | Acción |
+|-------|--------|
+| **Tab** | Enfoca el botón Anterior (si existe) y el botón Siguiente/Finalizar |
+| **Enter / Space** | Activa el botón enfocado |
+| **Shift+Tab** | Navega hacia atrás |
+
+#### Atributos ARIA
+| Atributo | Dónde | Función |
+|----------|-------|---------|
+| \`aria-live="polite"\` | en el contador "Paso X de Y" | Anuncia el progreso al cambiar de paso |
+| \`id\` | en el contador | Referenciado para anuncios futuros |
+
+#### Anuncio en lectores de pantalla
+- Al cargar: *"Paso 1 de 5"* (live region al moverse)
+- Al avanzar: *"Paso 2 de 5"* se anuncia automáticamente sin enfocar el contador
+- El botón de avanzar anuncia: *"Siguiente, botón"* (o *"Finalizar, botón"* en el último paso)
+
+#### Auditoría v1 → v2
+| Hallazgo v1 (Cortés, feb 2026) | Criterio WCAG | Resolución en v2 |
+|--------------------------------|---------------|------------------|
+| Este componente es nuevo en v2 y fue diseñado desde el inicio conforme a WCAG 2.2 AA | — | — |
+
+### Buenas prácticas
+✅ Usa siempre sobre fondos Canvas, Subtle o Sunken — verifica el contraste en fondos personalizados.
+✅ Proyecta el contenido del paso activo via \`ng-content\` — el stepper solo gestiona la navegación.
+✅ Actualiza \`currentIndex\` en el padre al recibir los outputs \`next\` y \`prev\`.
+❌ No uses sobre fondos primary solid — el contraste del texto es insuficiente.
+        `.trim(),
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<PdsStepperCompactComponent>;
+
+// ── Sandbox ───────────────────────────────────────────────────────────────────
+
+export const Default: Story = {
+  name: 'Default — Sandbox',
   args: {
-    steps: STEPS_5,
-    currentIndex: 0,
+    steps: STEPS_ENROLLMENT,
+    currentIndex: 1,
     showFooter: true,
     nextLabel: 'Siguiente',
     prevLabel: 'Anterior',
@@ -174,136 +157,91 @@ const meta: Meta<PdsStepperCompactComponent> = {
   },
 };
 
-export default meta;
-type Story = StoryObj<PdsStepperCompactComponent>;
+// ── Primer paso ───────────────────────────────────────────────────────────────
 
-// ── Stories ──────────────────────────────────────────────────────────────────
-
-/** Paso 1 de 5 — estado inicial con botón "Siguiente". No muestra "Anterior". */
-export const Paso1De5: Story = {
-  name: 'Paso 1 de 5',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[0]}
-      </pds-stepper-compact>
-    `,
-  }),
+export const FirstStep: Story = {
+  name: 'Primer paso (sin botón Anterior)',
   args: {
-    steps: STEPS_5,
+    steps: STEPS_ENROLLMENT,
     currentIndex: 0,
+    showFooter: true,
   },
 };
 
-/** Paso intermedio — muestra ambos botones de navegación. */
-export const PasoIntermedio: Story = {
-  name: 'Paso 3 de 5 (intermedio)',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[2]}
-      </pds-stepper-compact>
-    `,
-  }),
-  args: {
-    steps: STEPS_5,
-    currentIndex: 2,
-  },
-};
+// ── Último paso ───────────────────────────────────────────────────────────────
 
-/** Último paso — botón "Finalizar" con ícono check. */
-export const UltimoPaso: Story = {
-  name: 'Último paso (Finalizar)',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[4]}
-      </pds-stepper-compact>
-    `,
-  }),
+export const LastStep: Story = {
+  name: 'Último paso (botón Finalizar)',
   args: {
-    steps: STEPS_5,
+    steps: STEPS_ENROLLMENT,
     currentIndex: 4,
+    showFooter: true,
   },
 };
 
-/** Flujo de 3 pasos — versión mínima. */
-export const Flujo3Pasos: Story = {
-  name: '3 pasos',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[1]}
-      </pds-stepper-compact>
-    `,
-  }),
-  args: {
-    steps: STEPS_3,
-    currentIndex: 1,
-  },
-};
+// ── Sin footer ────────────────────────────────────────────────────────────────
 
-/** Flujo de 7 pasos — muchos marcadores, todos flex:1. */
-export const Flujo7Pasos: Story = {
-  name: '7 pasos',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[2]}
-      </pds-stepper-compact>
-    `,
-  }),
-  args: {
-    steps: STEPS_7,
-    currentIndex: 3,
+export const WithoutFooter: Story = {
+  name: 'Sin pie de navegación',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Cuando \`showFooter=false\`, el padre gestiona los botones de navegación externamente.',
+      },
+    },
   },
-};
-
-/** Sin pie de navegación — solo el encabezado con marcadores. */
-export const SinFooter: Story = {
-  name: 'Sin footer de navegación',
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[1]}
-      </pds-stepper-compact>
-    `,
-  }),
   args: {
-    steps: STEPS_5,
+    steps: STEPS_SHORT,
     currentIndex: 1,
     showFooter: false,
   },
 };
 
-/**
- * Sobre superficie Subtle — contraste recomendado ≥ 7:1 (MAX).
- * Usar sobre canvas, subtle y sunken.
- */
-export const SobreSuperficieSubtle: Story = {
-  name: 'Sobre superficie Subtle',
-  decorators: [
-    componentWrapperDecorator(
-      (story) =>
-        `<div style="max-width:480px;padding:24px;background:var(--surface-neutral-subtle,#e5e9ec);">${story}</div>`
-    ),
-  ],
-  render: (args) => ({
-    props: args,
+// ── Navegación interactiva ────────────────────────────────────────────────────
+
+export const Interactive: Story = {
+  name: 'Interactivo — navega entre pasos',
+  render: () => ({
+    props: {
+      currentIndex: signal(0),
+      steps: STEPS_ENROLLMENT,
+      goNext() { this['currentIndex'].update((i: number) => Math.min(i + 1, STEPS_ENROLLMENT.length - 1)); },
+      goPrev() { this['currentIndex'].update((i: number) => Math.max(i - 1, 0)); },
+    },
     template: `
-      <pds-stepper-compact [steps]="steps" [currentIndex]="currentIndex" [showFooter]="showFooter">
-        ${STEP_CONTENT_5[1]}
+      <pds-stepper-compact
+        [steps]="steps"
+        [currentIndex]="currentIndex()"
+        (next)="goNext()"
+        (prev)="goPrev()"
+      >
+        <div style="padding:16px 0;font-family:Poppins;font-size:14px;color:#374151">
+          Contenido del paso {{ currentIndex() + 1 }}: {{ steps[currentIndex()].label }}
+        </div>
       </pds-stepper-compact>
     `,
   }),
+};
+
+// ── Accesibilidad ─────────────────────────────────────────────────────────────
+
+export const A11yAriaLive: Story = {
+  name: 'A11y — aria-live en contador (Tab + Enter)',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+El contador *"Paso X de Y"* tiene \`aria-live="polite"\` — NVDA/VoiceOver lo anuncian al cambiar.
+
+Usa **Tab** para enfocar el botón **Siguiente** y presiona **Enter** para avanzar.
+El lector de pantalla anuncia el nuevo paso sin que el usuario necesite enfocar el contador.
+        `,
+      },
+    },
+  },
   args: {
-    steps: STEPS_5,
-    currentIndex: 1,
+    steps: STEPS_ENROLLMENT,
+    currentIndex: 0,
+    showFooter: true,
   },
 };
