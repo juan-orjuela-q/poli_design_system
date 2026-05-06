@@ -3,85 +3,135 @@ import {
   PdsNotificationComponent,
   NotificationStatus,
   NotificationType,
-  NotificationPosition,
   NotificationAction,
 } from './pds-notification.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 const meta: Meta<PdsNotificationComponent> = {
   title: 'Poli Design System / 06. Feedback & Overlays / Notification',
   component: PdsNotificationComponent,
+  decorators: [applicationConfig({ providers: [provideAnimations()] })],
   tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: `
-**pds-notification** muestra retroalimentación del sistema.
-
-- **inline** — integrado en el flujo del contenido.
-- **snackbar** — flotante inferior centrado, auto-dismiss por defecto.
-- **toast** — flotante superior derecha, auto-dismiss por defecto.
-
-El componente usa \`role="alert"\` para errores y advertencias urgentes,
-y \`role="status"\` para el resto.
-
-**Nuevas características:**
-- **actions** — Array de botones modales (ej: Cancelar, Confirmar).
-- **timerDuration** — Timer visual en ms que se agota en la parte inferior.
-- **timerProgress** — Barra con colores de contraste según el status.
-        `,
-      },
-    },
-  },
   argTypes: {
     type: {
       control: 'select',
-      options: ['inline', 'snackbar', 'toast'] satisfies NotificationType[],
+      options: ['inline', 'snackbar', 'toast'],
       description: 'Tipo de presentación',
     },
     status: {
       control: 'select',
-      options: [
-        'default',
-        'success',
-        'warning',
-        'error',
-        'info',
-      ] satisfies NotificationStatus[],
-      description: 'Estado semántico',
+      options: ['default', 'success', 'warning', 'error', 'info'],
+      description: 'Estado semántico — controla colores e ícono',
     },
-    position: {
-      control: 'select',
-      options: [
-        'top-left',
-        'top-center',
-        'top-right',
-        'bottom-left',
-        'bottom-center',
-        'bottom-right',
-      ] satisfies NotificationPosition[],
-      description:
-        'Posición del elemento flotante (solo snackbar y toast). Por defecto: bottom-center para snackbar, top-right para toast.',
-    },
-    title: {
-      control: 'text',
-      description: 'Título de la notificación (opcional)',
-    },
-    dismissible: {
-      control: 'boolean',
-      description: 'Muestra el botón de cerrar',
-    },
-    autoDismiss: {
-      control: 'number',
-      description: 'ms para auto-cerrar (null = desactivado)',
-    },
-    actions: {
-      control: 'object',
-      description: 'Array de acciones/botones modales',
-    },
-    timerDuration: {
-      control: 'number',
-      description: 'Duración del timer visual en ms (null = desactivado)',
+    title: { control: 'text', description: 'Título opcional de la notificación' },
+    dismissible: { control: 'boolean', description: 'Muestra el botón de cierre manual' },
+    timerDuration: { control: 'number', description: 'Duración del timer visual en ms (0 = sin timer)' },
+    autoDismiss: { control: 'number', description: 'Auto-cierre en ms (null = desactivado)' },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Componente de notificación del DS v2. Disponible en tres tipos de presentación
+(**inline**, **snackbar**, **toast**) y cinco estados semánticos.
+Incluye auto-dismiss configurable, timer visual y botones de acción opcionales.
+
+### Cuándo usarlo
+- \`inline\`: mensajes de feedback integrados en el flujo del contenido (resultado de validación, estado de proceso).
+- \`snackbar\`: confirmaciones temporales flotantes en la parte inferior (ej. "Cambios guardados").
+- \`toast\`: alertas emergentes en la esquina superior derecha (ej. nueva notificación recibida).
+
+### Cuándo NO usarlo
+- No usar para solicitar confirmación antes de una acción irreversible — usar \`pds-dialog\`.
+- No usar snackbar/toast para errores que requieren acción del usuario — usar inline con \`status="error"\`.
+
+### API
+\`\`\`html
+<pds-notification
+  type="inline"
+  status="success"
+  title="Cambios guardados"
+  [dismissible]="true"
+  [actions]="[{ id: 'undo', label: 'Deshacer', variant: 'outline' }]"
+  (dismissed)="onDismissed()"
+  (action)="onAction($event)"
+>
+  Tu perfil ha sido actualizado correctamente.
+</pds-notification>
+\`\`\`
+
+| Input           | Tipo                                                        | Default          | Descripción |
+|-----------------|-------------------------------------------------------------|------------------|-------------|
+| \`type\`         | \`'inline'\\|'snackbar'\\|'toast'\`                        | \`'inline'\`     | Tipo de presentación |
+| \`status\`       | \`'default'\\|'success'\\|'warning'\\|'error'\\|'info'\`   | \`'default'\`    | Estado semántico |
+| \`title\`        | \`string \\| null\`                                        | \`null\`         | Título de la notificación |
+| \`dismissible\`  | \`boolean\`                                                | \`true\`         | Muestra el botón de cierre |
+| \`actions\`      | \`NotificationAction[]\`                                   | \`[]\`           | Botones de acción modales |
+| \`position\`     | \`NotificationPosition \\| null\`                          | \`null\`         | Posición flotante (snackbar/toast) |
+| \`timerDuration\` | \`number \\| null\`                                       | \`30000\`        | Duración del timer visual (ms) |
+| \`autoDismiss\`  | \`number \\| null\`                                        | \`5000\`         | Auto-cierre (ms); \`null\` = desactivado |
+
+| Output      | Tipo     | Descripción |
+|-------------|----------|-------------|
+| \`dismissed\` | \`void\` | Emitido al cerrar (manual o automático) |
+| \`action\`    | \`string\` | ID de la acción pulsada |
+
+---
+
+### Accesibilidad — WCAG 2.2
+
+#### Criterios aplicables
+| Criterio | Nivel | Aplicación |
+|----------|-------|------------|
+| **1.3.3 Características sensoriales** | A | El estado no depende solo del color — el ícono y el título lo refuerzan |
+| **1.4.1 Uso del color** | A | Cada status tiene ícono único (check_circle, warning, error, feedback) |
+| **1.4.3 Contraste mínimo** | AA | Texto de la notificación ≥ 4.5:1 sobre el fondo del componente |
+| **2.1.1 Teclado** | A | El botón de cierre y los botones de acción son operables con Tab/Enter/Space |
+| **2.4.7 Foco visible** | AA | Anillo de foco doble en botón de cierre e íconos de acción |
+| **4.1.2 Nombre, rol, valor** | A | El botón de cierre tiene \`aria-label="Cerrar notificación"\` |
+| **4.1.3 Mensajes de estado** | AA | \`role="alert"\` para error/warning (assertive); \`role="status"\` para el resto (polite) |
+
+#### ARIA dinámico según status
+| Status | Role ARIA | Comportamiento en lectores de pantalla |
+|--------|-----------|----------------------------------------|
+| \`error\` | \`role="alert"\` | Anuncio inmediato (assertive) — interrumpe la lectura actual |
+| \`warning\` | \`role="alert"\` | Anuncio inmediato (assertive) |
+| \`default\`, \`success\`, \`info\` | \`role="status"\` | Anuncio educado (polite) — espera a que el usuario termine |
+
+#### Navegación por teclado
+| Tecla | Acción |
+|-------|--------|
+| **Tab** | Navega entre botón de cierre y botones de acción |
+| **Enter / Space** | Activa el botón enfocado |
+| **Escape** | No aplica directamente — el cierre es via el botón de cierre |
+
+#### Atributos ARIA
+| Atributo | Valor | Cuándo |
+|----------|-------|--------|
+| \`role="alert"\` | automático | Status \`error\` o \`warning\` |
+| \`role="status"\` | automático | Status \`default\`, \`success\` o \`info\` |
+| \`aria-label="Cerrar notificación"\` | en el botón ✕ | Siempre que \`dismissible=true\` |
+| \`aria-hidden="true"\` | en el ícono de estado | El ícono es decorativo — el texto comunica el mensaje |
+
+#### Anuncio en lectores de pantalla
+- Error: *"Alerta: [título] — [mensaje]"* (inmediato)
+- Success: *"[título] — [mensaje]"* (polite)
+- Con acciones: los botones son anunciados al recibir foco: *"[label], botón"*
+
+#### Auditoría v1 → v2
+| Hallazgo v1 (Cortés, feb 2026) | Criterio WCAG | Resolución en v2 |
+|--------------------------------|---------------|------------------|
+| Alertas sin roles semánticos — no anunciadas por lectores de pantalla | 4.1.3 | \`role="alert"\` para error/warning; \`role="status"\` para el resto |
+| Estado comunicado solo por color | 1.4.1 | Íconos únicos por estado + título texto |
+
+### Buenas prácticas
+✅ Usa \`status="error"\` con \`role="alert"\` (automático) solo para errores que requieren atención inmediata.
+✅ Provee siempre un \`title\` descriptivo — es lo primero que leen los lectores de pantalla.
+✅ Para \`autoDismiss\`, usa al menos 5000ms — da tiempo suficiente para leer el mensaje.
+❌ No uses snackbar/toast para información crítica — el usuario puede no verlos si está usando un lector de pantalla.
+❌ No dependas solo del color (rojo/verde) para comunicar el estado — el ícono y el título son obligatorios.
+        `.trim(),
+      },
     },
   },
 };
@@ -89,13 +139,16 @@ y \`role="status"\` para el resto.
 export default meta;
 type Story = StoryObj<PdsNotificationComponent>;
 
-// ── Default ────────────────────────────────────────────────
+// ── Sandbox ───────────────────────────────────────────────────────────────────
+
 export const Default: Story = {
+  name: 'Default — Sandbox',
   args: {
     type: 'inline',
     status: 'default',
-    title: 'Información del sistema',
+    title: 'Título de la notificación',
     dismissible: true,
+    timerDuration: null,
     autoDismiss: null,
   },
   render: (args) => ({
@@ -106,498 +159,192 @@ export const Default: Story = {
         [status]="status"
         [title]="title"
         [dismissible]="dismissible"
+        [timerDuration]="timerDuration"
         [autoDismiss]="autoDismiss"
       >
-        Tu solicitud ha sido recibida y está siendo procesada.
+        Este es el mensaje de la notificación. Puede incluir instrucciones o información de estado.
       </pds-notification>
     `,
   }),
 };
 
-// ── Success ─────────────────────────────────────────────────
-export const Success: Story = {
-  args: {
-    type: 'inline',
-    status: 'success',
-    title: 'Operación exitosa',
-    dismissible: true,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        Los cambios han sido guardados correctamente.
-      </pds-notification>
-    `,
-  }),
-};
+// ── Todos los estados ─────────────────────────────────────────────────────────
 
-// ── Warning ─────────────────────────────────────────────────
-export const Warning: Story = {
-  args: {
-    type: 'inline',
-    status: 'warning',
-    title: 'Atención requerida',
-    dismissible: true,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        Tu sesión expirará en 5 minutos. Guarda tu progreso.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Error ───────────────────────────────────────────────────
-export const Error: Story = {
-  args: {
-    type: 'inline',
-    status: 'error',
-    title: 'Error en la operación',
-    dismissible: true,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        No fue posible completar la solicitud. Inténtalo de nuevo más tarde.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Info ────────────────────────────────────────────────────
-export const Info: Story = {
-  args: {
-    type: 'inline',
-    status: 'info',
-    title: 'Nuevo aviso',
-    dismissible: true,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        El sistema estará en mantenimiento el próximo domingo de 2:00 a 4:00 a.m.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Sin título ──────────────────────────────────────────────
-export const SinTitulo: Story = {
-  name: 'Sin título',
-  args: {
-    type: 'inline',
-    status: 'info',
-    title: null,
-    dismissible: true,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        Recuerda completar tu perfil para acceder a todos los servicios.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Sin botón cerrar ────────────────────────────────────────
-export const NoDismissible: Story = {
-  name: 'No dismissible',
-  args: {
-    type: 'inline',
-    status: 'warning',
-    title: 'Mantenimiento programado',
-    dismissible: false,
-    autoDismiss: null,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-      >
-        El portal estará fuera de servicio el lunes de 1:00 a 3:00 a.m.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Todos los estados ────────────────────────────────────────
-export const TodosLosEstados: Story = {
+export const AllStatuses: Story = {
   name: 'Todos los estados',
   parameters: {
-    controls: { disable: true },
+    docs: {
+      description: {
+        story: 'Los 5 estados semánticos disponibles. Cada uno tiene un ícono único — no dependen solo del color (WCAG 1.4.1).',
+      },
+    },
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
-        <pds-notification status="default" title="Default" [autoDismiss]="null">
-          Estado por defecto con color de marca primaria.
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:600px">
+        <pds-notification status="default" title="Información" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Notificación de estado por defecto con información general.
         </pds-notification>
-        <pds-notification status="success" title="Éxito" [autoDismiss]="null">
-          La operación se completó correctamente.
+        <pds-notification status="success" title="Cambios guardados" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Tu perfil ha sido actualizado correctamente.
         </pds-notification>
-        <pds-notification status="warning" title="Advertencia" [autoDismiss]="null">
-          Revisa la información antes de continuar.
+        <pds-notification status="warning" title="Atención" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Este proceso puede tardar varios minutos en completarse.
         </pds-notification>
-        <pds-notification status="error" title="Error" [autoDismiss]="null">
-          No fue posible completar la solicitud.
+        <pds-notification status="error" title="Error al guardar" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          No se pudo guardar el documento. Revisa tu conexión e inténtalo de nuevo.
         </pds-notification>
-        <pds-notification status="info" title="Información" [autoDismiss]="null">
-          Hay actualizaciones disponibles para tu perfil.
+        <pds-notification status="info" title="Nuevo mensaje" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Tienes 3 mensajes sin leer en tu bandeja de entrada.
         </pds-notification>
       </div>
     `,
   }),
 };
 
-// ── Tipos (inline / snackbar / toast) ───────────────────────
-export const TipoSnackbar: Story = {
-  name: 'Tipo: Snackbar',
+// ── Tipos ─────────────────────────────────────────────────────────────────────
+
+export const AllTypes: Story = {
+  name: 'Inline vs Snackbar vs Toast',
   parameters: {
+    layout: 'padded',
     docs: {
       description: {
-        story:
-          'Flotante con posición configurable. Por defecto `bottom-center`. Usa el control `position` para cambiarla.',
+        story: `
+- **Inline**: integrado en el flujo del contenido — para feedback de formularios y procesos.
+- **Snackbar**: flotante inferior centrado — para confirmaciones temporales de acciones.
+- **Toast**: flotante esquina superior derecha — para notificaciones asíncronas entrantes.
+        `,
       },
     },
   },
-  args: {
-    type: 'snackbar',
-    status: 'success',
-    title: 'Cambios guardados',
-    dismissible: true,
-    autoDismiss: null,
-    position: 'bottom-center',
-    actions: [
-      { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-      { id: 'confirm', label: 'Confirmar', variant: 'primary' },
-    ] satisfies NotificationAction[],
-  },
-  render: (args) => ({
-    props: args,
+  render: () => ({
     template: `
-      <div style="position: relative; min-height: 300px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-        <p style="color: var(--fg-neutral-secondary)">Área de contenido de la página</p>
+      <div style="position:relative;height:300px;background:#f5f5f5;padding:16px;border-radius:8px">
+        <p style="font-family:Poppins;font-size:12px;color:#687C8E;margin:0 0 8px">Inline (en flujo):</p>
+        <pds-notification type="inline" status="success" title="Guardado" [dismissible]="true" [autoDismiss]="null" [timerDuration]="null">
+          Los cambios se guardaron correctamente.
+        </pds-notification>
+        <pds-notification type="snackbar" status="default" [dismissible]="true" [autoDismiss]="null" [timerDuration]="null">
+          Elemento eliminado — <strong>Deshacer</strong>
+        </pds-notification>
+        <pds-notification type="toast" status="info" title="Nuevo mensaje" [dismissible]="true" [autoDismiss]="null" [timerDuration]="null">
+          María Rodríguez te ha enviado un mensaje.
+        </pds-notification>
+      </div>
+    `,
+  }),
+};
+
+// ── Con acciones ──────────────────────────────────────────────────────────────
+
+export const WithActions: Story = {
+  name: 'Con botones de acción',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Los botones de acción (\`actions\`) son operables con Tab/Enter/Space y reciben foco visible.',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      confirmActions: [
+        { id: 'cancel', label: 'Cancelar', variant: 'outline' },
+        { id: 'delete', label: 'Eliminar', variant: 'destructive' },
+      ] as NotificationAction[],
+      undoActions: [
+        { id: 'undo', label: 'Deshacer', variant: 'ghost' },
+      ] as NotificationAction[],
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:600px">
         <pds-notification
-          [type]="type"
-          [status]="status"
-          [title]="title"
-          [dismissible]="dismissible"
-          [autoDismiss]="autoDismiss"
-          [position]="position"
-          [actions]="actions"
+          status="error"
+          title="¿Eliminar este elemento?"
+          [dismissible]="false"
+          [actions]="confirmActions"
+          [autoDismiss]="null"
+          [timerDuration]="null"
         >
-          Los cambios han sido guardados correctamente.
+          Esta acción no puede deshacerse. El elemento se eliminará permanentemente.
         </pds-notification>
-      </div>
-    `,
-  }),
-};
-
-export const TipoToast: Story = {
-  name: 'Tipo: Toast',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Flotante con posición configurable. Por defecto `top-right`. Usa el control `position` para cambiarla.',
-      },
-    },
-  },
-  args: {
-    type: 'toast',
-    status: 'info',
-    title: 'Nuevo mensaje',
-    dismissible: true,
-    autoDismiss: null,
-    position: 'top-right',
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <div style="position: relative; min-height: 300px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-        <p style="color: var(--fg-neutral-secondary)">Área de contenido de la página</p>
         <pds-notification
-          [type]="type"
-          [status]="status"
-          [title]="title"
-          [dismissible]="dismissible"
-          [autoDismiss]="autoDismiss"
-          [position]="position"
+          status="success"
+          title="Mensaje enviado"
+          [dismissible]="true"
+          [actions]="undoActions"
+          [autoDismiss]="null"
+          [timerDuration]="null"
         >
-          Tienes un nuevo mensaje en tu bandeja.
+          Tu mensaje fue enviado a 12 destinatarios.
         </pds-notification>
       </div>
     `,
   }),
 };
 
-export const PosicionesDisponibles: Story = {
-  name: 'Posiciones disponibles',
+// ── Con timer ─────────────────────────────────────────────────────────────────
+
+export const WithTimer: Story = {
+  name: 'Con timer visual',
   parameters: {
-    controls: { disable: true },
     docs: {
       description: {
-        story:
-          'Muestra las 6 posiciones disponibles para snackbar y toast. Cada notificación se renderiza en un contenedor independiente con `position: relative` para evitar sobreposición.',
+        story: 'El timer visual indica cuánto tiempo queda antes del auto-cierre. Usa colores con contraste suficiente para cada estado.',
       },
     },
   },
   render: () => ({
     template: `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-left</p>
-          <pds-notification type="snackbar" status="default" title="Top Left" position="top-left" [autoDismiss]="null">
-            Posición superior izquierda.
-          </pds-notification>
-        </div>
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-center</p>
-          <pds-notification type="snackbar" status="success" title="Top Center" position="top-center" [autoDismiss]="null">
-            Posición superior centrada.
-          </pds-notification>
-        </div>
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">top-right</p>
-          <pds-notification type="toast" status="info" position="top-right" [autoDismiss]="null">
-            Posición superior derecha.
-          </pds-notification>
-        </div>
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-left</p>
-          <pds-notification type="toast" status="warning" position="bottom-left" [autoDismiss]="null">
-            Posición inferior izquierda.
-          </pds-notification>
-        </div>
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-center</p>
-          <pds-notification type="snackbar" status="error" title="Bottom Center" position="bottom-center" [autoDismiss]="null">
-            Posición inferior centrada.
-          </pds-notification>
-        </div>
-        <div style="position: relative; min-height: 280px; background: var(--surface-neutral-weak, #f1f3f5); border-radius: 8px; padding: 16px; transform: translateZ(0);">
-          <p style="color: var(--fg-neutral-secondary); font-size: 12px;">bottom-right</p>
-          <pds-notification type="toast" status="success" position="bottom-right" [autoDismiss]="null">
-            Posición inferior derecha.
-          </pds-notification>
-        </div>
-      </div>
-    `,
-  }),
-};
-
-// ── Con Acciones (botones modales) ──────────────────────────
-export const ConAcciones: Story = {
-  name: 'Con Acciones',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Notificación con botones de acción (Cancel, Confirm). Emite evento `action` con el ID de la acción seleccionada.',
-      },
-    },
-  },
-  args: {
-    type: 'inline',
-    status: 'default',
-    title: 'Snackbar title',
-    dismissible: true,
-    autoDismiss: null,
-    actions: [
-      { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-      { id: 'confirm', label: 'Confirmar', variant: 'primary' },
-    ] satisfies NotificationAction[],
-    timerDuration: 30000,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-        [actions]="actions"
-        [timerDuration]="timerDuration"
-        (action)="alert('Acción seleccionada: ' + $event)"
-      >
-        We have left the world behind floating gently.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Con Timer ───────────────────────────────────────────────
-export const ConTimer: Story = {
-  name: 'Con Timer (30s)',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Notificación con timer visual en la parte inferior. La barra se agota en 30 segundos con colores de contraste según el status.',
-      },
-    },
-  },
-  args: {
-    type: 'inline',
-    status: 'success',
-    title: 'Operación completada',
-    dismissible: true,
-    autoDismiss: null,
-    timerDuration: 30000,
-  },
-  render: (args) => ({
-    props: args,
-    template: `
-      <pds-notification
-        [type]="type"
-        [status]="status"
-        [title]="title"
-        [dismissible]="dismissible"
-        [autoDismiss]="autoDismiss"
-        [timerDuration]="timerDuration"
-      >
-        Los cambios han sido guardados correctamente. Esta notificación desaparecerá en 30 segundos.
-      </pds-notification>
-    `,
-  }),
-};
-
-// ── Todos los estados con Timer ─────────────────────────────
-export const TodosLosEstadosConTimer: Story = {
-  name: 'Todos los estados con Timer',
-  parameters: {
-    controls: { disable: true },
-    docs: {
-      description: {
-        story: 'Cada estado muestra su propio color de contraste en el timer.',
-      },
-    },
-  },
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
-        <pds-notification status="default" title="Default" [autoDismiss]="null" [timerDuration]="30000">
-          La barra crece de izquierda a derecha: marca primaria.
-        </pds-notification>
-        <pds-notification status="success" title="Éxito" [autoDismiss]="null" [timerDuration]="30000">
-          La barra crece de izquierda a derecha: verde éxito.
-        </pds-notification>
-        <pds-notification status="warning" title="Advertencia" [autoDismiss]="null" [timerDuration]="30000">
-          La barra crece de izquierda a derecha: naranja advertencia.
-        </pds-notification>
-        <pds-notification status="error" title="Error" [autoDismiss]="null" [timerDuration]="30000">
-          La barra crece de izquierda a derecha: error.
-        </pds-notification>
-        <pds-notification status="info" title="Información" [autoDismiss]="null" [timerDuration]="30000">
-          La barra crece de izquierda a derecha: azul información.
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:600px">
+        <pds-notification
+          status="info"
+          title="Sesión a punto de expirar"
+          [dismissible]="true"
+          [timerDuration]="10000"
+          [autoDismiss]="null"
+        >
+          Tu sesión expirará en 10 segundos. Haz clic en continuar para seguir activo.
         </pds-notification>
       </div>
     `,
   }),
 };
 
-// ── Todos los estados con acciones ─────────────────────────────
-export const TodosLosEstadosConAcciones: Story = {
-  name: 'Todos los estados con acciones',
+// ── Accesibilidad ─────────────────────────────────────────────────────────────
+
+export const A11yRoleAlert: Story = {
+  name: 'A11y — role="alert" vs role="status"',
   parameters: {
-    controls: { disable: true },
     docs: {
       description: {
-        story:
-          'Cada estado muestra sus propios botones de acción (ejemplo: Cancelar, Confirmar) y emite el evento `action`.',
+        story: `
+**WCAG 4.1.3 — Mensajes de estado**: el componente selecciona automáticamente el rol ARIA correcto:
+- **\`role="alert"\`** (assertive): para \`error\` y \`warning\` — interrumpe al lector de pantalla inmediatamente.
+- **\`role="status"\`** (polite): para \`default\`, \`success\`, \`info\` — espera a que el usuario termine de leer.
+
+Abre el inspector de accesibilidad del navegador para verificar el rol de cada elemento.
+        `,
       },
     },
   },
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; min-height: 200px;">
-        <pds-notification status="default" title="Default" [autoDismiss]="null"
-          [actions]="[
-            { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-            { id: 'confirm', label: 'Confirmar', variant: 'primary' }
-          ]"
-          (action)="alert('Acción: ' + $event)">
-          Estado por defecto con acciones.
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:600px">
+        <p style="font-family:Poppins;font-size:12px;color:#687C8E;margin:0">role="alert" (assertive):</p>
+        <pds-notification status="error" title="Error crítico" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          No se pudo completar la operación.
         </pds-notification>
-        <pds-notification status="success" title="Éxito" [autoDismiss]="null"
-          [actions]="[
-            { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-            { id: 'confirm', label: 'Confirmar', variant: 'primary' }
-          ]"
-          (action)="alert('Acción: ' + $event)">
-          Operación exitosa con acciones.
+        <pds-notification status="warning" title="Advertencia" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Esta acción puede tener consecuencias no deseadas.
         </pds-notification>
-        <pds-notification status="warning" title="Advertencia" [autoDismiss]="null"
-          [actions]="[
-            { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-            { id: 'confirm', label: 'Confirmar', variant: 'primary' }
-          ]"
-          (action)="alert('Acción: ' + $event)">
-          Advertencia con acciones.
+        <p style="font-family:Poppins;font-size:12px;color:#687C8E;margin:8px 0 0">role="status" (polite):</p>
+        <pds-notification status="success" title="Completado" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          La operación finalizó correctamente.
         </pds-notification>
-        <pds-notification status="error" title="Error" [autoDismiss]="null"
-          [actions]="[
-            { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-            { id: 'confirm', label: 'Confirmar', variant: 'primary' }
-          ]"
-          (action)="alert('Acción: ' + $event)">
-          Error con acciones.
-        </pds-notification>
-        <pds-notification status="info" title="Información" [autoDismiss]="null"
-          [actions]="[
-            { id: 'cancel', label: 'Cancelar', variant: 'outline' },
-            { id: 'confirm', label: 'Confirmar', variant: 'primary' }
-          ]"
-          (action)="alert('Acción: ' + $event)">
-          Información con acciones.
+        <pds-notification status="info" title="Información" [dismissible]="false" [autoDismiss]="null" [timerDuration]="null">
+          Hay actualizaciones disponibles para tu cuenta.
         </pds-notification>
       </div>
     `,

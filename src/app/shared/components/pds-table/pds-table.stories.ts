@@ -6,631 +6,329 @@ import {
   PdsTableCellDirective,
   PDS_TABLE_ACTIONS,
   type PdsTableColumn,
-  type PdsTableAction,
   type PdsTableFilter,
-  type PdsTableSortState,
-  type PdsTableActionEvent,
 } from './pds-table.component';
-import { PdsBadgeComponent } from '../pds-badge/pds-badge.component';
 
-// ── Datos de muestra ────────────────────────────────────────────────────
+// ── Datos de ejemplo ──────────────────────────────────────────────────────────
 
-interface Estudiante {
-  id: number;
-  nombre: string;
-  programa: string;
-  semestre: number;
-  estado: 'activo' | 'inactivo' | 'suspendido';
-  promedio: number;
-  inscripcion: string;
-  documento: string;
-  documentoUrl: string;
-  nota: string;
-  notaEstado: 'default' | 'error' | 'warning' | 'success';
+interface Student {
+  id: string;
+  name: string;
+  program: string;
+  semester: number;
+  status: string;
+  enrollmentDate: string;
+  average: string;
+  [key: string]: unknown;
 }
 
-const ESTUDIANTES: Estudiante[] = [
-  { id: 1, nombre: 'Ana García',          programa: 'Ingeniería de Sistemas',       semestre: 6,  estado: 'activo',    promedio: 4.2, inscripcion: '2022-03-15', documento: 'Acta grado.pdf',       documentoUrl: '#',   nota: 'Aprobado',   notaEstado: 'success' },
-  { id: 2, nombre: 'Carlos Pérez',        programa: 'Administración de Empresas',   semestre: 4,  estado: 'activo',    promedio: 3.8, inscripcion: '2023-01-20', documento: 'Recibo pago.pdf',      documentoUrl: '#',   nota: 'Aprobado',   notaEstado: 'success' },
-  { id: 3, nombre: 'Laura Martínez',      programa: 'Psicología',                   semestre: 8,  estado: 'inactivo',  promedio: 3.5, inscripcion: '2021-07-10', documento: 'Solicitud retiro.pdf', documentoUrl: '#',   nota: 'Pendiente',  notaEstado: 'warning' },
-  { id: 4, nombre: 'Miguel Torres',       programa: 'Derecho',                      semestre: 2,  estado: 'activo',    promedio: 4.5, inscripcion: '2024-01-15', documento: 'Matrícula.pdf',        documentoUrl: '#',   nota: 'Aprobado',   notaEstado: 'success' },
-  { id: 5, nombre: 'Sofía López',         programa: 'Medicina',                     semestre: 10, estado: 'suspendido', promedio: 2.9, inscripcion: '2020-07-05', documento: 'Carta sanción.pdf',   documentoUrl: '#',   nota: 'Bloqueado',  notaEstado: 'error'   },
-  { id: 6, nombre: 'Andrés Rodríguez',    programa: 'Ingeniería Industrial',        semestre: 5,  estado: 'activo',    promedio: 4.0, inscripcion: '2022-07-18', documento: 'Recibo pago.pdf',      documentoUrl: '#',   nota: 'Aprobado',   notaEstado: 'success' },
-  { id: 7, nombre: 'Valentina Jiménez',   programa: 'Contaduría Pública',           semestre: 7,  estado: 'activo',    promedio: 3.6, inscripcion: '2021-03-22', documento: 'Certificado.pdf',      documentoUrl: '#',   nota: 'Aprobado',   notaEstado: 'success' },
-  { id: 8, nombre: 'Diego Morales',       programa: 'Arquitectura',                 semestre: 3,  estado: 'inactivo',  promedio: 3.1, inscripcion: '2023-07-12', documento: 'Solicitud.pdf',        documentoUrl: '#',   nota: 'En revisión', notaEstado: 'warning' },
+const STUDENTS: Student[] = [
+  { id: 'S001', name: 'Ana García López', program: 'Ingeniería de Sistemas', semester: 4, status: 'Activo', enrollmentDate: '2023-02-01', average: '4.2' },
+  { id: 'S002', name: 'Carlos Martínez', program: 'Administración', semester: 2, status: 'Activo', enrollmentDate: '2024-02-01', average: '3.8' },
+  { id: 'S003', name: 'María Rodríguez', program: 'Psicología', semester: 6, status: 'Graduado', enrollmentDate: '2021-08-01', average: '4.7' },
+  { id: 'S004', name: 'Juan Pérez Gómez', program: 'Derecho', semester: 1, status: 'Inactivo', enrollmentDate: '2024-08-01', average: '3.5' },
+  { id: 'S005', name: 'Laura Sánchez', program: 'Comunicación Social', semester: 3, status: 'Activo', enrollmentDate: '2023-08-01', average: '4.0' },
+  { id: 'S006', name: 'Pedro Morales', program: 'Ingeniería de Sistemas', semester: 5, status: 'Activo', enrollmentDate: '2022-02-01', average: '3.9' },
+  { id: 'S007', name: 'Diana Torres', program: 'Psicología', semester: 2, status: 'Activo', enrollmentDate: '2024-02-01', average: '4.1' },
 ];
 
-const COLUMNAS: PdsTableColumn[] = [
-  { key: 'id', label: 'ID', width: '60px', align: 'center' },
-  { key: 'nombre', label: 'Nombre', sortable: true },
-  { key: 'programa', label: 'Programa', sortable: true },
-  { key: 'semestre', label: 'Semestre', width: '100px', align: 'center', sortable: true },
-  { key: 'promedio', label: 'Promedio', width: '100px', align: 'center', sortable: true },
-];
-
-const COLUMNAS_CON_ESTADO: PdsTableColumn[] = [
-  ...COLUMNAS,
-  { key: 'estado', label: 'Estado', width: '120px', align: 'center' },
-];
-
-const ACCIONES: PdsTableAction[] = [
-  PDS_TABLE_ACTIONS.view,
-  PDS_TABLE_ACTIONS.edit,
-  PDS_TABLE_ACTIONS.delete,
-];
-
-// ── Wrapper components para stories interactivas ───────────────────────
-// Los signals en `props` no participan del grafo reactivo de Angular dentro del
-// wrapper de Storybook. La solución es crear @Components reales con OnPush + computed().
-
-@Component({
-  selector: 'story-ordenamiento',
-  standalone: true,
-  imports: [PdsTableComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <pds-table
-      [columns]="columns"
-      [data]="$any(sortedData())"
-      [sortKey]="sortKey()"
-      [sortDirection]="sortDirection()"
-      (sortChange)="onSortChange($event)"
-    />
-  `,
-})
-class OrdenamientoStoryComponent {
-  readonly columns = COLUMNAS;
-  private readonly sortState = signal<PdsTableSortState | null>(null);
-  readonly sortedData = computed(() => {
-    const state = this.sortState();
-    if (!state) return ESTUDIANTES;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return [...ESTUDIANTES].sort((a, b) => {
-      const av = (a as any)[state.key];
-      const bv = (b as any)[state.key];
-      const cmp = av < bv ? -1 : av > bv ? 1 : 0;
-      return state.direction === 'asc' ? cmp : -cmp;
-    });
-  });
-  readonly sortKey = computed(() => this.sortState()?.key ?? null);
-  readonly sortDirection = computed(() => this.sortState()?.direction ?? null);
-  onSortChange(state: PdsTableSortState | null): void { this.sortState.set(state); }
-}
-
-@Component({
-  selector: 'story-paginacion',
-  standalone: true,
-  imports: [PdsTableComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <pds-table
-      [columns]="columns"
-      [data]="$any(pagedData())"
-      [showPaginator]="true"
-      [totalItems]="totalItems"
-      [currentPage]="currentPage()"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5, 10]"
-      (pageChange)="onPageChange($event)"
-    />
-  `,
-})
-class PaginacionStoryComponent {
-  readonly columns = COLUMNAS;
-  readonly totalItems = ESTUDIANTES.length;
-  readonly pageSize = 5;
-  readonly currentPage = signal(1);
-  readonly pagedData = computed(() => {
-    const start = (this.currentPage() - 1) * this.pageSize;
-    return ESTUDIANTES.slice(start, start + this.pageSize);
-  });
-  onPageChange(page: number): void { this.currentPage.set(page); }
-}
-
-@Component({
-  selector: 'story-completo',
-  standalone: true,
-  imports: [PdsTableComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <pds-table
-      [columns]="columns"
-      [data]="$any(sortedData())"
-      [actions]="actions"
-      [showSelection]="true"
-      [showPaginator]="true"
-      [totalItems]="totalItems"
-      [currentPage]="currentPage()"
-      [pageSize]="pageSize"
-      [sortKey]="sortKey()"
-      [sortDirection]="sortDirection()"
-      (sortChange)="onSortChange($event)"
-      (pageChange)="onPageChange($event)"
-    />
-  `,
-})
-class CompletoStoryComponent {
-  readonly columns = COLUMNAS;
-  readonly actions = ACCIONES;
-  readonly totalItems = ESTUDIANTES.length;
-  readonly pageSize = 5;
-  private readonly sortState = signal<PdsTableSortState | null>(null);
-  readonly currentPage = signal(1);
-  readonly sortedData = computed(() => {
-    const state = this.sortState();
-    const sorted = state
-      ? [...ESTUDIANTES].sort((a, b) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const av = (a as any)[state.key];
-          const bv = (b as any)[state.key];
-          const cmp = av < bv ? -1 : av > bv ? 1 : 0;
-          return state.direction === 'asc' ? cmp : -cmp;
-        })
-      : ESTUDIANTES;
-    const start = (this.currentPage() - 1) * this.pageSize;
-    return sorted.slice(start, start + this.pageSize);
-  });
-  readonly sortKey = computed(() => this.sortState()?.key ?? null);
-  readonly sortDirection = computed(() => this.sortState()?.direction ?? null);
-  onSortChange(state: PdsTableSortState | null): void {
-    this.sortState.set(state);
-    this.currentPage.set(1);
-  }
-  onPageChange(page: number): void { this.currentPage.set(page); }
-}
-
-@Component({
-  selector: 'story-filtro-externo',
-  standalone: true,
-  imports: [PdsTableComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <pds-table
-      [columns]="columns"
-      [data]="$any(filteredData())"
-      [filters]="filters"
-      filterMode="external"
-      [showPaginator]="true"
-      [totalItems]="filteredData().length"
-      [currentPage]="currentPage()"
-      [pageSize]="5"
-      [pageSizeOptions]="[5, 10]"
-      (filterChange)="onFilterChange($event)"
-      (pageChange)="onPageChange($event)"
-    />
-  `,
-})
-class FiltroExternoStoryComponent {
-  readonly columns = COLUMNAS_CON_ESTADO;
-  readonly filters: PdsTableFilter[] = [
-    { key: '__search__', label: 'Buscar', placeholder: 'Nombre o programa…', type: 'search' },
-    {
-      key: 'estado', label: 'Estado', placeholder: 'Todos', type: 'select',
-      options: [
-        { value: 'activo', label: 'Activo' },
-        { value: 'inactivo', label: 'Inactivo' },
-        { value: 'suspendido', label: 'Suspendido' },
-      ],
+const COLUMNS_BASIC: PdsTableColumn[] = [
+  { key: 'name', label: 'Nombre', sortable: true },
+  { key: 'program', label: 'Programa', sortable: true },
+  { key: 'semester', label: 'Semestre', align: 'center' },
+  { key: 'enrollmentDate', label: 'Fecha de ingreso', type: 'date' },
+  {
+    key: 'status',
+    label: 'Estado',
+    type: 'badge',
+    badgeVariantMap: {
+      Activo: 'success',
+      Inactivo: 'neutral',
+      Graduado: 'brand',
     },
-  ];
-  private readonly searchTerm = signal('');
-  private readonly estadoFilter = signal('');
-  readonly currentPage = signal(1);
-  readonly filteredData = computed(() => {
-    const term = this.searchTerm().toLowerCase().trim();
-    const estado = this.estadoFilter().toLowerCase().trim();
-    return ESTUDIANTES.filter(e => {
-      const matchTerm = !term || e.nombre.toLowerCase().includes(term) || e.programa.toLowerCase().includes(term);
-      const matchEstado = !estado || e.estado === estado;
-      return matchTerm && matchEstado;
-    });
-  });
-  onFilterChange(values: Record<string, string>): void {
-    this.searchTerm.set(values['__search__'] ?? '');
-    this.estadoFilter.set(values['estado'] ?? '');
-    this.currentPage.set(1);
-  }
-  onPageChange(page: number): void { this.currentPage.set(page); }
-}
+  },
+];
 
-// ── Meta ────────────────────────────────────────────────────────────────
+const FILTERS: PdsTableFilter[] = [
+  { key: 'search', label: 'Buscar estudiante', placeholder: 'Nombre o programa...', type: 'search', searchKeys: ['name', 'program'] },
+  {
+    key: 'status',
+    label: 'Estado',
+    type: 'select',
+    options: [
+      { value: 'Activo', label: 'Activo' },
+      { value: 'Inactivo', label: 'Inactivo' },
+      { value: 'Graduado', label: 'Graduado' },
+    ],
+  },
+];
 
 const meta: Meta<PdsTableComponent> = {
-  title: 'Poli Design System / 07. Content / Table',
+  title: 'Poli Design System / 07. Data Display / Table',
   component: PdsTableComponent,
+  decorators: [moduleMetadata({ imports: [PdsTableComponent, PdsTableCellDirective] })],
   tags: ['autodocs'],
-  decorators: [
-    moduleMetadata({
-      imports: [PdsTableComponent, PdsTableCellDirective, PdsBadgeComponent],
-    }),
-  ],
   argTypes: {
-    showSelection: { control: 'boolean' },
-    showPaginator: { control: 'boolean' },
-    totalItems: { control: 'number' },
-    currentPage: { control: 'number' },
-    pageSize: { control: 'select', options: [5, 10, 20, 50] },
+    showSelection: { control: 'boolean', description: 'Habilita la selección de filas con checkboxes' },
+    showPaginator: { control: 'boolean', description: 'Muestra el paginador debajo de la tabla' },
+    showAddButton: { control: 'boolean', description: 'Muestra botón Agregar en la barra de herramientas' },
+    filterMode: {
+      control: 'select',
+      options: ['internal', 'external'],
+      description: 'Modo de filtrado: interno (el componente filtra) o externo (el padre filtra)',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Tabla de datos del DS v2. Soporta ordenamiento, filtros (búsqueda y select), selección de filas, paginación, acciones por fila y tipos de celda especializados (badge, fecha, enlace, con-helper).
+Compatible con modo de filtrado externo para datos del servidor y plantillas de celda personalizadas vía directiva \`pdsTableCell\`.
+
+### Cuándo usarlo
+- Para mostrar listados de registros con múltiples atributos (estudiantes, materias, pagos).
+- Cuando el usuario necesita ordenar, filtrar o paginar los registros.
+- Para tablas de administración con acciones por fila (ver, editar, eliminar).
+
+### Cuándo NO usarlo
+- No usar para comparar pocas opciones — una lista \`<ul>\` o cards pueden ser más claros.
+- No usar para datos que cambian en tiempo real — considera un dashboard con widgets.
+
+### API
+\`\`\`html
+<pds-table
+  [columns]="columns"
+  [data]="students"
+  [filters]="filters"
+  [showSelection]="true"
+  [actions]="[PDS_TABLE_ACTIONS.view, PDS_TABLE_ACTIONS.edit]"
+  [showPaginator]="true"
+  [totalItems]="total"
+  (sortChange)="onSort($event)"
+  (actionClick)="onAction($event)"
+  (pageChange)="onPageChange($event)"
+/>
+\`\`\`
+
+| Input             | Tipo                    | Default        | Descripción |
+|-------------------|-------------------------|----------------|-------------|
+| \`columns\`         | \`PdsTableColumn[]\` (requerido) | — | Definición de columnas |
+| \`data\`            | \`T[]\`                | \`[]\`         | Datos a mostrar |
+| \`filters\`         | \`PdsTableFilter[]\`   | \`[]\`         | Configuración de filtros |
+| \`filterMode\`      | \`'internal'\\|'external'\` | \`'internal'\` | Quién filtra los datos |
+| \`showSelection\`   | \`boolean\`            | \`false\`      | Checkboxes de selección |
+| \`actions\`         | \`PdsTableAction[]\`   | \`[]\`         | Botones por fila |
+| \`sortKey\`         | \`string \\| null\`    | \`null\`       | Columna ordenada actualmente |
+| \`sortDirection\`   | \`'asc'\\|'desc'\\|null\` | \`null\`    | Dirección del ordenamiento |
+| \`showPaginator\`   | \`boolean\`            | \`false\`      | Muestra paginador |
+| \`totalItems\`      | \`number\`             | \`0\`          | Total de registros (para paginador) |
+| \`currentPage\`     | \`number\`             | \`1\`          | Página actual |
+| \`pageSize\`        | \`number\`             | \`20\`         | Registros por página |
+| \`showAddButton\`   | \`boolean\`            | \`false\`      | Botón Agregar en toolbar |
+| \`addButtonLabel\`  | \`string\`             | \`'Agregar'\`  | Etiqueta del botón |
+
+---
+
+### Accesibilidad — WCAG 2.2
+
+#### Criterios aplicables
+| Criterio | Nivel | Aplicación |
+|----------|-------|------------|
+| **1.3.1 Info y relaciones** | A | \`<table>\` semántico con \`<th scope="col">\` para encabezados de columna |
+| **1.3.2 Secuencia significativa** | A | El orden del DOM sigue el orden visual — filas de arriba a abajo |
+| **1.4.3 Contraste mínimo** | AA | Texto de celdas ≥ 4.5:1; encabezados ≥ 4.5:1 |
+| **2.1.1 Teclado** | A | Botones de ordenamiento y acciones son \`<button>\` nativos — Tab+Enter |
+| **2.4.7 Foco visible** | AA | Focus ring visible en botones de encabezado y acciones |
+| **4.1.2 Nombre, rol, valor** | A | Botones de ordenamiento con \`aria-label="Ordenar por [columna] ascendente/descendente"\`; checkboxes con \`aria-label\` por fila |
+
+#### Navegación por teclado
+| Tecla | Acción |
+|-------|--------|
+| **Tab** | Navega entre botones de ordenamiento, filtros y acciones de fila |
+| **Enter / Space** | Activa el botón enfocado (ordenar, filtrar, acción de fila) |
+| **Shift+Tab** | Navega hacia atrás |
+
+#### Atributos ARIA
+| Atributo | Dónde | Función |
+|----------|-------|---------|
+| \`scope="col"\` | en cada \`<th>\` | Asocia el encabezado a su columna |
+| \`aria-label\` | en botones de acción | Identifica la acción y la fila: *"Ver detalle de Ana García"* |
+| \`aria-sort="ascending/descending"\` | en \`<th>\` activo | Indica la columna y dirección del ordenamiento |
+| \`aria-label\` | en el checkbox de selección | *"Seleccionar Ana García"* |
+
+#### Anuncio en lectores de pantalla
+- Al enfocar una celda con Tab: el lector anuncia el valor + encabezado de columna (comportamiento nativo de tabla semántica)
+- Al enfocar botón de acción: *"Ver detalle de Ana García López, botón"*
+- Al ordenar: \`aria-sort\` actualiza el anuncio del encabezado activo
+
+#### Auditoría v1 → v2
+| Hallazgo v1 (Cortés, feb 2026) | Criterio WCAG | Resolución en v2 |
+|--------------------------------|---------------|------------------|
+| Este componente es nuevo en v2 y fue diseñado desde el inicio conforme a WCAG 2.2 AA | — | — |
+
+### Buenas prácticas
+✅ Define siempre \`label\` descriptivos en las columnas — son los \`<th>\` que los lectores de pantalla asocian a las celdas.
+✅ Para columnas de estado, usa \`type: 'badge'\` con \`badgeVariantMap\` — el lector lee el texto, no el color.
+✅ Para acciones, usa \`PDS_TABLE_ACTIONS\` predefinidas para garantizar etiquetas accesibles consistentes.
+❌ No uses tablas para layout — solo para datos tabulares con relación filas/columnas.
+        `.trim(),
+      },
+    },
   },
 };
 
 export default meta;
 type Story = StoryObj<PdsTableComponent>;
 
-// ── Stories ─────────────────────────────────────────────────────────────
+// ── Sandbox ───────────────────────────────────────────────────────────────────
 
-/** Tabla básica sin funcionalidades adicionales. */
 export const Default: Story = {
+  name: 'Default — Sandbox',
   args: {
-    columns: COLUMNAS as any,
-    data: ESTUDIANTES as any,
+    columns: COLUMNS_BASIC,
+    data: STUDENTS,
+    showSelection: false,
+    showPaginator: false,
   },
 };
 
-/** Columnas ordenables. Cada clic en el header alterna asc → desc → sin ordenamiento. */
-export const ConOrdenamiento: Story = {
-  decorators: [moduleMetadata({ imports: [OrdenamientoStoryComponent] })],
-  render: () => ({ template: '<story-ordenamiento />' }),
-};
+// ── Tabla básica ──────────────────────────────────────────────────────────────
 
-/** Columna de selección con checkboxes. La fila seleccionada se resalta. */
-export const ConSeleccion: Story = {
-  args: {
-    columns: COLUMNAS as any,
-    data: ESTUDIANTES as any,
-    showSelection: true,
-  },
-};
-
-/** Botones de acción por fila: ver, editar y eliminar. */
-export const ConAcciones: Story = {
-  args: {
-    columns: COLUMNAS as any,
-    data: ESTUDIANTES as any,
-    actions: ACCIONES as any,
-  },
-};
-
-/** Combinación de selección + acciones + ordenamiento + paginación. */
-export const Completo: Story = {
-  decorators: [moduleMetadata({ imports: [CompletoStoryComponent] })],
-  render: () => ({ template: '<story-completo />' }),
-};
-
-/** Template personalizado para celdas. La columna "estado" muestra un pds-badge. */
-export const ConTemplatePersonalizado: Story = {
+export const BasicTable: Story = {
+  name: 'Tabla con ordenamiento',
   render: () => ({
+    props: {
+      columns: COLUMNS_BASIC,
+      data: STUDENTS,
+      sortKey: signal<string | null>(null),
+      sortDirection: signal<'asc' | 'desc' | null>(null),
+      onSort(evt: { key: string; direction: 'asc' | 'desc' } | null) {
+        if (evt) {
+          this['sortKey'].set(evt.key);
+          this['sortDirection'].set(evt.direction);
+        } else {
+          this['sortKey'].set(null);
+          this['sortDirection'].set(null);
+        }
+      },
+    },
     template: `
       <pds-table
         [columns]="columns"
         [data]="data"
-        [actions]="actions"
-      >
-        <ng-template pdsTableCell="estado" let-value>
-          <pds-badge
-            [label]="value"
-            [status]="badgeStatus(value)"
-            shape="pill"
-            size="sm"
-          />
-        </ng-template>
-      </pds-table>
+        [sortKey]="sortKey()"
+        [sortDirection]="sortDirection()"
+        (sortChange)="onSort($event)"
+      />
     `,
+  }),
+};
+
+// ── Con filtros ───────────────────────────────────────────────────────────────
+
+export const WithFilters: Story = {
+  name: 'Con filtros (búsqueda y select)',
+  render: () => ({
     props: {
-      columns: COLUMNAS_CON_ESTADO,
-      data: ESTUDIANTES,
-      actions: ACCIONES,
-      badgeStatus: (estado: string) => {
-        const map: Record<string, string> = {
-          activo: 'success',
-          inactivo: 'neutral',
-          suspendido: 'error',
-        };
-        return map[estado] ?? 'neutral';
+      columns: COLUMNS_BASIC,
+      data: STUDENTS,
+      filters: FILTERS,
+    },
+    template: `
+      <pds-table
+        [columns]="columns"
+        [data]="data"
+        [filters]="filters"
+        filterMode="internal"
+      />
+    `,
+  }),
+};
+
+// ── Con selección y acciones ──────────────────────────────────────────────────
+
+export const WithSelectionAndActions: Story = {
+  name: 'Con selección y acciones por fila',
+  render: () => ({
+    props: {
+      columns: COLUMNS_BASIC,
+      data: STUDENTS,
+      actions: [PDS_TABLE_ACTIONS.view, PDS_TABLE_ACTIONS.edit, PDS_TABLE_ACTIONS.delete],
+      selected: signal<Student[]>([]),
+      lastAction: signal<string>('—'),
+      onSelection(rows: Student[]) { this['selected'].set(rows); },
+      onAction(evt: { action: string; row: Student }) { this['lastAction'].set(`${evt.action}: ${(evt.row as Student).name}`); },
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <pds-table
+          [columns]="columns"
+          [data]="data"
+          [showSelection]="true"
+          [actions]="actions"
+          (selectionChange)="onSelection($event)"
+          (actionClick)="onAction($event)"
+        />
+        <p style="font-size:13px;color:#50606E;margin:0;font-family:Poppins">
+          Seleccionados: <strong>{{ selected().length }}</strong> |
+          Última acción: <strong>{{ lastAction() }}</strong>
+        </p>
+      </div>
+    `,
+  }),
+};
+
+// ── Con paginador ─────────────────────────────────────────────────────────────
+
+export const WithPaginator: Story = {
+  name: 'Con paginador',
+  args: {
+    columns: COLUMNS_BASIC,
+    data: STUDENTS,
+    showPaginator: true,
+    totalItems: 7,
+    currentPage: 1,
+    pageSize: 5,
+    pageSizeOptions: [5, 10, 20],
+  },
+};
+
+// ── Con botón agregar ─────────────────────────────────────────────────────────
+
+export const WithAddButton: Story = {
+  name: 'Con botón Agregar en toolbar',
+  args: {
+    columns: COLUMNS_BASIC,
+    data: STUDENTS,
+    showAddButton: true,
+    addButtonLabel: 'Inscribir estudiante',
+    filters: FILTERS,
+  },
+};
+
+// ── Accesibilidad ─────────────────────────────────────────────────────────────
+
+export const A11ySemanticTable: Story = {
+  name: 'A11y — Tabla semántica (Tab para probar)',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+La tabla usa \`<table>\`, \`<th scope="col">\`, \`<tbody>\` y \`<td>\` nativos.
+
+Los lectores de pantalla asocian automáticamente cada celda con su encabezado de columna:
+- Al enfocar con Tab, el lector anuncia: *"Ana García López — columna Nombre"*
+- Los botones de ordenamiento anuncian: *"Ordenar por Nombre"*
+- Los botones de acción anuncian: *"Ver detalle de Ana García López, botón"*
+
+El atributo \`aria-sort\` en \`<th>\` activo indica la dirección del ordenamiento.
+        `,
       },
     },
-  }),
-  decorators: [
-    moduleMetadata({
-      imports: [PdsTableComponent, PdsTableCellDirective, PdsBadgeComponent],
-    }),
-  ],
-};
-
-/** Tabla con paginación. */
-export const ConPaginacion: Story = {
-  decorators: [moduleMetadata({ imports: [PaginacionStoryComponent] })],
-  render: () => ({ template: '<story-paginacion />' }),
-};
-
-/** Tabla sin datos: muestra el estado vacío. */
-export const EstadoVacio: Story = {
+  },
   args: {
-    columns: COLUMNAS as any,
-    data: [] as any,
+    columns: COLUMNS_BASIC,
+    data: STUDENTS.slice(0, 4),
+    actions: [PDS_TABLE_ACTIONS.view, PDS_TABLE_ACTIONS.edit],
   },
 };
-
-/** Tabla con muchas columnas para verificar el scroll horizontal. */
-export const ScrollHorizontal: Story = {
-  args: {
-    columns: [
-      { key: 'id', label: 'ID', width: '60px', align: 'center' },
-      { key: 'nombre', label: 'Nombre completo', width: '200px', sortable: true },
-      { key: 'programa', label: 'Programa académico', width: '250px', sortable: true },
-      { key: 'semestre', label: 'Semestre', width: '100px', align: 'center', sortable: true },
-      { key: 'promedio', label: 'Promedio', width: '100px', align: 'center', sortable: true },
-      { key: 'estado', label: 'Estado', width: '120px', align: 'center' },
-      { key: 'extra1', label: 'Columna extra 1', width: '150px' },
-      { key: 'extra2', label: 'Columna extra 2', width: '150px' },
-    ] as any,
-    data: ESTUDIANTES.map(e => ({
-      ...e,
-      extra1: 'Valor extra 1',
-      extra2: 'Valor extra 2',
-    })) as any,
-    actions: ACCIONES as any,
-    showSelection: true,
-  },
-};
-
-// ── Stories de filtros ───────────────────────────────────────────────────
-
-/**
- * Búsqueda global (modo interno).
- * Un único input que busca en todas las columnas de texto.
- */
-export const FiltroBusquedaGlobal: Story = {
-  args: {
-    columns: COLUMNAS_CON_ESTADO as any,
-    data: ESTUDIANTES as any,
-    filters: [
-      {
-        key: '__search__',
-        label: 'Buscar',
-        placeholder: 'Buscar por nombre, programa…',
-        type: 'search',
-      },
-    ] as PdsTableFilter[],
-    filterMode: 'internal',
-  },
-};
-
-/**
- * Búsqueda acotada a columnas específicas.
- * El campo `searchKeys` limita la búsqueda a nombre y programa.
- */
-export const FiltroBusquedaAcotada: Story = {
-  args: {
-    columns: COLUMNAS_CON_ESTADO as any,
-    data: ESTUDIANTES as any,
-    filters: [
-      {
-        key: 'busqueda',
-        label: 'Buscar por nombre o programa',
-        placeholder: 'Ej: García, Ingeniería…',
-        type: 'search',
-        searchKeys: ['nombre', 'programa'],
-      },
-    ] as PdsTableFilter[],
-    filterMode: 'internal',
-  },
-};
-
-/**
- * Filtro por select.
- * Filtra la columna "estado" por coincidencia exacta.
- */
-export const FiltroSelect: Story = {
-  args: {
-    columns: COLUMNAS_CON_ESTADO as any,
-    data: ESTUDIANTES as any,
-    filters: [
-      {
-        key: 'estado',
-        label: 'Estado',
-        placeholder: 'Todos los estados',
-        type: 'select',
-        options: [
-          { value: 'activo', label: 'Activo' },
-          { value: 'inactivo', label: 'Inactivo' },
-          { value: 'suspendido', label: 'Suspendido' },
-        ],
-      },
-    ] as PdsTableFilter[],
-    filterMode: 'internal',
-  },
-};
-
-/**
- * Múltiples filtros combinados.
- * Búsqueda global + filtro por estado. Ambos actúan como AND.
- */
-export const FiltrosMultiples: Story = {
-  args: {
-    columns: COLUMNAS_CON_ESTADO as any,
-    data: ESTUDIANTES as any,
-    filters: [
-      {
-        key: '__search__',
-        label: 'Buscar',
-        placeholder: 'Nombre o programa…',
-        type: 'search',
-      },
-      {
-        key: 'estado',
-        label: 'Estado',
-        placeholder: 'Todos',
-        type: 'select',
-        options: [
-          { value: 'activo', label: 'Activo' },
-          { value: 'inactivo', label: 'Inactivo' },
-          { value: 'suspendido', label: 'Suspendido' },
-        ],
-      },
-    ] as PdsTableFilter[],
-    filterMode: 'internal',
-    actions: ACCIONES as any,
-  },
-};
-
-/**
- * Filtros en modo externo (server-side).
- * El componente emite `(filterChange)` y el padre aplica el filtro.
- * Útil cuando los datos vienen paginados de una API.
- */
-export const FiltroModoExterno: Story = {
-  decorators: [moduleMetadata({ imports: [FiltroExternoStoryComponent] })],
-  render: () => ({ template: '<story-filtro-externo />' }),
-};
-
-// ── Stories de tipos de celda ────────────────────────────────────────────
-
-/**
- * Columna tipo badge: mapea el valor del campo a una variante del pds-badge.
- * Se define en la columna con `type: 'badge'` y `badgeVariantMap`.
- */
-export const CeldaBadge: Story = {
-  args: {
-    columns: [
-      ...COLUMNAS,
-      {
-        key: 'estado',
-        label: 'Estado',
-        width: '130px',
-        align: 'center',
-        type: 'badge',
-        badgeVariantMap: { activo: 'success', inactivo: 'neutral', suspendido: 'error' },
-        badgeDefaultVariant: 'neutral',
-      },
-    ] as any,
-    data: ESTUDIANTES as any,
-  },
-};
-
-/**
- * Columna tipo date: muestra un ícono de calendario + fecha formateada.
- * Acepta string ISO o Date. Locale por defecto: 'es-CO'.
- */
-export const CeldaFecha: Story = {
-  args: {
-    columns: [
-      { key: 'nombre', label: 'Nombre', sortable: true },
-      { key: 'programa', label: 'Programa' },
-      {
-        key: 'inscripcion',
-        label: 'Fecha de inscripción',
-        width: '180px',
-        type: 'date',
-        dateLocale: 'es-CO',
-      },
-    ] as any,
-    data: ESTUDIANTES as any,
-  },
-};
-
-/**
- * Columna tipo link: ícono de adjunto + texto como enlace.
- * La URL puede venir del propio valor de celda o de otra clave (`linkHrefKey`).
- * El ícono es configurable via `linkIcon` (por defecto `attach_file`).
- */
-export const CeldaLink: Story = {
-  args: {
-    columns: [
-      { key: 'nombre', label: 'Nombre' },
-      { key: 'programa', label: 'Programa' },
-      {
-        key: 'documento',
-        label: 'Documento adjunto',
-        type: 'link',
-        linkHrefKey: 'documentoUrl',
-        linkIcon: 'attach_file',
-      },
-    ] as any,
-    data: ESTUDIANTES as any,
-  },
-};
-
-/**
- * Columna tipo with-helper: texto principal + helper text secundario con estado.
- * Ideal para comunicar información contextual o validaciones a nivel de celda.
- */
-export const CeldaConHelperText: Story = {
-  args: {
-    columns: [
-      { key: 'nombre', label: 'Nombre', sortable: true },
-      { key: 'programa', label: 'Programa' },
-      {
-        key: 'promedio',
-        label: 'Promedio',
-        width: '140px',
-        type: 'with-helper',
-        helperTextKey: 'nota',
-        helperStatusKey: 'notaEstado',
-      },
-    ] as any,
-    data: ESTUDIANTES as any,
-  },
-};
-
-/**
- * Barra de herramientas con botón "Agregar".
- * Se activa con `showAddButton: true`. El texto es configurable con `addButtonLabel`.
- * La acción emite el evento `(addClick)`.
- */
-export const ConBotonAgregar: Story = {
-  args: {
-    columns: COLUMNAS_CON_ESTADO as any,
-    data: ESTUDIANTES as any,
-    actions: ACCIONES as any,
-    showAddButton: true,
-    addButtonLabel: 'Agregar estudiante',
-  },
-};
-
-/**
- * Tabla completa con todos los tipos de celda y toolbar.
- */
-export const TodasLasFuncionalidades: Story = {
-  args: {
-    columns: [
-      { key: 'nombre', label: 'Nombre', sortable: true },
-      { key: 'programa', label: 'Programa', sortable: true },
-      { key: 'inscripcion', label: 'Inscripción', width: '160px', type: 'date', dateLocale: 'es-CO' },
-      {
-        key: 'estado',
-        label: 'Estado',
-        width: '130px',
-        align: 'center',
-        type: 'badge',
-        badgeVariantMap: { activo: 'success', inactivo: 'neutral', suspendido: 'error' },
-      },
-      {
-        key: 'promedio',
-        label: 'Promedio',
-        width: '140px',
-        type: 'with-helper',
-        helperTextKey: 'nota',
-        helperStatusKey: 'notaEstado',
-      },
-      { key: 'documento', label: 'Documento', type: 'link', linkHrefKey: 'documentoUrl' },
-    ] as any,
-    data: ESTUDIANTES as any,
-    actions: ACCIONES as any,
-    showSelection: true,
-    showAddButton: true,
-    addButtonLabel: 'Agregar estudiante',
-    filters: [
-      { key: '__search__', label: 'Buscar', placeholder: 'Nombre o programa…', type: 'search' },
-      {
-        key: 'estado', label: 'Estado', placeholder: 'Todos', type: 'select',
-        options: [
-          { value: 'activo', label: 'Activo' },
-          { value: 'inactivo', label: 'Inactivo' },
-          { value: 'suspendido', label: 'Suspendido' },
-        ],
-      },
-    ] as PdsTableFilter[],
-    filterMode: 'internal',
-  },
-};
-
