@@ -50,10 +50,6 @@
   --color-brand-cyan-dark: #1492a6;
   --color-brand-cyan-darker: #177687;
   --color-status-visited-base: #7b2cbf;
-  --typography-family-sans: Poppins;
-  --typography-family-sans2: Open Sans;
-  --typography-family-serif: Lora;
-  --typography-family-mono: IBM Plex Mono;
   --typography-size-12: 0.75rem;
   --typography-size-14: 0.875rem;
   --typography-size-16: 1rem;
@@ -80,6 +76,10 @@
   --typography-size-84: 5.25rem;
   --typography-size-96: 6rem;
   --typography-size-112: 7rem;
+  --typography-family-sans: Poppins;
+  --typography-family-sans2: Open Sans;
+  --typography-family-serif: Lora;
+  --typography-family-mono: IBM Plex Mono;
   --typography-line-height-100: 1;
   --typography-line-height-110: 1.100000023841858;
   --typography-line-height-120: 1.2000000476837158;

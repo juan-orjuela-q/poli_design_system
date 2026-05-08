@@ -19,7 +19,7 @@
   --text-component: Poppins; /** Fuente para etiquetas de componentes interactivos (botones, tabs, badges, navegación). Poppins. */
   --text-code: IBM Plex Mono; /** Fuente monoespaciada para bloques de código y snippets. IBM Plex Mono. */
   --text-ds-labels: IBM Plex Mono; /** Fuente monoespaciada para etiquetas internas del Design System (anotaciones, documentación en el archivo). IBM Plex Mono. */
-  --button-opacity-disabled: 80; /** Opacidad del botón en estado deshabilitado. 80% — reduce visibilidad sin ocultar completamente el elemento. */
+  --button-opacity-disabled: 0.8; /** Opacidad del botón en estado deshabilitado. 80% — reduce visibilidad sin ocultar completamente el elemento. */
   --button-radius-base: 99999px; /** Radio de los botones. Valor pill para forma completamente redondeada en todos los tamaños. */
   --button-dimensions-min-width: 72px; /** Ancho mínimo del botón para evitar botones demasiado estrechos. 72px. */
   --button-dimensions-height: 48px; /** Altura del botón en tamaño estándar (md). 48px. Tamaño predeterminado. */

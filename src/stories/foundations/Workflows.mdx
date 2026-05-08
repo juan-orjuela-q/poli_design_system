@@ -1,0 +1,203 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Poli Design System / 00. Workflows / Actualizar tokens y componentes" />
+
+# Flujos de trabajo del DS v2
+
+Guía paso a paso para mantener sincronizados los tokens de diseño y los componentes Angular entre Figma, el repo de tokens y este proyecto.
+
+---
+
+## 1. Actualizar tokens de diseño
+
+Los tokens se originan en Figma y se transforman a CSS vía [Style Dictionary](https://amzn.github.io/style-dictionary/) desde el repo **`poli_ds_tokens`**.
+
+### Pasos
+
+**1. Exportar desde Figma**
+
+En el plugin de Variables / Tokens de Figma, exportar las colecciones como JSON. Los archivos resultantes se organizan así:
+
+```
+tokens/
+  00-primitives/
+    primitives.json
+  01-typescale/
+    typescale-desktop.json
+    typescale-mobile.json
+  02-color/
+    color.json
+  03-layout/
+    layout-desktop.json
+    layout-mobile.json
+  04-component/
+    component.json
+```
+
+Pegar cada JSON en la carpeta correspondiente del repo **`poli_ds_tokens`**, respetando los nombres de archivo exactos que se ven arriba.
+
+---
+
+**2. Compilar el repo de tokens**
+
+Desde la raíz de `poli_ds_tokens`:
+
+```bash
+npm run build
+```
+
+Esto ejecuta Style Dictionary y genera los archivos CSS en `dist/` (o la carpeta de salida configurada):
+
+```
+primitives.css
+tokens.css
+typescale-desktop.css
+typescale-mobile.css
+layout-desktop.css
+layout-mobile.css
+component.css
+```
+
+---
+
+**3. Copiar los CSS a este proyecto**
+
+Pegar los archivos generados en **dos lugares**:
+
+<table>
+  <thead><tr><th>Destino</th><th>Descripción</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/assets/poligran/</code></td><td>Los consume la app Angular y Storybook directamente</td></tr>
+    <tr><td><code>packages/tokens/src/</code></td><td>Los expone el paquete <code>@poli/tokens</code> para apps consumidoras</td></tr>
+  </tbody>
+</table>
+
+> ⚠️ Ambas carpetas deben estar siempre en sincronía. Si actualizas una, actualiza la otra.
+
+---
+
+**4. Sincronizar el JSON de tokens** *(para herramientas externas, Figma tokens, auditorías)*
+
+```bash
+npm run tokens:sync
+```
+
+Genera `packages/tokens/tokens.json` a partir de los CSS. Lo consumen el script de auditoría y cualquier integración con Figma Tokens / Token Studio.
+
+---
+
+**5. Auditar contraste** *(si cambiaste colores semánticos)*
+
+```bash
+npm run tokens:audit
+```
+
+Verifica los pares texto/fondo conocidos contra WCAG 2.1 AA (4.5:1) y AAA (7:1). Si hay fallos, corregir en Figma y repetir desde el paso 1.
+
+---
+
+**6. Verificar en Storybook**
+
+```bash
+npm run storybook
+```
+
+Ir a **Foundation → Color** y **Foundation → Typography** para confirmar visualmente que los nuevos tokens se aplican correctamente.
+
+---
+
+## 2. Agregar un componente nuevo
+
+**1. Crear la carpeta con los 4 archivos obligatorios:**
+
+```
+packages/components/src/lib/pds-{nombre}/
+  pds-{nombre}.component.ts
+  pds-{nombre}.component.html
+  pds-{nombre}.component.scss
+  pds-{nombre}.stories.ts
+```
+
+**2. Exportar desde `public-api.ts`:**
+
+```typescript
+// packages/components/src/public-api.ts
+export * from './lib/pds-{nombre}/pds-{nombre}.component';
+```
+
+**3. Seguir las convenciones del DS v2** (ver `CLAUDE.md`):
+- `input()` signal API — no `@Input()` decorador
+- `ChangeDetectionStrategy.OnPush`
+- Selector `pds-{nombre}`, clases BEM con prefijo `pds-`
+- **Nunca hardcodear valores CSS** — siempre tokens con fallback
+- Roles ARIA, navegación por teclado, focus visible con `box-shadow`
+
+**4. Verificar en Storybook:**
+
+```bash
+npm run storybook
+# La story aparece bajo DS v2/{Nombre}
+```
+
+---
+
+## 3. Modificar un componente existente
+
+Los componentes están en `packages/components/src/lib/pds-{nombre}/`.
+
+Como `tsconfig.json` resuelve `@poli/components` directamente al source (sin compilar a `dist/`), **los cambios se reflejan inmediatamente** en la app y en Storybook sin ningún paso extra.
+
+```bash
+# Solo editar los archivos en packages/components/src/lib/pds-{nombre}/
+# y guardar — no hay build intermedio necesario en desarrollo
+npm run storybook   # para verificar visualmente
+```
+
+---
+
+## 4. Eliminar un componente
+
+**1. Borrar la carpeta:**
+```
+packages/components/src/lib/pds-{nombre}/
+```
+
+**2. Quitar el export en `public-api.ts`:**
+```typescript
+// Eliminar esta línea:
+export * from './lib/pds-{nombre}/pds-{nombre}.component';
+```
+
+**3. Buscar y corregir usos en la app:**
+```bash
+# Buscar en toda la app (TypeScript y templates HTML)
+grep -r "pds-{nombre}\|Pds{Nombre}Component" src/ --include="*.ts" --include="*.html"
+```
+
+**4. Actualizar `CLAUDE.md`** — quitar el componente de la hoja de ruta.
+
+---
+
+## Resumen rápido
+
+<table>
+  <thead><tr><th>Tarea</th><th>Pasos clave</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Actualizar tokens</td>
+      <td>Figma export → <code>poli_ds_tokens</code> JSON → <code>npm run build</code> → copiar CSS a <code>poligran/</code> y <code>packages/tokens/src/</code> → <code>tokens:sync</code> → <code>tokens:audit</code></td>
+    </tr>
+    <tr>
+      <td>Nuevo componente</td>
+      <td>Carpeta en <code>packages/components/src/lib/</code> + export en <code>public-api.ts</code></td>
+    </tr>
+    <tr>
+      <td>Modificar componente</td>
+      <td>Editar directamente en <code>packages/components/src/lib/pds-*/</code></td>
+    </tr>
+    <tr>
+      <td>Eliminar componente</td>
+      <td>Borrar carpeta + quitar export + grep usos</td>
+    </tr>
+  </tbody>
+</table>

@@ -4,6 +4,7 @@
 
 :root {
   --spacing-layout-page-margin: 20px; /** Margen lateral externo de la pantalla. Define el espacio entre el contenido y los bordes del viewport. */
+  --spacing-layout-page-margin-a11y: 20px; /** Margen lateral externo de la pantalla. Define el espacio entre el contenido y los bordes del viewport cuando se muestran los botones de ayuda y accesibilidad. */
   --spacing-layout-gutter: 20px; /** Espacio entre columnas de la retícula. */
   --spacing-layout-section-gap: 40px; /** Espacio vertical entre secciones o bloques de contenido de gran tamaño. */
   --spacing-component-xxs: 4px; /** Espaciado mínimo entre elementos internos de un componente. 4px. */
@@ -29,6 +30,7 @@
   --border-thin: 1px; /** Grosor de borde estándar (1px). Usado en la mayoría de componentes: inputs, tablas, cards, checkboxes, notificaciones, botones outline y otros. */
   --border-thick: 2px; /** Grosor de borde de énfasis (2px). Usado para indicar selección activa, hover destacado, estado current en Stepper, borde de Portal Icon y separadores de sección. */
   --border-bold: 4px; /** Grosor de borde máximo (4px). Para indicadores de énfasis fuerte o separadores de alto peso visual. */
+  --screen-mobile-sm: 360px; /** Breakpoint móvil. Ancho máximo para layouts de una columna. 440px. */
   --screen-mobile: 440px; /** Breakpoint móvil. Ancho máximo para layouts de una columna. 440px. */
   --screen-tablet-v: 768px; /** Breakpoint tablet vertical. 768px. */
   --screen-tablet-h: 1024px; /** Breakpoint tablet horizontal. 1024px. */
