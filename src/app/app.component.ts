@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import {  RouterModule } from '@angular/router';
-import { PageLoaderComponent } from '@layout/components/page-loader/page-loader.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, PageLoaderComponent],
+  imports: [RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

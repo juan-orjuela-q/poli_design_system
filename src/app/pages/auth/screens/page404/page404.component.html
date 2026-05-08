@@ -1,5 +1,5 @@
 <div class="error-container">
-  <div class="error-icon"><app-icon [icon]="'error'"></app-icon></div>
+  <div class="error-icon"><pds-icon name="error" size="xl"></pds-icon></div>
   
   <h1 class="error-title">Error 404</h1>
   <h3 class="error-subtitle">Página no encontrada</h3>
@@ -11,14 +11,11 @@
   <p class="error-thanks">¡Gracias por visitarnos!</p>
 
   <div class="error-actions">
-    
-    <app-button type="primary" size="medium" iconEnd="undo"
-      (click)="submit()">
+    <pds-button variant="primary" size="md" iconEnd="undo" (click)="submit()">
       Regresa a la página anterior
-    </app-button>
-    <app-button type="outline" size="medium"
-      (click)="submit()">
+    </pds-button>
+    <pds-button variant="outline" size="md" (click)="submit()">
       Volver al inicio
-    </app-button>
+    </pds-button>
   </div>
 </div>

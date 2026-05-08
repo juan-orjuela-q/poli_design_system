@@ -1,8 +1,0 @@
-<div class="tabs-container">
-  <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onTabChange($event)">
-    <mat-tab *ngFor="let tab of tabs" [label]="tab.label"></mat-tab>
-  </mat-tab-group>
-
-  <!-- Contenido proyectado que se mostrará basado en el tab activo -->
-  <ng-content></ng-content>
-</div>
