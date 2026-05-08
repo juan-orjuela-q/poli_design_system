@@ -1,0 +1,36 @@
+/* Variables de marca Poli */
+:root {
+  --ifm-color-primary: #0062cc;
+  --ifm-color-primary-dark: #0058b8;
+  --ifm-color-primary-darker: #0052ad;
+  --ifm-color-primary-darkest: #00448f;
+  --ifm-color-primary-light: #006ce0;
+  --ifm-color-primary-lighter: #0072eb;
+  --ifm-color-primary-lightest: #1a82f5;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-family-base: 'Open Sans', system-ui, sans-serif;
+  --ifm-heading-font-family: 'Poppins', system-ui, sans-serif;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #4da6ff;
+  --ifm-color-primary-dark: #2e96ff;
+  --ifm-color-primary-darker: #1e8eff;
+  --ifm-color-primary-darkest: #0071e0;
+  --ifm-color-primary-light: #6cb6ff;
+  --ifm-color-primary-lighter: #7cbeff;
+  --ifm-color-primary-lightest: #aed4ff;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Token preview cards */
+.token-swatch {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 4px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}

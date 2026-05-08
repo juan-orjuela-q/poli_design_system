@@ -1,15 +1,27 @@
 {
   "extends": "../../tsconfig.app.json",
   "compilerOptions": {
-    "baseUrl": "../",
+    "baseUrl": "../../",
     "types": ["node"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true        // Evita errores en dependencias externas (como Webpack)
+    "skipLibCheck": true,
+    "paths": {
+      "@core": ["src/app/core"],
+      "@core/*": ["src/app/core/*"],
+      "@shared": ["src/app/shared"],
+      "@shared/*": ["src/app/shared/*"],
+      "@pages": ["src/app/pages"],
+      "@pages/*": ["src/app/pages/*"],
+      "@layout": ["src/app/layout"],
+      "@layout/*": ["src/app/layout/*"],
+      "@poli/components": ["packages/components/src/public-api"]
+    }
   },
   "include": [
     "../app/**/*.stories.ts",
     "../shared/**/*.stories.ts",
+    "../../packages/components/src/**/*.ts",
     "./*.ts"
   ]
 }

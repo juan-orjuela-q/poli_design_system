@@ -1,0 +1,23 @@
+{
+  "name": "@poli/tokens",
+  "version": "2.0.0",
+  "description": "Poli Design System v2 — CSS tokens generados con Style Dictionary",
+  "license": "UNLICENSED",
+  "private": false,
+  "exports": {
+    "./primitives": "./src/primitives.css",
+    "./tokens": "./src/tokens.css",
+    "./typescale-desktop": "./src/typescale-desktop.css",
+    "./typescale-mobile": "./src/typescale-mobile.css",
+    "./layout-desktop": "./src/layout-desktop.css",
+    "./layout-mobile": "./src/layout-mobile.css",
+    "./component": "./src/component.css",
+    "./component-overrides": "./src/component-overrides.css",
+    "./fonts/poppins": "./fonts/poppins",
+    "./fonts/open-sans": "./fonts/open-sans"
+  },
+  "files": [
+    "src/",
+    "fonts/"
+  ]
+}

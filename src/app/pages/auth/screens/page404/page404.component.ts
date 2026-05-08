@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PdsIconComponent } from '@shared/components/pds-icon/pds-icon.component';
-import { PdsButtonComponent } from '@shared/components/pds-button/pds-button.component';
+import { PdsIconComponent } from '@poli/components';
+import { PdsButtonComponent } from '@poli/components';
 
 @Component({
   selector: 'app-page404',

@@ -3,7 +3,8 @@ import type { StorybookConfig } from '@storybook/angular';
 const config: StorybookConfig = {
   "stories": [
     '../**/*.stories.@(ts|mdx)',
-    '../**/*.mdx'
+    '../**/*.mdx',
+    '../../packages/components/src/**/*.stories.@(ts|mdx)'
   ],
   "addons": [
     "@storybook/addon-essentials",

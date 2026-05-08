@@ -1,0 +1,16 @@
+{
+  "name": "@poli/components",
+  "version": "2.0.0",
+  "description": "Poli Design System v2 — 38 componentes Angular accesibles",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "@angular/cdk": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
