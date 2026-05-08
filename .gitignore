@@ -43,6 +43,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Logs
+*.log
 *storybook.log
+
 # Storybook
 /storybook-static

@@ -16,7 +16,9 @@
     "docs:build": "cd apps/docs && npm run build",
     "tokens:sync": "npx ts-node -P scripts/tsconfig.json scripts/sync-tokens.ts",
     "tokens:audit": "npx ts-node -P scripts/tsconfig.json scripts/audit-contrast.ts",
-    "generate:docs": "npx ts-node -P scripts/tsconfig.json scripts/generate-docs.ts"
+    "generate:docs": "npx ts-node -P scripts/tsconfig.json scripts/generate-docs.ts",
+    "semilla:start": "cd apps/semilla-front && ng serve",
+    "semilla:build": "cd apps/semilla-front && ng build"
   },
   "private": true,
   "dependencies": {
