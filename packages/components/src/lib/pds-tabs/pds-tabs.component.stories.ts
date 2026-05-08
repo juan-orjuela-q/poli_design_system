@@ -23,7 +23,7 @@ const TABS_WITH_DISABLED: TabItem[] = [
 ];
 
 const meta: Meta<PdsTabsComponent> = {
-  title: 'Poli Design System / 05. Navigation / Tabs',
+  title: 'Poli Design System / 08. Navigation / Tabs',
   component: PdsTabsComponent,
   tags: ['autodocs'],
   argTypes: {

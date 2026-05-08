@@ -18,7 +18,7 @@ const STEPS_SHORT: CompactStep[] = [
 ];
 
 const meta: Meta<PdsStepperCompactComponent> = {
-  title: 'Poli Design System / 06. Navigation / Stepper Compact',
+  title: 'Poli Design System / 08. Navigation / Stepper Compact',
   component: PdsStepperCompactComponent,
   decorators: [
     componentWrapperDecorator(

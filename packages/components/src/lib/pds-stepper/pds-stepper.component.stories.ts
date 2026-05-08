@@ -17,7 +17,7 @@ const STEPS_SHORT: StepperStep[] = [
 ];
 
 const meta: Meta<PdsStepperComponent> = {
-  title: 'Poli Design System / 06. Navigation / Stepper',
+  title: 'Poli Design System / 08. Navigation / Stepper',
   component: PdsStepperComponent,
   decorators: [applicationConfig({ providers: [provideAnimations()] })],
   tags: ['autodocs'],

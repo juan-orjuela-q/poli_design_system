@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { PdsPaginatorComponent } from './pds-paginator.component';
 
 const meta: Meta<PdsPaginatorComponent> = {
-  title: 'Poli Design System / 05. Navigation / Paginator',
+  title: 'Poli Design System / 07. Content / Paginator',
   component: PdsPaginatorComponent,
   tags: ['autodocs'],
   argTypes: {

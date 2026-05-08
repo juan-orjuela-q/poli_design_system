@@ -24,7 +24,7 @@ const LONG_PATH: BreadcrumbItem[] = [
 ];
 
 const meta: Meta<PdsBreadcrumbComponent> = {
-  title: 'Poli Design System / 05. Navigation / Breadcrumb',
+  title: 'Poli Design System / 08. Navigation / Breadcrumb',
   component: PdsBreadcrumbComponent,
   tags: ['autodocs'],
   argTypes: {

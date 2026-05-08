@@ -29,7 +29,7 @@
   <!-- ── Lista de ítems ──────────────────────────────────────────── -->
   <div class="pds-sidenav__nav" role="list">
     @for (item of items(); track item.id) {
-
+    <div role="listitem">
     <!-- Tooltip activo solo cuando el sidenav está colapsado -->
     <pds-tooltip
       [text]="item.label"
@@ -41,7 +41,6 @@
       <button
         [ngClass]="itemClasses(item)"
         type="button"
-        role="listitem"
         [attr.aria-expanded]="isItemOpen(item.id)"
         [attr.aria-current]="activeItemId() === item.id ? 'true' : null"
         (click)="onItemClick(item)"
@@ -63,7 +62,6 @@
       <!-- ── Ítem hoja con routerLink ──────────────────────── -->
       <a
         [ngClass]="itemClasses(item)"
-        role="listitem"
         [routerLink]="item.routerLink"
         [attr.aria-current]="activeItemId() === item.id ? 'page' : null"
         (click)="onItemClick(item)"
@@ -79,7 +77,6 @@
       <button
         [ngClass]="itemClasses(item)"
         type="button"
-        role="listitem"
         [attr.aria-current]="activeItemId() === item.id ? 'page' : null"
         (click)="onItemClick(item)"
       >
@@ -90,6 +87,7 @@
       </button>
       }
     </pds-tooltip>
+    </div>
 
     <!-- Sub-ítems (solo visibles cuando el padre está abierto Y el sidenav está expandido) -->
     @if (hasChildren(item) && isItemOpen(item.id) && isEffectivelyExpanded()) {
@@ -101,7 +99,6 @@
       @for (sub of item.children; track sub.id) { @if (sub.routerLink) {
       <a
         [ngClass]="subItemClasses(sub)"
-        role="listitem"
         [routerLink]="sub.routerLink"
         [attr.aria-current]="activeSubItemId() === sub.id ? 'page' : null"
         (click)="onSubItemClick(sub, item)"
@@ -111,7 +108,6 @@
       <button
         [ngClass]="subItemClasses(sub)"
         type="button"
-        role="listitem"
         [attr.aria-current]="activeSubItemId() === sub.id ? 'page' : null"
         (click)="onSubItemClick(sub, item)"
       >

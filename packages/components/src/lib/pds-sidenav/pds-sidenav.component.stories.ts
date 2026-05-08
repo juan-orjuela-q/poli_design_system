@@ -36,7 +36,7 @@ const NAV_ITEMS_WITH_CHILDREN: SidenavItem[] = [
 ];
 
 const meta: Meta<PdsSidenavComponent> = {
-  title: 'Poli Design System / 06. Navigation / Sidenav',
+  title: 'Poli Design System / 08. Navigation / Sidenav',
   component: PdsSidenavComponent,
   decorators: [
     componentWrapperDecorator(

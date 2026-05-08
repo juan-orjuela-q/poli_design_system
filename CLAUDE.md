@@ -280,32 +280,32 @@ pds-icon {
 
 Estos tokens se usan con fallback y deben formalizarse en la próxima iteración del Style Dictionary:
 
-| Token                        | Valor       | Usado en                                                                                                           |
-| ---------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------ |
-| `--loading-circle-border-sm` | `6px`       | `pds-loading-circle`                                                                                               |
-| `--loading-circle-border-md` | `8px`       | `pds-loading-circle`                                                                                               |
-| `--loading-circle-border-lg` | `10px`      | `pds-loading-circle`                                                                                               |
-| `--color-cta-gradient-end`   | `#29015c`   | `pds-cta` (extremo del gradiente magenta en hover/pressed)                                                         |
-| `--text-body`                | `Open Sans` | `pds-tooltip` (usa `--typography-family-sans2` como fallback)                                                      |
-| `--border-neutral-default`   | `#b0bec5`   | `pds-checkbox`, `pds-radio`, `pds-input-field`, `pds-textarea-field`, `pds-select-field` (borde en estado default) |
-| `--fg-status-error`          | `#e0006e`   | `pds-input-field` (asterisco requerido + color icono error)                                                        |
-| `--fg-status-success`        | `#6f921e`   | `pds-input-field` (color icono success)                                                                            |
-| `--fg-status-warning`        | `#d96c06`   | `pds-input-field` (color icono warning)                                                                            |
-| `--action-tag-remove-bg`     | `#002b49`   | `pds-tag` (base para `rgba()` del botón remove en variante primary; actualmente hardcodeado como `$remove-color`)  |
-| `accordionTitle`             | `20px`      | `pds-accordion` (puntaje/tamaño del título del acordeón en Figma; pendiente migrar a `rem`)                      |
-| `cardTitle`                  | `20px`      | `pds-card` (puntaje/tamaño del título de card en Figma; pendiente migrar a `rem`)                                 |
+| Token                        | Valor     | Usado en                                                                                                          |
+| ---------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------- |
+| `--loading-circle-border-sm` | `6px`     | `pds-loading-circle`                                                                                              |
+| `--loading-circle-border-md` | `8px`     | `pds-loading-circle`                                                                                              |
+| `--loading-circle-border-lg` | `10px`    | `pds-loading-circle`                                                                                              |
+| `--color-cta-gradient-end`   | `#29015c` | `pds-cta` (extremo del gradiente magenta en hover/pressed)                                                        |
+| `--action-tag-remove-bg`     | `#002b49` | `pds-tag` (base para `rgba()` del botón remove en variante primary; actualmente hardcodeado como `$remove-color`) |
 
 ### Tokens ya disponibles (no pendientes)
 
-| Token                                    | Dónde está definido                             | Usado en                                                                     |
-| ---------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------- |
-| `--text-component`                       | `component.css`                                 | `pds-tag`, `pds-badge`                                                       |
-| `--font-size-component-tag`              | `typescale-desktop.css`, `typescale-mobile.css` | `pds-tag`                                                                    |
-| `--size-2xs`                             | `component.css`                                 | `pds-progress-bar` (altura del track; NO usar `--progress-bar-track-height`) |
-| `--font-size-component-sidenav-title`    | `typescale-desktop.css`                         | `pds-sidenav` (título de app en encabezado; 1.25rem / 20px)                  |
-| `--font-size-component-sidenav-subtitle` | `typescale-desktop.css`                         | `pds-sidenav` (subtítulo de app en encabezado; 0.875rem / 14px)              |
-| `--component-sidenav-open`               | `layout-desktop.css`                            | `pds-sidenav` (ancho expandido; 304px)                                       |
-| `--component-sidenav-closed`             | `layout-desktop.css`                            | `pds-sidenav` (ancho colapsado; 80px)                                        |
+| Token                                    | Dónde está definido                             | Usado en                                                                                                           |
+| ---------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `--text-component`                       | `component.css`                                 | `pds-tag`, `pds-badge`                                                                                             |
+| `--font-size-component-tag`              | `typescale-desktop.css`, `typescale-mobile.css` | `pds-tag`                                                                                                          |
+| `--size-2xs`                             | `component.css`                                 | `pds-progress-bar` (altura del track; NO usar `--progress-bar-track-height`)                                       |
+| `--font-size-component-sidenav-title`    | `typescale-desktop.css`                         | `pds-sidenav` (título de app en encabezado; 1.25rem / 20px)                                                        |
+| `--font-size-component-sidenav-subtitle` | `typescale-desktop.css`                         | `pds-sidenav` (subtítulo de app en encabezado; 0.875rem / 14px)                                                    |
+| `--component-sidenav-open`               | `layout-desktop.css`                            | `pds-sidenav` (ancho expandido; 304px)                                                                             |
+| `--component-sidenav-closed`             | `layout-desktop.css`                            | `pds-sidenav` (ancho colapsado; 80px)                                                                              |
+| `--text-body`                            | `component.css`                                 | `pds-tooltip` (fuente para cuerpo de texto; Open Sans)                                                             |
+| `--border-neutral-default`               | `tokens.css`, `component-overrides.css`         | `pds-checkbox`, `pds-radio`, `pds-input-field`, `pds-textarea-field`, `pds-select-field` (borde en estado default) |
+| `--fg-status-error`                      | `tokens.css`                                    | `pds-input-field` (asterisco requerido + color icono error; `#e0006e`)                                             |
+| `--fg-status-success`                    | `tokens.css`                                    | `pds-input-field` (color icono success; `#55701b`)                                                                 |
+| `--fg-status-warning`                    | `tokens.css`                                    | `pds-input-field` (color icono warning; `#b44a09` — actualizado desde `#d96c06`)                                   |
+| `--font-size-component-accordion-title`  | `typescale-desktop.css`, `typescale-mobile.css` | `pds-accordion` (título del acordeón; `1.25rem`)                                                                   |
+| `--font-size-component-card-title`       | `typescale-desktop.css`, `typescale-mobile.css` | `pds-selectable-card` (título de card; `1.25rem`)                                                                  |
 
 ---
 
