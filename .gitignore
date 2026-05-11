@@ -47,5 +47,11 @@ Thumbs.db
 *.log
 *storybook.log
 
+# Auth tokens — nunca subir tokens reales
+# El .npmrc con ${POLI_PACKAGES_TOKEN} SÍ se sube (usa variable de entorno)
+# Pero .npmrc con tokens hardcodeados NO
+.npmrc.local
+
 # Storybook
 /storybook-static
+/apps/storybook/storybook-static

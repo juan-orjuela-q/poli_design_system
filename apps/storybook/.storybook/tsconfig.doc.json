@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.app.json",
+  "compilerOptions": {
+    "baseUrl": "../../../",
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "../../../src/test.ts",
+    "../../../src/**/*.stories.ts"
+  ],
+  "include": ["../../../src/**/*"]
+}

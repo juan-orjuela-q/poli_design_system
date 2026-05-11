@@ -136,7 +136,7 @@
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
-            "configDir": "src/.storybook",
+            "configDir": "apps/storybook/.storybook",
             "browserTarget": "base-project:build",
             "compodoc": true,
             "compodocArgs": [
@@ -151,7 +151,7 @@
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
           "options": {
-            "configDir": "src/.storybook",
+            "configDir": "apps/storybook/.storybook",
             "browserTarget": "base-project:build",
             "compodoc": true,
             "compodocArgs": [
@@ -160,7 +160,7 @@
               "-d",
               "."
             ],
-            "outputDir": "storybook-static"
+            "outputDir": "apps/storybook/storybook-static"
           }
         }
       }
