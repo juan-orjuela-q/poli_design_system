@@ -8,6 +8,7 @@ on:
       - 'src/stories/**'
       - 'apps/storybook/**'
       - 'src/assets/poligran/**'
+  workflow_dispatch:
 
 # Permite desplegar a GitHub Pages
 permissions:
