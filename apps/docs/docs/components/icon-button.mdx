@@ -1,0 +1,48 @@
+# pds-icon-button
+
+<FigmaEmbed nodeId="84:1092" />
+
+Botón de solo icono. Ideal para acciones icónicas en barras de herramientas, headers y paneles.
+
+## Importación
+
+```typescript
+import { PdsIconButtonComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'ghost-neutral' \| 'tertiary' \| 'destructive' \| 'destructive-outline'` | `'primary'` | Variante visual |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | SM=32px visual/48px touch · MD=40px · LG=48px |
+| `iconName` | `string` | requerido | Nombre del icono Material Symbols |
+| `ariaLabel` | `string` | requerido | Etiqueta accesible (obligatoria, el botón no tiene texto visible) |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `type` | `'button' \| 'submit'` | `'button'` | Tipo HTML |
+
+## Uso básico
+
+```html
+<!-- Botón de cerrar -->
+<pds-icon-button
+  iconName="close"
+  ariaLabel="Cerrar panel"
+  variant="ghost-neutral"
+/>
+
+<!-- En una barra de herramientas -->
+<pds-icon-button iconName="edit" ariaLabel="Editar" variant="outline" />
+<pds-icon-button iconName="delete" ariaLabel="Eliminar" variant="destructive-outline" />
+
+<!-- Tamaño pequeño en cabecera de card -->
+<pds-icon-button iconName="more_vert" ariaLabel="Más opciones" variant="ghost" size="sm" />
+```
+
+## Accesibilidad
+
+- `ariaLabel` es **obligatorio**: el botón no tiene texto visible.
+- Touch target mínimo 48×48px usando `::before` en tamaño `sm` (32px visual).
+- `aria-disabled` para el estado deshabilitado.

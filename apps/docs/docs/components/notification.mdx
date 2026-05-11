@@ -1,0 +1,105 @@
+# pds-notification
+
+<FigmaEmbed nodeId="86:1447" />
+
+Notificación contextual en tres presentaciones: inline, snackbar y toast. Cinco estados semánticos, auto-dismiss y acciones.
+
+## Importación
+
+```typescript
+import { PdsNotificationComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `type` | `'inline' \| 'snackbar' \| 'toast'` | `'inline'` | Presentación |
+| `status` | `'default' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'default'` | Estado semántico |
+| `title` | `string \| null` | `null` | Título opcional |
+| `dismissible` | `boolean` | `true` | Muestra botón de cierre |
+| `actions` | `NotificationAction[]` | `[]` | Botones de acción |
+| `position` | `NotificationPosition \| null` | `null` | Posición del flotante (snackbar/toast) |
+| `timerDuration` | `number \| null` | `30000` | Duración del timer visual en ms (0/null = sin timer) |
+| `autoDismiss` | `number \| null` | `5000` | Auto-cierre en ms (`null` = no auto-cierra) |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `dismissed` | `void` | Al cerrar (manual o automático) |
+| `action` | `string` | ID de la acción al hacer clic |
+
+### Tipos
+
+```typescript
+type NotificationPosition =
+  | 'bottom-center' | 'bottom-left' | 'bottom-right'
+  | 'top-center' | 'top-left' | 'top-right';
+
+interface NotificationAction {
+  id: string;
+  label: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+}
+```
+
+## Uso básico
+
+```html
+<!-- Inline (en flujo del contenido) -->
+<pds-notification status="success" title="¡Guardado!">
+  Los cambios se guardaron correctamente.
+</pds-notification>
+
+<!-- Inline con acción -->
+<pds-notification
+  status="warning"
+  title="Sin conexión"
+  [actions]="[{ id: 'retry', label: 'Reintentar', variant: 'outline' }]"
+  (action)="onAction($event)"
+>
+  No se pueden guardar los cambios.
+</pds-notification>
+
+<!-- Snackbar temporal -->
+<pds-notification
+  *ngIf="showSnackbar"
+  type="snackbar"
+  status="success"
+  [autoDismiss]="3000"
+  [timerDuration]="3000"
+  (dismissed)="showSnackbar = false"
+>
+  Archivo subido correctamente.
+</pds-notification>
+
+<!-- Toast persistente -->
+<pds-notification
+  *ngIf="showToast"
+  type="toast"
+  status="error"
+  title="Error de conexión"
+  [autoDismiss]="null"
+  (dismissed)="showToast = false"
+>
+  No se pudo conectar al servidor.
+</pds-notification>
+```
+
+## Diferencias entre tipos
+
+| | `inline` | `snackbar` | `toast` |
+|--|----------|------------|---------|
+| Posición | En el flujo | Flotante inferior | Flotante superior derecha |
+| Ancho | 100% del contenedor | Ancho del mensaje | Fijo (400px) |
+| Auto-dismiss | Desactivado por defecto | 5s por defecto | 5s por defecto |
+| Caso de uso | Mensajes de estado de formulario | Confirmaciones rápidas | Alertas de sistema |
+
+## Accesibilidad
+
+- `role="alert"` para estados de error y warning (interrupción inmediata).
+- `role="status"` / `aria-live="polite"` para info y success.
+- El timer visual no es la única forma de comunicar el tiempo restante.

@@ -1,0 +1,69 @@
+# pds-textarea-field
+
+<FigmaEmbed nodeId="61:1084" />
+
+Campo de texto multilínea. Variante de `pds-input-field` con redimensionamiento vertical.
+
+## Importación
+
+```typescript
+import { PdsTextareaFieldComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del campo |
+| `placeholder` | `string` | `''` | Texto de placeholder |
+| `value` | `string` | `''` | Valor inicial |
+| `status` | `'default' \| 'error' \| 'warning' \| 'success' \| 'disabled' \| 'readonly'` | `'default'` | Estado visual |
+| `feedbackText` | `string \| null` | `null` | Texto de feedback con estado |
+| `helpText` | `string \| null` | `null` | Ayuda en tooltip |
+| `maxLength` | `number \| null` | `null` | Longitud máxima |
+| `showCounter` | `boolean` | `false` | Contador de caracteres |
+| `required` | `boolean` | `false` | Asterisco de requerido |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `readonly` | `boolean` | `false` | Solo lectura |
+| `rows` | `number` | `3` | Número de filas visibles |
+| `name` | `string \| null` | `null` | Nombre del campo |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valueChange` | `string` | Emite el valor al escribir |
+| `blur` | `void` | Al perder el foco |
+| `focus` | `void` | Al ganar el foco |
+
+## Uso básico
+
+```html
+<!-- Textarea simple -->
+<pds-textarea-field label="Descripción" />
+
+<!-- Con validación -->
+<pds-textarea-field
+  label="Comentarios"
+  [maxLength]="500"
+  [showCounter]="true"
+  [required]="true"
+  [status]="comments.length === 0 ? 'error' : 'default'"
+  feedbackText="El comentario es requerido"
+/>
+
+<!-- Con Reactive Forms -->
+<pds-textarea-field
+  label="Observaciones"
+  formControlName="observaciones"
+  [rows]="5"
+/>
+```
+
+## Accesibilidad
+
+- Mismos patrones que `pds-input-field`.
+- `resize: vertical` — el usuario puede ampliar verticalmente, nunca horizontal (preserva el layout).
+- Alto mínimo de 96px (`--input-dimensions-textarea-min-height`).

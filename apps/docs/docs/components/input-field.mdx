@@ -1,0 +1,109 @@
+# pds-input-field
+
+<FigmaEmbed nodeId="39:36094" />
+
+Campo de texto de una línea. Soporta 9 estados visuales, iconos, contador de caracteres, tipos de input y toggle de contraseña.
+
+## Importación
+
+```typescript
+import { PdsInputFieldComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del campo |
+| `placeholder` | `string` | `''` | Texto de placeholder |
+| `type` | `'text' \| 'email' \| 'password' \| 'number' \| 'tel' \| 'url' \| 'search'` | `'text'` | Tipo HTML del input |
+| `value` | `string` | `''` | Valor inicial (sin formulario) |
+| `status` | `'default' \| 'error' \| 'warning' \| 'success' \| 'loading' \| 'readonly' \| 'filled' \| 'focus' \| 'disabled'` | `'default'` | Estado visual |
+| `feedbackText` | `string \| null` | `null` | Texto de ayuda con el estado |
+| `helpText` | `string \| null` | `null` | Texto de ayuda estático en tooltip |
+| `maxLength` | `number \| null` | `null` | Longitud máxima |
+| `showCounter` | `boolean` | `false` | Muestra contador caracteres/máximo |
+| `required` | `boolean` | `false` | Muestra asterisco de requerido |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `readonly` | `boolean` | `false` | Campo de solo lectura |
+| `iconStart` | `string \| null` | `null` | Ícono al inicio (Material Symbols) |
+| `iconEnd` | `string \| null` | `null` | Ícono al final (Material Symbols) |
+| `autocomplete` | `string` | `''` | Valor del atributo autocomplete |
+| `name` | `string \| null` | `null` | Nombre del campo en el formulario |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valueChange` | `string` | Emite el valor al escribir |
+| `blur` | `void` | Emite al perder el foco |
+| `focus` | `void` | Emite al ganar el foco |
+
+## Uso básico
+
+```html
+<!-- Campo simple -->
+<pds-input-field label="Nombre completo" />
+
+<!-- Con estado y feedback -->
+<pds-input-field
+  label="Email"
+  type="email"
+  [status]="emailStatus"
+  [feedbackText]="emailFeedback"
+/>
+
+<!-- Con contador y máximo -->
+<pds-input-field
+  label="Descripción corta"
+  [maxLength]="100"
+  [showCounter]="true"
+/>
+
+<!-- Con iconos -->
+<pds-input-field label="Buscar" iconStart="search" />
+<pds-input-field label="Código" iconEnd="qr_code" />
+
+<!-- Contraseña (toggle visible automático) -->
+<pds-input-field label="Contraseña" type="password" />
+
+<!-- Sin formulario - binding directo -->
+<pds-input-field
+  label="Nombre"
+  [value]="nombre"
+  (valueChange)="nombre = $event"
+/>
+```
+
+## Con Reactive Forms (CVA)
+
+```typescript
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  imports: [ReactiveFormsModule, PdsInputFieldComponent],
+  template: `
+    <pds-input-field
+      label="Email"
+      type="email"
+      [required]="true"
+      [status]="emailCtrl.invalid && emailCtrl.touched ? 'error' : 'default'"
+      [feedbackText]="emailCtrl.errors?.['email'] ? 'Email inválido' : null"
+      formControlName="email"
+    />
+  `,
+})
+export class MyForm {
+  emailCtrl = new FormControl('', [Validators.required, Validators.email]);
+}
+```
+
+## Accesibilidad
+
+- Label asociado al input con `for`/`id` generado automáticamente.
+- `aria-required` cuando `required=true`.
+- `aria-describedby` conectado al helper text.
+- Focus ring en el **wrapper** usando `:focus-within`.
+- Toggle de contraseña: botón `pds-icon-button` integrado.

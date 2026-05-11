@@ -1,0 +1,44 @@
+.figmaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  margin-bottom: 24px;
+}
+
+.figmaLink:hover {
+  border-color: #a259ff;
+  background: #f9f2ff;
+  color: #a259ff;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .figmaLink {
+  background: #1e1e2e;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] .figmaLink:hover {
+  border-color: #a259ff;
+  background: #2a1f3d;
+  color: #c084fc;
+}
+
+.figmaIcon {
+  flex-shrink: 0;
+}
+
+.externalIcon {
+  flex-shrink: 0;
+  opacity: 0.5;
+  margin-left: auto;
+}

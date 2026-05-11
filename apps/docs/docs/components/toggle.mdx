@@ -1,0 +1,57 @@
+# pds-toggle
+
+<FigmaEmbed nodeId="813:9116" />
+
+Switch de encendido/apagado. Implementa `role="switch"` y CVA boolean.
+
+## Importación
+
+```typescript
+import { PdsToggleComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del toggle |
+| `checked` | `boolean` | `false` | Estado encendido/apagado |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `labelPosition` | `'left' \| 'right'` | `'right'` | Posición de la etiqueta |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `checkedChange` | `boolean` | Emite el nuevo estado |
+
+## Uso básico
+
+```html
+<!-- Simple -->
+<pds-toggle label="Notificaciones" />
+
+<!-- Con binding -->
+<pds-toggle
+  label="Modo oscuro"
+  [checked]="darkMode"
+  labelPosition="left"
+  (checkedChange)="darkMode = $event"
+/>
+
+<!-- Con Reactive Forms -->
+<pds-toggle label="Activo" formControlName="active" />
+
+<!-- Deshabilitado -->
+<pds-toggle label="Feature premium" [disabled]="!isPremium" [checked]="true" />
+```
+
+## Accesibilidad
+
+- Implementado como `<button role="switch">` para semántica correcta de interruptor.
+- `aria-checked` refleja el estado actual.
+- `aria-disabled` para el estado deshabilitado.
+- Activable con `Enter` y `Space`.
+- CVA boolean: el valor del `FormControl` es `true` / `false`.

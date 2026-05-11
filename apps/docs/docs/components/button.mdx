@@ -1,0 +1,69 @@
+# pds-button
+
+<FigmaEmbed nodeId="37:20705" />
+
+Botón de acción principal del Design System v2. Disponible en 6 variantes y 3 tamaños.
+
+## Importación
+
+```typescript
+import { PdsButtonComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'destructive-outline'` | `'primary'` | Variante visual |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Tamaño del botón |
+| `disabled` | `boolean` | `false` | Estado deshabilitado (usa `aria-disabled`) |
+| `iconStart` | `string \| null` | `null` | Nombre de icono Material Symbols al inicio |
+| `iconEnd` | `string \| null` | `null` | Nombre de icono Material Symbols al final |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Tipo HTML del botón |
+
+### Outputs
+
+El componente emite el evento nativo `(click)` del host.
+
+## Uso básico
+
+```html
+<!-- Variante primaria -->
+<pds-button>Guardar</pds-button>
+
+<!-- Con variante y tamaño -->
+<pds-button variant="secondary" size="lg">Cancelar</pds-button>
+
+<!-- Con icono -->
+<pds-button variant="primary" iconStart="save">Guardar</pds-button>
+<pds-button variant="outline" iconEnd="arrow_forward">Siguiente</pds-button>
+
+<!-- Deshabilitado -->
+<pds-button [disabled]="isLoading">Enviando...</pds-button>
+
+<!-- Submit de formulario -->
+<pds-button type="submit" variant="primary">Enviar</pds-button>
+
+<!-- Destructiva -->
+<pds-button variant="destructive" iconStart="delete">Eliminar</pds-button>
+```
+
+## Variantes
+
+| Variante | Uso |
+|----------|-----|
+| `primary` | Acción principal de la pantalla |
+| `secondary` | Acción secundaria o alternativa |
+| `outline` | Acción menos prominente, con borde |
+| `ghost` | Acción terciaria, sin fondo ni borde |
+| `destructive` | Acción irreversible (eliminar, borrar) |
+| `destructive-outline` | Destructiva menos prominente |
+
+## Accesibilidad
+
+- Usa `aria-disabled` en lugar de `disabled` nativo para mantener el elemento en el tab order.
+- Shape siempre `pill` (definido por el DS v2).
+- Focus ring doble anillo visible en todos los estados.
+- Navegación con `Enter` y `Space`.

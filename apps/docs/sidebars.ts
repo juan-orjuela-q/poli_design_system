@@ -43,9 +43,7 @@ const sidebars: SidebarsConfig = {
         'components/textarea-field',
         'components/select-field',
         'components/checkbox',
-        'components/checkbox-group',
         'components/radio',
-        'components/radio-group',
         'components/toggle',
         'components/range',
         'components/date-picker',
@@ -75,7 +73,6 @@ const sidebars: SidebarsConfig = {
         'components/sidenav',
         'components/paginator',
         'components/stepper',
-        'components/stepper-compact',
       ],
     },
     {
@@ -84,7 +81,6 @@ const sidebars: SidebarsConfig = {
       items: [
         'components/accordion',
         'components/card',
-        'components/stat-card',
         'components/table',
         'components/code-block',
         'components/avatar-button',

@@ -1,0 +1,74 @@
+# pds-avatar-button
+
+<FigmaEmbed nodeId="766:5587" />
+
+Botón de usuario en formato pastilla con soporte para letra, imagen e ícono, más notificación badge.
+
+## Importación
+
+```typescript
+import { PdsAvatarButtonComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `name` | `string` | requerido | Nombre completo del usuario (para aria-label) |
+| `role` | `string` | `''` | Rol o cargo del usuario |
+| `type` | `'letter' \| 'image' \| 'icon'` | `'letter'` | Tipo de avatar |
+| `imageSrc` | `string` | `''` | URL de la imagen (solo con `type="image"`) |
+| `letter` | `string` | `''` | Letra a mostrar (solo con `type="letter"`, toma la primera letra de `name` si está vacío) |
+| `iconName` | `string` | `'person'` | Ícono (solo con `type="icon"`) |
+| `showBadge` | `boolean` | `false` | Muestra el badge de notificación |
+| `size` | `'md' \| 'lg'` | `'md'` | Tamaño del botón |
+| `showName` | `boolean` | `true` | Muestra el nombre al lado del avatar |
+| `showRole` | `boolean` | `true` | Muestra el rol/cargo |
+| `buttonType` | `'button' \| 'submit'` | `'button'` | Tipo HTML del botón |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `clicked` | `void` | Al hacer clic en el botón |
+
+## Uso básico
+
+```typescript
+user = { name: 'Juan García', role: 'Docente', photo: '/assets/avatar.jpg' };
+```
+
+```html
+<!-- Con letra (default) -->
+<pds-avatar-button
+  [name]="user.name"
+  [role]="user.role"
+  (clicked)="openUserMenu()"
+/>
+
+<!-- Con imagen -->
+<pds-avatar-button
+  [name]="user.name"
+  type="image"
+  [imageSrc]="user.photo"
+  [showBadge]="hasNotifications()"
+/>
+
+<!-- En sidenav (solo ícono, sin texto) -->
+<pds-avatar-button
+  [name]="user.name"
+  type="icon"
+  [showName]="false"
+  [showRole]="false"
+  size="lg"
+/>
+```
+
+## Accesibilidad
+
+- El `aria-label` se genera dinámicamente: `"{name}, {role}, {badge info}"`.
+- El badge genera texto accesible adicional cuando `showBadge=true`.
+- Estado hover y pressed indicados visualmente con fondo `--portal-blue-bg`.
+- `aria-disabled` cuando se deshabilita externamente.

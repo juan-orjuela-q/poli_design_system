@@ -1,0 +1,68 @@
+# pds-tag
+
+<FigmaEmbed nodeId="742:8857" />
+
+Etiqueta interactiva con soporte de selección y eliminación.
+
+## Importación
+
+```typescript
+import { PdsTagComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Variante visual |
+| `label` | `string` | `''` | Texto del tag (usado también para aria-label del botón remove) |
+| `iconStart` | `string \| null` | `null` | Ícono al inicio (Material Symbols) |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `removable` | `boolean` | `false` | Muestra botón de eliminar (×) |
+| `selected` | `boolean` | `false` | Estado seleccionado (`aria-pressed`) |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `removed` | `void` | Emitido al hacer clic en el botón × |
+
+## Uso básico
+
+```html
+<!-- Tag simple -->
+<pds-tag label="Angular" variant="primary" />
+
+<!-- Tag removable (filtros activos) -->
+<pds-tag
+  label="Bogotá"
+  variant="secondary"
+  [removable]="true"
+  (removed)="removeFilter('bogota')"
+/>
+
+<!-- Tag seleccionable (filtros toggle) -->
+<pds-tag
+  label="Virtual"
+  variant="tertiary"
+  [selected]="isVirtualSelected"
+  (click)="toggleVirtual()"
+/>
+
+<!-- Con icono -->
+<pds-tag label="Tecnología" iconStart="computer" variant="primary" />
+```
+
+## Notas de diseño
+
+- Click en el tag = toggle de selección (`aria-pressed`).
+- Click en × = emite `(removed)`. Estas dos acciones son **independientes**.
+- Los tags removables usan `<span role="button">` para el botón × (no `<button>`) porque `<button>` no puede contener otro `<button>`.
+
+## Accesibilidad
+
+- Touch target 48×48px mediante `::before` (el tag visual es de 32px de alto).
+- `aria-disabled` para el estado deshabilitado — el tag sigue siendo anunciado por AT.
+- El botón × tiene `aria-label="Eliminar {label}"` generado dinámicamente.

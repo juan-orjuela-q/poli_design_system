@@ -1,0 +1,43 @@
+# pds-loading-circle
+
+<FigmaEmbed nodeId="376:2077" />
+
+Spinner de carga circular animado. Con etiqueta visible opcional.
+
+## Importación
+
+```typescript
+import { PdsLoadingCircleComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Tamaño del spinner |
+| `ariaLabel` | `string` | `'Cargando'` | Texto para lectores de pantalla |
+| `label` | `string` | `''` | Etiqueta visible junto al spinner |
+
+## Uso básico
+
+```html
+<!-- Spinner básico -->
+<pds-loading-circle />
+
+<!-- Con etiqueta visible -->
+<pds-loading-circle label="Cargando datos..." />
+
+<!-- Tamaño pequeño en botón -->
+<pds-loading-circle size="sm" ariaLabel="Enviando formulario" />
+
+<!-- En pantalla completa -->
+<pds-loading-circle size="lg" label="Procesando tu solicitud" />
+```
+
+## Accesibilidad
+
+- Usa `role="status"` que implica `aria-live="polite"` — no duplicar.
+- El texto accesible (`ariaLabel`) va en un `<span class="sr-only">` dentro del componente.
+- `prefers-reduced-motion`: la animación se desactiva completamente (no solo reduce velocidad).

@@ -1,0 +1,92 @@
+# Colores
+
+El sistema de color está dividido en dos capas: **primitivos** (valores exactos) y **semánticos** (intención de uso).
+
+## Colores primitivos (`primitives.css`)
+
+### Paleta brand (azul marino)
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--color-brand-900` | `#001d30` | Textos muy oscuros |
+| `--color-brand-800` | `#00344f` | Fondos primarios dark |
+| `--color-brand-700` | `#0f385a` | Color de acción principal |
+| `--color-brand-600` | `#1a4e7a` | Hover de acción |
+| `--color-brand-500` | `#2665a0` | Estados intermedios |
+| `--color-brand-100` | `#e3edf7` | Fondos sutiles |
+| `--color-brand-50`  | `#f0f5fb` | Fondos muy sutiles |
+
+### Paleta magenta (acento secundario)
+
+| Token | Valor |
+|-------|-------|
+| `--color-magenta-700` | `#9c0050` |
+| `--color-magenta-500` | `#e0006e` |
+| `--color-magenta-300` | `#f06090` |
+| `--color-magenta-100` | `#fde8f3` |
+
+### Paleta neutral
+
+| Token | Valor |
+|-------|-------|
+| `--color-neutral-900` | `#1a1a2e` |
+| `--color-neutral-700` | `#4a4a6a` |
+| `--color-neutral-500` | `#7a7a9a` |
+| `--color-neutral-300` | `#b0b0c8` |
+| `--color-neutral-100` | `#e8e8f0` |
+| `--color-neutral-50`  | `#f5f5fa` |
+
+## Tokens semánticos (`tokens.css`)
+
+### Superficies
+
+| Token | Descripción |
+|-------|-------------|
+| `--surface-canvas` | Fondo principal de la app |
+| `--surface-subtle` | Fondo alternado (card, sidebar) |
+| `--surface-sunken` | Fondo deprimido |
+| `--surface-overlay` | Overlay de modal/dialog |
+
+### Textos (fg = foreground)
+
+| Token | Descripción |
+|-------|-------------|
+| `--fg-primary` | Texto principal |
+| `--fg-secondary` | Texto secundario / placeholders |
+| `--fg-disabled` | Texto deshabilitado |
+| `--fg-on-primary` | Texto sobre fondos de acción primaria (blanco) |
+| `--fg-status-error` | Texto/icono de error (`#e0006e`) |
+| `--fg-status-success` | Texto/icono de éxito (`#55701b`) |
+| `--fg-status-warning` | Texto/icono de advertencia (`#b44a09`) |
+
+### Acciones
+
+| Token | Descripción |
+|-------|-------------|
+| `--action-primary-bg` | Fondo de botón primario |
+| `--action-primary-hover` | Hover de botón primario |
+| `--action-primary-pressed` | Pressed de botón primario |
+| `--action-primary-focus-ring` | Focus ring de acción primaria |
+| `--action-focus-inner` | Anillo interior del focus (blanco) |
+| `--action-neutral-solid-bg-disabled` | Fondo deshabilitado |
+| `--action-status-error-focus-ring` | Focus ring en campo con error |
+
+### Bordes
+
+| Token | Descripción |
+|-------|-------------|
+| `--border-neutral-default` | Borde de inputs en estado default |
+| `--border-neutral-hover` | Borde de inputs en hover |
+| `--border-status-error-solid` | Borde de error / indicador activo de tabs |
+| `--border-status-success-solid` | Borde de éxito |
+| `--border-status-warning-solid` | Borde de advertencia |
+
+## Modo oscuro
+
+El sistema utiliza la misma arquitectura de tokens; basta con redefinir los valores de `tokens.css` dentro de `[data-theme="dark"]` o `@media (prefers-color-scheme: dark)`.
+
+## Accesibilidad de color
+
+Todos los pares de colores texto/fondo cumplen **WCAG 2.1 AA** (contraste mínimo 4.5:1 para texto normal, 3:1 para texto grande).
+
+Los estados de feedback (error, warning, success) **nunca usan solo color** para comunicar información — siempre se acompañan de icono y/o texto.

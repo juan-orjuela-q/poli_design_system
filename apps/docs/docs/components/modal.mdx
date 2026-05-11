@@ -1,0 +1,102 @@
+# pds-modal
+
+<FigmaEmbed nodeId="96:3281" />
+
+Modal de contenido libre con 5 tamaños, slot de footer personalizable y comportamiento de bottom sheet en móvil.
+
+## Importación
+
+```typescript
+import { PdsModalComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `title` | `string` | requerido | Título del modal |
+| `open` | `boolean` | `false` | Controla la visibilidad |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Ancho máximo del modal |
+| `closeOnOverlay` | `boolean` | `true` | Cierra al hacer clic en el overlay |
+| `showActions` | `boolean` | `true` | Muestra footer con botones por defecto |
+| `showCancel` | `boolean` | `true` | Muestra el botón cancelar |
+| `confirmLabel` | `string` | `'Aceptar'` | Texto del botón confirmar |
+| `cancelLabel` | `string` | `'Cancelar'` | Texto del botón cancelar |
+| `disableScrollLock` | `boolean` | `false` | No bloquea el scroll del body |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `closed` | `void` | Al cerrar (X, cancelar, overlay, Escape) |
+| `confirmed` | `void` | Al confirmar |
+
+## Tamaños
+
+| Valor | Ancho máximo |
+|-------|-------------|
+| `sm` | 420px |
+| `md` | 560px |
+| `lg` | 720px |
+| `xl` | 900px |
+| `2xl` | 1200px |
+
+## Uso básico
+
+```typescript
+showModal = signal(false);
+```
+
+```html
+<!-- Modal con contenido libre -->
+<pds-modal
+  title="Editar perfil"
+  [open]="showModal()"
+  (confirmed)="saveAndClose()"
+  (closed)="showModal.set(false)"
+>
+  <app-profile-form />
+</pds-modal>
+
+<!-- Modal grande con footer personalizado -->
+<pds-modal
+  title="Vista previa del documento"
+  size="xl"
+  [open]="showPreview()"
+  [showActions]="false"
+  (closed)="showPreview.set(false)"
+>
+  <app-pdf-viewer [url]="docUrl()" />
+
+  <!-- Footer slot personalizado -->
+  <div slot="footer">
+    <pds-button label="Descargar" variant="outlined" (click)="download()" />
+    <pds-button label="Aprobar" (click)="approve()" />
+  </div>
+</pds-modal>
+
+<!-- Modal sin footer -->
+<pds-modal
+  title="Información"
+  [open]="showInfo()"
+  [showActions]="false"
+  (closed)="showInfo.set(false)"
+>
+  <p>Contenido informativo sin acciones.</p>
+</pds-modal>
+```
+
+## Comportamiento móvil
+
+En pantallas `≤768px`, el modal se convierte en **bottom sheet**: aparece desde el borde inferior de la pantalla y ocupa el ancho completo.
+
+## Accesibilidad
+
+- `role="dialog"` con `aria-modal="true"` y `aria-labelledby` apuntando al título.
+- El botón X tiene `aria-label="Cerrar"`.
+- Focus trap CDK: foco confinado al modal mientras está abierto.
+- `Escape` cierra el modal.
+- Scroll lock en body mientras el modal está abierto.
+- Al cerrar, el foco regresa al elemento que abrió el modal.

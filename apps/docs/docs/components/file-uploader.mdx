@@ -1,0 +1,105 @@
+# pds-file-uploader
+
+<FigmaEmbed nodeId="733:7857" />
+
+Zona de carga de archivos con drag & drop, validación de tipo y tamaño, y lista de archivos cargados.
+
+## Importación
+
+```typescript
+import { PdsFileUploaderComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string \| null` | `null` | Etiqueta del campo |
+| `required` | `boolean` | `false` | Muestra asterisco de requerido |
+| `hint` | `string \| null` | `null` | Texto de ayuda debajo del área |
+| `instructive` | `string` | `'Arrastra el archivo que deseas subir o'` | Texto instruccional |
+| `accept` | `string` | `'*'` | Tipos aceptados (MIME o extensiones, ej: `"image/*,.pdf"`) |
+| `multiple` | `boolean` | `false` | Permite múltiples archivos |
+| `maxSize` | `number \| null` | `null` | Tamaño máximo en bytes. `null` = sin límite |
+| `disabled` | `boolean` | `false` | Deshabilita la zona de carga |
+| `type` | `'large' \| 'compact'` | `'large'` | `large`=drop zone visual · `compact`=solo botón |
+| `items` | `PdsFileItem[] \| null` | `null` | Modo controlado: array externo de items |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `filesAdded` | `PdsFileItem[]` | Emite los nuevos items al agregar archivos |
+| `fileRemoved` | `string` | Emite el `id` del item eliminado |
+
+### Tipo PdsFileItem
+
+```typescript
+interface PdsFileItem {
+  id: string;         // ID único generado
+  file: File;         // Objeto File nativo
+  name: string;       // Nombre del archivo
+  size: number;       // Tamaño en bytes
+  type: string;       // MIME type
+  status: 'pending' | 'uploading' | 'success' | 'error';
+  progress?: number;  // 0-100 para estado uploading
+  error?: string;     // Mensaje de error
+}
+```
+
+## Uso básico — Modo no controlado
+
+```html
+<!-- El componente gestiona su propia lista de archivos -->
+<pds-file-uploader
+  label="Documentos adjuntos"
+  accept=".pdf,.doc,.docx"
+  [multiple]="true"
+  [maxSize]="5242880"
+  hint="Máximo 5MB por archivo. PDF y Word."
+  (filesAdded)="onFilesAdded($event)"
+  (fileRemoved)="onFileRemoved($event)"
+/>
+```
+
+## Uso avanzado — Modo controlado
+
+```typescript
+files = signal<PdsFileItem[]>([]);
+
+onFilesAdded(newItems: PdsFileItem[]) {
+  this.files.update(current => [...current, ...newItems]);
+  // Subir al servidor...
+  this.uploadFiles(newItems);
+}
+
+onFileRemoved(id: string) {
+  this.files.update(current => current.filter(f => f.id !== id));
+}
+```
+
+```html
+<pds-file-uploader
+  label="Imagen de perfil"
+  accept="image/*"
+  [items]="files()"
+  (filesAdded)="onFilesAdded($event)"
+  (fileRemoved)="onFileRemoved($event)"
+/>
+```
+
+## Variante compacta
+
+```html
+<!-- Solo botón "Seleccionar archivo", sin drop zone visual -->
+<pds-file-uploader type="compact" accept=".csv" />
+```
+
+## Accesibilidad
+
+- El área de drop tiene `role="button"` con `aria-label` descriptivo.
+- Activable con teclado (Enter/Space) abre el selector de archivos nativo.
+- Los archivos cargados se listan con estado visual e icono.
+- Los errores de validación (tipo/tamaño incorrecto) se comunican con texto.

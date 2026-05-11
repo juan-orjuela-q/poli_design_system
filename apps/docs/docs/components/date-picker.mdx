@@ -1,0 +1,80 @@
+# pds-date-picker
+
+<FigmaEmbed nodeId="1043:8279" />
+
+Selector de fecha con calendario desplegable. Soporta modo individual y rango. Implementa CVA.
+
+## Importación
+
+```typescript
+import { PdsDatePickerComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del campo |
+| `mode` | `'single' \| 'range'` | `'single'` | Selección de fecha o rango |
+| `placeholder` | `string` | `'dd/mm/aaaa'` | Texto de placeholder |
+| `minDate` | `Date \| null` | `null` | Fecha mínima permitida |
+| `maxDate` | `Date \| null` | `null` | Fecha máxima permitida |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `required` | `boolean` | `false` | Campo requerido |
+| `status` | `'default' \| 'error' \| 'warning' \| 'success'` | `'default'` | Estado visual |
+| `feedbackText` | `string \| null` | `null` | Texto de feedback |
+| `helpText` | `string \| null` | `null` | Ayuda en tooltip |
+| `value` | `Date \| null` | `null` | Valor inicial |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `dateChange` | `Date \| null` | Fecha seleccionada (modo single) |
+| `dateRangeChange` | `{ start: Date \| null; end: Date \| null }` | Rango seleccionado |
+
+## Uso básico
+
+```html
+<!-- Fecha única -->
+<pds-date-picker label="Fecha de nacimiento" (dateChange)="onDateChange($event)" />
+
+<!-- Rango de fechas -->
+<pds-date-picker
+  label="Período"
+  mode="range"
+  (dateRangeChange)="onRangeChange($event)"
+/>
+
+<!-- Con límites -->
+<pds-date-picker
+  label="Fecha de inicio"
+  [minDate]="today"
+  [maxDate]="maxAllowed"
+/>
+
+<!-- Con Reactive Forms -->
+<pds-date-picker label="Fecha" formControlName="fecha" />
+```
+
+```typescript
+today = new Date();
+maxAllowed = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000); // 90 días
+```
+
+## Notas
+
+- Formato de entrada/display: `dd/MM/yyyy`.
+- Usa `date-fns` con locale español (`es`) para nombres de meses y días.
+- Vistas: días → meses → años (clic en el header del calendario).
+- Los días fuera del mes actual se muestran con opacidad reducida.
+
+## Accesibilidad
+
+- El trigger tiene `aria-expanded` y `aria-haspopup="dialog"`.
+- El calendario es `role="dialog"` con `aria-label`.
+- Los días son `role="gridcell"` con `aria-selected` y `aria-disabled`.
+- Navegación con flechas dentro del calendario.
+- `Escape` cierra el calendario.

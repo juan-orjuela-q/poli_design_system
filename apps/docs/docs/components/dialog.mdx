@@ -1,0 +1,105 @@
+# pds-dialog
+
+<FigmaEmbed nodeId="77:1094" />
+
+Diálogo de confirmación modal con 4 modos semánticos. Para contenido libre, usar `pds-modal`.
+
+## Importación
+
+```typescript
+import { PdsDialogComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `title` | `string` | requerido | Título del diálogo |
+| `open` | `boolean` | `false` | Controla la visibilidad |
+| `mode` | `'default' \| 'success' \| 'warning' \| 'error'` | `'default'` | Modo semántico (ícono y color) |
+| `confirmLabel` | `string \| null` | `null` | Texto del botón confirmar. Auto: `'Eliminar'` (error) / `'Aceptar'` (resto) |
+| `cancelLabel` | `string` | `'Cancelar'` | Texto del botón cancelar |
+| `showCancel` | `boolean` | `true` | Muestra el botón cancelar |
+| `closeOnOverlay` | `boolean` | `false` | Cierra al hacer clic en el overlay |
+| `disableScrollLock` | `boolean` | `false` | No bloquea el scroll del body |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `closed` | `void` | Al cerrar (cancelar, overlay, Escape) |
+| `confirmed` | `void` | Al confirmar |
+
+## Uso básico
+
+```typescript
+showDeleteDialog = signal(false);
+
+openDelete() {
+  this.showDeleteDialog.set(true);
+}
+
+onConfirm() {
+  this.deleteItem();
+  this.showDeleteDialog.set(false);
+}
+
+onClose() {
+  this.showDeleteDialog.set(false);
+}
+```
+
+```html
+<!-- Diálogo de eliminación -->
+<pds-dialog
+  title="¿Eliminar registro?"
+  mode="error"
+  [open]="showDeleteDialog()"
+  (confirmed)="onConfirm()"
+  (closed)="onClose()"
+>
+  Esta acción no se puede deshacer. El registro será eliminado permanentemente.
+</pds-dialog>
+
+<!-- Diálogo de éxito (solo confirmar) -->
+<pds-dialog
+  title="¡Solicitud enviada!"
+  mode="success"
+  [open]="showSuccess()"
+  [showCancel]="false"
+  confirmLabel="Entendido"
+  (confirmed)="showSuccess.set(false)"
+  (closed)="showSuccess.set(false)"
+/>
+
+<!-- Diálogo de advertencia -->
+<pds-dialog
+  title="Cambios sin guardar"
+  mode="warning"
+  [open]="showWarning()"
+  confirmLabel="Salir sin guardar"
+  cancelLabel="Continuar editando"
+  (confirmed)="discardAndNavigate()"
+  (closed)="showWarning.set(false)"
+/>
+```
+
+## Íconos por modo
+
+| Modo | Ícono | Color |
+|------|-------|-------|
+| `default` | `info` | brand |
+| `success` | `check_circle` | success |
+| `warning` | `warning` | warning |
+| `error` | `error` | error |
+
+## Accesibilidad
+
+- Usa `role="dialog"` con `aria-modal="true"` y `aria-labelledby` apuntando al título.
+- Focus trap CDK: el foco se mantiene dentro del diálogo mientras esté abierto.
+- `Escape` cierra el diálogo.
+- Al abrir, el foco va al primer elemento interactivo.
+- Al cerrar, el foco regresa al elemento activador.
+- `overflow: hidden` en `body` mientras el diálogo está abierto (scroll lock).

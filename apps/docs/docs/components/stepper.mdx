@@ -1,0 +1,134 @@
+# pds-stepper y pds-stepper-compact
+
+<FigmaEmbed nodeId="3136:1297" label="Ver especificación del Stepper en Figma" />
+
+Componentes de flujo por pasos. `pds-stepper` para flujos completos (horizontal y vertical), `pds-stepper-compact` para espacios reducidos.
+
+## Importación
+
+```typescript
+import { PdsStepperComponent, PdsStepperCompactComponent } from '@poli/components';
+```
+
+---
+
+## pds-stepper
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `steps` | `StepperStep[]` | requerido | Definición de los pasos |
+| `currentStepIndex` | `number` | `0` | Índice del paso activo (0-based). El padre actualiza este valor. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientación del stepper |
+| `showCount` | `boolean` | `true` | Muestra el contador "Paso X de N" |
+| `prevLabel` | `string` | `'Anterior'` | Etiqueta del botón Anterior |
+| `nextLabel` | `string` | `'Siguiente'` | Etiqueta del botón Siguiente |
+| `finishLabel` | `string` | `'Finalizar'` | Etiqueta del botón del último paso |
+| `ariaLabel` | `string` | `'Pasos del proceso'` | `aria-label` del grupo |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `stepChange` | `number` | Nuevo índice al navegar. El padre debe actualizar `currentStepIndex`. |
+| `finished` | `void` | Al hacer clic en "Finalizar" en el último paso |
+
+### Tipo StepperStep
+
+```typescript
+interface StepperStep {
+  label: string;
+  description?: string;  // Texto debajo del label
+  disabled?: boolean;
+}
+```
+
+### Uso básico
+
+```typescript
+steps: StepperStep[] = [
+  { label: 'Datos personales' },
+  { label: 'Información académica' },
+  { label: 'Documentos', description: 'Adjuntar archivos requeridos' },
+  { label: 'Revisión' },
+];
+
+currentStep = signal(0);
+
+onStepChange(index: number) {
+  this.currentStep.set(index);
+}
+
+onFinish() {
+  this.submitForm();
+}
+```
+
+```html
+<pds-stepper
+  [steps]="steps"
+  [currentStepIndex]="currentStep()"
+  (stepChange)="onStepChange($event)"
+  (finished)="onFinish()"
+>
+  <!-- El padre renderiza el contenido del paso activo -->
+  @switch (currentStep()) {
+    @case (0) { <app-datos-personales /> }
+    @case (1) { <app-info-academica /> }
+    @case (2) { <app-documentos /> }
+    @case (3) { <app-revision /> }
+  }
+</pds-stepper>
+```
+
+---
+
+## pds-stepper-compact
+
+Variante compacta para espacios reducidos. Solo muestra segmentos de progreso y un header de información.
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `steps` | `CompactStep[]` | requerido | Lista de pasos |
+| `currentIndex` | `number` | `0` | Índice activo (0-based) |
+| `showFooter` | `boolean` | `true` | Muestra pie con botones de navegación |
+| `nextLabel` | `string` | `'Siguiente'` | Etiqueta del botón siguiente |
+| `prevLabel` | `string` | `'Anterior'` | Etiqueta del botón anterior |
+| `finishLabel` | `string` | `'Finalizar'` | Etiqueta del último paso |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `next` | `void` | Al hacer clic en Siguiente/Finalizar |
+| `prev` | `void` | Al hacer clic en Anterior |
+
+### Tipo CompactStep
+
+```typescript
+interface CompactStep {
+  label: string;
+  nextStepLabel?: string;  // "Siguiente: {label}" mostrado en el header
+}
+```
+
+### Uso básico
+
+```html
+<pds-stepper-compact
+  [steps]="steps"
+  [currentIndex]="currentIndex()"
+  (next)="goNext()"
+  (prev)="goPrev()"
+/>
+```
+
+## Accesibilidad
+
+- `aria-current="step"` en el marcador del paso actual.
+- `aria-live="polite"` en el contador del paso.
+- Los pasos completados muestran ícono `check_circle` con `aria-label` descriptivo.
+- El stepper-compact usa `aria-live="polite"` en el header de información.

@@ -1,0 +1,83 @@
+# pds-paginator
+
+<FigmaEmbed nodeId="778:3560" />
+
+Control de paginación con navegación entre páginas y selector de tamaño de página.
+
+## Importación
+
+```typescript
+import { PdsPaginatorComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `totalItems` | `number` | requerido | Total de ítems en el conjunto |
+| `pageSize` | `number` | `20` | Cantidad de ítems por página |
+| `currentPage` | `number` | `1` | Página actual (1-indexada) |
+| `pageSizeOptions` | `number[]` | `[10, 20, 50, 100]` | Opciones del selector de tamaño |
+| `showPageSizeSelector` | `boolean` | `true` | Muestra el selector de ítems por página |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `pageChange` | `number` | Número de página al que navega el usuario |
+| `pageSizeChange` | `number` | Nuevo tamaño de página seleccionado |
+
+## Uso básico
+
+```typescript
+currentPage = signal(1);
+pageSize = signal(20);
+totalItems = signal(0);
+
+onPageChange(page: number) {
+  this.currentPage.set(page);
+  this.loadData(); // recarga desde API
+}
+
+onPageSizeChange(size: number) {
+  this.pageSize.set(size);
+  this.currentPage.set(1); // volver a página 1
+  this.loadData();
+}
+```
+
+```html
+<pds-paginator
+  [totalItems]="totalItems()"
+  [currentPage]="currentPage()"
+  [pageSize]="pageSize()"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)"
+/>
+```
+
+## Integración con pds-table
+
+`pds-table` incluye `pds-paginator` internamente cuando `showPaginator=true`. En ese caso, no es necesario usar `pds-paginator` por separado:
+
+```html
+<pds-table
+  [columns]="columns"
+  [data]="data()"
+  [showPaginator]="true"
+  [totalItems]="total()"
+  [currentPage]="page()"
+  [pageSize]="size()"
+  (pageChange)="page.set($event)"
+  (pageSizeChange)="onSizeChange($event)"
+/>
+```
+
+## Accesibilidad
+
+- Botones de navegación (primero/anterior/siguiente/último) con `aria-label` descriptivos.
+- El texto "Mostrando X-Y de Z" es anunciado como live region al cambiar de página.
+- El selector de tamaño es un custom dropdown con `role="listbox"` accesible por teclado.
+- Los botones deshabilitados (primera página = anterior/primero; última = siguiente/último) tienen `aria-disabled`.

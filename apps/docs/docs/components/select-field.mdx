@@ -1,0 +1,87 @@
+# pds-select-field
+
+<FigmaEmbed nodeId="674:5637" />
+
+Select desplegable accesible con patrón ARIA combobox/listbox. Soporte completo para CVA.
+
+## Importación
+
+```typescript
+import { PdsSelectFieldComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del campo |
+| `options` | `SelectOption[]` | requerido | Lista de opciones |
+| `value` | `string \| null` | `null` | Valor seleccionado |
+| `placeholder` | `string` | `'Selecciona una opción'` | Placeholder |
+| `status` | `'default' \| 'error' \| 'warning' \| 'success'` | `'default'` | Estado visual |
+| `feedbackText` | `string \| null` | `null` | Texto de feedback |
+| `helpText` | `string \| null` | `null` | Ayuda en tooltip |
+| `required` | `boolean` | `false` | Asterisco de requerido |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `iconStart` | `string \| null` | `null` | Ícono al inicio del trigger |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valueChange` | `string` | Emite el value al seleccionar |
+
+### Tipo SelectOption
+
+```typescript
+interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+```
+
+## Uso básico
+
+```html
+<pds-select-field
+  label="País"
+  [options]="countries"
+  (valueChange)="selectedCountry = $event"
+/>
+```
+
+```typescript
+countries = [
+  { value: 'co', label: 'Colombia' },
+  { value: 'mx', label: 'México' },
+  { value: 'ar', label: 'Argentina', disabled: true },
+];
+```
+
+## Con Reactive Forms
+
+```typescript
+@Component({
+  imports: [ReactiveFormsModule, PdsSelectFieldComponent],
+  template: `
+    <pds-select-field
+      label="Programa académico"
+      formControlName="programa"
+      [options]="programas"
+      [required]="true"
+      [status]="programaCtrl.invalid && programaCtrl.touched ? 'error' : 'default'"
+    />
+  `,
+})
+```
+
+## Accesibilidad
+
+- Trigger: `role="combobox"` + `aria-expanded` + `aria-haspopup="listbox"` + `aria-activedescendant`.
+- Lista: `role="listbox"` con opciones `role="option" aria-selected`.
+- Navegación: `ArrowUp/Down` para moverse, `Enter` para seleccionar, `Escape` para cerrar.
+- Cierre automático al hacer clic fuera.
+- Las opciones deshabilitadas son anunciadas pero no seleccionables.

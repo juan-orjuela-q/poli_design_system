@@ -1,0 +1,92 @@
+# Espaciado
+
+Tokens de espaciado, radios, bordes y breakpoints definidos en `layout-desktop.css` y `component.css`.
+
+## Espaciado base
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--spacing-1` | `4px` | Espaciado mínimo |
+| `--spacing-2` | `8px` | Espaciado pequeño |
+| `--spacing-3` | `12px` | Espaciado interno de componentes |
+| `--spacing-4` | `16px` | Espaciado estándar |
+| `--spacing-6` | `24px` | Separación entre secciones |
+| `--spacing-8` | `32px` | Separación de bloques |
+| `--spacing-12` | `48px` | Separación mayor |
+| `--spacing-16` | `64px` | Separación de layout |
+
+## Espaciado de componentes
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--spacing-component-xs` | `4px` | Padding mínimo en componentes |
+| `--spacing-component-sm` | `8px` | Padding pequeño (badge, tag) |
+| `--spacing-component-md` | `12px` | Padding estándar de componentes |
+| `--spacing-component-lg` | `16px` | Padding de inputs, botones |
+| `--spacing-component-xl` | `24px` | Padding de cards, paneles |
+
+## Radios de borde
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--radius-component-xs` | `4px` | Checkboxes |
+| `--radius-component-sm` | `6px` | Badges rectangle |
+| `--radius-component-md` | `8px` | Tags, chips |
+| `--radius-component-lg` | `12px` | Inputs, selects |
+| `--radius-component-xl` | `16px` | Cards |
+| `--radius-component-full` | `9999px` | Pill buttons, badges pill |
+| `--radius-checkbox` | `4px` | Checkbox específico |
+| `--input-radius-base` | `10px` | Wrapper de inputs |
+
+## Tamaños de componentes
+
+| Token | Valor | Componente |
+|-------|-------|------------|
+| `--size-2xs` | `4px` | Progress bar track height |
+| `--input-dimensions-min-height` | `48px` | Alto mínimo de inputs |
+| `--input-dimensions-padding-y` | `4px` | Padding vertical de inputs |
+| `--input-dimensions-padding-x` | `12px` | Padding horizontal de inputs |
+| `--input-dimensions-radio-checkbox-height` | `20px` | Alto de checkbox/radio |
+| `--input-dimensions-textarea-min-height` | `96px` | Alto mínimo de textarea |
+
+## Sidenav
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--component-sidenav-open` | `304px` | Ancho expandido |
+| `--component-sidenav-closed` | `80px` | Ancho colapsado |
+
+## Breakpoints
+
+Los breakpoints se definen como tokens CSS para uso consistente:
+
+| Token | Valor |
+|-------|-------|
+| `--breakpoint-sm` | `576px` |
+| `--breakpoint-md` | `768px` |
+| `--breakpoint-lg` | `992px` |
+| `--breakpoint-xl` | `1200px` |
+
+En SCSS, los media queries se escriben con los valores directos ya que las custom properties no pueden usarse en `@media`:
+
+```scss
+@media (max-width: 768px) {
+  // overrides mobile
+}
+```
+
+## Touch targets (WCAG 2.5.5)
+
+Los componentes interactivos pequeños (32px) usan `::before` para garantizar un área de toque de 48×48px:
+
+```scss
+.pds-tag {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px 0; // expande 8px arriba y abajo
+  }
+}
+```

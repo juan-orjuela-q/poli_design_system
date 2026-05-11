@@ -1,0 +1,54 @@
+# pds-tooltip
+
+<FigmaEmbed nodeId="566:4222" />
+
+Texto emergente informativo que aparece al hacer hover o foco sobre el elemento activador.
+
+## Importación
+
+```typescript
+import { PdsTooltipComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `text` | `string` | requerido | Texto del tooltip |
+| `position` | `'top' \| 'top-end' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Posición relativa al activador |
+| `disabled` | `boolean` | `false` | Deshabilita la aparición del tooltip |
+
+## Uso básico
+
+El tooltip envuelve el elemento activador vía `ng-content`:
+
+```html
+<!-- Botón con tooltip -->
+<pds-tooltip text="Guardar cambios">
+  <pds-icon-button iconName="save" ariaLabel="Guardar" />
+</pds-tooltip>
+
+<!-- Campo con ayuda -->
+<pds-tooltip text="Ingresa tu número de identificación sin puntos ni guiones" position="right">
+  <pds-icon name="help" ariaLabel="Ayuda" />
+</pds-tooltip>
+
+<!-- Texto truncado con tooltip -->
+<pds-tooltip [text]="fullText" position="bottom">
+  <span class="text-truncate">{{ fullText }}</span>
+</pds-tooltip>
+
+<!-- Deshabilitado condicionalmente -->
+<pds-tooltip [text]="helpText" [disabled]="!showHelp">
+  <button>Acción</button>
+</pds-tooltip>
+```
+
+## Accesibilidad
+
+- El `tooltipId` interno está disponible para usarlo en `aria-describedby` del activador si se necesita asociación explícita.
+- El tooltip aparece en hover y en foco del teclado.
+- El texto del tooltip es leído por AT al hacer foco en el elemento activador.
+- `prefers-reduced-motion`: la transición de aparición se desactiva.

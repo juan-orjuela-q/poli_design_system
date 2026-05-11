@@ -1,0 +1,44 @@
+# pds-cta
+
+<FigmaEmbed nodeId="562:4063" />
+
+Botón de llamada a la acción (Call to Action) con gradiente magenta. Usado para las acciones más prominentes del ecosistema Poli.
+
+## Importación
+
+```typescript
+import { PdsCtaComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `device` | `'desktop' \| 'mobile'` | `'desktop'` | Variante de dispositivo, controla tamaño |
+| `iconName` | `string` | `'arrow_forward'` | Icono Material Symbols |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `type` | `'button' \| 'submit'` | `'button'` | Tipo HTML |
+
+## Uso básico
+
+```html
+<!-- CTA desktop estándar -->
+<pds-cta>Conoce más</pds-cta>
+
+<!-- CTA con icono personalizado -->
+<pds-cta iconName="school">Inscríbete ahora</pds-cta>
+
+<!-- Versión mobile (más compacta) -->
+<pds-cta device="mobile">Ver programas</pds-cta>
+
+<!-- Deshabilitado -->
+<pds-cta [disabled]="!termsAccepted">Continuar</pds-cta>
+```
+
+## Notas de diseño
+
+- Fondo: gradiente magenta → `#29015c`.
+- Solo una por pantalla o sección de hero — su impacto visual requiere uso restringido.
+- `aria-disabled` para el estado deshabilitado.

@@ -1,0 +1,76 @@
+# pds-icon
+
+<FigmaEmbed nodeId="600:4380" />
+
+Ícono de Material Symbols con soporte para modos semánticos y formas contenedoras.
+
+## Importación
+
+```typescript
+import { PdsIconComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `name` | `string` | requerido | Nombre del ícono de Material Symbols |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Tamaño del ícono |
+| `mode` | `'neutral' \| 'brand' \| 'brand-ghost' \| 'brand-secondary' \| 'brand-subtle' \| 'error' \| 'success' \| 'warning'` | `'neutral'` | Color semántico |
+| `shape` | `'none' \| 'circle' \| 'rectangle'` | `'none'` | Forma del contenedor de fondo |
+| `ariaLabel` | `string \| null` | `null` | Etiqueta accesible. Si es null, el ícono es decorativo. |
+| `ariaHidden` | `boolean` | `true` | Oculta el ícono a tecnologías asistivas cuando es decorativo |
+| `filled` | `boolean` | `false` | Usa la variante "filled" del ícono |
+
+## Tamaños
+
+| Valor | Pixels |
+|-------|--------|
+| `xs` | 16px |
+| `sm` | 20px |
+| `md` | 24px |
+| `lg` | 32px |
+| `xl` | 48px |
+
+## Uso básico
+
+```html
+<!-- Ícono decorativo (dentro de un botón con label) -->
+<pds-icon name="home" />
+
+<!-- Ícono semántico independiente (necesita ariaLabel) -->
+<pds-icon name="warning" mode="warning" ariaLabel="Advertencia" [ariaHidden]="false" />
+
+<!-- Ícono con contenedor circular -->
+<pds-icon name="notifications" size="lg" mode="brand" shape="circle" />
+
+<!-- Ícono filled -->
+<pds-icon name="favorite" [filled]="true" mode="error" />
+
+<!-- Heredar color del padre -->
+<button class="my-btn">
+  <pds-icon name="search" style="--pds-icon-color: currentColor" />
+  Buscar
+</button>
+```
+
+## Colores por modo
+
+| Modo | Color |
+|------|-------|
+| `neutral` | `--fg-neutral-default` |
+| `brand` | `--fg-brand-default` |
+| `brand-ghost` | `--fg-brand-ghost` |
+| `brand-secondary` | `--fg-brand-secondary` |
+| `brand-subtle` | `--fg-brand-subtle` |
+| `error` | `--fg-status-error` |
+| `success` | `--fg-status-success` |
+| `warning` | `--fg-status-warning` |
+
+## Accesibilidad
+
+- Por defecto `aria-hidden="true"` porque la mayoría de íconos son decorativos.
+- Cuando el ícono comunica información independiente, pasar `ariaLabel` y `[ariaHidden]="false"`.
+- Internamente usa la fuente Material Symbols Outlined (cargada en `fuentes.scss`).

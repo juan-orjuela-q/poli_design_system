@@ -1,0 +1,49 @@
+# pds-breadcrumb
+
+<FigmaEmbed nodeId="950:2768" />
+
+Ruta de navegación jerárquica. Indica la posición del usuario dentro de la estructura de la app.
+
+## Importación
+
+```typescript
+import { PdsBreadcrumbComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `items` | `BreadcrumbItem[]` | requerido | Lista ordenada de ítems. El último es la página actual. |
+
+### Tipo BreadcrumbItem
+
+```typescript
+interface BreadcrumbItem {
+  label: string;
+  href?: string;  // Si se omite, el ítem no es un enlace (ej. el ítem actual)
+}
+```
+
+## Uso básico
+
+```typescript
+breadcrumbs: BreadcrumbItem[] = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Beneficios', href: '/beneficios' },
+  { label: 'Solicitar beneficio' }, // sin href = página actual
+];
+```
+
+```html
+<pds-breadcrumb [items]="breadcrumbs" />
+```
+
+## Accesibilidad
+
+- Envuelto en `<nav aria-label="Ruta de navegación">`.
+- El último ítem tiene `aria-current="page"` y no es un enlace.
+- Los ítems intermedios son `<a>` con `href`.
+- El separador (chevron_right) es decorativo (`aria-hidden="true"`).

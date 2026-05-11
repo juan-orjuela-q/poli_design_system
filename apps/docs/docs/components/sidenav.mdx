@@ -1,0 +1,107 @@
+# pds-sidenav
+
+<FigmaEmbed nodeId="701:8889" />
+
+Navegación lateral colapsable con ítems de menú y acordeón de sub-ítems.
+
+## Importación
+
+```typescript
+import { PdsSidenavComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `items` | `SidenavItem[]` | requerido | Ítems de navegación |
+| `appTitle` | `string` | `'Mi Aplicación'` | Título de la app (visible expandido) |
+| `appSubtitle` | `string` | `''` | Subtítulo/descripción del portal |
+| `appIconName` | `string` | `'hive'` | Ícono del portal en el header |
+| `expanded` | `boolean` | `true` | Estado expandido/colapsado |
+| `activeItemId` | `string` | `''` | ID del ítem activo |
+| `activeSubItemId` | `string` | `''` | ID del sub-ítem activo |
+| `showFooter` | `boolean` | `false` | Muestra slot de footer |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `expandedChange` | `boolean` | Nuevo estado expandido al usar el toggle |
+| `itemClick` | `{ itemId: string; subItemId?: string }` | Ítem o sub-ítem clickeado |
+
+### Tipos
+
+```typescript
+interface SidenavItem {
+  id: string;
+  label: string;
+  iconName: string;          // Material Symbols
+  href?: string;
+  badge?: number;            // Contador de notificaciones
+  disabled?: boolean;
+  children?: SidenavSubItem[];
+}
+
+interface SidenavSubItem {
+  id: string;
+  label: string;
+  href?: string;
+  disabled?: boolean;
+}
+```
+
+## Uso básico
+
+```typescript
+navItems: SidenavItem[] = [
+  { id: 'home', label: 'Inicio', iconName: 'home' },
+  { id: 'benefits', label: 'Beneficios', iconName: 'card_giftcard', badge: 3 },
+  {
+    id: 'admin',
+    label: 'Administración',
+    iconName: 'settings',
+    children: [
+      { id: 'users', label: 'Usuarios' },
+      { id: 'roles', label: 'Roles' },
+    ],
+  },
+];
+
+isExpanded = signal(true);
+activeId = signal('home');
+```
+
+```html
+<pds-sidenav
+  [items]="navItems"
+  appTitle="Portal Poli"
+  appSubtitle="Politécnico Grancolombiano"
+  [expanded]="isExpanded()"
+  [activeItemId]="activeId()"
+  (expandedChange)="isExpanded.set($event)"
+  (itemClick)="navigate($event)"
+>
+  <!-- Footer opcional -->
+  <div slot="footer">
+    <pds-avatar-button [name]="user.name" />
+  </div>
+</pds-sidenav>
+```
+
+## Comportamiento
+
+- **Expandido** (304px): Muestra íconos, labels, subtítulos y el header completo.
+- **Colapsado** (80px): Solo íconos. Labels se muestran en tooltip automáticamente.
+- Los ítems con `children` son acordeón (1 nivel). Al colapsar el sidenav, el acordeón se cierra.
+- El botón toggle cuelga fuera del borde derecho del sidenav.
+- Transición de ancho suave con CSS transitions.
+
+## Accesibilidad
+
+- `aria-current="page"` en el ítem activo.
+- `aria-expanded` en ítems con sub-menú.
+- Tooltip automático en estado colapsado (usa `pds-tooltip` internamente).
+- El ícono del portal tiene 48×48px de touch target.

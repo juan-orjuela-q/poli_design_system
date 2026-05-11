@@ -1,0 +1,77 @@
+# pds-tabs
+
+<FigmaEmbed nodeId="857:14704" />
+
+Navegación por pestañas con patrón APG tablist. El componente no gestiona paneles de contenido — el padre es responsable de mostrar/ocultar el contenido según la pestaña activa.
+
+## Importación
+
+```typescript
+import { PdsTabsComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `tabs` | `TabItem[]` | requerido | Definición de las pestañas |
+| `activeTab` | `string` | `''` | ID de la pestaña activa. Si está vacío, activa la primera no-disabled. |
+| `ariaLabel` | `string` | `'Navegación por pestañas'` | `aria-label` del tablist |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `tabChange` | `string` | ID de la nueva pestaña seleccionada |
+
+### Tipo TabItem
+
+```typescript
+interface TabItem {
+  id: string;
+  label: string;
+  icon?: string;       // Nombre de ícono Material Symbols (sobre el label)
+  disabled?: boolean;
+}
+```
+
+## Uso básico
+
+```typescript
+tabs: TabItem[] = [
+  { id: 'info', label: 'Información' },
+  { id: 'docs', label: 'Documentos', icon: 'folder' },
+  { id: 'history', label: 'Historial', disabled: true },
+];
+
+activeTab = signal('info');
+
+onTabChange(tabId: string) {
+  this.activeTab.set(tabId);
+}
+```
+
+```html
+<pds-tabs
+  [tabs]="tabs"
+  [activeTab]="activeTab()"
+  (tabChange)="onTabChange($event)"
+  ariaLabel="Secciones del perfil"
+/>
+
+<!-- El padre controla el contenido visible -->
+@switch (activeTab()) {
+  @case ('info') { <app-info-section /> }
+  @case ('docs') { <app-docs-section /> }
+}
+```
+
+## Accesibilidad
+
+- Patrón APG: `role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`.
+- Roving tabindex: solo la pestaña activa tiene `tabindex="0"`.
+- `ArrowLeft/Right` para navegar entre pestañas, `Home/End` para primera/última.
+- Indicador activo: línea magenta (`--border-status-error-solid`).
+- Pestañas disabled: `aria-disabled="true"`, excluidas de la navegación con flechas.

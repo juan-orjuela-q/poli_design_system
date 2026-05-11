@@ -1,0 +1,124 @@
+# pds-checkbox y pds-checkbox-group
+
+<FigmaEmbed nodeId="55:2119" />
+
+Checkbox individual con soporte de indeterminate, y grupo de checkboxes con CVA.
+
+## Importación
+
+```typescript
+import { PdsCheckboxComponent, PdsCheckboxGroupComponent } from '@poli/components';
+```
+
+## pds-checkbox
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Texto de la etiqueta |
+| `checked` | `boolean` | `false` | Estado marcado |
+| `indeterminate` | `boolean` | `false` | Estado intermedio |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `name` | `string \| null` | `null` | Nombre del campo |
+| `value` | `string \| null` | `null` | Valor del campo |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `checkedChange` | `boolean` | Emite el nuevo estado |
+
+### Uso básico
+
+```html
+<!-- Simple -->
+<pds-checkbox label="Acepto los términos" />
+
+<!-- Con binding -->
+<pds-checkbox
+  label="Suscribirse al newsletter"
+  [checked]="subscribed"
+  (checkedChange)="subscribed = $event"
+/>
+
+<!-- Indeterminate (para "seleccionar todos") -->
+<pds-checkbox
+  label="Seleccionar todo"
+  [indeterminate]="someSelected && !allSelected"
+  [checked]="allSelected"
+  (checkedChange)="toggleAll($event)"
+/>
+
+<!-- Con formControl -->
+<pds-checkbox label="Activo" formControlName="active" />
+```
+
+---
+
+## pds-checkbox-group
+
+Agrupa múltiples checkboxes bajo un fieldset accesible. Implementa CVA con valor `string[]`.
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `groupLabel` | `string` | requerido | Leyenda del grupo (fieldset legend) |
+| `options` | `CheckboxOption[]` | requerido | Lista de opciones |
+| `disabled` | `boolean` | `false` | Deshabilita todo el grupo |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Disposición de las opciones |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valuesChange` | `string[]` | Array de values seleccionados |
+
+### Tipo CheckboxOption
+
+```typescript
+interface CheckboxOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+```
+
+### Uso básico
+
+```html
+<pds-checkbox-group
+  groupLabel="Intereses"
+  [options]="interests"
+  (valuesChange)="selectedInterests = $event"
+/>
+```
+
+```typescript
+interests = [
+  { value: 'tech', label: 'Tecnología' },
+  { value: 'design', label: 'Diseño' },
+  { value: 'biz', label: 'Negocios' },
+];
+```
+
+### Con Reactive Forms
+
+```typescript
+// El valor del FormControl es string[]
+programasCtrl = new FormControl<string[]>([]);
+
+// Template
+<pds-checkbox-group
+  groupLabel="Programas de interés"
+  [options]="programas"
+  formControlName="programas"
+/>
+```
+
+## Accesibilidad
+
+- `pds-checkbox`: usa `<input type="checkbox">` nativo oculto + control visual custom. El estado `indeterminate` se aplica vía `ElementRef`.
+- `pds-checkbox-group`: envuelto en `<fieldset>` con `<legend>` para asociar el grupo correctamente.
+- Focus ring en el control visual usando selector `:focus-visible` sobre el input oculto.

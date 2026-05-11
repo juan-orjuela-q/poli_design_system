@@ -1,0 +1,69 @@
+# pds-code-block
+
+<FigmaEmbed nodeId="3143:3758" />
+
+Bloque de código con resaltado de sintaxis, numeración de líneas y botón de copia.
+
+## Importación
+
+```typescript
+import { PdsCodeBlockComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `code` | `string` | requerido | Código a mostrar |
+| `title` | `string \| null` | `null` | Título en el header del bloque |
+| `showHeader` | `boolean` | `true` | Muestra el header (título + botón copiar) |
+| `showCopyButton` | `boolean` | `true` | Muestra el botón de copiar al portapapeles |
+| `showNumbers` | `boolean` | `true` | Muestra numeración de líneas |
+| `maxHeight` | `string \| null` | `null` | Altura máxima con scroll. Ej: `'400px'` |
+
+## Uso básico
+
+```typescript
+exampleCode = `
+import { PdsButtonComponent } from '@poli/components';
+
+@Component({
+  imports: [PdsButtonComponent],
+  template: \`<pds-button label="Hola mundo" />\`
+})
+export class AppComponent {}
+`;
+```
+
+```html
+<!-- Bloque básico -->
+<pds-code-block [code]="exampleCode" title="app.component.ts" />
+
+<!-- Sin header (solo código) -->
+<pds-code-block [code]="snippetCode" [showHeader]="false" />
+
+<!-- Con altura máxima (scroll) -->
+<pds-code-block
+  [code]="longCode"
+  title="Ejemplo complejo"
+  maxHeight="300px"
+/>
+
+<!-- Sin números de línea -->
+<pds-code-block [code]="shortSnippet" [showNumbers]="false" />
+```
+
+## Notas
+
+- El botón de copiar usa la Clipboard API nativa (`navigator.clipboard.writeText`).
+- El ícono del botón cambia a `check` brevemente al copiar con éxito.
+- El contenido se renderiza en un `<pre><code>` para preservar espacios y saltos de línea.
+- No incluye resaltado de sintaxis por colores — el estilo es monocromo por defecto.
+
+## Accesibilidad
+
+- El botón de copiar tiene `aria-label="Copiar código"` / `"Código copiado"` según el estado.
+- El estado `"Código copiado"` se anuncia vía `aria-live="polite"`.
+- El contenedor del código tiene `role="region"` con `aria-label` del título si se proporciona.

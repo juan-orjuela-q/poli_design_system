@@ -1,0 +1,81 @@
+# Sistema de Tokens
+
+El Design System v2 utiliza **CSS custom properties** como tokens de diseño. Los tokens están organizados en 5 archivos CSS cargados globalmente vía `angular.json`.
+
+## Arquitectura de archivos
+
+| Archivo | Categoría | Descripción |
+|---------|-----------|-------------|
+| `primitives.css` | Valores base | Colores primitivos: `--color-neutral-*`, `--color-brand-*`, `--color-magenta-*`, etc. |
+| `tokens.css` | Semánticos | Superficies, textos, acciones, bordes: `--surface-*`, `--fg-*`, `--action-*`, `--border-*` |
+| `typescale-desktop.css` | Tipografía | Tamaños, pesos, interlineado: `--font-size-*`, `--font-weight-*`, `--line-height-*` |
+| `layout-desktop.css` | Espaciado | Spacing, radios, breakpoints, sidenav widths |
+| `component.css` | Componentes | Dimensiones específicas: `--button-*`, `--icon-*`, `--input-*`, `--badge-*` |
+
+## Configuración en angular.json
+
+Los 5 archivos se cargan **antes** de los estilos de la aplicación:
+
+```json
+"styles": [
+  "src/assets/poligran/primitives.css",
+  "src/assets/poligran/tokens.css",
+  "src/assets/poligran/typescale-desktop.css",
+  "src/assets/poligran/layout-desktop.css",
+  "src/assets/poligran/component.css",
+  "src/styles.scss"
+]
+```
+
+## Capas de tokens
+
+Los tokens siguen una jerarquía de dos niveles:
+
+```
+primitives.css          →  tokens.css
+--color-brand-600         --action-primary-bg
+--color-neutral-100       --surface-canvas
+--color-magenta-500       --border-status-error-solid
+```
+
+Los componentes **siempre usan tokens semánticos** (`tokens.css`, `component.css`), nunca valores primitivos directamente.
+
+## Uso en SCSS de componentes
+
+```scss
+// ✅ Correcto — token semántico
+.pds-button {
+  background-color: var(--action-primary-bg);
+  border-radius: var(--radius-component-md);
+  color: var(--fg-on-primary);
+}
+
+// ❌ Incorrecto — valor hardcodeado
+.pds-button {
+  background-color: #0f385a;
+  border-radius: 8px;
+}
+```
+
+## Overrides mobile
+
+Los overrides de tipografía para pantallas pequeñas están en `src/styles.scss`:
+
+```scss
+@media (max-width: 768px) {
+  :root {
+    --font-size-f-base: 0.875rem;
+    // ... otros overrides
+  }
+}
+```
+
+## Convención de fallback
+
+Cuando un token aún no existe en los archivos CSS, se usa un fallback explícito:
+
+```scss
+border: var(--border-some-token, 1px solid #ccc);
+```
+
+Esto permite usar el token cuando esté disponible sin romper el componente.

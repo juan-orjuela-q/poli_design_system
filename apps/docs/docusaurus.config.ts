@@ -6,14 +6,22 @@ const config: Config = {
   tagline: 'Componentes accesibles para el ecosistema digital del Politécnico Grancolombiano',
   favicon: 'img/favicon.ico',
 
-  url: 'https://poli-design-system.netlify.app',
-  baseUrl: '/',
+  url: 'https://juan-orjuela-q.github.io',
+  baseUrl: '/poli_design_system/docs/',
 
-  organizationName: 'poligran',
-  projectName: 'poli-design-system',
+  organizationName: 'juan-orjuela-q',
+  projectName: 'poli_design_system',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
+
+  // ⚙️ Reemplaza este valor con la file key real de Figma.
+  // Encuéntrala en la URL del archivo: figma.com/design/{FILE_KEY}/...
+  customFields: {
+    figmaFileKey: 'zSX8SWEPoztBiWxTpdiaUs',
+  },
+
+  clientModules: ['./src/clientModules/figmaGlobal.ts'],
 
   i18n: {
     defaultLocale: 'es',
@@ -57,12 +65,12 @@ const config: Config = {
           label: 'Componentes',
         },
         {
-          href: 'http://localhost:6006',
+          href: 'https://juan-orjuela-q.github.io/poli_design_system/',
           label: 'Storybook',
           position: 'right',
         },
         {
-          href: 'https://github.com/poligran/poli-design-system',
+          href: 'https://github.com/juan-orjuela-q/poli_design_system',
           label: 'GitHub',
           position: 'right',
         },
@@ -87,3 +95,4 @@ const config: Config = {
 };
 
 export default config;
+

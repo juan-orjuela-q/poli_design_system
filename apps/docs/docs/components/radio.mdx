@@ -1,0 +1,102 @@
+# pds-radio y pds-radio-group
+
+<FigmaEmbed nodeId="55:2139" />
+
+Radio button individual y grupo con navegación por teclado APG (roving tabindex).
+
+## Importación
+
+```typescript
+import { PdsRadioComponent, PdsRadioGroupComponent } from '@poli/components';
+```
+
+## pds-radio-group (recomendado)
+
+Agrupa radios bajo un fieldset accesible con navegación por teclado completa.
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `groupLabel` | `string` | requerido | Leyenda del grupo |
+| `options` | `RadioOption[]` | requerido | Lista de opciones |
+| `name` | `string` | auto-generado | Nombre compartido del grupo |
+| `disabled` | `boolean` | `false` | Deshabilita todo el grupo |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Disposición |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valueChange` | `string` | Value del radio seleccionado |
+
+### Tipo RadioOption
+
+```typescript
+interface RadioOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+```
+
+### Uso básico
+
+```html
+<pds-radio-group
+  groupLabel="Jornada"
+  [options]="jornadas"
+  (valueChange)="selectedJornada = $event"
+/>
+```
+
+```typescript
+jornadas = [
+  { value: 'dia', label: 'Diurno' },
+  { value: 'noche', label: 'Nocturno' },
+  { value: 'virtual', label: 'Virtual' },
+];
+```
+
+### Con Reactive Forms
+
+```typescript
+jornadaCtrl = new FormControl('dia');
+
+// Template
+<pds-radio-group
+  groupLabel="Jornada preferida"
+  [options]="jornadas"
+  formControlName="jornada"
+/>
+```
+
+---
+
+## pds-radio (individual)
+
+Para casos donde se necesita control granular sobre cada radio.
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Texto de la opción |
+| `name` | `string` | requerido | Nombre del grupo radio |
+| `value` | `string` | requerido | Valor de esta opción |
+| `checked` | `boolean` | `false` | Estado marcado |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `tabIndex` | `number` | `0` | Controlado externamente por el grupo |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `checkedChange` | `string` | Value cuando se selecciona |
+
+## Accesibilidad
+
+- Usa `<input type="radio">` nativo oculto para semántica correcta.
+- `pds-radio-group` implementa roving tabindex: solo el radio seleccionado (o el primero si ninguno) tiene `tabindex="0"`.
+- Navegación: `ArrowUp/Down/Left/Right` mueve foco y selección. `Home`/`End` saltan al primero/último.
+- `<fieldset>` + `<legend>` para correcto anuncio del grupo en AT.

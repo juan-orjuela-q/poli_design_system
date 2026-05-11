@@ -1,0 +1,45 @@
+# pds-link
+
+<FigmaEmbed nodeId="710:18586" />
+
+Enlace de texto. Soporta navegación interna, externa y ancla.
+
+## Importación
+
+```typescript
+import { PdsLinkComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `href` | `string` | `'#'` | URL de destino |
+| `target` | `'_self' \| '_blank' \| '_parent' \| '_top'` | `'_self'` | Target del enlace |
+| `external` | `boolean` | `false` | Si `true`, agrega `rel="noopener noreferrer"` e ícono externo |
+
+## Uso básico
+
+```html
+<!-- Enlace interno -->
+<pds-link href="/programas">Ver programas</pds-link>
+
+<!-- Enlace externo -->
+<pds-link href="https://www.poligran.edu.co" [external]="true">
+  Sitio oficial
+</pds-link>
+
+<!-- Ancla en la misma página -->
+<pds-link href="#contacto">Ir a contacto</pds-link>
+
+<!-- Nueva pestaña manualmente -->
+<pds-link href="/docs" target="_blank">Abrir documentación</pds-link>
+```
+
+## Accesibilidad
+
+- Los enlaces externos añaden `rel="noopener noreferrer"` automáticamente para seguridad.
+- El ícono de enlace externo es decorativo (`aria-hidden="true"`).
+- Texto del enlace siempre debe ser descriptivo — evitar "clic aquí" o "más info".

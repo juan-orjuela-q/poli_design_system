@@ -1,0 +1,62 @@
+# pds-time-picker
+
+Selector de hora con input nativo de tiempo. Implementa CVA.
+
+## Importación
+
+```typescript
+import { PdsTimePickerComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `label` | `string` | requerido | Etiqueta del campo |
+| `helpText` | `string \| null` | `null` | Ayuda en tooltip |
+| `value` | `string` | `''` | Valor inicial en formato `HH:mm` o `HH:mm:ss` |
+| `status` | `'default' \| 'error' \| 'warning' \| 'success'` | `'default'` | Estado visual |
+| `feedbackText` | `string \| null` | `null` | Texto de feedback |
+| `min` | `string \| null` | `null` | Hora mínima en formato `HH:mm` |
+| `max` | `string \| null` | `null` | Hora máxima en formato `HH:mm` |
+| `step` | `number` | `60` | Incremento en segundos. `60`=sin segundos, `1`=con segundos, `900`=15min |
+| `disabled` | `boolean` | `false` | Estado deshabilitado |
+| `required` | `boolean` | `false` | Campo requerido |
+| `name` | `string \| null` | `null` | Nombre del campo |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `valueChange` | `string` | Valor en formato `HH:mm` o `HH:mm:ss` |
+| `blur` | `void` | Al perder el foco |
+
+## Uso básico
+
+```html
+<!-- Selector de hora simple -->
+<pds-time-picker label="Hora de inicio" />
+
+<!-- Con restricciones de horario laboral -->
+<pds-time-picker
+  label="Hora de cita"
+  min="08:00"
+  max="18:00"
+  [step]="1800"
+/>
+
+<!-- Con segundos -->
+<pds-time-picker label="Duración" [step]="1" />
+
+<!-- Con Reactive Forms -->
+<pds-time-picker label="Hora" formControlName="hora" />
+```
+
+## Notas
+
+- Usa el input HTML nativo `type="time"` con estilos personalizados del DS.
+- `step=60` omite los segundos (solo HH:mm).
+- `step=1` muestra los segundos (HH:mm:ss).
+- El valor emitido siempre es string en formato `HH:mm` o `HH:mm:ss`.

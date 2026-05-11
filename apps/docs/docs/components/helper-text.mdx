@@ -1,0 +1,46 @@
+# pds-helper-text
+
+Componente utilitario de texto de ayuda con ícono de estado. Usado internamente por formularios y progress-bar.
+
+## Importación
+
+```typescript
+import { PdsHelperTextComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `status` | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'` | `'default'` | Estado (determina color e ícono) |
+
+El texto se proyecta vía `ng-content`.
+
+## Uso
+
+```html
+<!-- En default: solo texto, sin ícono -->
+<pds-helper-text>Máximo 100 caracteres</pds-helper-text>
+
+<!-- Con estados -->
+<pds-helper-text status="error">Email inválido</pds-helper-text>
+<pds-helper-text status="warning">Longitud recomendada: 50 caracteres</pds-helper-text>
+<pds-helper-text status="success">Contraseña segura</pds-helper-text>
+<pds-helper-text status="info">Este campo es visible públicamente</pds-helper-text>
+```
+
+## Cuándo usarlo directamente
+
+Los campos de formulario (`pds-input-field`, `pds-select-field`, etc.) incluyen `pds-helper-text` internamente a través de los props `feedbackText` y `status`. Solo necesitas usar `pds-helper-text` directamente en componentes personalizados o cuando necesites el patrón de texto con ícono fuera de un campo de formulario.
+
+## Íconos por estado
+
+| Estado | Ícono |
+|--------|-------|
+| `default` | Sin ícono |
+| `info` | `info` |
+| `error` | `error` |
+| `warning` | `warning` |
+| `success` | `check_circle` |

@@ -1,0 +1,72 @@
+# pds-accordion y pds-accordion-group
+
+<FigmaEmbed nodeId="698:8892" />
+
+Sección expandible/colapsable para agrupar contenido relacionado. Usar `pds-accordion-group` para comportamiento de acordeón exclusivo (solo uno abierto a la vez).
+
+## Importación
+
+```typescript
+import { PdsAccordionComponent, PdsAccordionGroupComponent } from '@poli/components';
+```
+
+## API — pds-accordion
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `title` | `string` | requerido | Título del acordeón |
+| `subtitle` | `string \| null` | `null` | Subtítulo/descripción adicional |
+| `iconName` | `string \| null` | `null` | Ícono Material Symbols a la izquierda del título |
+| `expanded` | `boolean` | `false` | Estado expandido |
+| `disabled` | `boolean` | `false` | Deshabilita la interacción |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `expandedChange` | `boolean` | Nuevo estado al alternar |
+
+## Uso básico
+
+```html
+<!-- Acordeón simple (padre controla el estado) -->
+<pds-accordion
+  title="Preguntas frecuentes"
+  [expanded]="isOpen()"
+  (expandedChange)="isOpen.set($event)"
+>
+  <p>Contenido del acordeón vía ng-content.</p>
+  <p>Puede contener cualquier HTML.</p>
+</pds-accordion>
+
+<!-- Con ícono y subtítulo -->
+<pds-accordion
+  title="Configuración avanzada"
+  subtitle="Opciones para usuarios expertos"
+  iconName="settings"
+>
+  <app-config-form />
+</pds-accordion>
+```
+
+## pds-accordion-group
+
+Contenedor que asegura que solo un acordeón esté abierto a la vez:
+
+```html
+<pds-accordion-group>
+  <pds-accordion title="Sección 1">Contenido 1</pds-accordion>
+  <pds-accordion title="Sección 2">Contenido 2</pds-accordion>
+  <pds-accordion title="Sección 3" [disabled]="true">Contenido 3</pds-accordion>
+</pds-accordion-group>
+```
+
+## Accesibilidad
+
+- El header del acordeón es un `<button>` con `aria-expanded`.
+- El panel de contenido tiene `id` vinculado al botón con `aria-controls`.
+- `aria-disabled="true"` cuando está deshabilitado (mantiene en tab order).
+- Focus ring visible con box-shadow de tokens.
+- Animación de apertura respeta `prefers-reduced-motion`.

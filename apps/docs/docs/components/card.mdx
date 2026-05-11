@@ -1,0 +1,116 @@
+# pds-card y pds-stat-card
+
+Tarjetas para mostrar información, navegación o selección. `pds-stat-card` es una variante especializada para métricas y estadísticas.
+
+## Importación
+
+```typescript
+import { PdsCardComponent, PdsStatCardComponent } from '@poli/components';
+```
+
+---
+
+## pds-card
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `title` | `string` | requerido | Título de la tarjeta |
+| `behavior` | `'info' \| 'nav' \| 'selectable'` | `'info'` | Comportamiento interactivo |
+| `subtitle` | `string \| null` | `null` | Subtítulo |
+| `description` | `string \| null` | `null` | Texto descriptivo |
+| `iconName` | `string \| null` | `null` | Ícono Material Symbols |
+| `imageSrc` | `string \| null` | `null` | URL de imagen de cabecera |
+| `imageAlt` | `string` | `''` | Alt text de la imagen |
+| `actionLabel` | `string` | `'Acción'` | Texto del botón de acción |
+| `showAction` | `boolean` | `false` | Muestra el botón de acción (solo `behavior="info"`) |
+| `selected` | `boolean` | `false` | Estado seleccionado (solo `behavior="selectable"`) |
+| `disabled` | `boolean` | `false` | Deshabilita la interacción |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `cardClick` | `void` | Al hacer clic (behaviors `nav` y `selectable`) |
+| `selectedChange` | `boolean` | Al cambiar selección (solo `behavior="selectable"`) |
+
+### Comportamientos
+
+| Valor | Descripción |
+|-------|-------------|
+| `info` | Tarjeta estática. Puede tener botón de acción. |
+| `nav` | Tarjeta clickeable para navegar. Cursor pointer. |
+| `selectable` | Tarjeta seleccionable. Emite `selectedChange`. |
+
+### Uso básico
+
+```html
+<!-- Tarjeta informativa con botón -->
+<pds-card
+  title="Programa de Inglés"
+  description="Mejora tu nivel con clases en línea"
+  iconName="school"
+  [showAction]="true"
+  actionLabel="Ver detalles"
+  (cardClick)="openDetail()"
+/>
+
+<!-- Tarjeta de navegación -->
+<pds-card
+  behavior="nav"
+  title="Mis solicitudes"
+  subtitle="Ver el historial"
+  iconName="list_alt"
+  (cardClick)="router.navigate(['/solicitudes'])"
+/>
+
+<!-- Tarjeta seleccionable -->
+<pds-card
+  behavior="selectable"
+  title="Plan Básico"
+  description="Acceso a funciones esenciales"
+  [selected]="selectedPlan() === 'basic'"
+  (selectedChange)="selectedPlan.set('basic')"
+/>
+```
+
+---
+
+## pds-stat-card
+
+Tarjeta de estadística con valor, ícono, tendencia y badge.
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `iconName` | `string` | requerido | Ícono de la métrica |
+| `label` | `string` | requerido | Nombre de la métrica |
+| `value` | `string` | requerido | Valor principal |
+| `behavior` | `'info' \| 'nav' \| 'selectable'` | `'info'` | Igual que `pds-card` |
+| `trendValue` | `string \| null` | `null` | Valor de tendencia (ej: "+12%") |
+| `trendLabel` | `string \| null` | `null` | Descripción de la tendencia |
+| `badgeStatus` | `BadgeStatus` | `'neutral'` | Estado del badge (ver pds-badge) |
+| `badgeIcon` | `string \| null` | `null` | Ícono del badge |
+| `selected` | `boolean` | `false` | Estado seleccionado |
+| `disabled` | `boolean` | `false` | Deshabilita la interacción |
+
+### Outputs
+
+Mismos que `pds-card`: `cardClick`, `selectedChange`.
+
+### Uso
+
+```html
+<pds-stat-card
+  iconName="people"
+  label="Estudiantes activos"
+  value="1,234"
+  trendValue="+5%"
+  trendLabel="vs. mes anterior"
+  badgeStatus="success"
+  behavior="nav"
+  (cardClick)="router.navigate(['/estudiantes'])"
+/>
+```

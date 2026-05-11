@@ -1,0 +1,1065 @@
+﻿=== pds-button ===
+/** Variante visual del botÃ³n. */
+  readonly variant = input<
+    | 'primary'
+    | 'secondary'
+    | 'outline'
+    | 'ghost'
+    | 'destructive'
+    | 'destructive-outline'
+  >('primary');
+
+  /** TamaÃ±o del botÃ³n. */
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+
+  /** Forma del borde â€” siempre pill, definido por diseÃ±o. */
+  // readonly rounded = input<'pill' | 'rectangle'>('pill'); // eliminado: DS v2 solo usa pill
+
+  /** Estado deshabilitado. */
+  readonly disabled = input<boolean>(false);
+
+  /** Nombre del Ã­cono al inicio (Material Symbols). */
+  readonly iconStart = input<string | null>(null);
+
+  /** Nombre del Ã­cono al final (Material Symbols). */
+  readonly iconEnd = input<string | null>(null);
+
+  /** Tipo HTML del botÃ³n. */
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
+
+=== pds-badge ===
+/** Estado semÃ¡ntico del badge. */
+  readonly status = input<
+    'brand' | 'brand-subtle' | 'brand-secondary' | 'neutral' | 'success' | 'warning' | 'error'
+  >('neutral');
+
+  /** TamaÃ±o del badge. */
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+
+  /** Forma del borde. */
+  readonly shape = input<'pill' | 'rectangle'>('pill');
+
+  /** Nombre del Ã­cono al inicio (Material Symbols). Decorativo. */
+  readonly iconStart = input<string | null>(null);
+
+  /** Nombre del Ã­cono al final (Material Symbols). Decorativo. */
+  readonly iconEnd = input<string | null>(null);
+
+=== pds-icon ===
+/** Nombre del sÃ­mbolo (Material Symbols Rounded). Requerido. */
+  readonly name = input.required<string>();
+
+  /** TamaÃ±o del Ã­cono. Controla font-size y, en modo standalone, el padding. */
+  readonly size = input<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
+
+  /** Modo de color semÃ¡ntico. */
+  readonly mode = input<
+    | 'neutral'
+    | 'brand'
+    | 'brand-ghost'
+    | 'brand-secondary'
+    | 'brand-subtle'
+    | 'error'
+    | 'success'
+    | 'warning'
+  >('neutral');
+
+  /**
+   * Forma del contenedor cuando el Ã­cono es standalone.
+   * - `'none'` (default) â€” sin contenedor, uso inline.
+   * - `'circle'` â€” contenedor circular con fondo y padding.
+   * - `'rectangle'` â€” contenedor rectangular con esquinas redondeadas.
+   */
+  readonly shape = input<'none' | 'circle' | 'rectangle'>('none');
+
+  /** DescripciÃ³n para lectores de pantalla. Solo cuando el Ã­cono es informativo. */
+  readonly ariaLabel = input<string | null>(null);
+
+  /** true = decorativo (aria-hidden). false = informativo (requiere ariaLabel). */
+  readonly ariaHidden = input<boolean>(true);
+
+  /** Activa variante Material Symbols FILL=1 cuando una excepciÃ³n de diseÃ±o lo requiere. */
+  readonly filled = input<boolean>(false);
+
+=== pds-tag ===
+/** Variante visual del tag. */
+  readonly variant = input<'primary' | 'secondary' | 'tertiary'>('primary');
+
+  /** Ãcono al inicio del tag (nombre de Material Icon). */
+  readonly iconStart = input<string | null>(null);
+
+  /** Texto del tag â€” usado para generar el aria-label del botÃ³n eliminar. */
+  readonly label = input<string>('');
+
+  /** Estado deshabilitado (usa aria-disabled, no native disabled). */
+  readonly disabled = input<boolean>(false);
+
+  /** Muestra botÃ³n de eliminar. */
+  readonly removable = input<boolean>(false);
+
+  /** Estado seleccionado. */
+  readonly selected = input<boolean>(false);
+
+  /** Emitido al hacer clic en el botÃ³n de eliminar. */
+  readonly removed = output<void>();
+
+=== pds-link ===
+/** URL de destino. */
+  readonly href = input<string>('#');
+
+  /** Target del enlace. */
+  readonly target = input<'_self' | '_blank' | '_parent' | '_top'>('_self');
+
+  /** Si es true, aÃ±ade rel="noopener noreferrer" e Ã­cono de enlace externo. */
+  readonly external = input<boolean>(false);
+
+=== pds-input-field ===
+@ViewChild('inputEl') inputEl!: ElementRef<HTMLInputElement>;
+
+  readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
+  readonly placeholder = input<string>('');
+  readonly type = input<InputFieldType>('text');
+  readonly value = input<string>('');
+  readonly status = input<InputFieldStatus>('default');
+  readonly feedbackText = input<string | null>(null);
+  readonly maxLength = input<number | null>(null);
+  readonly showCounter = input<boolean>(false);
+  readonly required = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly readonly = input<boolean>(false);
+  readonly iconStart = input<string | null>(null);
+  readonly iconEnd = input<string | null>(null);
+  readonly autocomplete = input<string>('');
+  readonly name = input<string | null>(null);
+
+  readonly valueChange = output<string>();
+  readonly blur = output<void>();
+  readonly focus = output<void>();
+
+  readonly inputId = `pds-input-${++inputCounter}`;
+  readonly helperId = `pds-input-helper-${this.inputId}`;
+
+=== pds-select-field ===
+readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
+  readonly options = input.required<SelectOption[]>();
+  readonly value = input<string | null>(null);
+  readonly placeholder = input<string>('Selecciona una opciÃ³n');
+  readonly status = input<'default' | 'error' | 'warning' | 'success'>('default');
+  readonly feedbackText = input<string | null>(null);
+  readonly disabled = input<boolean>(false);
+  readonly required = input<boolean>(false);
+  readonly iconStart = input<string | null>(null);
+
+  readonly valueChange = output<string>();
+
+  readonly selectId = `pds-select-${++selectCounter}`;
+  readonly listboxId = `pds-select-listbox-${this.selectId}`;
+  readonly helperId = `pds-select-helper-${this.selectId}`;
+
+=== pds-checkbox ===
+@ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
+
+  readonly label = input.required<string>();
+  readonly checked = input<boolean>(false);
+  readonly indeterminate = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly name = input<string | null>(null);
+  readonly value = input<string | null>(null);
+
+  readonly checkedChange = output<boolean>();
+
+  readonly checkboxId = `pds-checkbox-${++checkboxCounter}`;
+
+=== pds-checkbox-group ===
+readonly groupLabel = input.required<string>();
+  readonly options = input.required<CheckboxOption[]>();
+  readonly disabled = input<boolean>(false);
+  readonly orientation = input<'vertical' | 'horizontal'>('vertical');
+
+  readonly valuesChange = output<string[]>();
+
+=== pds-radio ===
+readonly label = input.required<string>();
+  readonly name = input.required<string>();
+  readonly value = input.required<string>();
+  readonly checked = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  /** Managed externally by pds-radio-group. -1 removes from tab order. */
+  readonly tabIndex = input<number>(0);
+
+  readonly radioId = `pds-radio-${++radioCounter}`;
+
+  readonly checkedChange = output<string>();
+
+=== pds-radio-group ===
+readonly groupLabel = input.required<string>();
+  readonly options = input.required<RadioOption[]>();
+  readonly name = input<string>(`pds-radio-group-${++radioGroupCounter}`);
+  readonly disabled = input<boolean>(false);
+  readonly orientation = input<'vertical' | 'horizontal'>('vertical');
+
+  readonly valueChange = output<string>();
+
+=== pds-toggle ===
+readonly label = input.required<string>();
+  readonly checked = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly labelPosition = input<'left' | 'right'>('right');
+
+  readonly toggleId = `pds-toggle-${++toggleCounter}`;
+
+  readonly checkedChange = output<boolean>();
+
+=== pds-notification ===
+/** Tipo de presentaciÃ³n: integrado en flujo, flotante inferior o flotante superior derecha. */
+  readonly type = input<NotificationType>('inline');
+
+  /** Estado semÃ¡ntico que determina colores e Ã­cono. */
+  readonly status = input<NotificationStatus>('default');
+
+  /** TÃ­tulo opcional de la notificaciÃ³n. */
+  readonly title = input<string | null>(null);
+
+  /** Muestra el botÃ³n para cerrar manualmente. */
+  readonly dismissible = input<boolean>(true);
+
+  /** Array de acciones/botones modales (ej: Cancelar, Confirmar). */
+  readonly actions = input<NotificationAction[]>([]);
+
+  /**
+   * PosiciÃ³n del elemento flotante (solo para snackbar y toast).
+   * Por defecto: 'bottom-center' para snackbar, 'top-right' para toast.
+   */
+  readonly position = input<NotificationPosition | null>(null);
+
+  /**
+   * DuraciÃ³n del timer visual en ms.
+   * Si `null` o `<= 0`, el timer no se muestra.
+   * Default: 30000 (30 segundos).
+   */
+  readonly timerDuration = input<number | null>(30000);
+
+  /**
+   * Tiempo en ms tras el que se emite `dismissed` automÃ¡ticamente.
+   * `null` desactiva el auto-dismiss.
+   */
+  readonly autoDismiss = input<number | null>(5000);
+
+  /** Emitido cuando la notificaciÃ³n se cierra (manual o automÃ¡ticamente). */
+  readonly dismissed = output<void>();
+
+  /** Emitido cuando se hace click en una acciÃ³n/botÃ³n modal. Emite el ID de la acciÃ³n. */
+  readonly action = output<string>();
+
+  private autoDismissTimer: ReturnType<typeof setTimeout> | null = null;
+  private timerIntervalId: ReturnType<typeof setInterval> | null = null;
+
+  /** Progreso del timer: 0-100 (%). Crece de 0 a 100. */
+
+=== pds-dialog ===
+@ViewChild('dialogEl') dialogEl!: ElementRef<HTMLElement>;
+
+  private readonly focusTrapFactory = inject(FocusTrapFactory);
+  private readonly hostEl = inject(ElementRef<HTMLElement>);
+  private focusTrap?: FocusTrap;
+  private previousFocus?: HTMLElement;
+
+  /** ID Ãºnico del dialog â€” necesario para aria-labelledby. */
+  readonly dialogId = `pds-dialog-${++dialogCounter}`;
+  readonly titleId = `${this.dialogId}-title`;
+
+  // â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Modo semÃ¡ntico del dialog. Determina colores, Ã­cono y etiqueta del botÃ³n de confirmaciÃ³n. */
+  readonly mode = input<DialogMode>('default');
+
+  /** TÃ­tulo del dialog. Requerido. */
+  readonly title = input.required<string>();
+
+  /** Controla la visibilidad del dialog. */
+  readonly open = input<boolean>(false);
+
+  /**
+   * Si `true`, hacer clic sobre el overlay cierra el dialog.
+   * Default `false` â€” los dialogs de confirmaciÃ³n no deben cerrarse accidentalmente.
+   */
+  readonly closeOnOverlay = input<boolean>(false);
+
+  /**
+   * Etiqueta del botÃ³n de confirmaciÃ³n.
+   * Si `null`, se calcula automÃ¡ticamente: 'Eliminar' para Error, 'Aceptar' para el resto.
+   */
+  readonly confirmLabel = input<string | null>(null);
+
+  /** Etiqueta del botÃ³n de cancelaciÃ³n. */
+  readonly cancelLabel = input<string>('Cancelar');
+
+  /** Muestra el botÃ³n de cancelaciÃ³n. */
+  readonly showCancel = input<boolean>(true);
+
+  /**
+   * Si `true`, no bloquea el scroll del body al abrir.
+   * Ãšsar solo en contextos embebidos (ej. Storybook docs).
+   */
+  readonly disableScrollLock = input<boolean>(false);
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Emitido al cancelar (botÃ³n Cancelar, tecla Escape o clic en overlay si estÃ¡ habilitado). */
+  readonly closed = output<void>();
+
+  /** Emitido al confirmar (botÃ³n Aceptar / Eliminar). */
+  readonly confirmed = output<void>();
+
+  // â”€â”€ Computed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-modal ===
+@ViewChild('modalEl') modalEl!: ElementRef<HTMLElement>;
+
+  private readonly focusTrapFactory = inject(FocusTrapFactory);
+  private readonly hostEl = inject(ElementRef<HTMLElement>);
+  private focusTrap?: FocusTrap;
+  private previousFocus?: HTMLElement;
+
+  /** ID Ãºnico del modal â€” necesario para aria-labelledby. */
+  readonly modalId = `pds-modal-${++modalCounter}`;
+  readonly titleId = `${this.modalId}-title`;
+
+  // â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /**
+   * TamaÃ±o del modal. Controla el max-width:
+   * SM=420px Â· MD=560px Â· LG=720px Â· XL=900px Â· 2XL=1200px
+   */
+  readonly size = input<ModalSize>('md');
+
+  /** TÃ­tulo del modal. Requerido. */
+  readonly title = input.required<string>();
+
+  /** Controla la visibilidad del modal. */
+  readonly open = input<boolean>(false);
+
+  /**
+   * Si `true`, hacer clic sobre el overlay cierra el modal.
+   * Default `true` â€” diferente al Dialog.
+   */
+  readonly closeOnOverlay = input<boolean>(true);
+
+  /**
+   * Muestra el Ã¡rea de acciones (footer) con botones Cancelar + Aceptar.
+   * Desactivar cuando el footer se proyecta vÃ­a `[slot=footer]`.
+   */
+  readonly showActions = input<boolean>(true);
+
+  /** Muestra el botÃ³n Cancelar en el footer. */
+  readonly showCancel = input<boolean>(true);
+
+  /** Etiqueta del botÃ³n de confirmaciÃ³n. */
+  readonly confirmLabel = input<string>('Aceptar');
+
+  /** Etiqueta del botÃ³n de cancelaciÃ³n. */
+  readonly cancelLabel = input<string>('Cancelar');
+
+  /**
+   * Si `true`, no bloquea el scroll del body al abrir.
+   * Ãšsar solo en contextos embebidos (ej. Storybook docs).
+   */
+  readonly disableScrollLock = input<boolean>(false);
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /**
+   * Emitido al cerrar el modal:
+   * - BotÃ³n âœ• del header
+   * - BotÃ³n Cancelar del footer
+   * - Tecla Escape
+   * - Clic en overlay (si `closeOnOverlay` es `true`)
+   */
+  readonly closed = output<void>();
+
+  /** Emitido al hacer clic en el botÃ³n de confirmaciÃ³n del footer. */
+  readonly confirmed = output<void>();
+
+  // â”€â”€ Computed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-tabs ===
+/** Unique ID for this instance (used to generate tab/panel IDs). */
+  readonly tabsId = `pds-tabs-${++tabsCounter}`;
+
+  private readonly elementRef = inject(ElementRef);
+
+  // â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /** Tab definitions. Each item has an id, a label and optionally an icon name and disabled flag. */
+  readonly tabs = input.required<TabItem[]>();
+
+  /** ID of the currently active tab. If empty the first non-disabled tab is active. */
+  readonly activeTab = input<string>('');
+
+  /** aria-label for the tablist element. Provide a meaningful description. */
+  readonly ariaLabel = input<string>('NavegaciÃ³n por pestaÃ±as');
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /** Emits the id of the newly selected tab. */
+  readonly tabChange = output<string>();
+
+  // â”€â”€ Internal state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  private readonly internalActiveTab =
+    signal<string>(
+      ''
+    ); /** Tracks which tab has roving keyboard focus (separate from active). */
+  private readonly focusedTabId = signal<string>('');
+
+=== pds-sidenav ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Lista de Ã­tems de navegaciÃ³n. Requerido. */
+  readonly items = input.required<SidenavItem[]>();
+
+  /** TÃ­tulo de la aplicaciÃ³n (visible en el encabezado al expandir). */
+  readonly appTitle = input<string>('Mi AplicaciÃ³n');
+
+  /** SubtÃ­tulo / descripciÃ³n del portal (visible en el encabezado al expandir). */
+  readonly appSubtitle = input<string>('');
+
+  /** Nombre del sÃ­mbolo Material Symbols para el Ã­cono del portal en el encabezado. */
+  readonly appIconName = input<string>('hive');
+
+  /** Estado expandido/colapsado del sidenav. */
+  readonly expanded = input<boolean>(true);
+
+  /** ID del Ã­tem activo (para marcar `aria-current`). */
+  readonly activeItemId = input<string>('');
+
+  /** ID del sub-Ã­tem activo. */
+  readonly activeSubItemId = input<string>('');
+
+  /** Muestra la secciÃ³n de pie de pÃ¡gina (`ng-content[slot=footer]`). */
+  readonly showFooter = input<boolean>(false);
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Emite el nuevo estado expandido/colapsado cuando el usuario activa el toggle. */
+  readonly expandedChange = output<boolean>();
+
+  /** Emite el ID del Ã­tem o sub-Ã­tem clickeado. */
+  readonly itemClick = output<{ itemId: string; subItemId?: string }>();
+
+  // â”€â”€ Estado interno â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Set de IDs de Ã­tems padre con sub-menÃº actualmente expandido. */
+
+=== pds-stepper ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /** Array of step definitions (required). */
+  readonly steps = input.required<StepperStep[]>();
+
+  /**
+   * 0-based index of the current (active) step.
+   * The parent is responsible for updating this value on `stepChange`.
+   */
+  readonly currentStepIndex = input<number>(0);
+
+  /** Show the "Step X of N" counter label above the markers. */
+  readonly showCount = input<boolean>(true);
+
+  /** Layout orientation. */
+  readonly orientation = input<StepperOrientation>('horizontal');
+
+  /** Label for the "Previous" button. */
+  readonly prevLabel = input<string>('Anterior');
+
+  /** Label for the "Next" button (non-last steps). */
+  readonly nextLabel = input<string>('Siguiente');
+
+  /** Label for the "Finish" button (last step). */
+  readonly finishLabel = input<string>('Finalizar');
+
+  /**
+   * aria-label for the outer stepper group.
+   * Provide a meaningful description of the multi-step process.
+   */
+  readonly ariaLabel = input<string>('Pasos del proceso');
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /**
+   * Emits the NEW 0-based index when the user clicks Anterior / Siguiente.
+   * The parent must update `currentStepIndex` accordingly.
+   */
+  readonly stepChange = output<number>();
+
+  /** Emitted when the user clicks "Finalizar" on the last step. */
+  readonly finished = output<void>();
+
+  // â”€â”€ Derived state (computed) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-stepper-compact ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Lista de pasos del flujo. Requerido. */
+  readonly steps = input.required<CompactStep[]>();
+
+  /**
+   * Ãndice del paso activo (0-based).
+   * El padre es responsable de actualizar este valor al recibir los outputs.
+   */
+  readonly currentIndex = input<number>(0);
+
+  /** Muestra el pie de pÃ¡gina con botones de navegaciÃ³n. */
+  readonly showFooter = input<boolean>(true);
+
+  /** Etiqueta del botÃ³n "siguiente". */
+  readonly nextLabel = input<string>('Siguiente');
+
+  /** Etiqueta del botÃ³n "anterior". */
+  readonly prevLabel = input<string>('Anterior');
+
+  /** Etiqueta del botÃ³n "finalizar" (Ãºltimo paso). */
+  readonly finishLabel = input<string>('Finalizar');
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Emite cuando el usuario hace clic en "Siguiente" o "Finalizar". */
+  readonly next = output<void>();
+
+  /** Emite cuando el usuario hace clic en "Anterior". */
+  readonly prev = output<void>();
+
+  // â”€â”€ IDs Ãºnicos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-accordion ===
+
+
+=== pds-accordion ===
+private readonly group = inject(PdsAccordionGroupService, { optional: true });
+
+  /** Texto de la cabecera. */
+  readonly title = input.required<string>();
+
+  /**
+   * SubtÃ­tulo opcional que aparece dentro del panel (no en el trigger).
+   * Se renderiza como encabezado H5 antes del contenido proyectado.
+   */
+  readonly subtitle = input<string | null>(null);
+
+  /** Nombre del Ã­cono Material Symbols que aparece a la izquierda del tÃ­tulo. Opcional. */
+  readonly iconName = input<string | null>(null);
+
+  /** Estado expandido inicial (solo aplica en modo autÃ³nomo; ignorado dentro de group). */
+  readonly expanded = input<boolean>(false);
+
+  /** Deshabilita las interacciones. Usa aria-disabled para mantener el tab order. */
+  readonly disabled = input<boolean>(false);
+
+  /** Emite el nuevo estado expandido al hacer toggle. */
+  readonly expandedChange = output<boolean>();
+
+=== pds-table ===
+@Input('pdsTableCell') columnKey!: string;
+
+  readonly template =
+    inject<TemplateRef<{ $implicit: unknown; row: unknown; index: number }>>(
+      TemplateRef
+    );
+}
+
+// ── Component ─────────────────────────────────────────────────────────────
+
+@Component({
+  selector: 'pds-table',
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    PdsCheckboxComponent,
+    PdsIconComponent,
+    PdsIconButtonComponent,
+    PdsPaginatorComponent,
+    PdsInputFieldComponent,
+    PdsSelectFieldComponent,
+    PdsTooltipComponent,
+    PdsBadgeComponent,
+    PdsHelperTextComponent,
+  ],
+  templateUrl: './pds-table.component.html',
+  styleUrl: './pds-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class PdsTableComponent<
+  T extends Record<string, unknown> = Record<string, unknown>
+> {
+  @ContentChildren(PdsTableCellDirective)
+  private readonly _cellTemplates!: QueryList<PdsTableCellDirective>;
+
+  readonly columns = input.required<PdsTableColumn[]>();
+  readonly data = input<T[]>([]);
+  readonly filters = input<PdsTableFilter[]>([]);
+  readonly filterMode = input<'internal' | 'external'>('internal');
+  readonly showSelection = input<boolean>(false);
+  readonly actions = input<PdsTableAction[]>([]);
+  readonly sortKey = input<string | null>(null);
+  readonly sortDirection = input<'asc' | 'desc' | null>(null);
+  readonly sortChange = output<PdsTableSortState | null>();
+  readonly showPaginator = input<boolean>(false);
+  readonly totalItems = input<number>(0);
+  readonly currentPage = input<number>(1);
+  readonly pageSize = input<number>(20);
+  readonly pageSizeOptions = input<number[]>([10, 20, 50, 100]);
+  readonly pageChange = output<number>();
+  readonly pageSizeChange = output<number>();
+  readonly selectionChange = output<T[]>();
+  readonly actionClick = output<PdsTableActionEvent<T>>();
+  readonly filterChange = output<Record<string, string>>();
+
+  // ── Toolbar ───────────────────────────────────────────────────────────
+
+  /** Muestra un botón "Agregar" en la barra de herramientas de la tabla. */
+  readonly showAddButton = input<boolean>(false);
+  /** Texto del botón de agregar. Por defecto `'Agregar'`. */
+  readonly addButtonLabel = input<string>('Agregar');
+  /** Emite al hacer clic en el botón de agregar. */
+  readonly addClick = output<void>();
+
+  readonly _selectedRows = signal<Set<T>>(new Set());
+  readonly _filterValues = signal<Record<string, string>>({});
+
+=== pds-breadcrumb ===
+
+
+=== pds-paginator ===
+
+
+=== pds-avatar-button ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Nombre completo del usuario. Se muestra junto al avatar y es base del aria-label. */
+  readonly name = input.required<string>();
+
+  /** Cargo o rol del usuario (lÃ­nea secundaria debajo del nombre). */
+  readonly role = input<string>('');
+
+  /**
+   * Tipo de contenido del avatar.
+   * - `letter`  â€” Usa el primer carÃ¡cter de `name` o el valor de `letter`.
+   * - `image`   â€” Muestra `imageSrc` en un cÃ­rculo; requiere `imageSrc`.
+   * - `icon`    â€” Muestra un Ã­cono de Material Symbols; usa `iconName`.
+   */
+  readonly type = input<AvatarType>('letter');
+
+  /** URL de la imagen (necesario cuando `type === 'image'`). */
+  readonly imageSrc = input<string>('');
+
+  /** Letra a mostrar cuando `type === 'letter'`. Por defecto usa la primera letra de `name`. */
+  readonly letter = input<string>('');
+
+  /** Nombre del Ã­cono de Material Symbols (necesario cuando `type === 'icon'`). */
+  readonly iconName = input<string>('person');
+
+  /** Muestra el indicador de notificaciÃ³n sobre el avatar. */
+  readonly showBadge = input<boolean>(false);
+
+  /**
+   * TamaÃ±o del avatar (no del botÃ³n completo, sino del cÃ­rculo del avatar).
+   * - `md` â†’ 40 px (default Figma) Â· `lg` â†’ 64 px
+   */
+  readonly size = input<'md' | 'lg'>('md');
+
+  /** Oculta el nombre y el rol junto al avatar. */
+  readonly showName = input<boolean>(true);
+
+  /** Oculta solo el rol (la lÃ­nea secundaria). */
+  readonly showRole = input<boolean>(true);
+
+  /** Tipo HTML del botÃ³n. */
+  readonly buttonType = input<'button' | 'submit'>('button');
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Emite al hacer clic en el botÃ³n (solo cuando no estÃ¡ deshabilitado). */
+  readonly clicked = output<void>();
+
+  // â”€â”€ IDs Ãºnicos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  readonly _uid = `pds-avatar-btn-${++_counter}`;
+
+  // â”€â”€ Computed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+  /** Letra efectiva a mostrar en el avatar. */
+
+=== pds-tooltip ===
+/** Texto del tooltip. Requerido. */
+  readonly text = input.required<string>();
+
+  /** PosiciÃ³n del tooltip respecto al activador. */
+  readonly position = input<'top' | 'top-end' | 'bottom' | 'left' | 'right'>('top');
+
+  /** Deshabilita la apariciÃ³n del tooltip. */
+  readonly disabled = input<boolean>(false);
+
+  /** ID Ãºnico del bubble â€” expuesto para que el activador lo use en aria-describedby. */
+  readonly tooltipId = `pds-tooltip-${++tooltipCounter}`;
+
+=== pds-cta ===
+/** Variante de dispositivo â€” controla tamaÃ±o de texto e Ã­cono. */
+  readonly device = input<'desktop' | 'mobile'>('desktop');
+
+  /** Estado deshabilitado. Usa aria-disabled para mantener el elemento en el tab order. */
+  readonly disabled = input<boolean>(false);
+
+  /** Nombre del Ã­cono (Material Symbols Rounded). */
+  readonly iconName = input<string>('arrow_forward');
+
+  /** Tipo HTML del botÃ³n. */
+  readonly type = input<'button' | 'submit'>('button');
+
+=== pds-icon-button ===
+/** Variante visual del botÃ³n. */
+  readonly variant = input<
+    | 'primary'
+    | 'secondary'
+    | 'outline'
+    | 'ghost'
+    | 'ghost-neutral'
+    | 'tertiary'
+    | 'destructive'
+    | 'destructive-outline'
+  >('primary');
+
+  /** TamaÃ±o del botÃ³n. SM = 32px visual / 48px touch target. */
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+
+  /** Forma del borde. */
+  readonly rounded = input<'pill' | 'rectangle'>('pill');
+
+  /** Estado deshabilitado. Usa aria-disabled (mantiene el tab order). */
+  readonly disabled = input<boolean>(false);
+
+  /** Nombre del Ã­cono (Material Symbols). Requerido. */
+  readonly iconName = input.required<string>();
+
+  /**
+   * Etiqueta accesible del botÃ³n. Requerido.
+   * Se usa como aria-label y como texto del tooltip por defecto.
+   */
+  readonly ariaLabel = input.required<string>();
+
+  /**
+   * Texto personalizado para el tooltip.
+   * Si no se especifica, usa el mismo valor que ariaLabel.
+   */
+  readonly tooltipText = input<string | null>(null);
+
+  /** PosiciÃ³n del tooltip respecto al botÃ³n. */
+  readonly tooltipPosition = input<'top' | 'top-end' | 'bottom' | 'left' | 'right'>('top');
+
+  /** Tipo HTML del botÃ³n. */
+  readonly type = input<'button' | 'submit'>('button');
+
+  /** Texto efectivo del tooltip â€” ariaLabel como fallback. */
+
+=== pds-progress-bar ===
+/** Valor actual del progreso (0â€“100). */
+  readonly value = input.required<number>();
+
+  /** Estado semÃ¡ntico que define el color. */
+  readonly status = input<'primary' | 'success' | 'warning' | 'error'>('primary');
+
+  /** Texto de ayuda que se muestra debajo con Ã­cono de estado. */
+  readonly label = input<string | null>(null);
+
+  /** Muestra el porcentaje como texto. */
+  readonly showValue = input<boolean>(false);
+
+=== pds-loading-circle ===
+/** TamaÃ±o del spinner. */
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+
+  /** Texto descriptivo para lectores de pantalla (y visible si no hay label). */
+  readonly ariaLabel = input<string>('Cargando');
+
+  /** Etiqueta visible junto al spinner. Si se omite, no se muestra texto. */
+  readonly label = input<string>('');
+
+=== pds-card ===
+/** Modo de comportamiento de la card. */
+  readonly behavior = input<PdsCardBehavior>('info');
+
+  /** TÃ­tulo principal de la card (obligatorio). */
+  readonly title = input.required<string>();
+
+  /** SubtÃ­tulo opcional debajo del tÃ­tulo. */
+  readonly subtitle = input<string | null>(null);
+
+  /** Texto descriptivo opcional. */
+  readonly description = input<string | null>(null);
+
+  /** Nombre del Ã­cono Material Symbols. Renderiza un contenedor pill con Ã­cono. */
+  readonly iconName = input<string | null>(null);
+
+  /** URL de la imagen de cabecera (info y nav). */
+  readonly imageSrc = input<string | null>(null);
+
+  /** Alt text de la imagen. */
+  readonly imageAlt = input<string>('');
+
+  /** Texto del botÃ³n de acciÃ³n (solo behavior=info con showAction=true). */
+  readonly actionLabel = input<string>('AcciÃ³n');
+
+  /** Muestra el botÃ³n de acciÃ³n en el footer de la card (solo behavior=info). */
+  readonly showAction = input<boolean>(false);
+
+  /** Estado seleccionado (solo behavior=selectable). */
+  readonly selected = input<boolean>(false);
+
+  /** Deshabilita la interacciÃ³n en cards nav y selectable. */
+  readonly disabled = input<boolean>(false);
+
+  /** Emite cuando se hace clic en la card (nav) o en el botÃ³n de acciÃ³n (info). */
+  readonly cardClick = output<void>();
+
+  /** Emite el nuevo estado de selecciÃ³n (solo behavior=selectable). */
+  readonly selectedChange = output<boolean>();
+
+  // â”€â”€ SeÃ±ales internas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-stat-card ===
+/** Modo de comportamiento de la stat card. */
+  readonly behavior = input<PdsStatCardBehavior>('info');
+
+  /** Nombre del Ã­cono Material Symbols (obligatorio). */
+  readonly iconName = input.required<string>();
+
+  /** Etiqueta descriptiva de la mÃ©trica (ej. "Active users"). */
+  readonly label = input.required<string>();
+
+  /** Valor principal de la mÃ©trica (ej. "12.480"). */
+  readonly value = input.required<string>();
+
+  /** Valor de la tendencia (ej. "+12.5%"). Muestra la secciÃ³n More Info si se define. */
+  readonly trendValue = input<string | null>(null);
+
+  /** Texto de contexto de la tendencia (ej. "vs last month"). */
+  readonly trendLabel = input<string | null>(null);
+
+  /** Estado/color del badge indicador. Acepta cualquier valor de PdsBadge status. */
+  readonly badgeStatus = input<
+    'brand' | 'brand-subtle' | 'brand-secondary' | 'neutral' | 'success' | 'warning' | 'error'
+  >('neutral');
+
+  /** Ãcono del badge indicador (Material Symbols). null = sin Ã­cono. */
+  readonly badgeIcon = input<string | null>(null);
+
+  /** Estado seleccionado (solo behavior=selectable). */
+  readonly selected = input<boolean>(false);
+
+  /** Deshabilita la interacciÃ³n en cards nav y selectable. */
+  readonly disabled = input<boolean>(false);
+
+  /** Emite cuando se hace clic en la card (nav) o se cambia la selecciÃ³n (selectable). */
+  readonly cardClick = output<void>();
+
+  /** Emite el nuevo estado de selecciÃ³n (solo behavior=selectable). */
+  readonly selectedChange = output<boolean>();
+
+  // â”€â”€ SeÃ±ales internas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-range ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /** Modo simple (un thumb) o doble (dos thumbs: mÃ­n-mÃ¡x). */
+  readonly type = input<RangeType>('single');
+
+  /** Valor mÃ­nimo del eje. */
+  readonly min = input<number>(0);
+
+  /** Valor mÃ¡ximo del eje. */
+  readonly max = input<number>(100);
+
+  /** Incremento de cada paso. */
+  readonly step = input<number>(1);
+
+  /** Valor inicial para modo single. */
+  readonly value = input<number | null>(null);
+
+  /** Valor mÃ­nimo inicial para modo double. */
+  readonly valueMin = input<number | null>(null);
+
+  /** Valor mÃ¡ximo inicial para modo double. */
+  readonly valueMax = input<number | null>(null);
+
+  /** Mostrar inputs numÃ©ricos en los laterales. */
+  readonly showInputs = input<boolean>(true);
+
+  /** Deshabilita el control. */
+  readonly disabled = input<boolean>(false);
+
+  /** Etiqueta del campo (modo single). */
+  readonly label = input<string | null>(null);
+
+  /** Etiqueta del input izquierdo (modo double). */
+  readonly labelMin = input<string>('Min');
+
+  /** Etiqueta del input derecho (modo double). */
+  readonly labelMax = input<string>('Max');
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  readonly rangeChange  = output<{ min: number; max: number }>();
+  readonly singleChange = output<number>();
+
+  // â”€â”€ IDs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-date-picker ===
+// â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  readonly label     = input.required<string>();
+  readonly mode      = input<DatePickerMode>('single');
+  readonly placeholder = input<string>(DATE_FORMAT.toLowerCase());
+  readonly minDate   = input<Date | null>(null);
+  readonly maxDate   = input<Date | null>(null);
+  readonly disabled  = input<boolean>(false);
+  readonly required  = input<boolean>(false);
+  readonly status    = input<DatePickerStatus>('default');
+  readonly feedbackText = input<string | null>(null);
+  readonly helpText  = input<string | null>(null);
+  readonly value     = input<Date | null>(null);
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  readonly dateChange      = output<Date | null>();
+  readonly dateRangeChange = output<{ start: Date | null; end: Date | null }>();
+
+  // â”€â”€ IDs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-time-picker ===
+@ViewChild('inputEl') inputEl!: ElementRef<HTMLInputElement>;
+
+  // â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  /** Etiqueta visible del campo. Requerida. */
+  readonly label = input.required<string>();
+
+  /** Texto de ayuda contextual (aparece en tooltip). */
+  readonly helpText = input<string | null>(null);
+
+  /** Valor inicial en formato HH:mm o HH:mm:ss. */
+  readonly value = input<string>('');
+
+  /** Estado semÃ¡ntico del campo. */
+  readonly status = input<TimePickerStatus>('default');
+
+  /** Texto de feedback (error, aviso, Ã©xito). */
+  readonly feedbackText = input<string | null>(null);
+
+  /** Hora mÃ­nima permitida (formato HH:mm). */
+  readonly min = input<string | null>(null);
+
+  /** Hora mÃ¡xima permitida (formato HH:mm). */
+  readonly max = input<string | null>(null);
+
+  /**
+   * Incremento en segundos. Por defecto 60 (sin campo de segundos).
+   * Usar 1 para incluir segundos, 900 para intervalos de 15 min, etc.
+   */
+  readonly step = input<number>(60);
+
+  /** Deshabilita el campo. */
+  readonly disabled = input<boolean>(false);
+
+  /** Marca el campo como requerido. */
+  readonly required = input<boolean>(false);
+
+  /** Nombre del campo para formularios HTML. */
+  readonly name = input<string | null>(null);
+
+  // â”€â”€ Outputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  readonly valueChange = output<string>();
+  readonly blur = output<void>();
+  readonly focus = output<void>();
+
+  // â”€â”€ IDs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+=== pds-file-uploader ===
+private static _counter = 0;
+
+  /** Etiqueta del campo (opcional). */
+  readonly label = input<string | null>(null);
+
+  /** Muestra asterisco de requerido. */
+  readonly required = input<boolean>(false);
+
+  /** Texto de ayuda debajo del Ã¡rea de carga. */
+  readonly hint = input<string | null>(null);
+
+  /** Texto instruccional dentro del Ã¡rea de carga. */
+  readonly instructive = input<string>('Arrastra el archivo que deseas subir o');
+
+  /** Tipos aceptados (MIME o extensiones). Ej: "image/*,.pdf". */
+  readonly accept = input<string>('*');
+
+  /** Permite mÃºltiples archivos. */
+  readonly multiple = input<boolean>(false);
+
+  /** TamaÃ±o mÃ¡ximo en bytes. null = sin lÃ­mite. */
+  readonly maxSize = input<number | null>(null);
+
+  /** Deshabilita la zona de carga. */
+  readonly disabled = input<boolean>(false);
+
+  /** Variante de presentaciÃ³n. 'large' = drop zone visual. 'compact' = solo botÃ³n. */
+  readonly type = input<'large' | 'compact'>('large');
+
+  /**
+   * Items en modo controlado.
+   * Cuando se provee (â‰  null), el componente refleja este array y no gestiona
+   * su propio estado interno. Cuando es null, gestiona los items localmente.
+   */
+  readonly items = input<PdsFileItem[] | null>(null);
+
+  /** Emite los nuevos PdsFileItem al aÃ±adir archivos. */
+  readonly filesAdded = output<PdsFileItem[]>();
+
+  /** Emite el id del item eliminado por el usuario. */
+  readonly fileRemoved = output<string>();
+
+  @ViewChild('fileInput') private readonly fileInput!: ElementRef<HTMLInputElement>;
+
+=== pds-code-block ===
+/** Nombre del archivo o tÃ­tulo mostrado en la cabecera. */
+  readonly title = input<string | null>(null);
+
+  /** Muestra la cabecera (tÃ­tulo + botÃ³n de copia). */
+  readonly showHeader = input<boolean>(true);
+
+  /** Muestra el botÃ³n de copia en la cabecera. */
+  readonly showCopyButton = input<boolean>(true);
+
+  /** Muestra la columna de nÃºmeros de lÃ­nea. */
+  readonly showNumbers = input<boolean>(true);
+
+  /**
+   * Altura mÃ¡xima del Ã¡rea de cÃ³digo. Acepta cualquier valor CSS vÃ¡lido (`px`, `rem`, `vh`, etc.).
+   * Si se especifica, el cuerpo produce scroll vertical al superar ese lÃ­mite.
+   * Sin valor, el cuerpo crece con el contenido.
+   */
+  readonly maxHeight = input<string | null>(null);
+
+  /** El cÃ³digo a mostrar. */
+  readonly code = input.required<string>();
+
+  /** Estado del tooltip del botÃ³n de copia. */
+
+=== pds-textarea-field ===
+readonly label = input.required<string>();
+  readonly helpText = input<string | null>(null);
+  readonly placeholder = input<string>('');
+  readonly value = input<string>('');
+  readonly status = input<TextareaStatus>('default');
+  readonly feedbackText = input<string | null>(null);
+  readonly maxLength = input<number | null>(null);
+  readonly showCounter = input<boolean>(false);
+  readonly rows = input<number>(3);
+  readonly required = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly readonly = input<boolean>(false);
+
+  readonly valueChange = output<string>();
+  readonly blur = output<void>();
+
+  readonly textareaId = `pds-textarea-${++textareaCounter}`;
+  readonly helperId = `pds-textarea-helper-${this.textareaId}`;
+

@@ -1,0 +1,65 @@
+# pds-progress-bar
+
+<FigmaEmbed nodeId="350:4316" />
+
+Barra de progreso con estados semánticos y texto de ayuda opcional.
+
+## Importación
+
+```typescript
+import { PdsProgressBarComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `value` | `number` | requerido | Valor de progreso (0–100) |
+| `status` | `'primary' \| 'success' \| 'warning' \| 'error'` | `'primary'` | Estado semántico (determina el color) |
+| `label` | `string \| null` | `null` | Texto de ayuda con ícono de estado |
+| `showValue` | `boolean` | `false` | Muestra el porcentaje como texto |
+
+## Uso básico
+
+```html
+<!-- Progress simple -->
+<pds-progress-bar [value]="uploadProgress" />
+
+<!-- Con porcentaje visible -->
+<pds-progress-bar [value]="75" [showValue]="true" />
+
+<!-- Con etiqueta de estado -->
+<pds-progress-bar
+  [value]="completionRate"
+  status="success"
+  label="Módulo completado"
+/>
+
+<!-- En error -->
+<pds-progress-bar
+  [value]="progress"
+  status="error"
+  label="Error al procesar"
+/>
+```
+
+```typescript
+uploadProgress = signal(0);
+
+startUpload() {
+  // Incrementar 'uploadProgress' según el avance real
+}
+```
+
+## Notas
+
+- El valor se limita automáticamente a 0–100.
+- El texto de `label` se renderiza con `pds-helper-text` (incluye ícono del estado).
+- El color de la barra se controla con tokens según el `status`.
+
+## Accesibilidad
+
+- `role="progressbar"` con `aria-valuenow`, `aria-valuemin="0"`, `aria-valuemax="100"`.
+- `aria-label` auto-generado desde el `label` si se proporciona.

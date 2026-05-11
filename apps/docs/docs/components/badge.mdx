@@ -1,0 +1,60 @@
+# pds-badge
+
+<FigmaEmbed nodeId="444:6112" />
+
+Etiqueta de estado semántico. Muestra información de categoría o estado con colores y forma configurables.
+
+## Importación
+
+```typescript
+import { PdsBadgeComponent } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `status` | `'brand' \| 'brand-subtle' \| 'brand-secondary' \| 'neutral' \| 'success' \| 'warning' \| 'error'` | `'neutral'` | Estado semántico (determina colores) |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Tamaño |
+| `shape` | `'pill' \| 'rectangle'` | `'pill'` | Forma del borde |
+| `iconStart` | `string \| null` | `null` | Ícono al inicio (decorativo) |
+| `iconEnd` | `string \| null` | `null` | Ícono al final (decorativo) |
+
+## Uso básico
+
+```html
+<!-- Estado de un elemento -->
+<pds-badge status="success">Activo</pds-badge>
+<pds-badge status="error">Inactivo</pds-badge>
+<pds-badge status="warning">Pendiente</pds-badge>
+
+<!-- Con icono -->
+<pds-badge status="brand" iconStart="school">Programa</pds-badge>
+
+<!-- Rectangle en tabla -->
+<pds-badge status="neutral" shape="rectangle" size="sm">Categoría</pds-badge>
+
+<!-- Variante brand para destacar -->
+<pds-badge status="brand-subtle" iconEnd="star">Destacado</pds-badge>
+```
+
+## Uso en stat-card
+
+```html
+<pds-stat-card
+  iconName="people"
+  label="Usuarios activos"
+  value="12.480"
+  trendValue="+12.5%"
+  badgeStatus="success"
+  badgeIcon="trending_up"
+/>
+```
+
+## Accesibilidad
+
+- Los íconos son decorativos (`aria-hidden="true"`).
+- El texto del badge comunica el estado — no depende solo del color.
+- Touch target 48×48px con `::before` cuando el badge es interactivo.

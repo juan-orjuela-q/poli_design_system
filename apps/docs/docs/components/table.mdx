@@ -1,0 +1,163 @@
+# pds-table
+
+<FigmaEmbed nodeId="3178:1914" />
+
+Tabla de datos con ordenamiento, filtros, selección, acciones, paginación y plantillas personalizadas para celdas.
+
+## Importación
+
+```typescript
+import { PdsTableComponent } from '@poli/components';
+// Directiva para celdas personalizadas:
+import { PdsTableCellDirective } from '@poli/components';
+```
+
+## API
+
+### Inputs
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `columns` | `PdsTableColumn[]` | requerido | Definición de columnas |
+| `data` | `T[]` | `[]` | Datos a mostrar |
+| `filters` | `PdsTableFilter[]` | `[]` | Filtros de texto o select |
+| `filterMode` | `'internal' \| 'external'` | `'internal'` | `internal`: filtra en cliente. `external`: emite `filterChange`. |
+| `showSelection` | `boolean` | `false` | Muestra checkbox de selección en cada fila |
+| `actions` | `PdsTableAction[]` | `[]` | Acciones por fila (íconos en última columna) |
+| `sortKey` | `string \| null` | `null` | Columna activa de ordenamiento |
+| `sortDirection` | `'asc' \| 'desc' \| null` | `null` | Dirección de ordenamiento |
+| `showPaginator` | `boolean` | `false` | Muestra `pds-paginator` debajo |
+| `totalItems` | `number` | `0` | Total para el paginador (modo externo) |
+| `currentPage` | `number` | `1` | Página actual |
+| `pageSize` | `number` | `20` | Ítems por página |
+| `pageSizeOptions` | `number[]` | `[10, 20, 50, 100]` | Opciones del paginador |
+| `showAddButton` | `boolean` | `false` | Muestra botón "Agregar" sobre la tabla |
+| `addButtonLabel` | `string` | `'Agregar'` | Etiqueta del botón agregar |
+
+### Outputs
+
+| Output | Tipo | Descripción |
+|--------|------|-------------|
+| `sortChange` | `{ key: string; direction: 'asc' \| 'desc' }` | Al ordenar una columna |
+| `pageChange` | `number` | Al cambiar de página |
+| `pageSizeChange` | `number` | Al cambiar tamaño de página |
+| `selectionChange` | `T[]` | Filas seleccionadas (array actualizado) |
+| `actionClick` | `{ action: PdsTableAction; row: T }` | Al hacer clic en una acción de fila |
+| `filterChange` | `Record<string, string>` | Al cambiar filtros (solo `filterMode="external"`) |
+| `addClick` | `void` | Al hacer clic en el botón agregar |
+
+### Tipos
+
+```typescript
+interface PdsTableColumn {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  width?: string;        // CSS width: '200px', '20%'
+  align?: 'left' | 'center' | 'right';
+}
+
+interface PdsTableFilter {
+  key: string;
+  label: string;
+  type: 'text' | 'select';
+  options?: { label: string; value: string }[];  // solo type='select'
+}
+
+interface PdsTableAction {
+  id: string;
+  iconName: string;
+  label: string;          // Para aria-label
+  disabled?: boolean;
+}
+```
+
+## Uso básico
+
+```typescript
+columns: PdsTableColumn[] = [
+  { key: 'nombre', label: 'Nombre', sortable: true },
+  { key: 'estado', label: 'Estado', align: 'center' },
+  { key: 'fecha', label: 'Fecha', sortable: true },
+];
+
+data = signal<any[]>([...]);
+
+actions: PdsTableAction[] = [
+  { id: 'edit', iconName: 'edit', label: 'Editar' },
+  { id: 'delete', iconName: 'delete', label: 'Eliminar' },
+];
+```
+
+```html
+<pds-table
+  [columns]="columns"
+  [data]="data()"
+  [actions]="actions"
+  [showAddButton]="true"
+  addButtonLabel="Nueva solicitud"
+  (actionClick)="onAction($event)"
+  (addClick)="openCreateForm()"
+/>
+```
+
+## Celdas personalizadas
+
+Usar la directiva `*pdsTableCell` para personalizar el renderizado de una celda específica:
+
+```html
+<pds-table [columns]="columns" [data]="data()">
+
+  <!-- Columna 'estado' con badge -->
+  <ng-template *pdsTableCell="let row; column: 'estado'">
+    <pds-badge
+      [label]="row.estado"
+      [status]="row.estado === 'Activo' ? 'success' : 'neutral'"
+    />
+  </ng-template>
+
+  <!-- Columna 'nombre' con enlace -->
+  <ng-template *pdsTableCell="let row; column: 'nombre'">
+    <a [routerLink]="['/detalle', row.id]">{{ row.nombre }}</a>
+  </ng-template>
+
+</pds-table>
+```
+
+## Tabla con paginación server-side
+
+```typescript
+sortKey = signal<string | null>(null);
+sortDir = signal<'asc' | 'desc' | null>(null);
+currentPage = signal(1);
+pageSize = signal(20);
+
+onSort(event: { key: string; direction: 'asc' | 'desc' }) {
+  this.sortKey.set(event.key);
+  this.sortDir.set(event.direction);
+  this.currentPage.set(1);
+  this.loadData();
+}
+```
+
+```html
+<pds-table
+  [columns]="columns"
+  [data]="data()"
+  [sortKey]="sortKey()"
+  [sortDirection]="sortDir()"
+  [showPaginator]="true"
+  [totalItems]="total()"
+  [currentPage]="currentPage()"
+  [pageSize]="pageSize()"
+  (sortChange)="onSort($event)"
+  (pageChange)="currentPage.set($event); loadData()"
+/>
+```
+
+## Accesibilidad
+
+- Usa `<table>` semántica con `<thead>`, `<tbody>`, `<th scope="col">`.
+- Columnas ordenables tienen `aria-sort="ascending"/"descending"`.
+- Checkboxes de selección tienen `aria-label` por fila.
+- Botones de acción tienen `aria-label` descriptivo.
