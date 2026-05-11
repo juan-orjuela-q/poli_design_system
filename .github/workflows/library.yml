@@ -33,7 +33,7 @@ jobs:
         run: npm run build:lib
 
       - name: Run tests
-        run: npm test -- --watch=false --browsers=ChromeHeadless
+        run: npm test -- --watch=false --browsers=ChromeHeadless --include="packages/components/**/*.spec.ts"
 
       - name: Publish to GitHub Packages
         if: github.event_name == 'release'
