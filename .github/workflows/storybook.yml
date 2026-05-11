@@ -32,21 +32,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11
+          node-version: '20'
+          cache: npm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       - name: Generate compodoc JSON
         run: npx compodoc -p tsconfig.app.json -e json -d .
 
       - name: Build Storybook
-        run: pnpm build-storybook
+        run: npm run build-storybook
 
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3

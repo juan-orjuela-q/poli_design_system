@@ -21,23 +21,19 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@poli'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11
+          cache: npm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm install
 
       - name: Build library
-        run: pnpm build:lib
+        run: npm run build:lib
 
       - name: Run tests
-        run: pnpm test --watch=false --browsers=ChromeHeadless
+        run: npm test -- --watch=false --browsers=ChromeHeadless
 
       - name: Publish to GitHub Packages
         if: github.event_name == 'release'
