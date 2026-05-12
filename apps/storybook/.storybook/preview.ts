@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/angular';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 import docJson from '../../../documentation.json';
+import { poliTheme } from './poli-theme';
 
 setCompodocJson(docJson);
 
@@ -22,6 +23,7 @@ const preview: Preview = {
     viewMode: 'docs',
     docs: {
       autodocs: true,
+      theme: poliTheme,
     },
     a11y: {
       manual: false,

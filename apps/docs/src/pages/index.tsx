@@ -9,7 +9,7 @@ import styles from './index.module.css';
 const STATS = [
   { value: '40+', label: 'Componentes' },
   { value: '200+', label: 'Tokens de diseño' },
-  { value: '5', label: 'Fases de desarrollo' },
+  { value: 'WCAG 2.2', label: 'Cumplimiento AA' },
   { value: '500+', label: 'Aplicativos Poli' },
 ];
 
@@ -87,11 +87,9 @@ export default function Home() {
           <div className={styles.heroNoise} aria-hidden="true" />
           <div className={styles.heroContent}>
             {/* Placeholder para logo — equipo de diseño reemplaza */}
-            <div className={styles.logoPlaceholder} aria-hidden="true">
-              <span>P</span>
-            </div>
+            
 
-            <div className={styles.heroBadge}>Design System v2</div>
+            <div className={styles.heroBadge}>Design System v2.0</div>
 
             <h1 className={styles.heroTitle}>
               Poli<br />
@@ -117,14 +115,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Placeholder para imagen hero — equipo de diseño reemplaza */}
           <div className={styles.heroIllustration} aria-hidden="true">
-            <div className={styles.heroIllustrationInner}>
-              <span className={styles.heroIllustrationLabel}>
-                [Ilustración / UI mockup]<br />
-                <small>2400 × 1600 px · PNG/SVG</small>
-              </span>
-            </div>
+            <img
+              src={require('@site/static/img/cover-design-system.png').default}
+              alt=""
+              className={styles.heroIllustrationImg}
+            />
           </div>
 
           <div className={styles.heroDivider} aria-hidden="true" />
