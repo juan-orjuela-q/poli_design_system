@@ -1,0 +1,709 @@
+/* ============================================================
+   Landing Page — Poli Design System
+   Tokens de color: primitives.css de packages/tokens/src/
+   ============================================================ */
+
+/* ── Reset / Base ─────────────────────────────────────────── */
+.main {
+  background-color: #f1f3f5;
+  color: #293138;
+  font-family: 'Open Sans', system-ui, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #0f385a 0%, #002b49 60%, #0d2238 100%);
+  overflow: hidden;
+  min-height: 560px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 80px 64px 0;
+}
+
+/* Subtle texture overlay */
+.heroNoise {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(31, 178, 222, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(21, 83, 134, 0.4) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 80px;
+}
+
+.logoPlaceholder {
+  width: 52px;
+  height: 52px;
+  background: rgba(31, 178, 222, 0.15);
+  border: 1.5px solid rgba(31, 178, 222, 0.4);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1fb2de;
+  letter-spacing: -0.02em;
+  /* Equipo de diseño: reemplazar con <img> del logo oficial */
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(31, 178, 222, 0.12);
+  border: 1px solid rgba(31, 178, 222, 0.35);
+  color: #70d5f0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 99px;
+}
+
+.heroTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.heroTitleAccent {
+  color: #1fb2de;
+}
+
+.heroTagline {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 440px;
+  margin: 0;
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* ── Hero illustration placeholder ──────────────────────── */
+.heroIllustration {
+  position: relative;
+  z-index: 1;
+  height: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.heroIllustrationInner {
+  width: 100%;
+  height: 380px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px dashed rgba(31, 178, 222, 0.3);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.heroIllustrationLabel {
+  font-size: 0.75rem;
+  color: rgba(31, 178, 222, 0.5);
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1.8;
+}
+
+.heroDivider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(31, 178, 222, 0.3), transparent);
+}
+
+/* ── CTAs — basados en pds-button ────────────────────────── */
+/* Shared base */
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 48px;             /* --button-dimensions-height */
+  padding: 0 20px;          /* --button-dimensions-padding-x */
+  font-family: 'Poppins', sans-serif; /* --text-component */
+  font-size: 1rem;          /* --font-size-f-base */
+  font-weight: 500;         /* --font-weight-w-medium */
+  line-height: 1;           /* --line-height-lh-none */
+  border-radius: 99999px;   /* --button-radius-base */
+  white-space: nowrap;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+/* pds-button --secondary — usado como CTA primario sobre fondo oscuro */
+.ctaPrimary {
+  background: #1fb2de;                      /* --action-secondary-solid-bg */
+  color: #002b49 !important;                /* --action-secondary-solid-fg */
+  border: 1.5px solid #007ba4;             /* --action-secondary-solid-border */
+}
+
+.ctaPrimary:hover {
+  background: #70d5f0;                      /* --action-secondary-solid-bg-hover */
+  color: #002b49 !important;
+  box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12), 0 10px 32px -4px rgba(24, 39, 75, 0.10);
+  transform: none;
+}
+
+.ctaPrimary:active {
+  background: #007ba4;                      /* --action-secondary-solid-bg-pressed */
+  border-color: transparent;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.12) inset, 0 10px 32px -4px rgba(0, 0, 0, 0.10) inset;
+}
+
+.ctaPrimary:focus-visible {
+  outline: none;
+  background: #70d5f0;
+  box-shadow:
+    0 0 0 2px #ffffff,                      /* --action-focus-inner */
+    0 0 0 6px #007ba4;                      /* --action-secondary-focus-ring */
+}
+
+/* pds-button --outline adaptado a superficie oscura — CTA secundario */
+.ctaSecondary {
+  background: transparent;
+  color: #ffffff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+}
+
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.10);   /* ghost-bg-hover sobre oscuro */
+  color: #ffffff !important;
+  border-color: #ffffff;
+  box-shadow: 0 6px 14px -6px rgba(24, 39, 75, 0.12), 0 10px 32px -4px rgba(24, 39, 75, 0.10);
+}
+
+.ctaSecondary:active {
+  background: rgba(255, 255, 255, 0.18);   /* ghost-bg-pressed sobre oscuro */
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.12) inset, 0 10px 32px -4px rgba(0, 0, 0, 0.10) inset;
+}
+
+.ctaSecondary:focus-visible {
+  outline: none;
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 0 0 2px #0f385a,                     /* color del fondo — crea separación */
+    0 0 0 6px #1fb2de;                     /* --color-brand-secondary-base */
+}
+
+/* ── Stats bar ────────────────────────────────────────────── */
+.statsBar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e9ec;
+}
+
+.statsBar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 0;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 32px;
+  gap: 4px;
+  flex: 1;
+  border-right: 1px solid #e5e9ec;
+}
+
+.statItem:last-child {
+  border-right: none;
+}
+
+.statValue {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f385a;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #627380;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Sections ─────────────────────────────────────────────── */
+.section {
+  padding: 80px 0;
+  background: #f1f3f5;
+}
+
+.sectionDark {
+  padding: 80px 0;
+  background: #0f385a;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sectionEyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1fb2de;
+}
+
+.sectionTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #0f385a;
+  margin: 0;
+}
+
+.sectionDark .sectionTitle {
+  color: #ffffff;
+}
+
+.sectionSubtitle {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #627380;
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ── Categories grid ──────────────────────────────────────── */
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e9ec;
+  border-radius: 12px;
+  padding: 28px 24px 24px;
+  text-decoration: none !important;
+  color: #293138 !important;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0f385a, #1fb2de);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.categoryCard:hover {
+  border-color: #1fb2de;
+  box-shadow: 0 8px 24px rgba(15, 56, 90, 0.1);
+  transform: translateY(-2px);
+  color: #293138 !important;
+}
+
+.categoryCard:hover::before {
+  opacity: 1;
+}
+
+.categoryIcon {
+  font-size: 1.75rem;
+  color: #0f385a;
+  line-height: 1;
+}
+
+.categoryBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.categoryMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* pds-badge --sm */
+.categoryTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6875rem;      /* ligeramente menor para que el uppercase no quede pesado */
+  font-weight: 700;          /* bold compensa el tamaño pequeño */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0 8px;
+  height: 20px;              /* altura fija para centrado perfecto */
+  padding-top: 1px;          /* compensación óptica Poppins baseline */
+  border-radius: 99px;
+  line-height: 1;
+}
+
+.categoryTag--cyan {
+  background: #1fb2de; /* --surface-brand-secondary-muted */
+  color: #0f385a;    /* --fg-brand-primary */
+}
+
+.categoryTag--green {
+  background: #a6ce38; /* --surface-status-success-solid */
+  color: #0f385a;     /* --fg-brand-primary */
+}
+
+.categoryTag--yellow {
+  background: #fbaf17; /* --surface-status-warning-solid */
+  color: #0f385a;     /* --fg-brand-primary */
+}
+
+.categoryTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #0f385a;
+  margin: 0;
+}
+
+.categoryDesc {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #627380;
+  margin: 0;
+}
+
+.categoryArrow {
+  font-size: 1.125rem;
+  color: #ced5db;
+  transition: color 0.15s, transform 0.15s;
+  align-self: flex-end;
+}
+
+.categoryCard:hover .categoryArrow {
+  color: #1fb2de;
+  transform: translateX(4px);
+}
+
+/* ── Roadmap / Phases ─────────────────────────────────────── */
+.phases {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.phase {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+}
+
+.phase:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.phase--pending {
+  background: rgba(31, 178, 222, 0.06);
+}
+
+.phaseNumber {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  min-width: 28px;
+  padding-top: 3px;
+}
+
+.phase--done .phaseNumber {
+  color: #1fb2de;
+}
+
+.phaseBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phaseHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phaseLabel {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* pds-badge --sm */
+.phaseBadgeDone,
+.phaseBadgePending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0 8px;
+  height: 20px;
+  padding-top: 1px;  /* compensación óptica Poppins baseline */
+  border-radius: 99px;
+  line-height: 1;
+}
+
+.phaseBadgeDone {
+  background: #a6ce38; /* --surface-status-success-solid */
+  color: #0f385a;     /* --fg-brand-primary */
+  border: none;
+}
+
+.phaseBadgePending {
+  background: #fbaf17; /* --surface-status-warning-solid */
+  color: #0f385a;     /* --fg-brand-primary */
+  border: none;
+}
+
+.phaseItems {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.phase--done .phaseItems {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Storybook CTA ────────────────────────────────────────── */
+.storybookCta {
+  background: #002b49;
+  padding: 80px 0;
+}
+
+.storybookCta .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.storybookPreview {
+  height: 280px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px dashed rgba(31, 178, 222, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Equipo de diseño: reemplazar con <img> del screenshot de Storybook */
+}
+
+.storybookPreviewLabel {
+  font-size: 0.75rem;
+  color: rgba(31, 178, 222, 0.5);
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1.8;
+}
+
+.storybookCtaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.storybookCtaTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.storybookCtaDesc {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* ── Dark mode adjustments ────────────────────────────────── */
+[data-theme='dark'] .main {
+  background-color: #0f385a;
+  color: #e5e9ec;
+}
+
+[data-theme='dark'] .statsBar {
+  background: #0d3253;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .statItem {
+  border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .statValue {
+  color: #70d5f0;
+}
+
+[data-theme='dark'] .statLabel {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+[data-theme='dark'] .section {
+  background: #0d3253;
+}
+
+[data-theme='dark'] .sectionTitle {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .sectionSubtitle {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+[data-theme='dark'] .categoryCard {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #e5e9ec !important;
+}
+
+[data-theme='dark'] .categoryCard:hover {
+  border-color: #1fb2de;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: #e5e9ec !important;
+}
+
+[data-theme='dark'] .categoryTitle {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .categoryDesc {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 996px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 64px 32px 0;
+  }
+
+  .heroIllustration {
+    display: none;
+  }
+
+  .heroContent {
+    padding-bottom: 64px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .storybookCta .container {
+    grid-template-columns: 1fr;
+  }
+
+  .storybookPreview {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 48px 24px 0;
+  }
+
+  .statsBar .container {
+    flex-wrap: wrap;
+  }
+
+  .statItem {
+    flex: 0 0 50%;
+    border-right: none;
+    border-bottom: 1px solid #e5e9ec;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}

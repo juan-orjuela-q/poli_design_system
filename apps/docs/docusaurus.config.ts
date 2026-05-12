@@ -34,7 +34,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          routeBasePath: '/',
+          routeBasePath: '/docs',
         },
         blog: false,
         theme: {
@@ -46,7 +46,7 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: 'Poli Design System v2',
+      title: 'Poli Design System',
       logo: {
         alt: 'Poli DS Logo',
         src: 'img/logo.svg',
@@ -78,7 +78,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()} Politécnico Grancolombiano. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Politécnico Grancolombiano. Desarrollado por <a style="color:#dffd68"href="https://appicua.com/" target="_blank" rel="noopener noreferrer">Appicua</a>.`,
     },
     prism: {
       theme: {

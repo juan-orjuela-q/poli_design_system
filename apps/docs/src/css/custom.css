@@ -1,34 +1,274 @@
-/* Variables de marca Poli */
+/* ============================================================
+   POLI DESIGN SYSTEM — Docusaurus Theme
+   Brand: Politécnico Grancolombiano
+   ============================================================ */
+
+/* ── Light mode ─────────────────────────────────────────── */
 :root {
-  --ifm-color-primary: #0062cc;
-  --ifm-color-primary-dark: #0058b8;
-  --ifm-color-primary-darker: #0052ad;
-  --ifm-color-primary-darkest: #00448f;
-  --ifm-color-primary-light: #006ce0;
-  --ifm-color-primary-lighter: #0072eb;
-  --ifm-color-primary-lightest: #1a82f5;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-font-family-base: 'Open Sans', system-ui, sans-serif;
+  /* Accent: navy (#0f385a = --color-brand-primary-base) */
+  --ifm-color-primary:          #0f385a;
+  --ifm-color-primary-dark:     #0c3050;
+  --ifm-color-primary-darker:   #0a2945;
+  --ifm-color-primary-darkest:  #061a2d;
+  --ifm-color-primary-light:    #145082;
+  --ifm-color-primary-lighter:  #1a5e99;
+  --ifm-color-primary-lightest: #2070b5;
+
+  /* Backgrounds */
+  --ifm-background-color:         #f8fafc;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-navbar-background-color:  #0f385a;
+  --ifm-navbar-link-color:        rgba(255, 255, 255, 0.85);
+  --ifm-navbar-link-hover-color:  #ffffff;
+
+  /* Sidebar */
+  --ifm-menu-color:         #293138;
+  --ifm-menu-color-active:  #0f385a;
+
+  /* Typography */
+  --ifm-font-family-base:    'Open Sans', system-ui, sans-serif;
   --ifm-heading-font-family: 'Poppins', system-ui, sans-serif;
+  --ifm-font-size-base:      14px;
+  --ifm-line-height-base:    1.6;
+
+  /* Heading scale — compact */
+  --ifm-h1-font-size: 1.75rem;
+  --ifm-h2-font-size: 1.25rem;
+  --ifm-h3-font-size: 1.05rem;
+  --ifm-h4-font-size: 0.95rem;
+  --ifm-h5-font-size: 0.875rem;
+
+  /* Borders & radius */
+  --ifm-global-radius:      8px;
+  --ifm-card-border-radius: 10px;
+  --ifm-color-emphasis-300: #ced5db;
+  --ifm-color-emphasis-600: #627380;
+
+  /* Code */
+  --ifm-code-font-size:    87.5%;
+  --ifm-code-border-radius: 4px;
+  --docusaurus-highlighted-code-line-bg: rgba(15, 56, 90, 0.07);
+
+  /* TOC */
+  --ifm-toc-border-color: #e5e9ec;
 }
 
+/* ── Dark mode ──────────────────────────────────────────── */
 [data-theme='dark'] {
-  --ifm-color-primary: #4da6ff;
-  --ifm-color-primary-dark: #2e96ff;
-  --ifm-color-primary-darker: #1e8eff;
-  --ifm-color-primary-darkest: #0071e0;
-  --ifm-color-primary-light: #6cb6ff;
-  --ifm-color-primary-lighter: #7cbeff;
-  --ifm-color-primary-lightest: #aed4ff;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Accent: cyan (#1fb2de = --color-brand-secondary-base) */
+  --ifm-color-primary:          #1fb2de;
+  --ifm-color-primary-dark:     #14a0ca;
+  --ifm-color-primary-darker:   #1195be;
+  --ifm-color-primary-darkest:  #0d789b;
+  --ifm-color-primary-light:    #3dbde3;
+  --ifm-color-primary-lighter:  #52c5e7;
+  --ifm-color-primary-lightest: #70d5f0;
+
+  /* Backgrounds — navy (#0f385a / #002b49) */
+  --ifm-background-color:         #0f385a;
+  --ifm-background-surface-color: #0d3253;
+  --ifm-navbar-background-color:  #002b49;
+  --ifm-navbar-link-color:        rgba(255, 255, 255, 0.80);
+  --ifm-navbar-link-hover-color:  #1fb2de;
+
+  /* Sidebar */
+  --ifm-menu-color:        rgba(255, 255, 255, 0.75);
+  --ifm-menu-color-active: #1fb2de;
+
+  /* Text */
+  --ifm-font-color-base:    #e5e9ec;
+  --ifm-heading-color:      #ffffff;
+  --ifm-color-emphasis-300: rgba(255, 255, 255, 0.12);
+  --ifm-color-emphasis-600: rgba(255, 255, 255, 0.40);
+
+  /* Code */
+  --docusaurus-highlighted-code-line-bg: rgba(31, 178, 222, 0.12);
+
+  /* TOC */
+  --ifm-toc-border-color: rgba(255, 255, 255, 0.10);
 }
 
-/* Token preview cards */
+/* ── Navbar ─────────────────────────────────────────────── */
+.navbar {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  padding-block: 0;
+  height: 56px;
+}
+
+.navbar__brand {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  color: #ffffff !important;
+}
+
+.navbar__items .navbar__link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Color mode toggle — white in light mode (navbar bg is dark navy) */
+[class*='toggleButton'] {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[class*='toggleButton']:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.10) !important;
+}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.menu {
+  font-size: 0.8125rem;
+  padding: 12px 8px;
+}
+
+.menu__link {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 5px 10px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu__link--active {
+  font-weight: 600;
+}
+
+/* Category labels */
+.menu__list-item-collapsible > .menu__link {
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* ── Content typography ─────────────────────────────────── */
+.markdown h1 {
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25em;
+  border-bottom: 2px solid var(--ifm-color-primary);
+  padding-bottom: 0.4em;
+}
+
+.markdown h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+}
+
+.markdown h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.markdown p,
+.markdown li {
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* ── Tables ─────────────────────────────────────────────── */
+/* Docusaurus wraps tables in a scrollable div — reset it */
+.markdown .tableWrapper {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.markdown table {
+  display: table;
+  font-size: 0.8125rem;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.markdown table th {
+  background-color: var(--ifm-color-primary);
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+}
+
+[data-theme='dark'] .markdown table th {
+  background-color: #002b49;
+}
+
+.markdown table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  vertical-align: top;
+}
+
+.markdown table tr:last-child td {
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.markdown table tr:hover td {
+  background-color: rgba(15, 56, 90, 0.04);
+}
+
+[data-theme='dark'] .markdown table tr:hover td {
+  background-color: rgba(31, 178, 222, 0.05);
+}
+
+/* ── Code ────────────────────────────────────────────────── */
+.prism-code {
+  font-size: 0.8125rem !important;
+  line-height: 1.6 !important;
+}
+
+code {
+  font-size: 0.8125rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: rgba(15, 56, 90, 0.07);
+  color: #0f385a;
+  font-family: 'IBM Plex Mono', 'Fira Code', monospace;
+}
+
+[data-theme='dark'] code {
+  background-color: rgba(31, 178, 222, 0.10);
+  color: #70d5f0;
+}
+
+/* ── Admonitions ─────────────────────────────────────────── */
+.admonition {
+  font-size: 0.8125rem;
+  border-radius: 8px;
+}
+
+/* ── TOC ─────────────────────────────────────────────────── */
+.table-of-contents {
+  font-size: 0.75rem;
+}
+
+.table-of-contents__link {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* ── Token preview cards ─────────────────────────────────── */
 .token-swatch {
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 4px;
   border: 1px solid var(--ifm-color-emphasis-300);
   vertical-align: middle;
