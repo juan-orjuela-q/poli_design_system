@@ -1,15 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { PdsButtonComponent, PdsIconComponent } from '@poli/components';
-import { AuthService } from '../../core/auth/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [PdsButtonComponent, PdsIconComponent],
+  imports: [TranslateModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
-  protected readonly auth = inject(AuthService);
-}
+export class HomeComponent {}

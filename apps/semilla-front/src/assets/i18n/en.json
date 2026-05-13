@@ -1,0 +1,19 @@
+{
+  "APP_TITLE": "Politécnico Grancolombiano",
+  "LOGIN": {
+    "TITLE": "Welcome",
+    "SUBTITLE": "Sign in with your Politécnico Grancolombiano institutional account.",
+    "BUTTON": "Sign in",
+    "SUPPORT": "Having trouble signing in? Contact"
+  },
+  "HOME": {
+    "TITLE": "Home",
+    "BODY": "Welcome to your application. Replace this content with your own views.",
+    "LOGOUT": "Sign out"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Page not found",
+    "BODY": "The URL you are looking for does not exist or has been moved.",
+    "BACK": "Go to home"
+  }
+}

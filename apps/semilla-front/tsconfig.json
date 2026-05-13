@@ -22,7 +22,9 @@
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
       "@pages/*": ["src/app/pages/*"],
-      "@layout/*": ["src/app/layout/*"]
+      "@layout/*": ["src/app/layout/*"],
+      "@poli/components": ["../../packages/components/src/public-api"],
+      "@poli/tokens": ["../../packages/tokens/src"]
     }
   },
   "angularCompilerOptions": {

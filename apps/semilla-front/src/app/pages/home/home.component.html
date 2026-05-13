@@ -1,25 +1,4 @@
-<div class="home-page">
-
-  <header class="home-page__header">
-    <div class="home-page__user">
-      <pds-icon name="account_circle" size="lg" aria-hidden="true" />
-      <span class="home-page__username">{{ auth.displayName }}</span>
-    </div>
-    <pds-button
-      variant="ghost"
-      size="sm"
-      iconStart="logout"
-      (click)="auth.logout()"
-    >
-      Cerrar sesión
-    </pds-button>
-  </header>
-
-  <main class="home-page__content" role="main">
-    <h1 class="home-page__title">Inicio</h1>
-    <p class="home-page__body">
-      Bienvenido a tu aplicación. Reemplaza este contenido con las vistas propias del proyecto.
-    </p>
-  </main>
-
-</div>
+<section class="home-page">
+  <h1 class="home-page__title">{{ 'HOME.TITLE' | translate }}</h1>
+  <p class="home-page__body">{{ 'HOME.BODY' | translate }}</p>
+</section>

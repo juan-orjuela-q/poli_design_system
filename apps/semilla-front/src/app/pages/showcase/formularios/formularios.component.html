@@ -1,0 +1,196 @@
+﻿<div class="showcase-form">
+
+  <!-- â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <section class="showcase-form__section">
+    <h2 class="showcase-form__section-title">Campos de texto</h2>
+
+    <div class="showcase-form__grid">
+      <!-- Default -->
+      <pds-input-field
+        label="Nombre"
+        placeholder="Ingresa tu nombre"
+        helpText="MÃ­nimo 2 caracteres"
+        [required]="true"
+      />
+
+      <!-- Con Ã­cono start -->
+      <pds-input-field
+        label="Email"
+        placeholder="correo@ejemplo.com"
+        iconStart="mail"
+        type="email"
+      />
+
+      <!-- Estado error -->
+      <pds-input-field
+        label="Campo con error"
+        placeholder="Ingresa un valor"
+        status="error"
+        feedbackText="Este campo es obligatorio"
+        [required]="true"
+      />
+
+      <!-- Estado success -->
+      <pds-input-field
+        label="Campo vÃ¡lido"
+        [value]="'valor@correcto.co'"
+        status="success"
+        feedbackText="Email verificado"
+      />
+
+      <!-- Estado warning -->
+      <pds-input-field
+        label="Campo con advertencia"
+        [value]="'test@'"
+        status="warning"
+        feedbackText="El dominio parece incompleto"
+      />
+
+      <!-- Deshabilitado -->
+      <pds-input-field
+        label="Campo deshabilitado"
+        placeholder="No editable"
+        [value]="'valor.fijo@poli.edu.co'"
+        [disabled]="true"
+      />
+
+      <!-- Password -->
+      <pds-input-field
+        label="ContraseÃ±a"
+        placeholder="MÃ­nimo 8 caracteres"
+        type="password"
+        helpText="Usa letras, nÃºmeros y sÃ­mbolos"
+      />
+
+      <!-- Con contador -->
+      <pds-input-field
+        label="Nombre de usuario"
+        placeholder="@usuario"
+        [maxLength]="30"
+        [showCounter]="true"
+      />
+    </div>
+  </section>
+
+  <!-- â”€â”€ Textarea â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <section class="showcase-form__section">
+    <h2 class="showcase-form__section-title">Ãrea de texto</h2>
+    <div class="showcase-form__grid">
+      <pds-textarea-field
+        label="DescripciÃ³n"
+        placeholder="Escribe una descripciÃ³n..."
+        helpText="MÃ¡ximo 300 caracteres"
+        [maxLength]="300"
+        [showCounter]="true"
+      />
+
+      <pds-textarea-field
+        label="Textarea deshabilitado"
+        [value]="'Contenido no editable'"
+        [disabled]="true"
+      />
+    </div>
+  </section>
+
+  <!-- â”€â”€ Select â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <section class="showcase-form__section">
+    <h2 class="showcase-form__section-title">Select</h2>
+    <div class="showcase-form__grid">
+      <pds-select-field
+        label="Framework favorito"
+        placeholder="Selecciona uno..."
+        [options]="selectOptions"
+        helpText="Elige el framework que mÃ¡s usas"
+      />
+
+      <pds-select-field
+        label="Select deshabilitado"
+        placeholder="No disponible"
+        [options]="selectOptions"
+        [disabled]="true"
+      />
+    </div>
+  </section>
+
+  <!-- â”€â”€ Formulario con ReactiveForms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <section class="showcase-form__section">
+    <h2 class="showcase-form__section-title">Formulario reactivo</h2>
+    <p class="showcase-form__description">
+      Los controles estÃ¡n vinculados con <code>ReactiveFormsModule</code>.
+      Pulsa "Enviar" para ver la validaciÃ³n en acciÃ³n.
+    </p>
+
+    <form class="showcase-form__reactive" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <pds-input-field
+        label="Nombre completo"
+        placeholder="Tu nombre"
+        [required]="true"
+        [status]="form.controls.name.invalid && form.controls.name.touched ? 'error' : 'default'"
+        [feedbackText]="form.controls.name.invalid && form.controls.name.touched ? 'El nombre es obligatorio (mÃ­n. 2 caracteres)' : null"
+        formControlName="name"
+      />
+
+      <pds-input-field
+        label="Correo electrÃ³nico"
+        placeholder="correo@poli.edu.co"
+        type="email"
+        iconStart="mail"
+        [required]="true"
+        [status]="form.controls.email.invalid && form.controls.email.touched ? 'error' : 'default'"
+        [feedbackText]="form.controls.email.invalid && form.controls.email.touched ? 'Ingresa un email vÃ¡lido' : null"
+        formControlName="email"
+      />
+
+      <pds-textarea-field
+        label="BiografÃ­a"
+        placeholder="CuÃ©ntanos sobre ti..."
+        [maxLength]="200"
+        [showCounter]="true"
+        formControlName="bio"
+      />
+
+      <pds-select-field
+        label="Framework"
+        placeholder="Selecciona..."
+        [options]="selectOptions"
+        formControlName="framework"
+      />
+
+      <pds-checkbox-group
+        groupLabel="TecnologÃ­as que dominas"
+        [options]="checkboxOptions"
+        formControlName="technologies"
+      />
+
+      <pds-radio-group
+        groupLabel="Nivel de experiencia"
+        [options]="radioOptions"
+        formControlName="level"
+      />
+
+      <pds-toggle
+        label="Recibir notificaciones"
+        formControlName="notifications"
+      />
+
+      <div class="showcase-form__actions">
+        <button type="button" class="showcase-form__reset-btn" (click)="onReset()">
+          Restablecer
+        </button>
+        <button type="submit" class="showcase-form__submit-btn">
+          Enviar
+        </button>
+      </div>
+
+      @if (form.valid && form.dirty) {
+        <div class="showcase-form__result" role="status" aria-live="polite">
+          <p class="showcase-form__result-text">
+            Formulario vÃ¡lido. Revisa los valores en consola.
+          </p>
+        </div>
+      }
+    </form>
+  </section>
+
+</div>

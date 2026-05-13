@@ -1,0 +1,19 @@
+{
+  "APP_TITLE": "Politécnico Grancolombiano",
+  "LOGIN": {
+    "TITLE": "Bienvenido",
+    "SUBTITLE": "Ingresa con tu cuenta institucional del Politécnico Grancolombiano.",
+    "BUTTON": "Iniciar sesión",
+    "SUPPORT": "¿Problemas para ingresar? Comunícate con"
+  },
+  "HOME": {
+    "TITLE": "Inicio",
+    "BODY": "Bienvenido a tu aplicación. Reemplaza este contenido con las vistas propias del proyecto.",
+    "LOGOUT": "Cerrar sesión"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Página no encontrada",
+    "BODY": "La URL que buscas no existe o fue movida.",
+    "BACK": "Ir al inicio"
+  }
+}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
+import { AccountInfo, EventMessage, EventType } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -16,20 +16,14 @@ export class AppComponent implements OnInit {
   private readonly msalBroadcast = inject(MsalBroadcastService);
 
   ngOnInit(): void {
-    // Inicializar MSAL y procesar respuesta de redirección
-    this.msal.instance.initialize().then(() => {
-      this.msal.instance.handleRedirectPromise().then((result) => {
-        if (result?.account) {
-          this.msal.instance.setActiveAccount(result.account);
-        }
-      });
-    });
-
-    // Establecer cuenta activa cuando MSAL completa el login
+    // initialize() y handleRedirectPromise() ya son gestionados por StartupService
+    // vía APP_INITIALIZER, antes de que este componente se monte.
+    // Solo necesitamos escuchar LOGIN_SUCCESS para actualizar la cuenta activa
+    // en sesiones que se abren en otras pestañas o tras refresh de token interactivo.
     this.msalBroadcast.msalSubject$
       .pipe(filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS))
       .subscribe((msg: EventMessage) => {
-        const payload = msg.payload as { account: Parameters<typeof this.msal.instance.setActiveAccount>[0] };
+        const payload = msg.payload as { account: AccountInfo | null };
         if (payload?.account) {
           this.msal.instance.setActiveAccount(payload.account);
         }

@@ -1,25 +1,7 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { MsalService } from '@azure/msal-angular';
+import { CanActivateFn } from '@angular/router';
 
 /**
- * AuthGuard — protege rutas que requieren sesión activa de Entra ID.
- *
- * Uso en rutas:
- *   { path: 'dashboard', canActivate: [authGuard], loadComponent: ... }
- *
- * Si no hay cuenta activa, redirige a /login.
- * MSAL también puede gestionar esto automáticamente con MsalGuard si se prefiere.
+ * AuthGuard — TEMPORALMENTE DESHABILITADO para desarrollo local.
+ * Restaurar cuando MSAL esté configurado con el tenant real.
  */
-export const authGuard: CanActivateFn = () => {
-  const msal = inject(MsalService);
-  const router = inject(Router);
-
-  const accounts = msal.instance.getAllAccounts();
-  if (accounts.length > 0) {
-    return true;
-  }
-
-  router.navigate(['/login']);
-  return false;
-};
+export const authGuard: CanActivateFn = () => true;

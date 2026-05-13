@@ -9,7 +9,7 @@ import {
   MsalGuardConfiguration,
   MsalInterceptorConfiguration,
 } from '@azure/msal-angular';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 // ── Instancia MSAL ────────────────────────────────────────────────────────────
 export function msalInstanceFactory(): IPublicClientApplication {

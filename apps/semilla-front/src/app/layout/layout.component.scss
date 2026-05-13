@@ -1,0 +1,43 @@
+// ── Shell principal ───────────────────────────────────────────────────────────
+// El sidenav se posiciona a la izquierda con ancho controlado por sus tokens.
+// El cuerpo ocupa el espacio restante con flex:1 y tiene scroll propio.
+
+.app-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--surface-canvas);
+}
+
+.app-shell__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0; // evita overflow del flex child
+  overflow: hidden;
+}
+
+.app-shell__header {
+  flex-shrink: 0;
+}
+
+.app-shell__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-layout-section-gap) var(--spacing-layout-page-margin);
+}
+
+// ── Mobile: sidenav como overlay ─────────────────────────────────────────────
+@media (max-width: 768px) {
+  .app-shell {
+    position: relative;
+  }
+
+  .app-shell__sidenav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 100;
+  }
+}

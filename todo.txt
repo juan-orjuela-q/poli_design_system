@@ -1,0 +1,80 @@
+## Estructura final del monorepo
+
+```
+poli-design-system/
+├── .github/
+│   └── workflows/
+│       ├── library.yml        ← publish @poli/components en GitHub Packages (on release)
+│       ├── storybook.yml      ← deploy Storybook → GitHub Pages
+│       └── docs.yml           ← deploy Docusaurus → GitHub Pages
+│
+├── packages/
+│   ├── components/            ← @poli/components (librería publicable)
+│   └── tokens/                ← @poli/tokens (CSS custom properties)
+│
+├── apps/
+│   ├── storybook/
+│   │   └── .storybook/        ← config movida desde src/.storybook/
+│   │       ├── main.ts        ← stories apuntan a ../../../src/ y ../../../packages/
+│   │       ├── preview.ts
+│   │       ├── preview-head.html
+│   │       ├── tsconfig.json  ← con todos los aliases @core/@pages/@poli/components
+│   │       ├── tsconfig.doc.json
+│   │       └── typings.d.ts
+│   │
+│   ├── docs/                  ← Docusaurus (documentación)
+│   │
+│   └── semilla-front/         ← plantilla Angular 19 lista para extraerse
+│       ├── .gitignore
+│       ├── .npmrc             ← apunta a GitHub Packages (@poli)
+│       ├── README.md
+│       ├── angular.json
+│       ├── package.json
+│       ├── .github/workflows/deploy.yml   ← pipeline propio
+│       └── src/
+│           ├── app/
+│           │   ├── core/auth/ ← MSAL config, guard, service
+│           │   └── pages/     ← login, home, not-found
+│           └── environments/  ← placeholders YOUR_CLIENT_ID / YOUR_TENANT_ID
+│
+├── src/                       ← app Angular del monorepo (ds-playground)
+│   ├── app/
+│   │   ├── core/              ← vacío (eliminado residual)
+│   │   └── pages/
+│   │       ├── ds-playground/ ← ruta raíz, playground de componentes
+│   │       └── auth/screens/page404/
+│   ├── assets/poligran/       ← 5 CSS de tokens + component-overrides
+│   └── stories/foundations/   ← MDX stories de foundations
+│
+├── .npmrc                     ← registro @poli → GitHub Packages
+├── angular.json               ← configDir: apps/storybook/.storybook/
+├── CLAUDE.md
+└── specs/                     ← specs de diseño de cada componente
+```
+
+---
+
+## Siguientes pasos
+
+### Inmediatos — GitHub
+
+1. **Crear el repo en GitHub** y hacer el primer push del monorepo
+2. **Configurar GitHub Pages** en Settings → Pages → Source: `GitHub Actions` (necesario para que `storybook.yml` y `docs.yml` funcionen)
+3. **Crear un GitHub Release** (ej. `v2.0.0`) para que `library.yml` dispare el publish de `@poli/components`
+4. **Crear el secret `POLI_PACKAGES_TOKEN`** en Settings → Secrets para los repos consumidores (semilla-front y aplicativos)
+
+### Corto plazo — librería
+
+5. Completar los componentes pendientes de **Fase 5** (`pds-breadcrumb`, `pds-paginator`) y **Fase 6** (`pds-accordion`, `pds-table`, `pds-selectable-card`, etc.)
+6. Actualizar **Docusaurus** (docs) con contenido real de instalación, tokens y guías de migración v1 → v2
+
+### Cuando esté todo listo — separar `semilla-front`
+
+7. Extraer semilla-front a su propio repo con `git subtree split` o simplemente copiando la carpeta a un nuevo repo
+8. Configurar el secret `POLI_PACKAGES_TOKEN` en ese repo para que CI pueda instalar `@poli/components`
+9. Marcar como **Template Repository** en GitHub → los nuevos proyectos Poli lo usan como base
+
+### Migración Azure DevOps (cuando sea el momento)
+
+10. Reemplazar `.github/workflows/*.yml` por `.azure-pipelines/*.yml` equivalentes
+11. Cambiar el registro de GitHub Packages por **Azure Artifacts** feed `@poli`@poli/components

@@ -37,6 +37,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+/apps/ref-portal-colaborador
 
 # System files
 .DS_Store
@@ -54,3 +55,9 @@ Thumbs.db
 # Storybook
 /storybook-static
 /apps/storybook/storybook-static
+
+# Semilla Front Node Modules
+/apps/semilla-front/node_modules
+
+# Packages Node Modules
+/packages/*/node_modules

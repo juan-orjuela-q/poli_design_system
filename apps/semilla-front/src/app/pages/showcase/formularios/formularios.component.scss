@@ -1,0 +1,119 @@
+.showcase-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-4xl);
+  max-width: 960px;
+}
+
+.showcase-form__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xl);
+}
+
+.showcase-form__section-title {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-brand-primary);
+  margin: 0;
+  padding-bottom: var(--spacing-component-sm);
+  border-bottom: var(--border-thin) solid var(--border-neutral-subtle);
+}
+
+.showcase-form__description {
+  font-family: var(--text-body, 'Open Sans', sans-serif);
+  font-size: var(--font-size-f-sm);
+  color: var(--fg-neutral-secondary);
+  margin: 0;
+
+  code {
+    font-family: monospace;
+    background: var(--surface-neutral-subtle);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+}
+
+.showcase-form__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-component-xl);
+  align-items: start;
+}
+
+.showcase-form__reactive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xl);
+  max-width: 520px;
+}
+
+.showcase-form__actions {
+  display: flex;
+  gap: var(--spacing-component-md);
+  padding-top: var(--spacing-component-md);
+}
+
+// Botones del formulario reactivo — usan tokens directamente (sin componente pds-button
+// para evitar dependencia circular en esta demo, pero en producción usar pds-button)
+.showcase-form__submit-btn,
+.showcase-form__reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height-md, 44px);
+  padding: 0 var(--spacing-component-xl);
+  border-radius: var(--radius-component-xl);
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-component-tag, 14px);
+  font-weight: var(--font-weight-w-semibold);
+  letter-spacing: 0.28px;
+  cursor: pointer;
+  border: none;
+  transition: background 150ms ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--action-focus-inner),
+      0 0 0 6px var(--action-primary-focus-ring);
+  }
+}
+
+.showcase-form__submit-btn {
+  background: var(--action-primary-solid-bg-default);
+  color: var(--fg-on-action);
+
+  &:hover {
+    background: var(--action-primary-solid-bg-hover);
+  }
+
+  &:active {
+    background: var(--action-primary-solid-bg-pressed);
+  }
+}
+
+.showcase-form__reset-btn {
+  background: transparent;
+  color: var(--fg-brand-primary);
+  border: var(--border-thin) solid var(--border-brand-default);
+
+  &:hover {
+    background: var(--action-primary-ghost-bg-hover);
+  }
+}
+
+.showcase-form__result {
+  padding: var(--spacing-component-md);
+  background: var(--surface-status-success-subtle);
+  border-radius: var(--radius-component-md);
+  border-left: var(--border-thick) solid var(--border-status-success-solid);
+}
+
+.showcase-form__result-text {
+  font-family: var(--text-body, 'Open Sans', sans-serif);
+  font-size: var(--font-size-f-sm);
+  color: var(--fg-status-success);
+  margin: 0;
+}

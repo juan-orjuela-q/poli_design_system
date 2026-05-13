@@ -1,0 +1,115 @@
+@use 'sass:map';
+
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-4xl);
+  max-width: 960px;
+}
+
+.showcase__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xl);
+}
+
+.showcase__section-title {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-brand-primary);
+  margin: 0;
+  padding-bottom: var(--spacing-component-sm);
+  border-bottom: var(--border-thin) solid var(--border-neutral-subtle);
+}
+
+.showcase__subsection-title {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-base);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-neutral-secondary);
+  margin: 0;
+}
+
+.showcase__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-sm);
+}
+
+.showcase__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-component-md);
+}
+
+.showcase__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-md);
+}
+
+// ── Escala tipográfica ────────────────────────────────────────────────────────
+
+.type-display {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-4xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-h1 {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-3xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-h2 {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-2xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-h3 {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-xl);
+  font-weight: var(--font-weight-w-semibold);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-body-lg {
+  font-family: var(--text-body, 'Open Sans', sans-serif);
+  font-size: var(--font-size-f-lg);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-body {
+  font-family: var(--text-body, 'Open Sans', sans-serif);
+  font-size: var(--font-size-f-base);
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}
+
+.type-body-sm {
+  font-family: var(--text-body, 'Open Sans', sans-serif);
+  font-size: var(--font-size-f-sm);
+  color: var(--fg-neutral-secondary);
+  margin: 0;
+}
+
+.type-label {
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-component-tag, 14px);
+  font-weight: var(--font-weight-w-semibold);
+  letter-spacing: 0.28px;
+  color: var(--fg-neutral-primary);
+  margin: 0;
+}

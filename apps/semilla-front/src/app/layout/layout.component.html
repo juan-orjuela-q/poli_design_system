@@ -1,0 +1,18 @@
+<div class="app-shell">
+  <pds-sidenav
+    class="app-shell__sidenav"
+    [items]="navItems"
+    appTitle="Mi Aplicación"
+    appSubtitle="Politécnico Grancolombiano"
+    [expanded]="sidenavExpanded()"
+    (expandedChange)="sidenavExpanded.set($event)"
+    ariaLabel="Menú principal"
+  />
+
+  <div class="app-shell__body">
+    <app-header class="app-shell__header" />
+    <main class="app-shell__content" role="main" id="main-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

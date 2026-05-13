@@ -1,0 +1,24 @@
+<header class="app-header" role="banner">
+  <!-- Título de la página actual (personalizable por cada proyecto) -->
+  <div class="app-header__title">
+    <h2 class="app-header__app-name">{{ 'APP_TITLE' | translate }}</h2>
+  </div>
+
+  <!-- Acciones del usuario -->
+  <div class="app-header__actions">
+    <pds-icon-button
+      iconName="logout"
+      [ariaLabel]="'HOME.LOGOUT' | translate"
+      variant="ghost"
+      size="sm"
+      (click)="auth.logout()"
+    />
+
+    <pds-avatar-button
+      [name]="userProfile.name()"
+      [letter]="userProfile.initials()"
+      type="letter"
+      [role]="userProfile.email()"
+    />
+  </div>
+</header>

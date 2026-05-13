@@ -1,0 +1,176 @@
+<div class="showcase">
+
+  <!-- ── Tipografía ──────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Tipografía</h2>
+    <div class="showcase__group">
+      <p class="type-display">Display — Poppins 600</p>
+      <p class="type-h1">Heading 1 — Poppins 600</p>
+      <p class="type-h2">Heading 2 — Poppins 600</p>
+      <p class="type-h3">Heading 3 — Poppins 600</p>
+      <p class="type-body-lg">Body Large — Open Sans 400</p>
+      <p class="type-body">Body Base — Open Sans 400</p>
+      <p class="type-body-sm">Body Small — Open Sans 400</p>
+      <p class="type-label">Label / Component — Poppins 600</p>
+    </div>
+  </section>
+
+  <!-- ── Botones ────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Botones</h2>
+
+    <h3 class="showcase__subsection-title">Variantes</h3>
+    <div class="showcase__row">
+      <pds-button variant="primary" size="md">Primary</pds-button>
+      <pds-button variant="secondary" size="md">Secondary</pds-button>
+      <pds-button variant="ghost" size="md">Ghost</pds-button>
+      <pds-button variant="destructive" size="md">Destructive</pds-button>
+    </div>
+
+    <h3 class="showcase__subsection-title">Tamaños</h3>
+    <div class="showcase__row">
+      <pds-button variant="primary" size="sm">Small</pds-button>
+      <pds-button variant="primary" size="md">Medium</pds-button>
+      <pds-button variant="primary" size="lg">Large</pds-button>
+    </div>
+
+    <h3 class="showcase__subsection-title">Con íconos</h3>
+    <div class="showcase__row">
+      <pds-button variant="primary" size="md" iconStart="add">Nuevo</pds-button>
+      <pds-button variant="secondary" size="md" iconEnd="arrow_forward">Continuar</pds-button>
+      <pds-button variant="ghost" size="md" iconStart="download">Descargar</pds-button>
+    </div>
+
+    <h3 class="showcase__subsection-title">Estados</h3>
+    <div class="showcase__row">
+      <pds-button variant="primary" size="md" [disabled]="true">Deshabilitado</pds-button>
+    </div>
+  </section>
+
+  <!-- ── Icon Buttons ───────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Icon Buttons</h2>
+    <div class="showcase__row">
+      <pds-icon-button iconName="edit" ariaLabel="Editar" variant="primary" />
+      <pds-icon-button iconName="delete" ariaLabel="Eliminar" variant="secondary" />
+      <pds-icon-button iconName="close" ariaLabel="Cerrar" variant="ghost" />
+      <pds-icon-button iconName="settings" ariaLabel="Ajustes" variant="ghost" size="lg" />
+    </div>
+  </section>
+
+  <!-- ── Íconos ─────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Íconos</h2>
+    <div class="showcase__row">
+      <pds-icon name="home" size="sm" />
+      <pds-icon name="person" size="md" />
+      <pds-icon name="settings" size="lg" />
+      <pds-icon name="notifications" size="xl" />
+      <pds-icon name="check_circle" size="lg" style="--pds-icon-color: var(--fg-status-success)" />
+      <pds-icon name="error" size="lg" style="--pds-icon-color: var(--fg-status-error)" />
+      <pds-icon name="warning" size="lg" style="--pds-icon-color: var(--fg-status-warning)" />
+    </div>
+  </section>
+
+  <!-- ── Badges ─────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Badges</h2>
+    <div class="showcase__row">
+      <pds-badge variant="primary" label="Primary" />
+      <pds-badge variant="secondary" label="Secondary" />
+      <pds-badge variant="success" label="Activo" />
+      <pds-badge variant="warning" label="Pendiente" />
+      <pds-badge variant="error" label="Error" />
+      <pds-badge variant="neutral" label="Neutral" />
+    </div>
+  </section>
+
+  <!-- ── Tags ───────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Tags</h2>
+    <div class="showcase__row">
+      <pds-tag variant="primary" label="Diseño" />
+      <pds-tag variant="secondary" label="Frontend" />
+      <pds-tag variant="tertiary" label="Backend" />
+      <pds-tag variant="primary" label="Removible" [removable]="true" />
+    </div>
+  </section>
+
+  <!-- ── Links ──────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Links</h2>
+    <div class="showcase__row">
+      <pds-link href="#" label="Enlace default" />
+      <pds-link href="#" label="Con ícono" iconEnd="arrow_forward" />
+      <pds-link href="#" label="Externo" target="_blank" />
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">CTA</h2>
+    <div class="showcase__row">
+      <pds-cta
+        label="Descubre más"
+        description="Explora todas las funcionalidades del portal"
+        icon="rocket_launch"
+        href="#"
+      />
+    </div>
+  </section>
+
+  <!-- ── Tooltip ────────────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Tooltip</h2>
+    <div class="showcase__row">
+      <pds-tooltip text="Esto es un tooltip informativo" position="top">
+        <pds-icon-button iconName="info" ariaLabel="Información" variant="ghost" />
+      </pds-tooltip>
+      <pds-tooltip text="Tooltip en la derecha" position="right">
+        <pds-button variant="secondary" size="sm">Hover aquí</pds-button>
+      </pds-tooltip>
+    </div>
+  </section>
+
+  <!-- ── Loading Circle ─────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Loading Circle</h2>
+    <div class="showcase__row">
+      <pds-loading-circle size="sm" />
+      <pds-loading-circle size="md" />
+      <pds-loading-circle size="lg" />
+    </div>
+  </section>
+
+  <!-- ── Notificaciones ─────────────────────────────────────────────────── -->
+  <section class="showcase__section">
+    <h2 class="showcase__section-title">Notificaciones (inline)</h2>
+    <div class="showcase__stack">
+      <pds-notification
+        type="inline"
+        status="info"
+        title="Información"
+        message="Este es un mensaje informativo para el usuario."
+      />
+      <pds-notification
+        type="inline"
+        status="success"
+        title="Éxito"
+        message="La operación se completó correctamente."
+      />
+      <pds-notification
+        type="inline"
+        status="warning"
+        title="Advertencia"
+        message="Revisa los datos antes de continuar."
+      />
+      <pds-notification
+        type="inline"
+        status="error"
+        title="Error"
+        message="Ocurrió un problema al procesar la solicitud."
+      />
+    </div>
+  </section>
+
+</div>

@@ -1,29 +1,10 @@
 // Estilos globales de la aplicación.
 // Los tokens CSS se cargan antes vía angular.json (styles array):
 //   @poli/tokens: primitives → tokens → typescale → layout → component → overrides
-
-// Fuentes Poppins + Open Sans — ajustar rutas según configuración del proyecto
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/poppins/Poppins-Regular.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/poppins/Poppins-SemiBold.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/open-sans/OpenSans-Regular.woff2') format('woff2');
-}
+//
+// Fuentes: cargadas vía Google Fonts CDN en index.html (Poppins + Open Sans + Material Symbols).
+// Para apps sin acceso a internet, reemplazar los <link> del index.html con @font-face locales
+// apuntando a src/assets/fonts/{poppins,open-sans}/.
 
 // ── Reset base ────────────────────────────────────────────
 *,

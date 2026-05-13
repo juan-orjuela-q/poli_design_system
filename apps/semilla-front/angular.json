@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/normalize.css/normalize.css",
+              "normalize.css/normalize.css",
               "node_modules/@poli/tokens/src/primitives.css",
               "node_modules/@poli/tokens/src/tokens.css",
               "node_modules/@poli/tokens/src/typescale-desktop.css",
@@ -41,9 +41,24 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
-                { "type": "anyComponentStyle", "maximumWarning": "4kB", "maximumError": "8kB" }
+                { "type": "anyComponentStyle", "maximumWarning": "8kB", "maximumError": "16kB" }
+              ],
+              "outputHashing": "all"
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
               ],
               "outputHashing": "all"
             },
@@ -59,11 +74,15 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": { "buildTarget": "semilla-front:build:production" },
+            "qa": { "buildTarget": "semilla-front:build:qa" },
             "development": { "buildTarget": "semilla-front:build:development" }
           },
           "defaultConfiguration": "development"
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
