@@ -19,6 +19,8 @@
   background: var(--surface-neutral-subtle); // #e5e9ec
   overflow: visible; // necesario para que el toggle cuelgue fuera del borde
   transition: width 250ms ease;
+  background: var(--surface-neutral-subtle, #E5E9EC);
+box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 75, 0.08);
 
   &--collapsed {
     width: var(--component-sidenav-closed); // 80px
