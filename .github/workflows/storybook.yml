@@ -46,7 +46,7 @@ jobs:
         run: npm run build-storybook
 
       - name: Install Docs dependencies
-        run: npm ci
+        run: npm install
         working-directory: apps/docs
 
       - name: Build Docusaurus

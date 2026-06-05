@@ -18,7 +18,7 @@ const CATEGORIES = [
     icon: '◈',
     title: 'Fundamentos',
     description: 'Tokens de color, tipografía, espaciado y principios de accesibilidad que sostienen el sistema.',
-    href: '/docs/foundations/introduccion',
+    href: '/foundations/introduccion',
     tag: 'Base',
     tagColor: 'cyan',
   },
@@ -26,7 +26,7 @@ const CATEGORIES = [
     icon: '⬡',
     title: 'Componentes Atómicos',
     description: 'Icon, Button, Badge, Tag, Link, CTA, Loading Circle — los bloques de construcción del DS.',
-    href: '/docs/components/icon',
+    href: '/components/icon',
     tag: 'Fase 1–2 ✓',
     tagColor: 'green',
   },
@@ -34,7 +34,7 @@ const CATEGORIES = [
     icon: '◫',
     title: 'Formularios',
     description: 'Checkbox, Radio, Toggle, Input, Select, Textarea — control de accesibilidad completo con CVA.',
-    href: '/docs/components/checkbox',
+    href: '/components/checkbox',
     tag: 'Fase 4 ✓',
     tagColor: 'green',
   },
@@ -42,7 +42,7 @@ const CATEGORIES = [
     icon: '⬕',
     title: 'Navegación',
     description: 'Tabs, Stepper, Avatar Button, Sidenav, Breadcrumb, Paginator — patrones APG.',
-    href: '/docs/components/tabs',
+    href: '/components/tabs',
     tag: 'Fase 5 ✓',
     tagColor: 'green',
   },
@@ -50,7 +50,7 @@ const CATEGORIES = [
     icon: '◻',
     title: 'Overlays',
     description: 'Dialog, Modal, Notification, Tooltip — focus trap CDK, scroll lock y auto-dismiss.',
-    href: '/docs/components/notification',
+    href: '/components/notification',
     tag: 'Fase 3 ✓',
     tagColor: 'green',
   },
@@ -58,7 +58,7 @@ const CATEGORIES = [
     icon: '⬔',
     title: 'Complejos',
     description: 'Accordion, Table, Selectable Card, Code Block, Date Picker, File Uploader — próximamente.',
-    href: '/docs/components/accordion',
+    href: '/components/accordion',
     tag: 'Fase 6',
     tagColor: 'yellow',
   },
@@ -101,7 +101,7 @@ export default function Home() {
             </p>
 
             <div className={styles.heroCtas}>
-              <Link className={styles.ctaPrimary} to="/docs/foundations/introduccion">
+              <Link className={styles.ctaPrimary} to="/foundations/introduccion">
                 Explorar documentación
               </Link>
               <a
