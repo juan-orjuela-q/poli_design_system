@@ -1,9 +1,10 @@
-name: Deploy Storybook
+name: Deploy GitHub Pages (Storybook + Docs)
 
 on:
   push:
     branches: [master]
     paths:
+      - 'apps/docs/**'
       - 'packages/components/src/**'
       - 'src/stories/**'
       - 'apps/storybook/**'
@@ -35,7 +36,7 @@ jobs:
           node-version: '20'
           cache: npm
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm install
 
       - name: Generate compodoc JSON
@@ -44,10 +45,25 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
+      - name: Install Docs dependencies
+        run: npm ci
+        working-directory: apps/docs
+
+      - name: Build Docusaurus
+        run: npm run build
+        working-directory: apps/docs
+
+      - name: Merge artifacts (Storybook at root, Docs at /docs/)
+        run: |
+          mkdir -p pages
+          cp -r apps/storybook/storybook-static/. pages/
+          mkdir -p pages/docs
+          cp -r apps/docs/build/. pages/docs/
+
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/storybook/storybook-static
+          path: pages
 
   deploy:
     needs: build

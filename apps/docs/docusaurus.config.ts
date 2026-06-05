@@ -7,7 +7,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://juan-orjuela-q.github.io',
-  baseUrl: '/poli_design_system/',
+  baseUrl: '/poli_design_system/docs/',
 
   organizationName: 'juan-orjuela-q',
   projectName: 'poli_design_system',
@@ -34,7 +34,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          routeBasePath: '/docs',
+          routeBasePath: '/',
         },
         blog: false,
         theme: {

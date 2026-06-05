@@ -1,10 +1,8 @@
 name: Deploy Docs (Docusaurus)
 
+# Deshabilitado: el despliegue de Docs se hace desde storybook.yml (workflow unificado)
 on:
-  push:
-    branches: [master]
-    paths:
-      - 'apps/docs/**'
+  workflow_dispatch:
 
 permissions:
   contents: read
