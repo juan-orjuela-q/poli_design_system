@@ -7,7 +7,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://juan-orjuela-q.github.io',
-  baseUrl: '/poli_design_system/docs/',
+  baseUrl: '/poli_design_system/',
 
   organizationName: 'juan-orjuela-q',
   projectName: 'poli_design_system',
