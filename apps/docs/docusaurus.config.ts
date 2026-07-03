@@ -1,13 +1,15 @@
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const config: Config = {
   title: 'Poli Design System',
   tagline: 'Componentes accesibles para el ecosistema digital del Politécnico Grancolombiano',
   favicon: 'img/favicon.ico',
 
   url: 'https://juan-orjuela-q.github.io',
-  baseUrl: '/poli_design_system/docs/',
+  baseUrl: isProduction ? '/poli_design_system/docs/' : '/',
 
   organizationName: 'juan-orjuela-q',
   projectName: 'poli_design_system',

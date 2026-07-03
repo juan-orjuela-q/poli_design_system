@@ -43,10 +43,22 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
       display: none;
     }
 
+    // Centrar columna de ítems dentro del nav
+    .pds-sidenav__nav {
+      align-items: center;
+    }
+
     // Centrar ícono cuando solo queda el ícono
     .pds-sidenav__item {
       justify-content: center;
       padding: var(--spacing-component-md); // 12px
+      width: 48px;
+      gap: 0; // evita que el gap desplace el ícono cuando el label está oculto
+
+      // Restaurar border-radius completo aunque esté abierto
+      &.pds-sidenav__item--open {
+        border-radius: var(--radius-component-md);
+      }
     }
 
     // El ícono del portal se centra en 80px
@@ -59,6 +71,20 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
     // Ocultar bloque de título con transición
     .pds-sidenav__portal-icon {
       flex-shrink: 0;
+    }
+
+    // Ocultar sub-ítems visualmente cuando está colapsado,
+    // pero mantenerlos en el DOM para que Tab pueda entrar en ellos
+    .pds-sidenav__subitems {
+      display: none;
+    }
+
+    // Ítems abiertos SIN hijo activo vuelven al estado reposo
+    .pds-sidenav__item--open:not(.pds-sidenav__item--has-active-child) {
+      background: transparent;
+      color: var(--fg-brand-primary);
+      border-radius: var(--radius-component-md);
+      margin-bottom: 0;
     }
   }
 }
@@ -185,11 +211,6 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
   padding: var(--spacing-component-sm); // 8px
   overflow-y: auto;
   overflow-x: visible; // para no cortar el focus ring
-
-  // El host del tooltip debe ser bloque para que los ítems sean full-width
-  pds-tooltip {
-    display: block;
-  }
 }
 
 // ── Ítem de navegación ───────────────────────────────────────────────────────
@@ -201,7 +222,7 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
   width: 100%;
   min-height: 48px;
   padding: 0 var(--spacing-component-md); // 0 12px
-  border-radius: var(--radius-component-md) var(--radius-component-md) 0 0; // 10px
+  border-radius: var(--radius-component-md); // 10px
   background: transparent;
   border: none;
   cursor: pointer;
@@ -230,7 +251,7 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
     color: var(--fg-brand-primary-strong); // #002b49
   }
 
-  // ── Estado focus ───────────────────────────────────────────────────────
+  // ── Estado focus (ítems en reposo) ────────────────────────────────────
   &:focus-visible {
     outline: none;
     background: var(--surface-neutral-subtle);
@@ -240,24 +261,37 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
 
   // ── Estado activo ──────────────────────────────────────────────────────
   &--active {
-    background: var(--action-primary-solid-bg); // #0f385a
-    color: var(--action-primary-solid-fg); // #ffffff
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
 
     &:hover {
-      background: var(--action-primary-solid-bg-hover, #165386);
+      background: var(--action-primary-solid-bg-hover);
+    }
+
+    // Focus sobre ítem activo: mantiene navy, solo añade el anillo
+    &:focus-visible {
+      background: var(--action-primary-solid-bg);
+      color: var(--action-primary-solid-fg);
     }
   }
 
   // ── Ítem padre expandido (mismo aspecto que activo) ────────────────────
   &--open {
-    background: var(--action-primary-solid-bg); // #0f385a
-    color: var(--action-primary-solid-fg); // #ffffff
+    background: var(--action-primary-solid-bg);
+    color: var(--action-primary-solid-fg);
+    border-radius: var(--radius-component-md) var(--radius-component-md) 0 0;
     margin-bottom: calc(
       -1 * var(--spacing-component-xxs, 4px)
     ); // elimina el gap antes de subitems
 
     &:hover {
-      background: var(--action-primary-solid-bg-hover, #165386);
+      background: var(--action-primary-solid-bg-hover);
+    }
+
+    // Focus sobre ítem abierto: mantiene navy, solo añade el anillo
+    &:focus-visible {
+      background: var(--action-primary-solid-bg);
+      color: var(--action-primary-solid-fg);
     }
   }
 }
@@ -346,7 +380,12 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
     color: var(--action-primary-solid-fg);
 
     &:hover {
-      background: var(--action-primary-solid-bg-hover, #165386);
+      background: var(--action-primary-solid-bg-hover);
+    }
+
+    &:focus-visible {
+      background: var(--action-primary-solid-bg);
+      color: var(--action-primary-solid-fg);
     }
   }
 }

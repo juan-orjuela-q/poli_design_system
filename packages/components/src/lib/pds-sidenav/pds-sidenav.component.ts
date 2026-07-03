@@ -3,15 +3,17 @@ import {
   Component,
   HostListener,
   computed,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 
 import { PdsIconComponent } from '../pds-icon/pds-icon.component';
-import { PdsTooltipComponent } from '../pds-tooltip/pds-tooltip.component';
 
 // ── Interfaces públicas ──────────────────────────────────────────────────────
 
@@ -60,12 +62,14 @@ export interface SidenavItem {
 @Component({
   selector: 'pds-sidenav',
   standalone: true,
-  imports: [NgClass, RouterLink, PdsIconComponent, PdsTooltipComponent],
+  imports: [NgClass, RouterLink, PdsIconComponent],
   templateUrl: './pds-sidenav.component.html',
   styleUrl: './pds-sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PdsSidenavComponent {
+  private readonly router = inject(Router);
+
   // ── Inputs ─────────────────────────────────────────────────────────────────
 
   /** Lista de ítems de navegación. Requerido. */
@@ -108,11 +112,67 @@ export class PdsSidenavComponent {
   /** Verdadero mientras el cursor está sobre el sidenav y este estaba colapsado. */
   private readonly hoverExpanded = signal(false);
 
+  /** Verdadero mientras un hijo del sidenav tiene el foco (navegación por teclado). */
+  private readonly focusExpanded = signal(false);
+
+  /** URL actual, actualizada en cada NavigationEnd. */
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects)
+    ),
+    { initialValue: this.router.url }
+  );
+
   // ── Computed ───────────────────────────────────────────────────────────────
 
-  /** Estado efectivo: expandido por input O expandido por hover. */
+  /** Resuelve routerLink a string para comparar con la URL actual. */
+  private routerLinkToString(link: string | string[] | undefined): string {
+    if (!link) return '';
+    return Array.isArray(link) ? link.join('/') : link;
+  }
+
+  /**
+   * ID del ítem o sub-ítem activo resuelto desde la URL actual.
+   * Usa el input `activeItemId` como fallback si ningún routerLink coincide.
+   */
+  private readonly resolvedActive = computed(() => {
+    const url = this.currentUrl();
+    for (const item of this.items()) {
+      if (item.children?.length) {
+        for (const sub of item.children) {
+          const link = this.routerLinkToString(sub.routerLink);
+          if (link && url.startsWith(link)) {
+            return { itemId: item.id, subItemId: sub.id };
+          }
+        }
+      } else {
+        const link = this.routerLinkToString(item.routerLink);
+        if (link && url.startsWith(link)) {
+          return { itemId: item.id, subItemId: undefined };
+        }
+      }
+    }
+    // Fallback a inputs manuales
+    return {
+      itemId: this.activeItemId(),
+      subItemId: this.activeSubItemId() || undefined,
+    };
+  });
+
+  /** ID del ítem activo efectivo (ruta o input manual). */
+  protected readonly effectiveActiveItemId = computed(
+    () => this.resolvedActive().itemId
+  );
+
+  /** ID del sub-ítem activo efectivo (ruta o input manual). */
+  protected readonly effectiveActiveSubItemId = computed(
+    () => this.resolvedActive().subItemId ?? ''
+  );
+
+  /** Estado efectivo: expandido por input, por hover o por foco de teclado. */
   protected readonly isEffectivelyExpanded = computed(
-    () => this.expanded() || this.hoverExpanded()
+    () => this.expanded() || this.hoverExpanded() || this.focusExpanded()
   );
 
   protected readonly navClasses = computed(() => ({
@@ -144,6 +204,20 @@ export class PdsSidenavComponent {
   @HostListener('mouseleave')
   protected onMouseLeave(): void {
     this.hoverExpanded.set(false);
+  }
+
+  /** Expande el sidenav cuando un hijo recibe el foco (teclado). */
+  @HostListener('focusin')
+  protected onFocusIn(): void {
+    if (!this.expanded()) {
+      this.focusExpanded.set(true);
+    }
+  }
+
+  /** Colapsa el sidenav cuando el foco sale completamente del componente. */
+  @HostListener('focusout')
+  protected onFocusOut(): void {
+    this.focusExpanded.set(false);
   }
 
   /** Alterna el estado expandido/colapsado y emite el cambio. */
@@ -193,11 +267,20 @@ export class PdsSidenavComponent {
 
   /** Clases BEM para un ítem de navegación. */
   protected itemClasses(item: SidenavItem): Record<string, boolean> {
+    const isActive = this.effectiveActiveItemId() === item.id;
+    const isOpen = this.isItemOpen(item.id);
+    // Auto-abrir el padre si uno de sus hijos está activo
+    const hasActiveChild = !!(
+      item.children?.some(
+        (c) => c.id === this.effectiveActiveSubItemId()
+      )
+    );
     return {
       'pds-sidenav__item': true,
-      'pds-sidenav__item--active': this.activeItemId() === item.id,
+      'pds-sidenav__item--active': isActive && !this.hasChildren(item),
       'pds-sidenav__item--parent': this.hasChildren(item),
-      'pds-sidenav__item--open': this.isItemOpen(item.id),
+      'pds-sidenav__item--open': isOpen || hasActiveChild,
+      'pds-sidenav__item--has-active-child': hasActiveChild,
     };
   }
 
@@ -205,7 +288,8 @@ export class PdsSidenavComponent {
   protected subItemClasses(subItem: SidenavSubItem): Record<string, boolean> {
     return {
       'pds-sidenav__subitem': true,
-      'pds-sidenav__subitem--active': this.activeSubItemId() === subItem.id,
+      'pds-sidenav__subitem--active':
+        this.effectiveActiveSubItemId() === subItem.id,
     };
   }
 }

@@ -17,60 +17,18 @@ const CATEGORIES = [
   {
     icon: '◈',
     title: 'Fundamentos',
-    description: 'Tokens de color, tipografía, espaciado y principios de accesibilidad que sostienen el sistema.',
     href: '/foundations/introduccion',
-    tag: 'Base',
-    tagColor: 'cyan',
   },
   {
     icon: '⬡',
-    title: 'Componentes Atómicos',
-    description: 'Icon, Button, Badge, Tag, Link, CTA, Loading Circle — los bloques de construcción del DS.',
-    href: '/components/icon',
-    tag: 'Fase 1–2 ✓',
-    tagColor: 'green',
+    title: 'Guías',
+    href: '/docs/intro',
   },
   {
     icon: '◫',
-    title: 'Formularios',
-    description: 'Checkbox, Radio, Toggle, Input, Select, Textarea — control de accesibilidad completo con CVA.',
-    href: '/components/checkbox',
-    tag: 'Fase 4 ✓',
-    tagColor: 'green',
+    title: 'Componentes',
+    href: '/components/icon',
   },
-  {
-    icon: '⬕',
-    title: 'Navegación',
-    description: 'Tabs, Stepper, Avatar Button, Sidenav, Breadcrumb, Paginator — patrones APG.',
-    href: '/components/tabs',
-    tag: 'Fase 5 ✓',
-    tagColor: 'green',
-  },
-  {
-    icon: '◻',
-    title: 'Overlays',
-    description: 'Dialog, Modal, Notification, Tooltip — focus trap CDK, scroll lock y auto-dismiss.',
-    href: '/components/notification',
-    tag: 'Fase 3 ✓',
-    tagColor: 'green',
-  },
-  {
-    icon: '⬔',
-    title: 'Complejos',
-    description: 'Accordion, Table, Selectable Card, Code Block, Date Picker, File Uploader — próximamente.',
-    href: '/components/accordion',
-    tag: 'Fase 6',
-    tagColor: 'yellow',
-  },
-];
-
-const PHASES = [
-  { number: '01', label: 'Atómicos', status: 'done', items: 'Icon · Button · Badge · Tag · Link · CTA · Loading · Helper Text · Progress Bar' },
-  { number: '02', label: 'Icon + Button', status: 'done', items: 'Icon Button · Tooltip' },
-  { number: '03', label: 'Compuestos', status: 'done', items: 'Notification · Dialog · Modal' },
-  { number: '04', label: 'Formularios', status: 'done', items: 'Checkbox · Radio · Toggle · Input · Select · Textarea' },
-  { number: '05', label: 'Navegación', status: 'done', items: 'Tabs · Stepper · Avatar Button · Sidenav · Stepper Compact' },
-  { number: '06', label: 'Complejos', status: 'pending', items: 'Date Picker · File Uploader · Range · Accordion · Table · Card · Code Block' },
 ];
 
 /* ── Component ────────────────────────────────────────────────── */
@@ -144,9 +102,6 @@ export default function Home() {
             <div className={styles.sectionHeader}>
               <span className={styles.sectionEyebrow}>Documentación</span>
               <h2 className={styles.sectionTitle}>Explora el sistema</h2>
-              <p className={styles.sectionSubtitle}>
-                Cada categoría incluye API completa, tokens aplicados, guías de accesibilidad y Stories de Storybook.
-              </p>
             </div>
 
             <div className={styles.categoriesGrid}>
@@ -154,13 +109,7 @@ export default function Home() {
                 <Link key={cat.title} to={cat.href} className={styles.categoryCard}>
                   <div className={styles.categoryIcon}>{cat.icon}</div>
                   <div className={styles.categoryBody}>
-                    <div className={styles.categoryMeta}>
-                      <span className={`${styles.categoryTag} ${styles[`categoryTag--${cat.tagColor}`]}`}>
-                        {cat.tag}
-                      </span>
-                    </div>
                     <h3 className={styles.categoryTitle}>{cat.title}</h3>
-                    <p className={styles.categoryDesc}>{cat.description}</p>
                   </div>
                   <span className={styles.categoryArrow} aria-hidden="true">→</span>
                 </Link>
@@ -169,43 +118,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Roadmap ── */}
-        <section className={styles.sectionDark}>
-          <div className={styles.container}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionEyebrow}>Hoja de ruta</span>
-              <h2 className={styles.sectionTitle}>Estado del proyecto</h2>
-            </div>
-
-            <div className={styles.phases}>
-              {PHASES.map((p) => (
-                <div key={p.number} className={`${styles.phase} ${styles[`phase--${p.status}`]}`}>
-                  <div className={styles.phaseNumber}>{p.number}</div>
-                  <div className={styles.phaseBody}>
-                    <div className={styles.phaseHeader}>
-                      <span className={styles.phaseLabel}>{p.label}</span>
-                      {p.status === 'done'
-                        ? <span className={styles.phaseBadgeDone}>Completa</span>
-                        : <span className={styles.phaseBadgePending}>En progreso</span>
-                      }
-                    </div>
-                    <p className={styles.phaseItems}>{p.items}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── Storybook CTA ── */}
         <section className={styles.storybookCta}>
           <div className={styles.container}>
-            {/* Placeholder para imagen de Storybook — equipo de diseño reemplaza */}
             <div className={styles.storybookPreview} aria-hidden="true">
-              <span className={styles.storybookPreviewLabel}>
-                [Screenshot de Storybook]<br />
-                <small>1600 × 900 px · PNG</small>
-              </span>
+              <img
+                src={require('@site/static/img/intefaz-de-sistema-storybook-para-politecnico-grancolombiano.jpg').default}
+                alt=""
+                className={styles.storybookPreviewImg}
+              />
             </div>
             <div className={styles.storybookCtaContent}>
               <span className={styles.sectionEyebrow}>Storybook</span>

@@ -21,6 +21,8 @@ const sidebars: SidebarsConfig = {
         'guides/instalacion',
         'guides/consumo',
         'guides/migracion',
+        'guides/tokens',
+        'guides/publicacion-azure'
       ],
     },
   ],
