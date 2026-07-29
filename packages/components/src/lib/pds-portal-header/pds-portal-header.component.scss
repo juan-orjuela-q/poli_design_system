@@ -1,0 +1,146 @@
+// pds-portal-header
+// Encabezado de la portada de un portal: identidad + acciones transversales.
+//
+// Como en pds-portal-nav, los 4 brandings se resuelven mapeando los tokens
+// --portal-{color}-* a variables locales, para escribir el estilo una sola vez.
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.pds-portal-header {
+  // ── Mapa de color por branding ────────────────────────────────────────────
+  --pds-portal-header-bg: var(--portal-blue-bg);
+  --pds-portal-header-fg: var(--portal-blue-fg);
+  --pds-portal-header-border: var(--portal-blue-border-on-light);
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-xl, 20px);
+  width: 100%;
+  padding: var(--spacing-component-2xl, 24px)
+    var(--spacing-layout-page-margin, 36px);
+  background: var(--surface-neutral-card);
+  box-shadow: var(--shadow-500);
+
+  // El DS no aplica un reset global: cada componente declara su propio
+  // box-sizing. Sin esto, width:100% + padding desborda.
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &--yellow {
+    --pds-portal-header-bg: var(--portal-yellow-bg);
+    --pds-portal-header-fg: var(--portal-yellow-fg);
+    --pds-portal-header-border: var(--portal-yellow-border-on-light);
+  }
+
+  &--green {
+    --pds-portal-header-bg: var(--portal-green-bg);
+    --pds-portal-header-fg: var(--portal-green-fg);
+    --pds-portal-header-border: var(--portal-green-border-on-light);
+  }
+
+  &--magenta {
+    --pds-portal-header-bg: var(--portal-magenta-bg);
+    --pds-portal-header-fg: var(--portal-magenta-fg);
+    --pds-portal-header-border: var(--portal-magenta-border-on-light);
+  }
+}
+
+.pds-portal-header__info {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  gap: var(--spacing-component-lg, 16px);
+  // Sin esto el bloque no puede encoger por debajo del ancho de su texto
+  min-width: 0;
+}
+
+// ── Ícono del portal ────────────────────────────────────────────────────────
+.pds-portal-header__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--spacing-component-lg, 16px);
+  border: var(--border-thick, 2px) solid var(--pds-portal-header-border);
+  border-radius: var(--radius-component-xl, 16px);
+  background: var(--pds-portal-header-bg);
+  --pds-icon-color: var(--pds-portal-header-fg);
+}
+
+// ── Título y descripción ────────────────────────────────────────────────────
+.pds-portal-header__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-xxs, 4px);
+  min-width: 0;
+  color: var(--fg-brand-primary);
+}
+
+.pds-portal-header__title {
+  margin: 0;
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-4xl, 40px);
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: 1.1;
+  color: inherit;
+}
+
+.pds-portal-header__description {
+  margin: 0;
+  font-family: var(--text-body, "Open Sans");
+  font-size: var(--font-size-f-base, 16px);
+  font-weight: var(--font-weight-w-regular, 400);
+  line-height: 1.5;
+  color: inherit;
+}
+
+// ── Acciones ────────────────────────────────────────────────────────────────
+.pds-portal-header__actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-component-md, 12px);
+  padding-block: var(--spacing-component-sm, 8px);
+
+  // Sin acciones proyectadas el contenedor sobra y dejaría el gap colgando
+  &:empty {
+    display: none;
+  }
+}
+
+// ── Móvil ───────────────────────────────────────────────────────────────────
+// El encabezado se apila y se centra: ícono, título, descripción y acciones,
+// uno debajo del otro. La separación título↔descripción (4px) ya viene de
+// __text y no se repite aquí.
+@media (max-width: 768px) {
+  .pds-portal-header {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-component-lg, 16px);
+    padding: var(--spacing-component-xl, 20px) var(--spacing-component-2xl, 24px);
+  }
+
+  .pds-portal-header__info {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-component-md, 12px);
+  }
+
+  .pds-portal-header__text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pds-portal-header__actions {
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-block: 0;
+  }
+}

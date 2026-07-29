@@ -69,6 +69,18 @@ export * from './lib/pds-notification/pds-notification.component';
 // Paginator
 export * from './lib/pds-paginator/pds-paginator.component';
 
+// App Header (banner de portada de aplicativo)
+export * from './lib/pds-app-header/pds-app-header.component';
+
+// Portal Header
+export * from './lib/pds-portal-header/pds-portal-header.component';
+
+// Sidenav Header (building block de Sidenav)
+export * from './lib/pds-sidenav-header/pds-sidenav-header.component';
+
+// Portal Nav
+export * from './lib/pds-portal-nav/pds-portal-nav.component';
+
 // Progress Bar
 export * from './lib/pds-progress-bar/pds-progress-bar.component';
 

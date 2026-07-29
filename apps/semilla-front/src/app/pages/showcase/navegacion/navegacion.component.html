@@ -40,7 +40,6 @@
         [currentIndex]="stepperIndex()"
         (next)="stepperIndex.set(stepperIndex() + 1)"
         (prev)="stepperIndex.set(stepperIndex() - 1)"
-        ariaLabel="Proceso de matrícula"
       />
     </div>
     <p class="showcase-nav__note">Paso actual: <strong>{{ stepperIndex() + 1 }} / {{ steps.length }}</strong></p>

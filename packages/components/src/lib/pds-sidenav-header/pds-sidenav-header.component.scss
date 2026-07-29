@@ -1,0 +1,147 @@
+// pds-sidenav-header
+// Building block de pds-sidenav: ícono del portal + nombre del aplicativo.
+//
+// Los 4 brandings se resuelven mapeando --portal-{color}-* a variables locales,
+// igual que en pds-portal-nav y pds-portal-header.
+
+:host {
+  display: block;
+}
+
+.pds-sidenav-header {
+  --pds-sidenav-header-bg: var(--portal-blue-bg);
+  --pds-sidenav-header-fg: var(--portal-blue-fg);
+  --pds-sidenav-header-border: var(--portal-blue-border-on-light);
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm, 8px);
+  padding: var(--spacing-component-xxs, 4px);
+  border-radius: var(--radius-component-md, 10px);
+  // Transparente de base para que el borde del hover colapsado no desplace nada
+  border: var(--border-thin, 1px) solid transparent;
+  color: inherit;
+  text-decoration: none;
+
+  // El DS no aplica un reset global: cada componente declara su box-sizing.
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &--yellow {
+    --pds-sidenav-header-bg: var(--portal-yellow-bg);
+    --pds-sidenav-header-fg: var(--portal-yellow-fg);
+    --pds-sidenav-header-border: var(--portal-yellow-border-on-light);
+  }
+
+  &--green {
+    --pds-sidenav-header-bg: var(--portal-green-bg);
+    --pds-sidenav-header-fg: var(--portal-green-fg);
+    --pds-sidenav-header-border: var(--portal-green-border-on-light);
+  }
+
+  &--magenta {
+    --pds-sidenav-header-bg: var(--portal-magenta-bg);
+    --pds-sidenav-header-fg: var(--portal-magenta-fg);
+    --pds-sidenav-header-border: var(--portal-magenta-border-on-light);
+  }
+}
+
+// ── Ícono del portal ────────────────────────────────────────────────────────
+.pds-sidenav-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  padding: var(--spacing-component-xxs, 4px);
+  border: var(--border-thick, 2px) solid var(--pds-sidenav-header-border);
+  border-radius: var(--radius-component-md, 10px);
+  background: var(--pds-sidenav-header-bg);
+  --pds-icon-color: var(--pds-sidenav-header-fg);
+}
+
+// ── Texto ───────────────────────────────────────────────────────────────────
+.pds-sidenav-header__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+  gap: var(--spacing-component-xxs, 4px);
+  height: 48px;
+  min-width: 0;
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 200ms ease, opacity 150ms ease;
+}
+
+// nowrap explícito en cada línea, no sólo heredado del contenedor: durante la
+// animación de apertura el ancho disponible crece desde 0, y sin él el texto
+// se reacomodaría en varias líneas a cada fotograma.
+.pds-sidenav-header__title {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-component-sidenav-title, 1.25rem);
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-tight, 1.2);
+  color: var(--fg-brand-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pds-sidenav-header__subtitle {
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-component-sidenav-subtitle, 0.875rem);
+  font-weight: var(--font-weight-w-medium, 500);
+  line-height: var(--line-height-lh-tight, 1.2);
+  color: var(--fg-neutral-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Colapsado ───────────────────────────────────────────────────────────────
+.pds-sidenav-header--collapsed {
+  // Sin gap: el texto mide 0 y el hueco quedaría colgando
+  gap: 0;
+
+  .pds-sidenav-header__text {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+// ── Estados — sólo cuando la marca navega ───────────────────────────────────
+a.pds-sidenav-header {
+  cursor: pointer;
+
+  &:hover {
+    background: var(--surface-neutral-canvas);
+    box-shadow: var(--shadow-100);
+  }
+
+  // Colapsado el fondo blanco no basta para separarlo del panel
+  &.pds-sidenav-header--collapsed:hover {
+    border-color: var(--border-brand-primary-solid);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: var(--surface-neutral-subtle);
+    box-shadow: 0 0 0 1px var(--action-focus-inner),
+      0 0 0 4px var(--action-primary-focus-ring);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pds-sidenav-header__text {
+    transition: none;
+  }
+}

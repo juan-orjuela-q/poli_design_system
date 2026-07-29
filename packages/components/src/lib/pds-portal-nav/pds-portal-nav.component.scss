@@ -1,0 +1,557 @@
+// pds-portal-nav
+// Barra superior del ecosistema Poli: Institucional → Portal → App.
+//
+// Los 4 brandings (blue/yellow/green/magenta) se resuelven mapeando los tokens
+// --portal-{color}-* a variables locales, para que los estados se escriban una
+// sola vez en lugar de repetirse por color.
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.pds-portal-nav {
+  // ── Mapa de color por branding ────────────────────────────────────────────
+  --pds-portal-bg: var(--portal-blue-bg);
+  --pds-portal-fg: var(--portal-blue-fg);
+  --pds-portal-accent: var(--portal-blue-fg-color);
+  --pds-portal-focus-ring: var(--portal-blue-focus-ring);
+  --pds-portal-border-on-brand: var(--portal-blue-border-on-brand);
+  --pds-portal-border-on-light: var(--portal-blue-border-on-light);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-component-md, 12px);
+  position: relative;
+  width: 100%;
+  padding-inline: var(--spacing-component-xl, 20px);
+  background: var(--surface-brand-primary-base);
+
+  // El DS no aplica un reset global: cada componente declara su propio
+  // box-sizing. Sin esto, width:100% + padding-inline desborda 40px.
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  // Sombra interior inferior — separa la barra del contenido sin usar borde
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 -6px 14px 0 rgba(0, 0, 0, 0.12),
+      inset 0 -10px 32px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &--yellow {
+    --pds-portal-bg: var(--portal-yellow-bg);
+    --pds-portal-fg: var(--portal-yellow-fg);
+    --pds-portal-accent: var(--portal-yellow-fg-color);
+    --pds-portal-focus-ring: var(--portal-yellow-focus-ring);
+    --pds-portal-border-on-brand: var(--portal-yellow-border-on-brand);
+    --pds-portal-border-on-light: var(--portal-yellow-border-on-light);
+  }
+
+  &--green {
+    --pds-portal-bg: var(--portal-green-bg);
+    --pds-portal-fg: var(--portal-green-fg);
+    --pds-portal-accent: var(--portal-green-fg-color);
+    --pds-portal-focus-ring: var(--portal-green-focus-ring);
+    --pds-portal-border-on-brand: var(--portal-green-border-on-brand);
+    --pds-portal-border-on-light: var(--portal-green-border-on-light);
+  }
+
+  &--magenta {
+    --pds-portal-bg: var(--portal-magenta-bg);
+    --pds-portal-fg: var(--portal-magenta-fg);
+    --pds-portal-accent: var(--portal-magenta-fg-color);
+    --pds-portal-focus-ring: var(--portal-magenta-focus-ring);
+    --pds-portal-border-on-brand: var(--portal-magenta-border-on-brand);
+    --pds-portal-border-on-light: var(--portal-magenta-border-on-brand);
+  }
+}
+
+// ── Lista de niveles ────────────────────────────────────────────────────────
+.pds-portal-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-md, 12px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // La lista cede espacio antes que las acciones: los labels truncan con
+  // elipsis en lugar de empujar el avatar fuera de la barra.
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pds-portal-nav__level {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm, 8px);
+  min-width: 0;
+}
+
+.pds-portal-nav__separator {
+  flex-shrink: 0;
+  --pds-icon-color: var(--fg-on-color-inverse);
+}
+
+// ── Nivel institucional (marca) ─────────────────────────────────────────────
+.pds-portal-nav__main {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  padding: var(--spacing-component-xxs, 4px);
+  padding-right: var(--spacing-component-sm, 8px);
+  border: 0;
+  border-radius: var(--radius-component-md, 10px);
+  background: transparent;
+  cursor: pointer;
+  // El indicador vive fuera del borde inferior; sin esto quedaría recortado
+  overflow: visible;
+
+  &:hover {
+    background: var(--surface-brand-primary-strong);
+  }
+
+  &:hover::after,
+  &:active::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(var(--border-thick, 2px) * 2);
+    width: 48px;
+    background: var(--surface-brand-secondary-muted);
+  }
+
+  // El pressed encoge el indicador y hunde la superficie
+  &:active {
+    background: var(--surface-brand-primary-base);
+    box-shadow: inset 0 6px 14px 0 rgba(0, 0, 0, 0.12),
+      inset 0 10px 32px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active::after {
+    width: 32px;
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: var(--surface-brand-primary-base);
+    box-shadow: 0 0 0 2px var(--portal-focus-inner),
+      0 0 0 4px var(--pds-portal-focus-ring);
+  }
+}
+
+.pds-portal-nav__logo {
+  display: block;
+  height: 48px;
+  width: auto;
+}
+
+// ── Niveles portal y app ────────────────────────────────────────────────────
+// Columna de 72px: el chip queda centrado y el indicador se ancla abajo,
+// replicando el Holder/Item/Indicator del diseño sin nodos vacíos.
+.pds-portal-nav__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 72px;
+  min-height: 48px; // objetivo táctil WCAG 2.5.5
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+
+  // Indicador inferior — sólo visible en hover, pressed y nivel actual
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(var(--border-thick, 2px) * 2);
+    width: 0;
+    background: var(--pds-portal-bg);
+    transition: width 120ms ease-out;
+  }
+
+  &:hover::after,
+  &[aria-current="page"]::after {
+    width: 48px;
+  }
+
+  &:active::after {
+    width: 32px;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible .pds-portal-nav__chip {
+    box-shadow: 0 0 0 2px var(--portal-focus-inner),
+      0 0 0 4px var(--pds-portal-focus-ring);
+  }
+}
+
+.pds-portal-nav__chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-xxs, 4px);
+  min-width: 0;
+  padding: var(--spacing-component-xxs, 4px) var(--spacing-component-sm, 8px);
+  border: var(--border-thick, 2px) solid transparent;
+  border-radius: var(--radius-component-md, 10px);
+
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm, 14px);
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: 1;
+}
+
+.pds-portal-nav__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Nivel portal — chip sólido con el color del branding
+.pds-portal-nav__node--portal {
+  .pds-portal-nav__chip {
+    background: var(--pds-portal-bg);
+    color: var(--pds-portal-fg);
+    --pds-icon-color: currentColor;
+  }
+
+  &:hover .pds-portal-nav__chip {
+    border-color: var(--pds-portal-border-on-light);
+    filter: drop-shadow(0 4px 2px var(--surface-brand-primary-strong));
+  }
+
+  &:active .pds-portal-nav__chip {
+    box-shadow: inset 0 6px 14px 0 rgba(0, 0, 0, 0.12),
+      inset 0 10px 32px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+// El magenta usa su borde sobre marca también en reposo (contraste sobre navy)
+.pds-portal-nav--magenta .pds-portal-nav__node--portal .pds-portal-nav__chip {
+  border-color: var(--pds-portal-border-on-brand);
+}
+
+// Nivel app — texto sobre la barra, sin fondo propio salvo en actual/hover
+.pds-portal-nav__node--app {
+  .pds-portal-nav__chip {
+    color: var(--fg-on-color-inverse);
+  }
+
+  &:hover .pds-portal-nav__chip {
+    color: var(--pds-portal-accent);
+    border-color: var(--pds-portal-border-on-brand);
+    box-shadow: 0 4px 4px 0 var(--surface-brand-primary-strong);
+  }
+
+  &[aria-current="page"] .pds-portal-nav__chip {
+    background: var(--surface-brand-primary-base);
+    color: var(--pds-portal-accent);
+  }
+
+  &:active .pds-portal-nav__chip {
+    box-shadow: inset 0 6px 14px 0 rgba(0, 0, 0, 0.12),
+      inset 0 10px 32px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+// El magenta activo mantiene texto blanco: su acento no contrasta sobre navy
+.pds-portal-nav--magenta .pds-portal-nav__node--app {
+  &:hover .pds-portal-nav__chip,
+  &[aria-current="page"] .pds-portal-nav__chip {
+    color: var(--fg-on-color-inverse);
+  }
+}
+
+// ── Acciones ────────────────────────────────────────────────────────────────
+.pds-portal-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-md, 12px);
+  flex-shrink: 0;
+}
+
+// ── Botón de menú — sólo móvil ──────────────────────────────────────────────
+.pds-portal-nav__menu-toggle {
+  display: none; // se activa en el breakpoint móvil
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-component-xxs, 4px);
+  width: 56px;
+  padding: var(--spacing-component-xxs, 4px) 0;
+  border: 0;
+  border-radius: var(--radius-component-sm, 8px);
+  background: var(--surface-brand-primary-base);
+  cursor: pointer;
+  position: relative;
+  // El indicador vive fuera del borde inferior; sin esto quedaría recortado
+  overflow: visible;
+
+  // Indicador inferior, compartido por hover y focus. Sigue el branding del
+  // portal (--pds-portal-bg), igual que el de los niveles de la ruta.
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: calc(var(--border-thick, 2px) * 2);
+    background: var(--pds-portal-bg);
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  // Hover: la superficie se retira y sólo queda el indicador
+  &:hover {
+    background: transparent;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--portal-focus-inner),
+      0 0 0 4px var(--pds-portal-focus-ring);
+  }
+
+  // 2px más abajo que en hover para no pegarse al anillo de foco
+  &:focus-visible::after {
+    bottom: -10px;
+    opacity: 1;
+  }
+
+  // Pressed: la superficie vuelve y se hunde; el indicador desaparece
+  &:active {
+    background: var(--surface-brand-primary-base);
+    box-shadow: inset 0 6px 14px 0 rgba(0, 0, 0, 0.12),
+      inset 0 10px 32px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:active::after {
+    opacity: 0;
+  }
+}
+
+.pds-portal-nav__menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-component-xs, 6px);
+  border-radius: var(--radius-pill, 99999px);
+  background: var(--surface-brand-secondary-muted);
+  --pds-icon-color: var(--fg-brand-primary);
+
+  // Abierto: el botón pasa a acción destructiva (cerrar)
+  .pds-portal-nav--menu-open & {
+    background: var(--surface-status-error-solid);
+    --pds-icon-color: var(--fg-on-color-inverse);
+  }
+}
+
+.pds-portal-nav__menu-text {
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-xs, 12px);
+  font-weight: var(--font-weight-w-bold, 700);
+  line-height: 1;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--fg-on-color-inverse);
+}
+
+// ── Menú móvil ──────────────────────────────────────────────────────────────
+.pds-portal-nav__drawer {
+  display: none; // sólo existe en el breakpoint móvil
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  flex-direction: column;
+  gap: 26px;
+  max-height: calc(100dvh - 100%);
+  overflow-y: auto;
+  padding: var(--spacing-component-2xl, 24px);
+  background: var(--surface-brand-overlay);
+  backdrop-filter: blur(10px);
+  border-top: var(--border-thin, 1px) solid var(--border-neutral-transparent);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.pds-portal-nav__menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-component-md, 12px);
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pds-portal-nav__menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-component-sm, 8px);
+  width: 100%;
+  min-height: 48px; // objetivo táctil WCAG 2.5.5
+  padding: var(--spacing-component-md, 12px);
+  border: 0;
+  border-radius: var(--radius-component-md, 10px);
+  background: var(--surface-brand-primary-strong);
+  cursor: pointer;
+  text-align: left;
+
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm, 14px);
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: var(--line-height-lh-tight, 1.2);
+  color: var(--fg-on-color-inverse);
+  --pds-icon-color: currentColor;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--portal-focus-inner),
+      0 0 0 4px var(--pds-portal-focus-ring);
+  }
+
+  // El ítem padre desplegado encabeza su bloque: esquinas inferiores rectas
+  &--expanded {
+    border-radius: var(--radius-component-md, 10px) var(--radius-component-md, 10px) 0 0;
+    background: var(--surface-brand-secondary-muted);
+    color: var(--fg-brand-primary);
+  }
+}
+
+.pds-portal-nav__menu-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pds-portal-nav__submenu {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: var(--spacing-component-sm, 8px) 10px;
+  list-style: none;
+  background: var(--surface-brand-primary-strong);
+  border-bottom: var(--border-thick, 2px) solid var(--border-brand-primary-light);
+}
+
+.pds-portal-nav__submenu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--spacing-component-md, 12px);
+  border: 0;
+  border-radius: var(--radius-component-2xs, 4px);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+
+  font-family: var(--text-component, Poppins);
+  font-size: var(--font-size-f-sm, 14px);
+  font-weight: var(--font-weight-w-medium, 500);
+  line-height: var(--line-height-lh-tight, 1.2);
+  color: var(--fg-on-color-inverse);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--portal-focus-inner),
+      0 0 0 4px var(--pds-portal-focus-ring);
+  }
+}
+
+.pds-portal-nav__drawer-footer {
+  padding-block: var(--spacing-component-sm, 8px);
+  border-top: var(--border-thin, 1px) solid var(--border-neutral-transparent);
+}
+
+// ── Móvil ───────────────────────────────────────────────────────────────────
+// La barra se parte en dos filas: marca + acciones arriba, ruta abajo sobre un
+// fondo más profundo. El orden visual se resuelve con `order`, sin duplicar DOM.
+@media (max-width: 768px) {
+  .pds-portal-nav {
+    flex-wrap: wrap;
+    padding-inline: 0;
+    row-gap: 0;
+  }
+
+  .pds-portal-nav__main {
+    order: 1;
+    margin-left: var(--spacing-component-sm, 8px);
+  }
+
+  .pds-portal-nav__actions {
+    order: 2;
+    margin-right: var(--spacing-component-sm, 8px);
+    padding-block: 8px;
+  }
+
+  .pds-portal-nav__menu-toggle {
+    display: flex;
+  }
+
+  .pds-portal-nav__list {
+    order: 3;
+    flex-basis: 100%;
+    gap: 4px;
+    padding-inline: var(--spacing-component-md, 12px);
+    background: var(--surface-brand-primary-strong);
+  }
+
+  // El primer separador sobra: en móvil la ruta ya no continúa desde la marca
+  .pds-portal-nav__level:first-child .pds-portal-nav__separator {
+    display: none;
+  }
+
+  .pds-portal-nav__drawer {
+    display: flex;
+  }
+}
+
+// Pantallas estrechas (iPhone SE y similares). A 320px la marca a tamaño
+// natural (167px) más el avatar y el toggle suman 323px: la fila se parte en
+// dos y la barra crece a 200px de alto. `flex-shrink` no sirve aquí — con
+// `flex-wrap` el navegador parte la línea antes de encoger — así que se reduce
+// el logotipo, que conserva su proporción por el viewBox.
+@media (max-width: 359px) {
+  .pds-portal-nav__logo {
+    height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pds-portal-nav__node::after,
+  .pds-portal-nav__menu-toggle::after {
+    transition: none;
+  }
+}

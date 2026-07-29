@@ -1,0 +1,78 @@
+<pds-portal-header
+  [title]="portal.label"
+  [description]="portal.description"
+  [icon]="portal.icon"
+  [color]="portal.color"
+>
+  <pds-button
+    portalHeaderActions
+    variant="outline"
+    size="sm"
+    iconStart="campaign"
+    (click)="openDialog('novedades')"
+  >
+    Novedades
+  </pds-button>
+
+  <pds-button
+    portalHeaderActions
+    variant="outline"
+    size="sm"
+    iconStart="help"
+    (click)="openDialog('ayuda')"
+  >
+    Ayuda
+  </pds-button>
+</pds-portal-header>
+
+<!--
+  El diseño no lleva título visible sobre las tarjetas, pero sin un encabezado
+  la rejilla queda como un grupo de enlaces sin nombre. Se declara oculto para
+  lectores de pantalla, sin alterar la composición.
+-->
+<section class="portal-home__apps" aria-labelledby="portal-home-apps">
+  <h2 class="sr-only" id="portal-home-apps">Aplicativos del portal</h2>
+
+  <div class="portal-home__grid">
+    @for (app of apps; track app.id) {
+      <pds-card
+        behavior="nav"
+        [title]="app.label"
+        [description]="app.description"
+        [iconName]="app.icon"
+        [routerLink]="app.routerLink"
+      />
+    }
+  </div>
+</section>
+
+<pds-modal
+  title="Novedades"
+  size="md"
+  [open]="dialog() === 'novedades'"
+  [showCancel]="false"
+  confirmLabel="Entendido"
+  (closed)="closeDialog()"
+  (confirmed)="closeDialog()"
+>
+  <p>
+    Aquí van los anuncios del portal: nuevos aplicativos, cambios de horario o
+    mantenimientos programados. Reemplaza este contenido con el origen de datos
+    de tu proyecto.
+  </p>
+</pds-modal>
+
+<pds-modal
+  title="Ayuda"
+  size="md"
+  [open]="dialog() === 'ayuda'"
+  [showCancel]="false"
+  confirmLabel="Cerrar"
+  (closed)="closeDialog()"
+  (confirmed)="closeDialog()"
+>
+  <p>
+    Canales de soporte del portal: creación de tickets, contacto telefónico y
+    demás vías de atención que ofrezca el aplicativo.
+  </p>
+</pds-modal>

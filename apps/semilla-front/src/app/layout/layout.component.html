@@ -1,16 +1,48 @@
 <div class="app-shell">
-  <pds-sidenav
-    class="app-shell__sidenav"
-    [items]="navItems"
-    appTitle="Mi Aplicación"
-    appSubtitle="Politécnico Grancolombiano"
-    [expanded]="sidenavExpanded()"
-    (expandedChange)="sidenavExpanded.set($event)"
-    ariaLabel="Menú principal"
-  />
+  <!--
+    La barra del ecosistema va por encima de todo, incluido el sidenav.
+    En móvil su menú recibe los mismos NAV_ITEMS que consume el sidenav, que
+    para entonces ya está oculto.
+  -->
+  <pds-portal-nav
+    class="app-shell__portal-nav"
+    [portal]="portalLevel"
+    [app]="appLevel"
+    [color]="portal.color"
+    current="app"
+    institutionalHref="#"
+    [menuItems]="navItems"
+    ariaLabel="Navegación del ecosistema"
+    (itemClick)="onMenuItemClick($event)"
+  >
+    <pds-avatar-button
+      portalNavActions
+      [name]="userProfile.name()"
+      [letter]="userProfile.initials()"
+      type="letter"
+      [role]="userProfile.email()"
+      [showName]="!compactAvatar()"
+      [showRole]="!compactAvatar()"
+    />
+  </pds-portal-nav>
 
-  <div class="app-shell__body">
-    <app-header class="app-shell__header" />
+  <div class="app-shell__main">
+    <pds-sidenav
+      class="app-shell__sidenav"
+      [items]="navItems"
+      [appTitle]="app.label"
+      [appIconName]="app.icon"
+      [appHomeLink]="app.routerLink"
+      appSubtitle="Politécnico Grancolombiano"
+      [expanded]="sidenavExpanded()"
+      (expandedChange)="sidenavExpanded.set($event)"
+    />
+
+    <!--
+      Sin header propio: la identidad del usuario y la ubicación ya las lleva la
+      barra del ecosistema de arriba. Un segundo encabezado sólo repetía avatar
+      y nombre de la app.
+    -->
     <main class="app-shell__content" role="main" id="main-content">
       <router-outlet />
     </main>

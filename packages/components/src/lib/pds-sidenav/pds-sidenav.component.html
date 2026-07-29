@@ -1,18 +1,15 @@
 <nav [ngClass]="navClasses()" aria-label="Navegación principal">
   <!-- ── Encabezado ──────────────────────────────────────────────── -->
   <div class="pds-sidenav__header">
-    <!-- Ícono del portal -->
-    <div class="pds-sidenav__portal-icon" aria-hidden="true">
-      <pds-icon [name]="appIconName()" size="lg" />
-    </div>
-
-    <!-- Título y subtítulo (se occultan con CSS al colapsar) -->
-    <div class="pds-sidenav__title-block">
-      <span class="pds-sidenav__app-title">{{ appTitle() }}</span>
-      @if (appSubtitle()) {
-      <span class="pds-sidenav__app-subtitle">{{ appSubtitle() }}</span>
-      }
-    </div>
+    <pds-sidenav-header
+      class="pds-sidenav__brand"
+      [title]="appTitle()"
+      [subtitle]="appSubtitle()"
+      [iconName]="appIconName()"
+      [color]="portalColor()"
+      [homeLink]="appHomeLink()"
+      [expanded]="isEffectivelyExpanded()"
+    />
 
     <!-- Botón toggle (cuelga fuera del borde derecho) -->
     <button

@@ -36,6 +36,11 @@
     gap: var(--spacing-component-xxs, 4px);
     justify-content: flex-start;
     width: 100%;
+    // El UA aplica `border: 2px outset` al <button>; se sumaba al borde
+    // inset del box-shadow y engrosaba el trazo respecto al diseño.
+    appearance: none;
+    border: none;
+    margin: 0;
     min-height: var(--input-dimensions-min-height);
     padding: var(--input-dimensions-padding-y) var(--input-dimensions-padding-x);
     background: var(--action-primary-subtle-bg, #F0F8FF);

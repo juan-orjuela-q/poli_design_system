@@ -1,43 +1,39 @@
-// ── Shell principal ───────────────────────────────────────────────────────────
-// El sidenav se posiciona a la izquierda con ancho controlado por sus tokens.
-// El cuerpo ocupa el espacio restante con flex:1 y tiene scroll propio.
+// ── Shell del aplicativo ─────────────────────────────────────────────────────
+// Tres niveles: la barra del ecosistema arriba a todo lo ancho y, debajo, el
+// sidenav junto al cuerpo. El scroll vive en el contenido, no en el documento.
 
 .app-shell {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
   background: var(--surface-canvas);
 }
 
-.app-shell__body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0; // evita overflow del flex child
-  overflow: hidden;
-}
-
-.app-shell__header {
+.app-shell__portal-nav {
   flex-shrink: 0;
 }
 
-.app-shell__content {
+.app-shell__main {
+  display: flex;
   flex: 1;
-  overflow-y: auto;
-  padding: var(--spacing-layout-section-gap) var(--spacing-layout-page-margin);
+  min-height: 0; // permite que los hijos con overflow calculen su alto
 }
 
-// ── Mobile: sidenav como overlay ─────────────────────────────────────────────
-@media (max-width: 768px) {
-  .app-shell {
-    position: relative;
-  }
+// Sin padding a propósito: el shell es el contenedor de scroll, no la autoridad
+// sobre los márgenes de página. Cada pantalla declara los suyos, porque no
+// todas usan el mismo (la portada usa el margen ampliado de accesibilidad).
+.app-shell__content {
+  flex: 1;
+  min-width: 0; // evita que el contenido desborde el flex row
+  overflow-y: auto;
+}
 
+// ── Móvil: la navegación pasa al menú de la barra ────────────────────────────
+// El sidenav se oculta por completo. Antes se mostraba como overlay, pero con
+// la barra del ecosistema arriba habría dos menús compitiendo por lo mismo.
+@media (max-width: 768px) {
   .app-shell__sidenav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 100;
+    display: none;
   }
 }

@@ -9,6 +9,8 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { PdsIconComponent } from '../pds-icon/pds-icon.component';
 
 export type PdsCardBehavior = 'info' | 'nav' | 'selectable';
@@ -16,7 +18,7 @@ export type PdsCardBehavior = 'info' | 'nav' | 'selectable';
 @Component({
   selector: 'pds-card',
   standalone: true,
-  imports: [PdsIconComponent],
+  imports: [NgTemplateOutlet, RouterLink, PdsIconComponent],
   templateUrl: './pds-card.component.html',
   styleUrl: './pds-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,6 +57,16 @@ export class PdsCardComponent {
   /** Deshabilita la interacción en cards nav y selectable. */
   readonly disabled = input<boolean>(false);
 
+  /**
+   * Ruta interna de destino (sólo `behavior="nav"`).
+   *
+   * Con `routerLink` la card se renderiza como un enlace real: se puede abrir en
+   * pestaña nueva y un lector de pantalla la anuncia como enlace. Sin él sigue
+   * siendo un `role="button"` que emite `cardClick`, útil cuando la acción no es
+   * navegar.
+   */
+  readonly routerLink = input<string | string[] | null>(null);
+
   /** Emite cuando se hace clic en la card (nav) o en el botón de acción (info). */
   readonly cardClick = output<void>();
 
@@ -70,8 +82,19 @@ export class PdsCardComponent {
     effect(() => this._selected.set(this.selected()));
   }
 
+  /**
+   * Con routerLink la interacción la lleva el `<a>` interno, no el host: si el
+   * host siguiera siendo `role="button"` habría dos controles anidados para la
+   * misma acción y el lector de pantalla anunciaría ambos.
+   */
+  protected readonly isLink = computed(
+    () => this.behavior() === 'nav' && !!this.routerLink(),
+  );
+
   protected readonly isInteractive = computed(
-    () => this.behavior() === 'nav' || this.behavior() === 'selectable',
+    () =>
+      (this.behavior() === 'nav' && !this.isLink()) ||
+      this.behavior() === 'selectable',
   );
 
   protected readonly isSelected = computed(
@@ -87,6 +110,7 @@ export class PdsCardComponent {
   @HostBinding('class')
   get hostClass(): string {
     const c = [`pds-card`, `pds-card--${this.behavior()}`];
+    if (this.isLink()) c.push('pds-card--link');
     if (this.isSelected()) c.push('pds-card--selected');
     if (this.disabled() && this.isInteractive()) c.push('pds-card--disabled');
     return c.join(' ');
@@ -139,6 +163,15 @@ export class PdsCardComponent {
       event.preventDefault();
       this.handleClick(event);
     }
+  }
+
+  /** Clic sobre la nav card enlazada: emite igual, y respeta `disabled`. */
+  protected handleLinkClick(event: MouseEvent): void {
+    if (this.disabled()) {
+      event.preventDefault();
+      return;
+    }
+    this.cardClick.emit();
   }
 
   /** Solo para el botón de acción de la info card — no propaga al host. */

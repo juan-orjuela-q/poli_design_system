@@ -52,7 +52,26 @@
     </div>
   }
 
-  <div class="pds-card__content">
+  <!--
+    Con routerLink el contenido va dentro de un <a>: enlace real, abrible en
+    pestaña nueva y anunciado como enlace. Sin él, el host sigue siendo el
+    control (role="button") y el contenido va suelto.
+  -->
+  @if (isLink()) {
+    <a
+      class="pds-card__content pds-card__link"
+      [routerLink]="routerLink()"
+      (click)="handleLinkClick($event)"
+    >
+      <ng-container [ngTemplateOutlet]="navContent" />
+    </a>
+  } @else {
+    <div class="pds-card__content">
+      <ng-container [ngTemplateOutlet]="navContent" />
+    </div>
+  }
+
+  <ng-template #navContent>
     <div class="pds-card__info">
       <div class="pds-card__header">
         <div class="pds-card__headings">
@@ -78,7 +97,7 @@
         <p class="pds-card__description">{{ description() }}</p>
       }
     </div>
-  </div>
+  </ng-template>
 }
 
 <!-- ============================================================

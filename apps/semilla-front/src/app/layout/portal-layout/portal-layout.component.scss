@@ -1,0 +1,19 @@
+// ── Shell de portada de portal ───────────────────────────────────────────────
+// Sin sidenav: barra superior y contenido a ancho completo. El scroll es del
+// documento, no de un contenedor interno, para que el encabezado del portal
+// pueda ocupar todo el ancho sin quedar dentro de una caja con overflow.
+
+.portal-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--surface-canvas);
+}
+
+.portal-shell__content {
+  flex: 1;
+  // Deliberadamente sin flex + gap: <router-outlet> y los pds-modal cerrados
+  // también serían ítems flex y el gap aparecería antes del encabezado y
+  // después de la última sección. Cada sección declara su propio espaciado.
+  padding-block-end: var(--spacing-layout-section-gap);
+}

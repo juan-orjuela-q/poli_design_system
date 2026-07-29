@@ -42,20 +42,20 @@ pnpm install
 
 | Script                    | Descripción                                                          |
 | ------------------------- | -------------------------------------------------------------------- |
-| `npm run build:lib`       | Build de `@poli/components` (ng-packagr → `dist/components`)          |
-| `npm run storybook`       | Storybook en modo dev (`localhost:6006`)                              |
-| `npm run build-storybook` | Build estático de Storybook → `apps/storybook/storybook-static`       |
-| `npm run compodoc`        | Genera `documentation.json` (metadatos para las tablas de props)      |
-| `npm run semilla:start`   | Servidor de desarrollo de la semilla                                  |
-| `npm run semilla:build`   | Build de la semilla                                                   |
-| `npm run docs:start`      | Portal Docusaurus en modo dev                                         |
-| `npm run docs:build`      | Build del portal Docusaurus                                           |
-| `npm run tokens:sync`     | Regenera `packages/tokens/tokens.json` desde los CSS                  |
-| `npm run tokens:audit`    | Auditoría de contraste de color (WCAG)                                |
-| `npm run lint`            | Lint TS + templates de la librería de componentes                     |
-| `npm test`                | Pruebas unitarias de `@poli/components`                               |
+| `pnpm run build:lib`       | Build de `@poli/components` (ng-packagr → `dist/components`)          |
+| `pnpm run storybook`       | Storybook en modo dev (`localhost:6006`)                              |
+| `pnpm run build-storybook` | Build estático de Storybook → `apps/storybook/storybook-static`       |
+| `pnpm run compodoc`        | Genera `documentation.json` (metadatos para las tablas de props)      |
+| `pnpm run semilla:start`   | Servidor de desarrollo de la semilla                                  |
+| `pnpm run semilla:build`   | Build de la semilla                                                   |
+| `pnpm run docs:start`      | Portal Docusaurus en modo dev                                         |
+| `pnpm run docs:build`      | Build del portal Docusaurus                                           |
+| `pnpm run tokens:sync`     | Regenera `packages/tokens/tokens.json` desde los CSS                  |
+| `pnpm run tokens:audit`    | Auditoría de contraste de color (WCAG)                                |
+| `pnpm run lint`            | Lint TS + templates de la librería de componentes                     |
+| `pnpm test`                | Pruebas unitarias de `@poli/components`                               |
 
-`npm run storybook` y `npm run build-storybook` ejecutan `compodoc` automáticamente antes del build: sin ese paso las tablas de props de la pestaña *Docs* quedan vacías.
+`pnpm run storybook` y `pnpm run build-storybook` ejecutan `compodoc` automáticamente antes del build: sin ese paso las tablas de props de la pestaña *Docs* quedan vacías.
 
 ---
 

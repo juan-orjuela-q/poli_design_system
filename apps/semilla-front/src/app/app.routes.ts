@@ -9,20 +9,43 @@ export const APP_ROUTES: Route[] = [
       import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
 
-  // ── Shell autenticado ─────────────────────────────────────────────────────
-  // El LayoutComponent envuelve todas las rutas protegidas con sidenav + header.
-  // Para añadir nuevas rutas, agregar aquí como hijas del layout.
+  // ── Shell de portal ───────────────────────────────────────────────────────
+  // La portada del portal es el inicio del proyecto: barra superior y tarjetas
+  // hacia los aplicativos, sin sidenav.
+  //
+  // Ojo con el orden: esta ruta y la siguiente comparten `path: ''`. Es el
+  // patrón de Angular para dos layouts en la raíz — para `/home` el router
+  // intenta primero esta, sus hijos no casan con `home`, y pasa a la siguiente.
+  // Si se invierte el orden, la portada deja de ser alcanzable.
+  {
+    path: '',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./layout/portal-layout/portal-layout.component').then(
+        (m) => m.PortalLayoutComponent,
+      ),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        title: 'Portal',
+        loadComponent: () =>
+          import('./pages/portal-home/portal-home.component').then(
+            (m) => m.PortalHomeComponent,
+          ),
+      },
+    ],
+  },
+
+  // ── Shell de aplicativo ───────────────────────────────────────────────────
+  // El LayoutComponent envuelve las rutas del aplicativo con barra superior +
+  // sidenav + header. Para añadir nuevas rutas, agregar aquí como hijas.
   {
     path: '',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./layout/layout.component').then((m) => m.LayoutComponent),
     children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
       {
         path: 'home',
         title: 'Inicio',

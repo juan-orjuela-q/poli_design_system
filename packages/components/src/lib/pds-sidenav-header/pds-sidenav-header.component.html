@@ -1,0 +1,31 @@
+<!--
+  Con homeLink es un enlace; sin él, un contenedor inerte. El contenido se
+  declara una sola vez en #content para que las dos ramas no puedan divergir.
+-->
+@if (homeLink()) {
+  <a [class]="classes()" [routerLink]="homeLink()">
+    <ng-container *ngTemplateOutlet="content" />
+  </a>
+} @else {
+  <div [class]="classes()">
+    <ng-container *ngTemplateOutlet="content" />
+  </div>
+}
+
+<ng-template #content>
+  <!-- Decorativo: el nombre del aplicativo ya está en el texto -->
+  <span class="pds-sidenav-header__icon" aria-hidden="true">
+    <pds-icon [name]="iconName()" size="lg" />
+  </span>
+
+  <!--
+    El texto se mantiene en el DOM al colapsar (se oculta con ancho y opacidad)
+    para que la transición del sidenav sea continua.
+  -->
+  <span class="pds-sidenav-header__text">
+    <span class="pds-sidenav-header__title">{{ title() }}</span>
+    @if (subtitle()) {
+      <span class="pds-sidenav-header__subtitle">{{ subtitle() }}</span>
+    }
+  </span>
+</ng-template>

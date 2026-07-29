@@ -152,19 +152,7 @@
   }
 }
 
-// ── Responsive: pantallas pequeñas ──────────────────────────────────────────
-@media (max-width: 480px) {
-  .pds-modal-overlay {
-    align-items: flex-end;
-    padding: 0;
-  }
-
-  .pds-modal {
-    // En móvil se comporta como bottom sheet
-    border-radius: var(--radius-container-md, 16px)
-      var(--radius-container-md, 16px) 0 0;
-    max-height: 92vh;
-    max-width: 100%;
-    width: 100%;
-  }
-}
+// Sin bloque responsive: el modal se centra en todos los tamaños. El overlay ya
+// aporta el margen de 16px y `.pds-modal` es width:100% con max-width por
+// tamaño, así que en pantallas estrechas ocupa el ancho disponible sin
+// pegarse a los bordes.

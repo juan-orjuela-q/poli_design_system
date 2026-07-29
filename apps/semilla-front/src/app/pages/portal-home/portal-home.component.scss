@@ -1,0 +1,33 @@
+// ── Portada del portal ───────────────────────────────────────────────────────
+// El encabezado va a sangre (lo aporta pds-portal-header); el margen lateral
+// sólo aplica a partir de las tarjetas.
+
+:host {
+  display: contents;
+}
+
+.portal-home__apps {
+  // La separación con el encabezado la aporta la sección, no el shell: así el
+  // encabezado queda pegado a la barra superior, como en el diseño.
+  padding-block-start: var(--spacing-layout-section-gap);
+  padding-inline: var(--spacing-layout-page-margin-a11y);
+}
+
+.portal-home__grid {
+  display: grid;
+  // auto-fit en vez de 4 columnas fijas: el diseño muestra 4, pero el número
+  // real depende de cuántos aplicativos tenga el portal.
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--spacing-layout-gutter);
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .portal-home__apps {
+    padding-inline: var(--spacing-layout-page-margin);
+  }
+
+  .portal-home__grid {
+    grid-template-columns: 1fr;
+  }
+}

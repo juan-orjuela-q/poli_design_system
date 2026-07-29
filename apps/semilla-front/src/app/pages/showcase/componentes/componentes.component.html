@@ -76,12 +76,13 @@
   <section class="showcase__section">
     <h2 class="showcase__section-title">Badges</h2>
     <div class="showcase__row">
-      <pds-badge variant="primary" label="Primary" />
-      <pds-badge variant="secondary" label="Secondary" />
-      <pds-badge variant="success" label="Activo" />
-      <pds-badge variant="warning" label="Pendiente" />
-      <pds-badge variant="error" label="Error" />
-      <pds-badge variant="neutral" label="Neutral" />
+      <pds-badge status="brand">Marca</pds-badge>
+      <pds-badge status="brand-secondary">Secundario</pds-badge>
+      <pds-badge status="success">Activo</pds-badge>
+      <pds-badge status="warning">Pendiente</pds-badge>
+      <pds-badge status="error">Error</pds-badge>
+      <pds-badge status="neutral">Neutral</pds-badge>
+      <pds-badge status="success" iconStart="check_circle">Con ícono</pds-badge>
     </div>
   </section>
 
@@ -89,10 +90,10 @@
   <section class="showcase__section">
     <h2 class="showcase__section-title">Tags</h2>
     <div class="showcase__row">
-      <pds-tag variant="primary" label="Diseño" />
-      <pds-tag variant="secondary" label="Frontend" />
-      <pds-tag variant="tertiary" label="Backend" />
-      <pds-tag variant="primary" label="Removible" [removable]="true" />
+      <pds-tag variant="primary">Diseño</pds-tag>
+      <pds-tag variant="secondary">Frontend</pds-tag>
+      <pds-tag variant="tertiary">Backend</pds-tag>
+      <pds-tag variant="primary" [removable]="true">Removible</pds-tag>
     </div>
   </section>
 
@@ -100,9 +101,10 @@
   <section class="showcase__section">
     <h2 class="showcase__section-title">Links</h2>
     <div class="showcase__row">
-      <pds-link href="#" label="Enlace default" />
-      <pds-link href="#" label="Con ícono" iconEnd="arrow_forward" />
-      <pds-link href="#" label="Externo" target="_blank" />
+      <pds-link href="#">Enlace default</pds-link>
+      <pds-link href="https://www.poli.edu.co" target="_blank" [external]="true">
+        Enlace externo
+      </pds-link>
     </div>
   </section>
 
@@ -110,12 +112,7 @@
   <section class="showcase__section">
     <h2 class="showcase__section-title">CTA</h2>
     <div class="showcase__row">
-      <pds-cta
-        label="Descubre más"
-        description="Explora todas las funcionalidades del portal"
-        icon="rocket_launch"
-        href="#"
-      />
+      <pds-cta iconName="rocket_launch">Descubre más</pds-cta>
     </div>
   </section>
 
@@ -146,30 +143,19 @@
   <section class="showcase__section">
     <h2 class="showcase__section-title">Notificaciones (inline)</h2>
     <div class="showcase__stack">
-      <pds-notification
-        type="inline"
-        status="info"
-        title="Información"
-        message="Este es un mensaje informativo para el usuario."
-      />
-      <pds-notification
-        type="inline"
-        status="success"
-        title="Éxito"
-        message="La operación se completó correctamente."
-      />
-      <pds-notification
-        type="inline"
-        status="warning"
-        title="Advertencia"
-        message="Revisa los datos antes de continuar."
-      />
-      <pds-notification
-        type="inline"
-        status="error"
-        title="Error"
-        message="Ocurrió un problema al procesar la solicitud."
-      />
+      <!-- Sin `title`: en type="inline" el componente no lo renderiza (sólo en snackbar) -->
+      <pds-notification type="inline" status="info">
+        Este es un mensaje informativo para el usuario.
+      </pds-notification>
+      <pds-notification type="inline" status="success">
+        La operación se completó correctamente.
+      </pds-notification>
+      <pds-notification type="inline" status="warning">
+        Revisa los datos antes de continuar.
+      </pds-notification>
+      <pds-notification type="inline" status="error">
+        Ocurrió un problema al procesar la solicitud.
+      </pds-notification>
     </div>
   </section>
 

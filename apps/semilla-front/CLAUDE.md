@@ -154,7 +154,7 @@ Figma node ID, variantes → props, CSS vars a aplicar, API Angular con signals,
 
 - [x] `pds-notification` — depende de `pds-icon` + `pds-icon-button` + `pds-button`; tipos inline/snackbar/toast; 5 estados de status; auto-dismiss configurable; **NEW: botones modales (actions), timer visual con colores de contraste (30s configurable)**
 - [x] `pds-dialog` — depende de `pds-icon` + `pds-button`; 4 modos (default/success/warning/error); focus trap CDK; Escape para cerrar; scroll-lock en body
-- [x] `pds-modal` — depende de `pds-icon-button` + `pds-button`; 5 tamaños (SM/MD/LG/XL/2XL); contenido libre vía ng-content; footer slot personalizable; focus trap CDK; bottom sheet en móvil
+- [x] `pds-modal` — depende de `pds-icon-button` + `pds-button`; 5 tamaños (SM/MD/LG/XL/2XL); contenido libre vía ng-content; footer slot personalizable; focus trap CDK; centrado en todos los tamaños
 
 ### Fase 4 — Formularios
 
@@ -185,12 +185,23 @@ Figma node ID, variantes → props, CSS vars a aplicar, API Angular con signals,
 
 ### Componentes adicionales (fuera de los specs originales)
 
-- [x] `pds-card` — contenedor genérico; cubre además el caso de `pds-selectable-card`
+- [x] `pds-card` — contenedor genérico; cubre además el caso de `pds-selectable-card`. Input `routerLink`: con él la nav card se renderiza como `<a>` real en vez de `role="button"`
 - [x] `pds-stat-card` — tarjeta de métrica
 - [x] `pds-time-picker` — selector de hora
 - [x] `pds-helper-text` — texto de apoyo reutilizado por inputs y progress-bar
 
-> **Estado: 38 componentes implementados.** Todos los specs de referencia están cubiertos.
+### Fase 7 — Layouts de portal y aplicativo ✅ COMPLETA
+
+Implementados directamente desde Figma; **no tienen spec en `specs/`**.
+
+- [x] `pds-portal-nav` — barra superior del ecosistema; breadcrumb Portal Institucional → Portal → App con `aria-current="page"`; 4 brandings; escritorio en una fila, móvil en dos con botón de menú que despliega los mismos `SidenavItem[]` del sidenav; Escape cierra; `PortalNavLevel` acepta `routerLink` (interno) o `href` (externo), y sin ninguno se renderiza como `<button>`
+- [x] `pds-portal-header` — encabezado de la portada de un portal; slot `[portalHeaderActions]` que desaparece si no se proyecta nada; móvil apilado y centrado
+- [x] `pds-app-header` — banner de la portada de un aplicativo; degradado siempre azul (`--surface-brand-primary-strong` → `--surface-brand-secondary-muted`), el branding sólo llega al ícono
+- [x] `pds-sidenav-header` — building block de `pds-sidenav`; con `homeLink` la marca es un enlace al inicio del aplicativo y gana hover/focus; sin él es texto inerte
+
+> Los tres primeros comparten el tipo `PortalNavColor`, de modo que un desajuste de branding entre la barra y el encabezado es un error de compilación.
+
+> **Estado: 42 componentes implementados.** Todos los specs de referencia están cubiertos.
 
 ---
 

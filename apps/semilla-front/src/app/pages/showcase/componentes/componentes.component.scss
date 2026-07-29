@@ -1,5 +1,11 @@
 @use 'sass:map';
 
+// El shell ya no aporta márgenes de página: los declara cada pantalla.
+:host {
+  display: block;
+  padding: var(--spacing-layout-section-gap) var(--spacing-layout-page-margin);
+}
+
 .showcase {
   display: flex;
   flex-direction: column;

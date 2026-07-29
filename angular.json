@@ -34,6 +34,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/normalize.css/normalize.css",
               "packages/tokens/src/primitives.css",
               "packages/tokens/src/tokens.css",
               "packages/tokens/src/typescale-desktop.css",

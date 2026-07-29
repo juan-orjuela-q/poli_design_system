@@ -33,7 +33,7 @@ const meta: Meta<PdsModalComponent> = {
         component: `
 Modal de contenido libre del DS v2. A diferencia del \`pds-dialog\` (confirmación estructurada),
 el modal acepta cualquier contenido vía \`ng-content\` y soporta 5 tamaños.
-Implementa el patrón ARIA APG con focus trap CDK y bottom sheet en móvil.
+Implementa el patrón ARIA APG con focus trap CDK. Se centra en todos los tamaños de pantalla.
 
 ### Cuándo usarlo
 - Para mostrar formularios, detalles de elementos, configuraciones o contenido extenso en un overlay.
@@ -123,7 +123,7 @@ Al cerrar: el foco regresa al trigger y los lectores de pantalla retoman el cont
 ### Buenas prácticas
 ✅ El elemento que dispara el modal debe guardar la referencia para que el foco regrese correctamente.
 ✅ Usa el tamaño mínimo que contenga el contenido sin scroll — el scroll interno es señal de que el contenido es demasiado extenso.
-✅ En móvil, el modal se presenta como bottom sheet automáticamente — diseña el contenido para ambos layouts.
+✅ En móvil el modal sigue centrado y ocupa el ancho disponible menos el margen del overlay.
 ❌ No anidar modales — en lugar de eso, usa un stepper o tabs dentro del modal.
 ❌ No uses \`disableScrollLock\` en producción — solo en Storybook para evitar scroll-lock en el iframe de docs.
         `.trim(),

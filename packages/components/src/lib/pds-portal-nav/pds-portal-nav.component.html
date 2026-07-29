@@ -1,0 +1,276 @@
+<!--
+  pds-portal-nav
+  Barra superior del ecosistema: Portal Institucional → Portal → App.
+
+  Estructura: la marca va fuera del <ol> porque en móvil se separa del breadcrumb
+  (marca y acciones arriba, ruta abajo). Mantenerla dentro obligaría a usar
+  display:contents sobre la lista, que rompe la semántica de lista en varios
+  lectores de pantalla.
+
+  Accesibilidad:
+  - <nav aria-label> envuelve marca, ruta y acciones
+  - <ol> para la ruta: su orden tiene significado
+  - Separadores (chevron) decorativos → aria-hidden
+  - Nivel actual → aria-current="page"
+  - Cada nivel es <a> si tiene href, o <button> si sólo emite evento
+  - Menú móvil: aria-expanded + aria-controls en el toggle, Escape para cerrar
+  - El logotipo es una imagen: role="img" con nombre accesible
+-->
+<nav [attr.aria-label]="ariaLabel()" [class]="hostClasses()">
+  <!-- ── Marca / nivel institucional ────────────────────────────────────── -->
+  @if (institutionalRouterLink()) {
+  <a
+    class="pds-portal-nav__main"
+    [routerLink]="institutionalRouterLink()"
+    [attr.aria-current]="ariaCurrentFor('institutional')"
+    (click)="onSelect('institutional', $event)"
+  >
+    <ng-container [ngTemplateOutlet]="poliLogo" />
+  </a>
+  } @else if (institutionalHref()) {
+  <a
+    class="pds-portal-nav__main"
+    [attr.href]="institutionalHref()"
+    [attr.aria-current]="ariaCurrentFor('institutional')"
+    (click)="onSelect('institutional', $event)"
+  >
+    <ng-container [ngTemplateOutlet]="poliLogo" />
+  </a>
+  } @else {
+  <button
+    type="button"
+    class="pds-portal-nav__main"
+    [attr.aria-current]="ariaCurrentFor('institutional')"
+    (click)="onSelect('institutional', $event)"
+  >
+    <ng-container [ngTemplateOutlet]="poliLogo" />
+  </button>
+  }
+
+  <!-- ── Ruta: Portal → App ─────────────────────────────────────────────── -->
+  @if (portal() || app()) {
+  <ol class="pds-portal-nav__list">
+    @if (portal(); as portalLevel) {
+    <li class="pds-portal-nav__level">
+      <pds-icon name="chevron_right" size="md" class="pds-portal-nav__separator" />
+
+      <!-- routerLink para rutas internas, href para externas, button si no navega -->
+      @if (portalLevel.routerLink) {
+      <a
+        class="pds-portal-nav__node pds-portal-nav__node--portal"
+        [routerLink]="portalLevel.routerLink"
+        [attr.aria-current]="ariaCurrentFor('portal')"
+        (click)="onSelect('portal', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="portalChip" />
+      </a>
+      } @else if (portalLevel.href) {
+      <a
+        class="pds-portal-nav__node pds-portal-nav__node--portal"
+        [attr.href]="portalLevel.href"
+        [attr.aria-current]="ariaCurrentFor('portal')"
+        (click)="onSelect('portal', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="portalChip" />
+      </a>
+      } @else {
+      <button
+        type="button"
+        class="pds-portal-nav__node pds-portal-nav__node--portal"
+        [attr.aria-current]="ariaCurrentFor('portal')"
+        (click)="onSelect('portal', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="portalChip" />
+      </button>
+      }
+
+      <ng-template #portalChip>
+        <span class="pds-portal-nav__chip">
+          @if (portalLevel.icon) {
+          <pds-icon [name]="portalLevel.icon" size="md" />
+          }
+          <span class="pds-portal-nav__label">{{ portalLevel.label }}</span>
+        </span>
+      </ng-template>
+    </li>
+    } @if (app(); as appLevel) {
+    <li class="pds-portal-nav__level">
+      <pds-icon name="chevron_right" size="md" class="pds-portal-nav__separator" />
+
+      @if (appLevel.routerLink) {
+      <a
+        class="pds-portal-nav__node pds-portal-nav__node--app"
+        [routerLink]="appLevel.routerLink"
+        [attr.aria-current]="ariaCurrentFor('app')"
+        (click)="onSelect('app', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="appChip" />
+      </a>
+      } @else if (appLevel.href) {
+      <a
+        class="pds-portal-nav__node pds-portal-nav__node--app"
+        [attr.href]="appLevel.href"
+        [attr.aria-current]="ariaCurrentFor('app')"
+        (click)="onSelect('app', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="appChip" />
+      </a>
+      } @else {
+      <button
+        type="button"
+        class="pds-portal-nav__node pds-portal-nav__node--app"
+        [attr.aria-current]="ariaCurrentFor('app')"
+        (click)="onSelect('app', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="appChip" />
+      </button>
+      }
+
+      <ng-template #appChip>
+        <span class="pds-portal-nav__chip">
+          <span class="pds-portal-nav__label">{{ appLevel.label }}</span>
+        </span>
+      </ng-template>
+    </li>
+    }
+  </ol>
+  }
+
+  <!-- ── Acciones: avatar proyectado + toggle de menú (sólo móvil) ──────── -->
+  <div class="pds-portal-nav__actions">
+    <ng-content select="[portalNavActions]" />
+
+    @if (hasMenu()) {
+    <button
+      type="button"
+      class="pds-portal-nav__menu-toggle"
+      [attr.aria-expanded]="menuOpen()"
+      [attr.aria-controls]="menuId"
+      (click)="toggleMenu()"
+    >
+      <span class="pds-portal-nav__menu-icon">
+        <pds-icon [name]="menuOpen() ? 'close' : 'menu'" size="sm" />
+      </span>
+      <span class="pds-portal-nav__menu-text">{{
+        menuOpen() ? menuCloseLabel() : menuLabel()
+      }}</span>
+    </button>
+    }
+  </div>
+
+  <!-- ── Menú móvil ─────────────────────────────────────────────────────── -->
+  @if (hasMenu()) {
+  <div class="pds-portal-nav__drawer" [id]="menuId" [hidden]="!menuOpen()">
+    <ul class="pds-portal-nav__menu-list">
+      @for (item of menuItems(); track item.id) {
+      <li class="pds-portal-nav__menu-entry">
+        @if (item.children?.length) {
+        <!-- Ítem padre: acordeón, no navega -->
+        <button
+          type="button"
+          class="pds-portal-nav__menu-item pds-portal-nav__menu-item--parent"
+          [class.pds-portal-nav__menu-item--expanded]="expandedItemId() === item.id"
+          [attr.aria-expanded]="expandedItemId() === item.id"
+          (click)="onMenuItemClick(item)"
+        >
+          <pds-icon [name]="item.icon" size="md" />
+          <span class="pds-portal-nav__menu-label">{{ item.label }}</span>
+          <pds-icon
+            [name]="expandedItemId() === item.id ? 'arrow_drop_up' : 'arrow_drop_down'"
+            size="md"
+          />
+        </button>
+
+        @if (expandedItemId() === item.id) {
+        <ul class="pds-portal-nav__submenu">
+          @for (sub of item.children; track sub.id) {
+          <li>
+            <button
+              type="button"
+              class="pds-portal-nav__submenu-item"
+              [attr.aria-current]="activeSubItemId() === sub.id ? 'page' : null"
+              (click)="onMenuSubItemClick(item, sub)"
+            >
+              {{ sub.label }}
+            </button>
+          </li>
+          }
+        </ul>
+        } } @else {
+        <!-- Ítem hoja: navega y cierra el menú -->
+        <button
+          type="button"
+          class="pds-portal-nav__menu-item"
+          [attr.aria-current]="activeItemId() === item.id ? 'page' : null"
+          (click)="onMenuItemClick(item)"
+        >
+          <pds-icon [name]="item.icon" size="md" />
+          <span class="pds-portal-nav__menu-label">{{ item.label }}</span>
+        </button>
+        }
+      </li>
+      }
+    </ul>
+
+    <div class="pds-portal-nav__drawer-footer">
+      <ng-content select="[portalNavMenuFooter]" />
+    </div>
+  </div>
+  }
+</nav>
+
+<!-- Logotipo oficial del Politécnico Grancolombiano.
+     Los colores del contenedor usan tokens; el símbolo conserva los colores de marca. -->
+<ng-template #poliLogo>
+  <svg
+    class="pds-portal-nav__logo"
+    width="167"
+    height="48"
+    viewBox="0 0 167 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    [attr.aria-label]="institutionalLabel()"
+  >
+    <path
+      d="M4 12C4 7.58172 7.58172 4 12 4H36C40.4183 4 44 7.58172 44 12V36C44 40.4183 40.4183 44 36 44H12C7.58172 44 4 40.4183 4 36V12Z"
+      fill="var(--surface-brand-primary-base, #0F385A)"
+    />
+    <mask
+      id="pds-portal-nav-logo-mask"
+      style="mask-type: luminance"
+      maskUnits="userSpaceOnUse"
+      x="4"
+      y="4"
+      width="40"
+      height="40"
+    >
+      <path
+        d="M4 12C4 7.58172 7.58172 4 12 4H36C40.4183 4 44 7.58172 44 12V36C44 40.4183 40.4183 44 36 44H12C7.58172 44 4 40.4183 4 36V12Z"
+        fill="white"
+      />
+    </mask>
+    <g mask="url(#pds-portal-nav-logo-mask)">
+      <path
+        d="M12 4V6H36V4V2H12V4ZM44 12H42V36H44H46V12H44ZM36 44V42H12V44V46H36V44ZM4 36H6V12H4H2V36H4ZM12 44V42C8.68629 42 6 39.3137 6 36H4H2C2 41.5228 6.47715 46 12 46V44ZM44 36H42C42 39.3137 39.3137 42 36 42V44V46C41.5228 46 46 41.5228 46 36H44ZM36 4V6C39.3137 6 42 8.68629 42 12H44H46C46 6.47715 41.5228 2 36 2V4ZM12 4V2C6.47715 2 2 6.47715 2 12H4H6C6 8.68629 8.68629 6 12 6V4Z"
+        fill="var(--border-brand-primary-light, #165386)"
+      />
+    </g>
+    <path
+      d="M26.8517 11.9144C22.8394 17.3105 20.5977 27.6298 25.8413 35.6212C26.6535 36.7917 27.2675 37.3753 27.2675 37.3753C21.3839 28.6047 25.6203 17.1148 29.9998 11.2264L26.0719 10.7211C26.0719 10.7211 24.2429 10.2059 23.4729 11.4775L26.8517 11.9144Z"
+      fill="#FFFFFF"
+    />
+    <path
+      d="M26.9238 37.382C20.085 29.9807 20.855 18.2464 24.9777 12.7068C24.9777 12.7068 21.9011 12.3384 21.3033 12.2764C20.5528 12.1982 18.9837 11.8591 18.6328 13.6067C15.189 30.7046 26.9238 37.382 26.9238 37.382Z"
+      fill="#1FB2DE"
+    />
+    <path
+      d="M55.5279 15.484H56.6199C57.4459 15.484 57.7819 15.064 57.7819 14.42C57.7819 13.762 57.4459 13.342 56.6199 13.342H55.5279V15.484ZM60.5819 14.42C60.5819 16.142 59.3919 17.668 56.8859 17.668H55.5279V21H52.7839V11.13H56.8859C59.3359 11.13 60.5819 12.516 60.5819 14.42ZM71.4703 16.03C71.4703 18.998 69.2163 21.098 66.4163 21.098C63.6163 21.098 61.3483 18.998 61.3483 16.03C61.3483 13.062 63.6163 10.976 66.4163 10.976C69.2303 10.976 71.4703 13.062 71.4703 16.03ZM64.1483 16.03C64.1483 17.556 64.9883 18.55 66.4163 18.55C67.8303 18.55 68.6843 17.556 68.6843 16.03C68.6843 14.476 67.8303 13.496 66.4163 13.496C64.9883 13.496 64.1483 14.476 64.1483 16.03ZM77.9258 14.448C77.9258 13.832 77.5478 13.426 76.8058 13.426H75.4478V15.484H76.8058C77.5478 15.484 77.9258 15.12 77.9258 14.448ZM72.7038 11.13H77.0298C79.4798 11.13 80.7118 12.53 80.7118 14.294C80.7118 15.582 80.0118 16.702 78.5418 17.15L80.7678 21H77.7018L75.7418 17.36H75.4478V21H72.7038V11.13ZM81.4137 13.314V11.13H89.3937V13.314H86.7617V21H84.0177V13.314H81.4137ZM97.1849 21L96.6529 19.39H93.1529L92.6209 21H89.7369L93.3349 11.13H96.4989L100.083 21H97.1849ZM95.9669 17.29L94.9029 14.098L93.8529 17.29H95.9669ZM100.977 11.13H103.721V18.9H106.787V21H100.977V11.13Z"
+      fill="#1FB2DE"
+    />
+    <path
+      d="M53.0779 37V27.242H54.3519V37H53.0779ZM62.9212 27.228H64.1952V37H62.9212L57.7972 29.23V37H56.5232V27.228H57.7972L62.9212 34.984V27.228ZM72.709 34.34C72.709 35.726 71.575 37.098 69.461 37.098C67.501 37.098 66.115 36.006 66.087 34.396H67.445C67.529 35.208 68.103 36.02 69.461 36.02C70.693 36.02 71.421 35.32 71.421 34.396C71.421 31.764 66.143 33.444 66.143 29.818C66.143 28.208 67.445 27.116 69.377 27.116C71.239 27.116 72.457 28.138 72.611 29.622H71.211C71.127 28.964 70.511 28.222 69.321 28.208C68.271 28.18 67.445 28.726 67.445 29.776C67.445 32.296 72.709 30.728 72.709 34.34ZM73.9818 28.278V27.242H80.5898V28.278H77.9298V37H76.6558V28.278H73.9818ZM82.158 37V27.242H83.432V37H82.158ZM85.0013 28.278V27.242H91.6093V28.278H88.9493V37H87.6753V28.278H85.0013ZM93.1495 33.402V27.242H94.4235V33.416C94.4235 35.208 95.3895 35.978 96.8315 35.978C98.2735 35.978 99.2255 35.208 99.2255 33.416V27.242H100.5V33.402C100.5 35.936 98.8335 37.098 96.8175 37.098C94.8015 37.098 93.1495 35.936 93.1495 33.402ZM102.149 32.114C102.149 29.188 104.291 27.116 107.021 27.116C109.135 27.116 110.815 28.18 111.543 30.07H110.017C109.485 28.894 108.449 28.236 107.021 28.236C104.977 28.236 103.451 29.72 103.451 32.114C103.451 34.494 104.977 35.978 107.021 35.978C108.449 35.978 109.485 35.32 110.017 34.158H111.543C110.815 36.034 109.135 37.084 107.021 37.084C104.291 37.084 102.149 35.04 102.149 32.114ZM113.439 37V27.242H114.713V37H113.439ZM126.209 32.114C126.209 35.04 124.067 37.098 121.309 37.098C118.565 37.098 116.409 35.04 116.409 32.114C116.409 29.188 118.565 27.13 121.309 27.13C124.067 27.13 126.209 29.188 126.209 32.114ZM117.711 32.114C117.711 34.494 119.251 35.992 121.309 35.992C123.367 35.992 124.907 34.494 124.907 32.114C124.907 29.72 123.367 28.236 121.309 28.236C119.251 28.236 117.711 29.72 117.711 32.114ZM134.289 27.228H135.562V37H134.289L129.165 29.23V37H127.891V27.228H129.165L134.289 34.984V27.228ZM144.286 37L143.502 34.83H139.246L138.462 37H137.118L140.646 27.298H142.116L145.63 37H144.286ZM143.138 33.794L141.374 28.866L139.61 33.794H143.138ZM147.168 27.242H148.442V35.964H151.858V37H147.168V27.242Z"
+      fill="#FFFFFF"
+    />
+  </svg>
+</ng-template>

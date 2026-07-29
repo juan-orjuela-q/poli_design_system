@@ -25,13 +25,9 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
   &--collapsed {
     width: var(--component-sidenav-closed); // 80px
 
-    // Ocultar labels con transición (NO display:none — mantiene accesibilidad)
-    .pds-sidenav__title-block {
-      max-width: 0;
-      opacity: 0;
-      pointer-events: none;
-    }
+    // El texto de la marca lo colapsa pds-sidenav-header vía [expanded]
 
+    // Ocultar labels con transición (NO display:none — mantiene accesibilidad)
     .pds-sidenav__item-label {
       max-width: 0;
       opacity: 0;
@@ -68,11 +64,6 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
         var(--spacing-component-md, 12px);
     }
 
-    // Ocultar bloque de título con transición
-    .pds-sidenav__portal-icon {
-      flex-shrink: 0;
-    }
-
     // Ocultar sub-ítems visualmente cuando está colapsado,
     // pero mantenerlos en el DOM para que Tab pueda entrar en ellos
     .pds-sidenav__subitems {
@@ -103,66 +94,22 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
   overflow: visible; // permite que el toggle cuelgue fuera
 }
 
-// ── Ícono del portal ─────────────────────────────────────────────────────────
+// ── Marca ────────────────────────────────────────────────────────────────────
+// El contenido (ícono, título, subtítulo y sus estados) vive en
+// pds-sidenav-header. Aquí sólo se resuelve su sitio dentro del header.
 
-.pds-sidenav__portal-icon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-component-md); // 10px
-  background: var(--portal-blue-bg); // #1fb2de
-  border: var(--border-thick) solid var(--portal-blue-border-on-light); // 2px #007ba4
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  // El ícono hereda el color del portal
-  pds-icon {
-    --pds-icon-color: var(--portal-blue-fg, #0f385a);
-  }
-}
-
-// ── Bloque de título / subtítulo ────────────────────────────────────────────
-
-.pds-sidenav__title-block {
+.pds-sidenav__brand {
   flex: 1;
   min-width: 0;
-  max-width: 300px;
-  opacity: 1;
-  overflow: hidden;
-  transition: max-width 200ms ease, opacity 150ms ease;
-}
-
-.pds-sidenav__app-title {
-  display: block;
-  font-family: var(--text-headings, Poppins);
-  font-size: var(--font-size-component-sidenav-title); // 1.25rem (20px)
-  font-weight: var(--font-weight-w-semibold); // 600
-  line-height: var(--line-height-lh-tight); // 1.2
-  color: var(--fg-brand-primary); // #0f385a
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pds-sidenav__app-subtitle {
-  display: block;
-  font-family: var(--text-headings, Poppins);
-  font-size: var(--font-size-component-sidenav-subtitle); // 0.875rem (14px)
-  font-weight: var(--font-weight-w-medium); // 500
-  line-height: var(--line-height-lh-tight); // 1.2
-  color: var(--fg-neutral-secondary); // #4d5b69
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 2px;
 }
 
 // ── Botón toggle (cuelga fuera del borde derecho del sidenav) ────────────────
 
 .pds-sidenav__toggle {
   position: absolute;
-  right: 0;
+  // -8px: el botón cuelga 8px más allá del borde del panel, además del 50%
+  // que ya lo centra sobre él
+  right: -8px;
   top: 50%;
   transform: translate(50%, -50%);
   z-index: 10;
@@ -405,7 +352,6 @@ box-shadow: 4px 0 6px -4px rgba(24, 39, 75, 0.12), 8px 0 8px -4px rgba(24, 39, 7
   .pds-sidenav__item,
   .pds-sidenav__subitem,
   .pds-sidenav__item-label,
-  .pds-sidenav__title-block,
   .pds-sidenav__toggle {
     transition: none;
   }

@@ -1,0 +1,25 @@
+<div class="portal-shell">
+  <pds-portal-nav
+    [portal]="portalLevel"
+    [color]="portal.color"
+    current="portal"
+    institutionalHref="#"
+    [menuItems]="navItems"
+    ariaLabel="Navegación del ecosistema"
+    (itemClick)="onMenuItemClick($event)"
+  >
+    <pds-avatar-button
+      portalNavActions
+      [name]="userProfile.name()"
+      [letter]="userProfile.initials()"
+      type="letter"
+      [role]="userProfile.email()"
+      [showName]="!compactAvatar()"
+      [showRole]="!compactAvatar()"
+    />
+  </pds-portal-nav>
+
+  <main class="portal-shell__content" id="main-content">
+    <router-outlet />
+  </main>
+</div>

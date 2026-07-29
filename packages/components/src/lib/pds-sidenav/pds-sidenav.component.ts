@@ -14,6 +14,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs/operators';
 
 import { PdsIconComponent } from '../pds-icon/pds-icon.component';
+import {
+  PdsSidenavHeaderComponent,
+  type SidenavHeaderColor,
+} from '../pds-sidenav-header/pds-sidenav-header.component';
 
 // ── Interfaces públicas ──────────────────────────────────────────────────────
 
@@ -62,7 +66,7 @@ export interface SidenavItem {
 @Component({
   selector: 'pds-sidenav',
   standalone: true,
-  imports: [NgClass, RouterLink, PdsIconComponent],
+  imports: [NgClass, RouterLink, PdsIconComponent, PdsSidenavHeaderComponent],
   templateUrl: './pds-sidenav.component.html',
   styleUrl: './pds-sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,6 +87,16 @@ export class PdsSidenavComponent {
 
   /** Nombre del símbolo Material Symbols para el ícono del portal en el encabezado. */
   readonly appIconName = input<string>('hive');
+
+  /**
+   * Ruta del inicio del aplicativo. Si se define, la marca del encabezado
+   * (ícono + título) se convierte en un enlace hacia ella; si se omite, la
+   * marca queda como texto sin interacción.
+   */
+  readonly appHomeLink = input<string | string[] | null>(null);
+
+  /** Variante de branding del portal. Debe coincidir con la de `pds-portal-nav`. */
+  readonly portalColor = input<SidenavHeaderColor>('blue');
 
   /** Estado expandido/colapsado del sidenav. */
   readonly expanded = input<boolean>(true);

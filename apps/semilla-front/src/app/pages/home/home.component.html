@@ -1,4 +1,26 @@
-<section class="home-page">
-  <h1 class="home-page__title">{{ 'HOME.TITLE' | translate }}</h1>
-  <p class="home-page__body">{{ 'HOME.BODY' | translate }}</p>
+<pds-app-header
+  [title]="app.label"
+  [description]="app.description"
+  [icon]="app.icon"
+  [color]="portal.color"
+/>
+
+<!--
+  El diseño no lleva título visible sobre la rejilla, pero sin encabezado sería
+  un grupo de enlaces sin nombre. Se declara oculto para lectores de pantalla.
+-->
+<section class="home-page__sections" aria-labelledby="home-sections">
+  <h2 class="sr-only" id="home-sections">Secciones del aplicativo</h2>
+
+  <div class="home-page__grid">
+    @for (section of sections; track section.id) {
+      <pds-card
+        behavior="nav"
+        [title]="section.label"
+        [description]="section.description"
+        [iconName]="section.icon"
+        [routerLink]="section.routerLink"
+      />
+    }
+  </div>
 </section>

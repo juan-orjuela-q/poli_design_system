@@ -1,3 +1,5 @@
+@use 'sass:meta';
+
 // Estilos globales de la aplicación.
 // Los tokens CSS se cargan antes vía angular.json (styles array):
 //   @poli/tokens: primitives → tokens → typescale → layout → component → overrides
@@ -38,10 +40,12 @@ body {
   border: 0;
 }
 
-// ── Overrides mobile ─────────────────────────────────────
+// ── Tokens mobile ─────────────────────────────────────────
+// angular.json carga las variantes -desktop; las -mobile no caben ahí porque
+// su array de estilos no admite media queries. meta.load-css inlina el CSS
+// generado dentro del @media, así que los valores siguen viniendo del paquete
+// de tokens y no se copian a mano (que es lo que había antes, comentado).
 @media (max-width: 768px) {
-  :root {
-    // Sobreescribir tokens de tipografía desktop con valores mobile si aplica
-    // --font-size-f-xl: var(--font-size-f-lg);
-  }
+  @include meta.load-css('../../../packages/tokens/src/layout-mobile');
+  @include meta.load-css('../../../packages/tokens/src/typescale-mobile');
 }

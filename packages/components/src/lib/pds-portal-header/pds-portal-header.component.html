@@ -1,0 +1,27 @@
+<div [class]="hostClasses()">
+  <div class="pds-portal-header__info">
+    @if (icon()) {
+      <!-- Decorativo: el nombre del portal ya está en el título -->
+      <span class="pds-portal-header__icon" aria-hidden="true">
+        <pds-icon [name]="icon()!" size="xl" />
+      </span>
+    }
+
+    <div class="pds-portal-header__text">
+      @if (headingLevel() === 1) {
+        <h1 class="pds-portal-header__title">{{ title() }}</h1>
+      } @else {
+        <h2 class="pds-portal-header__title">{{ title() }}</h2>
+      }
+
+      @if (description()) {
+        <p class="pds-portal-header__description">{{ description() }}</p>
+      }
+    </div>
+  </div>
+
+  <!-- Vacío se oculta por CSS (:empty) para no dejar el gap colgando -->
+  <div class="pds-portal-header__actions">
+    <ng-content select="[portalHeaderActions]" />
+  </div>
+</div>

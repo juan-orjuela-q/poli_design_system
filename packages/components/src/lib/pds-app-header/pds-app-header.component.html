@@ -1,0 +1,18 @@
+<div [class]="hostClasses()">
+  @if (icon()) {
+    <!-- Decorativo: el nombre del aplicativo ya está en el título -->
+    <span class="pds-app-header__icon" aria-hidden="true">
+      <pds-icon [name]="icon()!" size="xl" />
+    </span>
+  }
+
+  @if (headingLevel() === 1) {
+    <h1 class="pds-app-header__title">{{ title() }}</h1>
+  } @else {
+    <h2 class="pds-app-header__title">{{ title() }}</h2>
+  }
+
+  @if (description()) {
+    <p class="pds-app-header__description">{{ description() }}</p>
+  }
+</div>

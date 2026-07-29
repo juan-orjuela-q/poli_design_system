@@ -105,6 +105,26 @@ $card-accent-shadow: inset 0 -6px 0 0 var(--border-brand-primary-solid);
   }
 }
 
+// ── Nav card enlazada ────────────────────────────────────────────────────────
+// El foco lo recibe el <a> interno, pero el anillo se dibuja sobre la card:
+// pintado en el <a> quedaría recortado por el overflow del host, y además el
+// anillo debe rodear la tarjeta entera, no sólo su contenido.
+
+.pds-card__link {
+  color: inherit;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+:host(.pds-card--link):has(.pds-card__link:focus-visible) {
+  box-shadow:
+    0 0 0 1px var(--action-focus-inner),
+    0 0 0 4px var(--action-primary-focus-ring);
+}
+
 // ── Contenedor de contenido ───────────────────────────────────────────────────
 
 .pds-card__content {

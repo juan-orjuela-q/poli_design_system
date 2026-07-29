@@ -1,0 +1,93 @@
+// pds-app-header
+// Banner de la portada de un aplicativo.
+//
+// El degradado es siempre azul; el branding sólo llega al ícono. Por eso aquí
+// se mapean únicamente las variables del ícono, no las del fondo.
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.pds-app-header {
+  --pds-app-header-icon-bg: var(--portal-blue-bg);
+  --pds-app-header-icon-fg: var(--portal-blue-fg);
+  --pds-app-header-icon-border: var(--portal-blue-border-on-light);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-component-lg, 16px);
+  width: 100%;
+  min-height: 256px;
+  padding: var(--spacing-component-2xl, 24px);
+  border-radius: var(--radius-container-md, 16px);
+  text-align: center;
+
+  // Los dos extremos del degradado coinciden con tokens existentes, así que no
+  // hay hexadecimales sueltos. Los porcentajes vienen del diseño.
+  background: linear-gradient(
+    228deg,
+    var(--surface-brand-primary-strong, #002b49) 23.63%,
+    var(--surface-brand-secondary-muted, #1fb2de) 123.92%
+  );
+
+  // El DS no aplica un reset global: cada componente declara su box-sizing.
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  &--yellow {
+    --pds-app-header-icon-bg: var(--portal-yellow-bg);
+    --pds-app-header-icon-fg: var(--portal-yellow-fg);
+    --pds-app-header-icon-border: var(--portal-yellow-border-on-light);
+  }
+
+  &--green {
+    --pds-app-header-icon-bg: var(--portal-green-bg);
+    --pds-app-header-icon-fg: var(--portal-green-fg);
+    --pds-app-header-icon-border: var(--portal-green-border-on-light);
+  }
+
+  &--magenta {
+    --pds-app-header-icon-bg: var(--portal-magenta-bg);
+    --pds-app-header-icon-fg: var(--portal-magenta-fg);
+    --pds-app-header-icon-border: var(--portal-magenta-border-on-light);
+  }
+}
+
+.pds-app-header__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--spacing-component-lg, 16px);
+  border: var(--border-thick, 2px) solid var(--pds-app-header-icon-border);
+  border-radius: var(--radius-component-xl, 16px);
+  background: var(--pds-app-header-icon-bg);
+  --pds-icon-color: var(--pds-app-header-icon-fg);
+}
+
+.pds-app-header__title {
+  margin: 0;
+  font-family: var(--text-headings, Poppins);
+  font-size: var(--font-size-f-4xl, 40px);
+  font-weight: var(--font-weight-w-semibold, 600);
+  line-height: 1.1;
+  color: var(--fg-on-color-brand-primary);
+}
+
+.pds-app-header__description {
+  margin: 0;
+  font-family: var(--text-body, "Open Sans");
+  font-size: var(--font-size-f-base, 16px);
+  font-weight: var(--font-weight-w-regular, 400);
+  line-height: 1.5;
+  color: var(--fg-on-color-brand-primary);
+  // Sin límite el texto cruzaría todo el banner y costaría seguirlo
+  max-width: 60ch;
+}

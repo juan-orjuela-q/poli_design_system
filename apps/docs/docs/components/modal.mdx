@@ -2,7 +2,7 @@
 
 <FigmaEmbed nodeId="96:3281" />
 
-Modal de contenido libre con 5 tamaños, slot de footer personalizable y comportamiento de bottom sheet en móvil.
+Modal de contenido libre con 5 tamaños y slot de footer personalizable.
 
 ## Importación
 
@@ -90,7 +90,9 @@ showModal = signal(false);
 
 ## Comportamiento móvil
 
-En pantallas `≤768px`, el modal se convierte en **bottom sheet**: aparece desde el borde inferior de la pantalla y ocupa el ancho completo.
+El modal se mantiene **centrado en todos los tamaños de pantalla**. En pantallas
+estrechas ocupa el ancho disponible menos el margen de 16px del overlay, y su
+alto se limita a `90vh` con scroll interno en el cuerpo.
 
 ## Accesibilidad
 

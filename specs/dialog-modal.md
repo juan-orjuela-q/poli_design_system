@@ -166,4 +166,4 @@ export class PdsModalComponent {
 ## Accesibilidad
 - Mismos requisitos que Dialog: `role="dialog"`, `aria-modal`, focus trap, Escape para cerrar
 - El scroll del body debe bloquearse mientras el modal está abierto
-- En móvil considerar bottom sheet en lugar de modal centrado
+- ~~En móvil considerar bottom sheet en lugar de modal centrado~~ — **descartado**. Se implementó y se revirtió: el modal se mantiene centrado en todos los tamaños. `pds-modal` no tiene bloque responsive.
