@@ -3,16 +3,37 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+/**
+ * Destino del despliegue — configurable por variables de entorno.
+ *
+ * Los valores por defecto corresponden al GitHub Pages de desarrollo de Appicua.
+ * Para publicar en otro hosting (p. ej. Azure Static Web Apps), definir:
+ *
+ *   DOCS_URL=https://mi-dominio.poli.edu.co
+ *   DOCS_BASE_URL=/
+ *
+ * DOCS_BASE_URL debe empezar y terminar con "/". Si el portal se sirve en la
+ * raíz del dominio, el valor correcto es "/".
+ */
+const SITE_URL = process.env.DOCS_URL ?? 'https://juan-orjuela-q.github.io';
+const BASE_URL = process.env.DOCS_BASE_URL ?? (isProduction ? '/poli_design_system/docs/' : '/');
+
+/** Enlaces externos de la barra de navegación. */
+const STORYBOOK_URL =
+  process.env.DOCS_STORYBOOK_URL ?? 'https://juan-orjuela-q.github.io/poli_design_system/';
+const REPO_URL =
+  process.env.DOCS_REPO_URL ?? 'https://github.com/juan-orjuela-q/poli_design_system';
+
 const config: Config = {
   title: 'Poli Design System',
   tagline: 'Componentes accesibles para el ecosistema digital del Politécnico Grancolombiano',
   favicon: 'img/favicon.ico',
 
-  url: 'https://juan-orjuela-q.github.io',
-  baseUrl: isProduction ? '/poli_design_system/docs/' : '/',
+  url: SITE_URL,
+  baseUrl: BASE_URL,
 
-  organizationName: 'juan-orjuela-q',
-  projectName: 'poli_design_system',
+  organizationName: process.env.DOCS_ORG ?? 'juan-orjuela-q',
+  projectName: process.env.DOCS_PROJECT ?? 'poli_design_system',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -67,12 +88,12 @@ const config: Config = {
           label: 'Componentes',
         },
         {
-          href: 'https://juan-orjuela-q.github.io/poli_design_system/',
+          href: STORYBOOK_URL,
           label: 'Storybook',
           position: 'right',
         },
         {
-          href: 'https://github.com/juan-orjuela-q/poli_design_system',
+          href: REPO_URL,
           label: 'GitHub',
           position: 'right',
         },

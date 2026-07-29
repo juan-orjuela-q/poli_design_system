@@ -4,6 +4,8 @@ Sistema de diseño y proyecto semilla del **Politécnico Grancolombiano**. Angul
 
 Monorepo gestionado con **pnpm workspaces** (`pnpm-workspace.yaml`).
 
+> **¿Vas a publicar esto en Azure?** Ver [`ENTREGA.md`](ENTREGA.md) — guía de handoff con el detalle de construcción y configuración de cada pieza.
+
 ---
 
 ## Estructura
