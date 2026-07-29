@@ -1,34 +1,15 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { APP_ROUTE } from './app.routes';
-
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from '@angular/common/http';
-
-export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
+/**
+ * Configuración mínima del host de Storybook.
+ *
+ * Esta app no se despliega: existe únicamente como `browserTarget` del builder
+ * `@storybook/angular` (ver el proyecto `storybook-host` en `angular.json`), que
+ * la usa para resolver tsconfig, estilos globales y providers al renderizar las
+ * historias de `packages/components`.
+ */
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(APP_ROUTE),
-    provideHttpClient(),
-    provideAnimations(),
-    provideAnimationsAsync(),
-    importProvidersFrom(
-      TranslateModule.forRoot({
-        defaultLanguage: 'es',
-        loader: {
-          provide: TranslateLoader,
-          useFactory: createTranslateLoader,
-          deps: [HttpClient],
-        },
-      })
-    ),
-  ],
+  providers: [provideHttpClient(), provideAnimations()],
 };
