@@ -1,144 +1,80 @@
-# Semilla Front — Poli Design System v2
+# Poli Design System v2 — Monorepo
 
-Proyecto base (starter) del Politécnico Grancolombiano. Angular 19, standalone components, DS v2.
+Sistema de diseño y proyecto semilla del **Politécnico Grancolombiano**. Angular 19, standalone components, tokens generados desde Figma.
+
+Monorepo gestionado con **pnpm workspaces** (`pnpm-workspace.yaml`).
 
 ---
 
-## ¿Cómo consumir este repo?
+## Estructura
 
-### Opción A — Solo el Design System (recomendado para apps nuevas)
+| Ruta                   | Paquete              | Qué es                                                                             |
+| ---------------------- | -------------------- | ---------------------------------------------------------------------------------- |
+| `packages/components/` | `@poli/components`   | Librería de componentes DS v2 (`pds-*`). Se publica con ng-packagr.                 |
+| `packages/tokens/`     | `@poli/tokens`       | Tokens CSS generados con Style Dictionary. **Fuente única de verdad** de los tokens. |
+| `apps/semilla-front/`  | `@poli/semilla-front` | Proyecto base (starter) para aplicativos nuevos. Consume `@poli/components`.        |
+| `apps/docs/`           | `@poli/docs`         | Portal de documentación (Docusaurus).                                               |
+| `apps/storybook/`      | —                    | Configuración de Storybook (catálogo de componentes).                               |
+| `src/`                 | —                    | **Host de Storybook.** No es una app desplegable — ver nota abajo.                   |
+| `scripts/`             | —                    | Utilidades de tokens y documentación (`sync-tokens`, `audit-contrast`).             |
 
-Próximamente disponible como paquete npm `@poli/ds`. Por ahora, copiar la carpeta `src/app/shared/components/pds-*` a tu proyecto e importar los tokens desde `src/assets/poligran/`.
+### Sobre `src/` (host de Storybook)
 
-### Opción B — App starter completa
+`@storybook/angular` necesita un `browserTarget` de Angular CLI para resolver tsconfig, estilos globales y providers al renderizar las historias. Ese target es el proyecto **`storybook-host`** definido en `angular.json`, y `src/` es su código mínimo (`main.ts`, `index.html`, un `AppComponent` vacío, `styles.scss` y las fuentes).
 
-Clona el repo y elimina el contenido de negocio que no necesites (`src/app/pages/`, rutas específicas, etc.):
+`src/stories/foundations/` sí es contenido real: son las páginas de **Foundations** (Color, Typography, Effects, Workflows) que se publican en Storybook.
+
+> `src/` no se despliega en ningún ambiente. Para el proyecto semilla, ver `apps/semilla-front/`.
+
+---
+
+## Instalación
 
 ```bash
-git clone https://github.com/appicua/semilla-front.git mi-nuevo-proyecto
-cd mi-nuevo-proyecto
-npm install
-ng serve
+pnpm install
 ```
-
----
-
-## Storybook — Catálogo de componentes
-
-```bash
-npm run storybook
-```
-
-- **DS v2** — Componentes del sistema de diseño v2 con prefijo `pds-`
-- **DS v1 (Legacy)** — Componentes del sistema anterior (deprecados, solo para comparación)
-
-El Storybook publicado está disponible en Azure Static Web Apps.
-
----
-
-## Lint de accesibilidad
-
-```bash
-npm run lint
-```
-
-Ejecutar antes de hacer PR. Revisa reglas WCAG en los templates Angular (`alt-text`, `label-has-associated-control`, `valid-aria`, etc.).
-
----
-
-## Tokens de diseño
-
-Los tokens CSS viven en `src/assets/poligran/`. Se generan con Style Dictionary desde el repositorio `poli-tokens`. No editar manualmente.
-
----
-
-## Documentación
-
-- **Specs de componentes**: `specs/*.md`
-- **Guías técnicas**: `docs/`
-- **Documentación editorial (Loop)**: enlazada desde las páginas del Storybook
-- **Diseño (Figma)**: enlazado desde el plugin Storybook Connect
 
 ---
 
 ## Scripts principales
 
-| Script | Descripción |
-|--------|-------------|
-| `npm start` | Servidor de desarrollo |
-| `npm run build` | Build de producción |
-| `npm test` | Pruebas unitarias |
-| `npm run lint` | Lint TypeScript + templates |
-| `npm run storybook` | Catálogo de componentes |
-| `npm run build-storybook` | Build estático del Storybook |
+| Script                    | Descripción                                                          |
+| ------------------------- | -------------------------------------------------------------------- |
+| `npm run build:lib`       | Build de `@poli/components` (ng-packagr → `dist/components`)          |
+| `npm run storybook`       | Storybook en modo dev (`localhost:6006`)                              |
+| `npm run build-storybook` | Build estático de Storybook → `apps/storybook/storybook-static`       |
+| `npm run compodoc`        | Genera `documentation.json` (metadatos para las tablas de props)      |
+| `npm run semilla:start`   | Servidor de desarrollo de la semilla                                  |
+| `npm run semilla:build`   | Build de la semilla                                                   |
+| `npm run docs:start`      | Portal Docusaurus en modo dev                                         |
+| `npm run docs:build`      | Build del portal Docusaurus                                           |
+| `npm run tokens:sync`     | Regenera `packages/tokens/tokens.json` desde los CSS                  |
+| `npm run tokens:audit`    | Auditoría de contraste de color (WCAG)                                |
+| `npm run lint`            | Lint TS + templates de la librería de componentes                     |
+| `npm test`                | Pruebas unitarias de `@poli/components`                               |
+
+`npm run storybook` y `npm run build-storybook` ejecutan `compodoc` automáticamente antes del build: sin ese paso las tablas de props de la pestaña *Docs* quedan vacías.
 
 ---
 
-## 🎯 Características Principales
+## Despliegue
 
-- ✅ **Angular 19** con standalone components
-- ✅ **Sistema de diseño** del Politécnico Grancolombiano
-- ✅ **Navegación mejorada** con servicios centralizados
-- ✅ **Autenticación Azure MSAL**
-- ✅ **Responsive design** (mobile y desktop)
-- ✅ **Estado reactivo** con Angular Signals
+`.github/workflows/storybook.yml` publica en **GitHub Pages** con cada push a `master`:
+
+- Storybook en la raíz del sitio
+- Portal Docusaurus bajo `/docs/`
 
 ---
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.5.
+## Tokens de diseño
 
-## Development server
+Los CSS de `packages/tokens/src/` se generan con **Style Dictionary** desde el repositorio externo `poli-tokens`. **No editarlos manualmente.** El flujo completo está documentado en la página *Workflows* de Storybook.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Documentación
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Catálogo de componentes**: Storybook
+- **Guías y portal editorial**: `apps/docs/`
+- **Convenciones de componentes DS v2**: [`apps/semilla-front/CLAUDE.md`](apps/semilla-front/CLAUDE.md)
+- **Specs de componentes**: `specs/*.md`

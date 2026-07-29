@@ -62,17 +62,16 @@ component.css
 
 **3. Copiar los CSS a este proyecto**
 
-Pegar los archivos generados en **dos lugares**:
+Pegar los archivos generados en **un único destino**:
 
 <table>
   <thead><tr><th>Destino</th><th>Descripción</th></tr></thead>
   <tbody>
-    <tr><td><code>src/assets/poligran/</code></td><td>Los consume la app Angular y Storybook directamente</td></tr>
-    <tr><td><code>packages/tokens/src/</code></td><td>Los expone el paquete <code>@poli/tokens</code> para apps consumidoras</td></tr>
+    <tr><td><code>packages/tokens/src/</code></td><td>Fuente única de verdad. Los expone el paquete <code>@poli/tokens</code> a las apps consumidoras, y los carga Storybook vía el proyecto <code>storybook-host</code> de <code>angular.json</code></td></tr>
   </tbody>
 </table>
 
-> ⚠️ Ambas carpetas deben estar siempre en sincronía. Si actualizas una, actualiza la otra.
+> ✅ Desde la limpieza del monorepo ya no existe una copia duplicada en `src/assets/poligran/`: todos los consumidores apuntan a `packages/tokens/src/`.
 
 ---
 
@@ -185,7 +184,7 @@ grep -r "pds-{nombre}\|Pds{Nombre}Component" src/ --include="*.ts" --include="*.
   <tbody>
     <tr>
       <td>Actualizar tokens</td>
-      <td>Figma export → <code>poli_ds_tokens</code> JSON → <code>npm run build</code> → copiar CSS a <code>poligran/</code> y <code>packages/tokens/src/</code> → <code>tokens:sync</code> → <code>tokens:audit</code></td>
+      <td>Figma export → <code>poli_ds_tokens</code> JSON → <code>npm run build</code> → copiar CSS a <code>packages/tokens/src/</code> → <code>tokens:sync</code> → <code>tokens:audit</code></td>
     </tr>
     <tr>
       <td>Nuevo componente</td>

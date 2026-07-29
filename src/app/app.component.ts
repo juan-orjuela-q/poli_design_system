@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+/**
+ * Shell vacío del host de Storybook. No se renderiza en ningún despliegue;
+ * sólo satisface el `browserTarget` que necesita `@storybook/angular`.
+ */
 @Component({
   selector: 'app-root',
-  imports: [RouterModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}
