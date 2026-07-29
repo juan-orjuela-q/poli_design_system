@@ -90,6 +90,12 @@ npm run build:lib      # desde la raíz → genera dist/components/
    ```
 
 > La versión se controla en `packages/components/package.json` (actualmente `2.0.0`). Subirla en cada publicación.
+>
+> La carpeta a publicar es `dist/components`, definida en `dest` de `packages/components/ng-package.json`. Si se cambia allí, actualizar también `.github/workflows/library.yml`.
+
+### Referencia: publicación automatizada existente
+
+`.github/workflows/library.yml` ya automatiza este flujo contra **GitHub Packages**, y sirve de plantilla para replicarlo en Azure DevOps. Publica sólo al crear un *release* de GitHub; en los push a `master` únicamente construye la librería para validar que compila.
 
 ### Consumo desde un aplicativo
 

@@ -5,7 +5,7 @@ on:
     branches: [master]
     paths:
       - 'packages/components/**'
-      - 'src/assets/poligran/**'
+      - 'packages/tokens/src/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -32,10 +32,11 @@ jobs:
       - name: Build library
         run: npm run build:lib
 
+      # La ruta debe coincidir con "dest" de packages/components/ng-package.json
       - name: Publish to GitHub Packages
         if: github.event_name == 'release'
         run: |
-          cd dist/poli/components
+          cd dist/components
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
