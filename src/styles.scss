@@ -4,7 +4,6 @@
 // @use '@angular/material' as mat;
 
 @use './assets/poligran/fuentes.scss';
-@use "tailwindcss";
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -29,11 +28,5 @@ body {
     --spacing-layout-page-margin: 20px;
     --spacing-layout-gutter: 20px;
     --spacing-layout-section-gap: 40px;
-  }
-}
-
-@layer utilities {
-  .shadow-center {
-    @apply shadow-[0_0_10px_rgba(0,0,0,0.1)];
   }
 }

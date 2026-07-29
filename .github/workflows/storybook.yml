@@ -5,10 +5,10 @@ on:
     branches: [master]
     paths:
       - 'apps/docs/**'
-      - 'packages/components/src/**'
-      - 'src/stories/**'
       - 'apps/storybook/**'
-      - 'src/assets/poligran/**'
+      - 'packages/components/src/**'
+      - 'packages/tokens/src/**'
+      - 'src/stories/**'
   workflow_dispatch:
 
 # Permite desplegar a GitHub Pages
@@ -38,9 +38,6 @@ jobs:
 
       - name: Install root dependencies
         run: npm install
-
-      - name: Generate compodoc JSON
-        run: npx compodoc -p tsconfig.app.json -e json -d .
 
       - name: Build Storybook
         run: npm run build-storybook

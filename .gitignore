@@ -56,6 +56,9 @@ Thumbs.db
 /storybook-static
 /apps/storybook/storybook-static
 
+# Compodoc — generado antes de cada build de Storybook (ver .github/workflows/storybook.yml)
+/documentation.json
+
 # Semilla Front Node Modules
 /apps/semilla-front/node_modules
 
