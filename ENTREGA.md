@@ -161,11 +161,37 @@ Qué significa en la práctica:
 
 ---
 
+## Estructura objetivo del repositorio
+
+Hoy todo vive en un solo repositorio porque así resultó cómodo durante el desarrollo. **La estructura recomendada a mediano plazo son dos repositorios**, alineados a audiencias y ciclos de vida distintos:
+
+| Repositorio | Contenido | Audiencia |
+| ----------- | --------- | --------- |
+| `poli-design-system` | `packages/tokens`, `packages/components`, `apps/storybook`, `apps/docs`, `src/` (host) | Equipo que mantiene el DS |
+| `poli-semilla-front` | La semilla, consumiendo `@poli/components` desde Azure Artifacts | Los equipos de aplicativos |
+
+Por qué así:
+
+- **Tokens, componentes y Storybook cambian juntos.** Tocar un token repercute en un componente y en su historia; mantenerlos en un monorepo evita versionar y sincronizar en cada ajuste menor.
+- **La semilla es un *template*.** Debe poder clonarse limpia, sin arrastrar el sistema de diseño completo. Consumir el paquete publicado además **valida que la publicación funciona**, porque la semilla se vuelve el primer cliente real del feed.
+- **Elimina la ambigüedad de gestores de paquetes.** `workspace:*` lo usa únicamente la semilla; al extraerla, el repo del DS deja de necesitar pnpm.
+- **El portal de docs se queda con el DS**: no tiene ninguna dependencia de código, pero su contenido se actualiza al ritmo de los componentes, y separarlo añadiría un pipeline sin beneficio.
+
+### Requisito previo para separar
+
+La semilla no puede vivir en su propio repositorio hasta que exista el feed de Azure Artifacts con `@poli/components` y `@poli/tokens` publicados: sin él no hay de dónde instalarlos. **Orden sugerido:** crear el feed → publicar los dos paquetes → extraer la semilla aplicando el cambio de `workspace:*` a semver descrito en *Gestores de paquetes*.
+
+---
+
 ## Pendientes conocidos
 
-### Componentes por desarrollar
+### Cobertura de componentes
 
-Faltan de la hoja de ruta: `pds-breadcrumb` y `pds-paginator`. El detalle por fases está en `apps/semilla-front/CLAUDE.md`.
+**38 componentes implementados; todos los specs de referencia están cubiertos.** Una salvedad de nomenclatura: el spec `pds-selectable-card` se implementó como **`pds-card`** con los inputs `selectable`/`selected` y `aria-pressed`, no como un componente aparte.
+
+Componentes adicionales no previstos en los specs: `pds-card`, `pds-stat-card`, `pds-time-picker` y `pds-helper-text`.
+
+El inventario por fases está en `apps/semilla-front/CLAUDE.md`.
 
 ### Conciliación de componentes v1
 

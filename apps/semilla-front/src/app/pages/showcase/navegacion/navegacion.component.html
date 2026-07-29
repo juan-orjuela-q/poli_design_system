@@ -1,16 +1,16 @@
-﻿<div class="showcase-nav">
+<div class="showcase-nav">
 
-  <!-- â”€â”€ Breadcrumb â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Breadcrumb ──────────────────────────────────────────────────────── -->
   <section class="showcase-nav__section">
     <h2 class="showcase-nav__section-title">Breadcrumb</h2>
     <pds-breadcrumb [items]="breadcrumbItems" />
   </section>
 
-  <!-- â”€â”€ Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Tabs ───────────────────────────────────────────────────────────── -->
   <section class="showcase-nav__section">
     <h2 class="showcase-nav__section-title">Tabs</h2>
 
-    <h3 class="showcase-nav__subsection-title">Sin Ã­conos</h3>
+    <h3 class="showcase-nav__subsection-title">Sin íconos</h3>
     <pds-tabs
       [tabs]="tabs"
       [activeTab]="activeTab()"
@@ -18,7 +18,7 @@
     />
     <p class="showcase-nav__note">Tab activa: <strong>{{ activeTab() }}</strong></p>
 
-    <h3 class="showcase-nav__subsection-title">Con Ã­conos</h3>
+    <h3 class="showcase-nav__subsection-title">Con íconos</h3>
     <pds-tabs
       [tabs]="tabsWithIcons"
       [activeTab]="activeTabIcon()"
@@ -26,12 +26,12 @@
     />
   </section>
 
-  <!-- â”€â”€ Stepper Compact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Stepper Compact ────────────────────────────────────────────────── -->
   <section class="showcase-nav__section">
     <h2 class="showcase-nav__section-title">Stepper Compacto</h2>
     <p class="showcase-nav__description">
       Variante compacta para formularios de varios pasos en espacios reducidos.
-      Los botones Anterior/Siguiente estÃ¡n integrados en el componente.
+      Los botones Anterior/Siguiente están integrados en el componente.
     </p>
 
     <div class="showcase-nav__stepper-wrap">
@@ -40,13 +40,13 @@
         [currentIndex]="stepperIndex()"
         (next)="stepperIndex.set(stepperIndex() + 1)"
         (prev)="stepperIndex.set(stepperIndex() - 1)"
-        ariaLabel="Proceso de matrÃ­cula"
+        ariaLabel="Proceso de matrícula"
       />
     </div>
     <p class="showcase-nav__note">Paso actual: <strong>{{ stepperIndex() + 1 }} / {{ steps.length }}</strong></p>
   </section>
 
-  <!-- â”€â”€ Paginador â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Paginador ──────────────────────────────────────────────────────── -->
   <section class="showcase-nav__section">
     <h2 class="showcase-nav__section-title">Paginador</h2>
     <pds-paginator
@@ -55,10 +55,10 @@
       [currentPage]="currentPage()"
       (pageChange)="currentPage.set($event)"
     />
-    <p class="showcase-nav__note">PÃ¡gina actual: <strong>{{ currentPage() }}</strong></p>
+    <p class="showcase-nav__note">Página actual: <strong>{{ currentPage() }}</strong></p>
   </section>
 
-  <!-- â”€â”€ Avatar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+  <!-- ── Avatar Button ──────────────────────────────────────────────────── -->
   <section class="showcase-nav__section">
     <h2 class="showcase-nav__section-title">Avatar Button</h2>
     <div class="showcase-nav__row">

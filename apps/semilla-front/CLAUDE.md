@@ -169,17 +169,28 @@ Figma node ID, variantes → props, CSS vars a aplicar, API Angular con signals,
 
 ### Fase 5 — Navegación
 
-- [ ] `pds-breadcrumb`, `pds-paginator`
+- [x] `pds-breadcrumb` — separadores con chevron, `aria-current="page"` en el último ítem
+- [x] `pds-paginator` — navegación de páginas con estados disabled en extremos
 - [x] `pds-tabs` — APG tablist pattern; roving tabindex; ArrowLeft/Right/Home/End; active=magenta indicator (`--border-status-error-solid`); hover=navy indicator+bg; disabled aria-disabled; icono opcional sobre label; sin panels (parent responsable)
 - [x] `pds-stepper` — horizontal (default) + vertical orientation; 4-state markers (completed/current/disabled) with `check_circle` override on completed; connector lines between markers; FIRST/MIDDLE/LAST footer variants; `stepChange` output (parent controls index); `finished` output on last step; `showCount` toggle; `ariaLabel` input; `aria-current="step"` on current marker; `aria-live="polite"` on counter
 - [x] `pds-avatar-button` — `<button>` pill; tipos letter/icon/image; badge notificación; estados hover/focus/pressed con indicador `--portal-blue-bg`; aria-label dinámico con nombre+rol+badge; aria-disabled
 - [x] `pds-sidenav` — flex column; estados expandido/colapsado con transición de ancho; acordeón de sub-ítems (1 nivel); tooltip automático en estado colapsado; toggle button colgando fuera del borde derecho; portal icon 48px; labels con opacity/max-width transition (no display:none); `aria-current`/`aria-expanded` correctos
 - [x] `pds-stepper-compact` — variante compacta del stepper para espacios reducidos; marcadores de segmento (current=teal/8px · default=gris/4px) con flex:1; info header con count/título/siguiente-paso; pie de navegación con botones Anterior+Siguiente/Finalizar; `aria-live="polite"` en el contador; transición suave de marcadores; solo sobre Canvas/Subtle/Sunken (contraste)
 
-### Fase 6 — Complejos
+### Fase 6 — Complejos ✅ COMPLETA
 
-- [ ] `pds-date-picker`, `pds-file-uploader`, `pds-range`
-- [ ] `pds-accordion`, `pds-table`, `pds-selectable-card`, `pds-code-block`
+- [x] `pds-date-picker`, `pds-file-uploader`, `pds-range`
+- [x] `pds-accordion`, `pds-table`, `pds-code-block`
+- [x] `pds-selectable-card` — **implementado como `pds-card`** con inputs `selectable`/`selected` y `aria-pressed`. El nombre difiere del spec.
+
+### Componentes adicionales (fuera de los specs originales)
+
+- [x] `pds-card` — contenedor genérico; cubre además el caso de `pds-selectable-card`
+- [x] `pds-stat-card` — tarjeta de métrica
+- [x] `pds-time-picker` — selector de hora
+- [x] `pds-helper-text` — texto de apoyo reutilizado por inputs y progress-bar
+
+> **Estado: 38 componentes implementados.** Todos los specs de referencia están cubiertos.
 
 ---
 
