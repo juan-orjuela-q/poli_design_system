@@ -21,14 +21,13 @@ Pieza de apoyo: `packages/tokens/` (`@poli/tokens`) contiene los tokens CSS gene
 ## Requisitos
 
 - **Node.js 20**
-- **npm** — para las piezas 1, 2 y 3 (es lo que usa el pipeline de CI)
-- **pnpm** — necesario **solo** para la pieza 4 (proyecto semilla)
+- **pnpm** — gestor de paquetes del repositorio
 
 ```bash
-npm install     # desde la raíz: habilita build:lib, build-storybook y docs
+pnpm install     # desde la raíz: habilita las cuatro piezas
 ```
 
-> **Por qué dos gestores.** El repositorio es un workspace de pnpm (`pnpm-workspace.yaml`) pero el `package.json` de la raíz no declara `workspaces`, así que npm no conoce los paquetes internos. Las piezas 1-3 no lo necesitan: Storybook y la librería resuelven `@poli/components` por alias de TypeScript y rutas relativas. La semilla sí, porque declara `"@poli/components": "workspace:*"`, un protocolo que **npm no sabe resolver**. Ver la sección *Gestores de paquetes* al final.
+> **Usar pnpm, no npm.** El repositorio es un workspace de pnpm (`pnpm-workspace.yaml`) y la semilla referencia los paquetes internos con `"@poli/components": "workspace:*"`, un protocolo que npm no resuelve. Además, **ejecutar `npm install` en la raíz de un árbol instalado con pnpm deja dos copias de Angular conviviendo** y la semilla deja de compilar. Ver *Gestores de paquetes* al final.
 
 ---
 
@@ -197,9 +196,9 @@ El inventario por fases está en `apps/semilla-front/CLAUDE.md`.
 
 El equipo del Poli modificó componentes de la v1 sobre versiones que Appicua no intervino. La v2 entregada aporta mejoras de accesibilidad; la versión del Poli aporta mejoras funcionales. **La conciliación entre ambas queda fuera del alcance de esta entrega** y debe planificarse por separado.
 
-### Errores de tipado en las historias de Storybook
+### Sobre los errores `TS2322` en las historias
 
-Los archivos `.stories.ts` emiten advertencias de TypeScript (`TS2322`) al asignar valores planos a `args` cuando los inputs son `InputSignal`. **No impiden el build ni afectan el sitio publicado**, pero conviene corregirlos. Es una condición preexistente, no introducida en la limpieza de entrega.
+Si aparecen cientos de errores `TS2322` (*"Type 'string' is not assignable to type 'InputSignal<string>'"*) al construir Storybook, **no busque el problema en los `.stories.ts`**: es el síntoma de haber mezclado npm y pnpm en el mismo árbol. Ver *Gestores de paquetes*. La solución es `rm -rf node_modules && pnpm install`.
 
 ### Pipeline de tokens
 
@@ -207,14 +206,13 @@ Los CSS de `packages/tokens/src/` se generan con **Style Dictionary desde un rep
 
 ### Gestores de paquetes
 
-El repositorio convive con dos lockfiles (`package-lock.json` y `pnpm-lock.yaml`) porque cada mitad usa uno:
+**Usar pnpm para todo el repositorio.** Las cuatro piezas se verificaron construyendo desde un árbol instalado con `pnpm install`.
 
-| Pieza | Gestor | Motivo |
-| ----- | ------ | ------ |
-| Portal, librería, Storybook | **npm** | Es lo que ejecuta el CI. Resuelven `@poli/components` por alias de TypeScript y rutas relativas, sin depender de `node_modules`. |
-| Semilla | **pnpm** | Declara `"@poli/components": "workspace:*"`; sólo pnpm resuelve ese protocolo y crea los symlinks en `apps/semilla-front/node_modules/@poli/`. |
+Históricamente el repo se construía con npm en la raíz, lo que funcionaba por un motivo frágil: el `node_modules` plano de npm hacía visibles paquetes que **nunca fueron declarados**. Al pasar a la resolución estricta de pnpm salieron a la luz y se declararon: `normalize.css`, `@angular/material` y `date-fns` en la semilla; `@storybook/manager-api` y `@storybook/theming` en la raíz.
 
-Unificar en un solo gestor es recomendable pero **no es trivial**: requiere o bien añadir el campo `workspaces` al `package.json` de la raíz y reemplazar los `workspace:*` por rangos semver, o bien migrar el CI a pnpm. Se deja como decisión del Poli para evitar cambios no verificados en la entrega.
+> **No mezclar gestores.** Ejecutar `npm install` en la raíz sobre un árbol de pnpm deja dos instalaciones de Angular simultáneas. El síntoma es ruidoso y engañoso: cientos de errores `TS2322` del tipo *"Type 'string' is not assignable to type 'InputSignal<string>'"* en los `.stories.ts`, que **no indican ningún problema en ese código** — son dos identidades distintas del mismo tipo. Con un `pnpm install` limpio, el build de Storybook termina con cero errores.
+
+`package-lock.json` permanece en el repositorio por compatibilidad con el pipeline heredado de GitHub Actions, que aún invoca `npm install`. Al migrar el pipeline a Azure DevOps, reemplazar ese paso por `pnpm install` y eliminar `package-lock.json`.
 
 **Al extraer la semilla como repositorio independiente** (escenario probable si el Poli parte de su propia versión), reemplazar en `apps/semilla-front/package.json`:
 
