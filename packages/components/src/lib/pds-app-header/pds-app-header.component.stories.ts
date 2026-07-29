@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { PdsAppHeaderComponent } from './pds-app-header.component';
 
 const meta: Meta<PdsAppHeaderComponent> = {
-  title: 'DS v2/App Header',
+  title: 'Poli Design System / 09. Templates / App Header',
   component: PdsAppHeaderComponent,
   tags: ['autodocs'],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { PdsSidenavHeaderComponent } from './pds-sidenav-header.component';
 
 const meta: Meta<PdsSidenavHeaderComponent> = {
-  title: 'DS v2/Sidenav Header',
+  title: 'Poli Design System / 08. Navigation / Sidenav Header',
   component: PdsSidenavHeaderComponent,
   tags: ['autodocs'],
   parameters: {

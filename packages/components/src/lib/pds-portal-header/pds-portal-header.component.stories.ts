@@ -4,7 +4,7 @@ import { PdsPortalHeaderComponent } from './pds-portal-header.component';
 import { PdsButtonComponent } from '../pds-button/pds-button.component';
 
 const meta: Meta<PdsPortalHeaderComponent> = {
-  title: 'DS v2/Portal Header',
+  title: 'Poli Design System / 09. Templates / Portal Header',
   component: PdsPortalHeaderComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [PdsButtonComponent] })],

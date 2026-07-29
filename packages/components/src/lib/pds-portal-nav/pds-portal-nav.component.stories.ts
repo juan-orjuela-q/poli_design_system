@@ -4,7 +4,7 @@ import { PdsPortalNavComponent } from './pds-portal-nav.component';
 import { PdsAvatarButtonComponent } from '../pds-avatar-button/pds-avatar-button.component';
 
 const meta: Meta<PdsPortalNavComponent> = {
-  title: 'DS v2/Portal Nav',
+  title: 'Poli Design System / 08. Navigation / Portal Nav',
   component: PdsPortalNavComponent,
   tags: ['autodocs'],
   decorators: [moduleMetadata({ imports: [PdsAvatarButtonComponent] })],
